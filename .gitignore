@@ -1,0 +1,41 @@
+# Virtual Environments
+.venv/
+venv/
+ENV/
+env/
+
+# Python Bytecode & Cache
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.pytest_cache/
+.mypy_cache/
+
+# Training Logs & Checkpoints
+catboost_info/
+wandb/
+runs/
+*.log
+
+# IDE and OS Metadata
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Data Directories & Raw Dumps (Do not push data)
+/data/
+/data_oced/
+*.parquet
+*.csv
+*.tsv
+*.xlsx
+*.gz
+*.docx
+*.pdf
+
+# Raw prediction result files (keep summary tables and reports)
+results/*.csv

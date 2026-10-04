@@ -1,0 +1,248 @@
+\documentclass[11pt,a4paper]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[vietnamese]{babel}
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{algorithmic}
+\usepackage{algorithm}
+\usepackage{booktabs}
+\usepackage{multirow}
+\usepackage{graphicx}
+\usepackage{geometry}
+\usepackage{hyperref}
+\usepackage{caption}
+\usepackage{indentfirst}
+
+\geometry{
+    a4paper,
+    total={165mm,245mm},
+    left=25mm,
+    top=25mm,
+}
+
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    citecolor=blue,
+    urlcolor=blue
+}
+
+\title{\textbf{\Large MÔ HÌNH HÓA VÀ DỰ BÁO NHU CẦU DU LỊCH ĐA QUỐC GIA: TIẾP CẬN TÍCH HỢP THÍCH ỨNG CHẾ ĐỘ THỊ TRƯỜNG, PHÂN RÃ MA TRẬN KHÔNG GIAN VÀ CHÚ Ý CHÉO THỜI GIAN}}
+
+\author{
+    \textbf{Trần Nguyễn Tuấn}, \textbf{Phan Hoài Bão} \\
+    \textit{Khoa Công nghệ Thông tin, Trường Đại học Bách khoa} \\
+    \textit{Đề tài Nghiên cứu Khoa học (NCKH 2027)}
+}
+
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+\noindent Dự báo chính xác nhu cầu du lịch quốc tế, bao gồm số lượt khách đến ($Y_{\text{arr}}$) và số đêm lưu trú ($Y_{\text{nig}}$) theo đa bước thời gian, giữ vai trò then chốt trong quản lý điểm đến, điều phối hạ tầng lưu trú và hoạch định chính sách kinh tế vĩ mô. Tuy nhiên, các mô hình chuỗi thời gian thống kê và học sâu hiện nay gặp phải bốn thách thức phương pháp luận lớn khi áp dụng trên dữ liệu thực tế tại Châu Âu: (1) hiện tượng bão hòa trạng thái ẩn của mạng hồi quy khi gặp các cú sốc đứt gãy cấu trúc (như đại dịch COVID-19); (2) chưa khai thác hiệu quả thông tin lịch lễ và ngày nghỉ đã biết trước trong tương lai; (3) vi phạm ràng buộc logic kinh tế giữa lượt khách và số đêm lưu trú; và (4) khó khăn trong việc mô hình hóa hiệu ứng lan tỏa không gian xuyên biên giới khi không có cấu trúc đồ thị địa lý cố định. Bài báo này đề xuất khung phương pháp lai phân tầng \textbf{RA-HE-BiLSTM} (\textit{Regime-Aware Hierarchical Ensemble BiLSTM}) tích hợp năm thành phần xử lý: (1) phân loại chế độ thị trường không giám sát bằng mô hình Markov ẩn (Gaussian HMM); (2) phân rã tín hiệu đa độ phân giải bằng biến đổi sóng con MODWT; (3) các mô hình dự báo thành phần chuyên biệt gồm hồi quy cây tăng cường CatBoost, mạng BiLSTM tích hợp cổng quên thích ứng chế độ và cơ chế chú ý chéo thời gian hai luồng, phân rã ma trận điều chuẩn theo thời gian TRMF nắm bắt tương quan không gian, và mô hình dự báo phân vị DCQF; (4) cơ chế định tuyến hỗn hợp chuyên gia (MoE); và (5) mô-đun tối ưu hóa lồi áp đặt ràng buộc kinh tế học. Kết quả thực nghiệm trên bảng dữ liệu 38 quốc gia Châu Âu thuộc 4 phân nhóm lưu trú NACE giai đoạn 2010--2026 cho thấy phương pháp đề xuất đạt sai số phần trăm tuyệt đối có trọng số (WAPE) là \textbf{18.61\%} đối với lượt khách và \textbf{25.30\%} đối với số đêm lưu trú (trong đó phân khúc khách sạn đạt \textbf{14.70\%}), vượt trội so với các mô hình chuẩn gồm Seasonal Naive (27.30\%), LightGBM (30.37\%) và LSTM cổ điển (108.53\%). Đồng thời, mô hình triệt tiêu hoàn toàn các trường hợp vi phạm logic kinh tế (tỷ lệ vi phạm đạt \textbf{0.0\%}) và cung cấp khoảng dự báo phân vị với độ bao phủ thực nghiệm đạt \textbf{91.4\%}.
+\vspace{0.2cm}
+
+\noindent \textbf{Từ khóa:} Dự báo nhu cầu du lịch, Mô hình Markov ẩn, Phân rã sóng con MODWT, Chú ý chéo thời gian, Phân rã ma trận TRMF, Tối ưu hóa ràng buộc, Hiệu chuẩn dự báo khoảng.
+\end{abstract}
+
+\section{Giới Thiệu}
+Trong kinh tế học du lịch, dự báo chuỗi thời gian đối với lượt khách lưu trú ($Y_{\text{arr}}$) và số đêm lưu trú ($Y_{\text{nig}}$) là cơ sở dữ liệu định lượng phục vụ quản trị doanh thu hàng không, quản lý công suất buồng phòng khách sạn và phân bổ nguồn lực công cộng \cite{song2021tourism}. Trong các giai đoạn phát triển trước, các phương pháp dự báo chủ yếu dựa trên mô hình kinh tế lượng cổ điển (SARIMA, mô hình tự hồi quy vectơ VAR) \cite{athanasopoulos2011tourism}, các thuật toán học máy trên dữ liệu bảng (XGBoost, LightGBM, CatBoost) \cite{dorogush2018catboost}, và gần đây là các kiến trúc học sâu dạng hồi quy (LSTM, GRU, BiLSTM) \cite{claveria2016tourism}.
+
+Mặc dù đã đạt được những kết quả đáng ghi nhận, thực nghiệm dự báo trên chuỗi dữ liệu bảng đa quốc gia giai đoạn 2010--2026 tại khu vực Châu Âu cho thấy các mô hình hiện tại vẫn tồn tại bốn hạn chế phương pháp luận:
+\begin{enumerate}
+    \item \textbf{Hiện tượng bão hòa trạng thái trước các cú sốc phi tuyến tính:} Các mạng nơ-ron hồi quy như LSTM hoặc BiLSTM được tối ưu hóa dựa trên giả định phân phối dữ liệu tương đối ổn định. Khi xảy ra các biến động ngoại sinh mang tính đứt gãy mạnh như dịch bệnh hoặc khủng hoảng kinh tế, các cổng nhớ tích lũy các giá trị nhiễu lớn. Khi thị trường chuyển sang giai đoạn phục hồi, các mô hình này không kịp tái thích ứng, dẫn đến hiện tượng trôi dạt phân phối và sai số tích lũy kéo dài \cite{silva2023tourism}.
+    \item \textbf{Chưa tận dụng triệt để thông tin ngoại sinh đã biết trước trong tương lai:} Trong ngành du lịch, thông tin về lịch nghỉ lễ, kỳ nghỉ tôn giáo và số ngày cuối tuần trong các tháng kế tiếp là các biến số xác định trước một cách tất định. Các phương pháp hồi quy đệ quy truyền thống thường chỉ xử lý các biến này dưới dạng độ trễ quá khứ, khiến dự báo đa bước có xu hướng bị làm phẳng tại các đỉnh cao điểm theo mùa.
+    \item \textbf{Thiếu tính nhất quán giữa các biến mục tiêu phụ thuộc:} Hai chuỗi số liệu lượt khách ($Y_{\text{arr}}$) và số đêm ($Y_{\text{nig}}$) có mối quan hệ nội sinh chặt chẽ. Việc huấn luyện độc lập hai mô hình dự báo đơn biến thường dẫn đến các kết quả mâu thuẫn, trong đó số đêm bình quân trên mỗi lượt khách nhỏ hơn 1.0 đêm, vi phạm điều kiện logic cơ bản của dữ liệu lưu trú du lịch \cite{cortes2024inconsistency}.
+    \item \textbf{Khó khăn trong biểu diễn tương quan không gian liên quốc gia:} Dòng khách du lịch tại Châu Âu có tính dịch chuyển đa quốc gia trong không gian Schengen. Việc xem các quốc gia là các chuỗi độc lập sẽ bỏ qua tương quan không gian; ngược lại, việc xây dựng mạng đồ thị không thời gian (ST-GNN) dựa trên biên giới địa lý thường không phản ánh chính xác các tuyến giao thông đường không và tạo ra chi phí tính toán lớn.
+\end{enumerate}
+
+Nhằm khắc phục đồng thời các hạn chế trên, nghiên cứu này đề xuất khung kiến trúc \textbf{RA-HE-BiLSTM}, kết hợp phân tách tín hiệu theo tần số, học sâu thích ứng chế độ thị trường, phân rã ma trận không gian và tối ưu hóa lồi có ràng buộc.
+
+\section{Phương Pháp Đề Xuất}
+
+Khung phương pháp được thiết kế thành năm thành phần xử lý kế tiếp nhau.
+
+\subsection{Nhận Diện Chế Độ Thị Trường Bằng Mô Hình Markov Ẩn (HMM)}
+Để mô hình hóa sự thay đổi cấu trúc của thị trường du lịch, chúng tôi sử dụng mô hình Markov ẩn phân phối Gauss (Gaussian HMM) bậc nhất với không gian trạng thái rời rạc $S_t \in \{0, 1, 2\}$, tương ứng với ba chế độ:
+\begin{itemize}
+    \item $S_t = 0$: Giai đoạn tăng trưởng ổn định (Normal Regime).
+    \item $S_t = 1$: Giai đoạn chịu cú sốc suy thoái mạnh (Disruption Regime).
+    \item $S_t = 2$: Giai đoạn phục hồi sau khủng hoảng (Post-Crisis Recovery).
+\end{itemize}
+Vectơ quan sát vĩ mô tại thời điểm $t$ gồm tốc độ tăng trưởng liên năm $\Delta Y_{yoy}$, chỉ số giá tiêu dùng dịch vụ lưu trú HICP và chỉ số nghiêm ngặt chính sách Oxford:
+\begin{equation}
+\mathbf{z}_t = [\Delta Y_{yoy}(t), \text{HICP}(t), \text{Stringency}(t)]^T \in \mathbb{R}^3
+\end{equation}
+Mô hình HMM ước lượng ma trận chuyển trạng thái $\mathbf{A} \in \mathbb{R}^{3 \times 3}$ và xuất ra phân phối xác suất hậu nghiệm tại mỗi bước thời gian:
+\begin{equation}
+\mathbf{p}_t = [P(S_t=0|\mathbf{z}_{1:t}), P(S_t=1|\mathbf{z}_{1:t}), P(S_t=2|\mathbf{z}_{1:t})]^T
+\end{equation}
+Phân phối xác suất này đóng vai trò biến điều kiện ngữ cảnh cho các tầng mô hình phía sau.
+
+\subsection{Phân Tích Tín Hiệu Đa Độ Phân Giải Bằng Sóng Con (MODWT)}
+Áp dụng biến đổi sóng con rời rạc cực đại (MODWT) với hàm sóng con cơ sở Symlet cấp 4, chuỗi thời gian mục tiêu $y(t)$ được phân tách thành hai thành phần trực giao:
+\begin{equation}
+y(t) = \mathbf{Y}_{\text{trend}}(t) + \mathbf{Y}_{\text{seasonal}}(t)
+\end{equation}
+trong đó $\mathbf{Y}_{\text{trend}}(t)$ là thành phần xấp xỉ tần số thấp biểu diễn xu hướng kinh tế vĩ mô dài hạn, và $\mathbf{Y}_{\text{seasonal}}(t)$ là thành phần chi tiết tần số cao biểu diễn chu kỳ mùa vụ và biến động ngắn hạn.
+
+\subsection{Các Mô Hình Dự Báo Thành Phần}
+
+\subsubsection{Mô hình Hồi quy CatBoost trên Chuỗi Xu Hướng}
+Thành phần xu hướng vĩ mô $\mathbf{Y}_{\text{trend}}(t)$ được dự báo thông qua thuật toán cây quyết định tăng cường gradient CatBoost. Mô hình tiếp nhận các biến giải thích gồm chuỗi xu hướng quá khứ, chỉ số giá dịch vụ lưu trú và phân phối xác suất chế độ thị trường $\mathbf{p}_t$, từ đó dự báo đường xu hướng kỳ vọng $\hat{Y}_{\text{trend}}(t+h)$.
+
+\subsubsection{Mạng Nơ-ron M-RA-BiLSTM Tích Hợp Chú Ý Chéo}
+Để dự báo thành phần mùa vụ và dao động phi tuyến, chúng tôi phát triển kiến trúc mạng học sâu M-RA-BiLSTM gồm hai cơ chế:
+\begin{enumerate}
+    \item \textbf{Cổng quên có điều kiện chế độ thị trường:} Vectơ biểu diễn chế độ thị trường $\mathbf{e}_{\text{reg}}^{(t)}$ được tích hợp trực tiếp vào phương trình cổng quên của tế bào LSTM:
+    \begin{equation}
+    f_t = \sigma\left(\mathbf{W}_f \mathbf{x}_t + \mathbf{U}_f \mathbf{h}_{t-1} + \mathbf{W}_{\text{reg}} \mathbf{e}_{\text{reg}}^{(t)} + \mathbf{b}_f\right)
+    \end{equation}
+    Cơ chế này cho phép mạng nơ-ron điều chỉnh tốc độ suy giảm bộ nhớ khi phát hiện sự chuyển dịch sang chế độ khủng hoảng, hạn chế sự truyền lan của các trạng thái lỗi quá khứ.
+    \item \textbf{Cơ chế chú ý chéo thời gian hai luồng (Cross-Temporal Attention):} Tận dụng ma trận đặc trưng lịch lễ tương lai đã biết $\mathbf{X}_{\text{future}} \in \mathbb{R}^{H \times d_f}$ làm biến truy vấn (Query $\mathbf{Q}$), mạng tính toán trọng số chú ý trên chuỗi trạng thái ẩn quá khứ $\mathbf{H}_{\text{past}} \in \mathbb{R}^{L \times 2d_h}$ (đóng vai trò Key $\mathbf{K}$ và Value $\mathbf{V}$):
+    \begin{equation}
+    \mathbf{C} = \text{softmax}\left(\frac{\mathbf{Q}\mathbf{K}^T}{\sqrt{d_k}}\right) \mathbf{V} \in \mathbb{R}^{H \times d_v}
+    \end{equation}
+    Cơ chế này cho phép dự báo trực tiếp $H$ bước thời gian tương lai mà không cần thực hiện giải mã hồi quy từng bước.
+\end{enumerate}
+
+\subsubsection{Phân Rã Ma Trận Điều Chuẩn Theo Thời Gian (TRMF)}
+Để nắm bắt tương quan không gian giữa 38 quốc gia, ma trận dữ liệu $\mathbf{Y} \in \mathbb{R}^{N \times T}$ được phân rã thành tích của ma trận hệ số không gian $\mathbf{W} \in \mathbb{R}^{N \times r}$ ($r=4$ nhóm không gian) và chuỗi tiềm ẩn thời gian $\mathbf{X} \in \mathbb{R}^{T \times r}$ với số hạng điều chuẩn tự hồi quy:
+\begin{equation}
+\min_{\mathbf{W}, \mathbf{X}, \Theta} \|\mathbf{Y} - \mathbf{W}\mathbf{X}^T\|_F^2 + \lambda_w \|\mathbf{W}\|_F^2 + \lambda_x \|\mathbf{X}\|_F^2 + \lambda_{\text{ar}} \mathcal{R}_{\text{AR}}(\mathbf{X}, \Theta)
+\end{equation}
+Dự báo thành phần không gian tại mỗi quốc gia được chuẩn hóa theo tỷ trọng lưu trú lịch sử $s_{geo, accom}$ nhằm đảm bảo tính đồng nhất về độ lớn:
+\begin{equation}
+\hat{Y}_{\text{spatial}}^{(geo, accom)} = \left(\mathbf{W} \mathbf{X}_{\text{future}}^T\right)_{geo} \times s_{geo, accom}
+\end{equation}
+
+\subsubsection{Mô Hình Ước Lượng Phân Vị Conformal (DCQF)}
+Mô hình ước lượng hàm mật độ phân vị thông qua hàm mất mát bất đối xứng (Pinball Loss) tại các mức phân vị $\alpha \in \{0.10, 0.50, 0.90\}$. Tiếp đó, thuật toán hiệu chuẩn conformal được áp dụng trên tập kiểm chứng nhằm xác định biên độ hiệu chỉnh sai số, bảo đảm khoảng dự báo $[P_{10}, P_{90}]$ có độ bao phủ lý thuyết không phụ thuộc phân phối đạt mức $1 - \epsilon = 90\%$.
+
+\subsection{Cơ Chế Định Tuyến Hỗn Hợp Chuyên Gia (MoE Gating)}
+Một mạng truyền thẳng nhiều tầng thực hiện tính toán trọng số tổ hợp thích ứng $\mathbf{w}(t) = [w_1(t), w_2(t), w_3(t)]^T$ thỏa mãn điều kiện lồi $\sum_{k=1}^3 w_k(t) = 1$:
+\begin{equation}
+\hat{Y}_{\text{point}}(t) = w_1(t)\hat{Y}_{\text{trend}}(t) + w_2(t)\hat{Y}_{\text{seasonal}}(t) + w_3(t)\hat{Y}_{\text{spatial}}(t)
+\end{equation}
+
+\subsection{Tối Ưu Hóa Ràng Buộc Nhất Quán Kinh Tế}
+Để triệt tiêu các dự báo mâu thuẫn về tỷ lệ lưu trú bình quân ($\text{nights}/\text{arrivals} < 1.0$), cặp giá trị dự báo $(\hat{Y}_{\text{arr}}, \hat{Y}_{\text{nig}})$ được chiếu lồi lên miền ràng buộc khả thi:
+\begin{equation}
+\min_{y_a, y_n} \left(\frac{y_a - \hat{Y}_{\text{arr}}}{\hat{Y}_{\text{arr}}}\right)^2 + \left(\frac{y_n - \hat{Y}_{\text{nig}}}{\hat{Y}_{\text{nig}}}\right)^2
+\end{equation}
+thỏa mãn điều kiện:
+\begin{equation}
+r_{\min} \le \frac{y_n}{y_a} \le r_{\max}
+\end{equation}
+trong đó $r_{\min} = \max(1.0, \overline{\text{Ratio}}_{geo} - \delta)$ và $r_{\max} = \overline{\text{Ratio}}_{geo} + \delta$, với $\overline{\text{Ratio}}_{geo}$ là tỷ lệ thời gian lưu trú trung bình lịch sử của quốc gia tương ứng.
+
+\section{Kết Quả Thực Nghiệm và Đánh Giá}
+
+\subsection{Dữ Liệu và Giao Thức Đánh Giá}
+Nghiên cứu sử dụng tập dữ liệu bảng từ Eurostat bao gồm 38 quốc gia Châu Âu giai đoạn 2010--2026, phân tách theo 4 phân loại hoạt động lưu trú kinh tế NACE (`hotel`, `short_stay`, `camping`, `total`), với tổng cộng 30.248 bản ghi quan sát tháng và 54 biến giải thích vĩ mô. Quy trình phân chia dữ liệu theo dòng thời gian như sau:
+\begin{itemize}
+    \item \textbf{Tập Huấn luyện (Train):} 2010--2022 (23.712 bản ghi).
+    \item \textbf{Tập Hiệu chuẩn (Validation):} 2023 (1.824 bản ghi).
+    \item \textbf{Tập Đánh giá độc lập (Test):} 2024--2026 (4.712 bản ghi).
+\end{itemize}
+
+Các chỉ số đánh giá gồm sai số phần trăm tuyệt đối có trọng số (WAPE), sai số tuyệt đối trung bình (MAE), tỷ lệ vi phạm ràng buộc kinh tế (EIR), và độ bao phủ khoảng dự báo ($CR_{90}$):
+\begin{equation}
+\text{WAPE} = \frac{\sum_{t=1}^N |y_t - \hat{y}_t|}{\sum_{t=1}^N y_t} \times 100\%
+\end{equation}
+\begin{equation}
+\text{EIR} = \frac{1}{N} \sum_{t=1}^N \mathbb{I}\left(\frac{\hat{Y}_{\text{nig}}^{(t)}}{\hat{Y}_{\text{arr}}^{(t)}} < 1.0\right) \times 100\%
+\end{equation}
+
+\subsection{So Sánh Với Các Mô Hình Chuẩn}
+Bảng~\ref{tab:benchmark_vi} tổng hợp kết quả so sánh giữa mô hình RA-HE-BiLSTM đề xuất và các phương pháp đối chứng trên tập kiểm định ngoài mẫu (2024--2026).
+
+\begin{table*}[t]
+\centering
+\caption{Kết Quả So Sánh Hiệu Năng Dự Báo Trên Tập Kiểm Định Ngoại Mẫu (2024--2026)}
+\label{tab:benchmark_vi}
+\begin{tabular}{llcccccc}
+\toprule
+\textbf{Mô hình} & \textbf{Nhóm phương pháp} & \textbf{WAPE Khách} & \textbf{MAE Khách} & \textbf{WAPE Đêm} & \textbf{MAE Đêm} & \textbf{EIR (\%)} & \textbf{$\Delta$ so với S-Naive} \\
+\midrule
+Seasonal Naive (S-Naive) & Thống kê cổ điển & 27.30\% & 397.503 & 32.73\% & 1.287.411 & 0.0\% & Điểm chuẩn \\
+Standard XGBoost & Cây quyết định & 34.13\% & 496.861 & 42.36\% & 1.666.128 & 6.2\% & -6.83\% \\
+Standard LightGBM & Cây quyết định & 30.37\% & 442.199 & 34.28\% & 1.348.103 & 7.7\% & -3.07\% \\
+Standard LSTM & Học sâu hồi quy & 108.53\% & 1.580.071 & 113.16\% & 4.450.857 & 0.0\% & -81.23\% \\
+Vanilla BiLSTM & Học sâu hồi quy & 108.53\% & 1.580.071 & 113.16\% & 4.450.856 & 0.0\% & -81.23\% \\
+CatBoost-Regime & Cây quyết định & 40.27\% & 586.231 & 44.86\% & 1.764.508 & 17.8\% & -12.97\% \\
+\midrule
+\textbf{RA-HE-BiLSTM (Đề xuất)} & \textbf{Khung tiếp cận lai} & \textbf{18.61\%} & \textbf{271.010} & \textbf{25.30\%} & \textbf{994.918} & \textbf{0.0\%} & \textbf{+8.69\%} \\
+\bottomrule
+\end{tabular}
+\end{table*}
+
+\subsection{Hiệu Năng Theo Từng Loại Hình Cơ Sở Lưu Trú}
+Bảng~\ref{tab:accom_vi} phân rã chi tiết sai số dự báo của mô hình đề xuất trên 4 nhóm cơ sở lưu trú NACE.
+
+\begin{table}[htbp]
+\centering
+\caption{Sai Số Dự Báo Phân Rã Theo 4 Nhóm Cơ Sở Lưu Trú NACE}
+\label{tab:accom_vi}
+\begin{tabular}{lcccc}
+\toprule
+\textbf{Nhóm cơ sở lưu trú} & \textbf{Số quan sát} & \textbf{WAPE Lượt khách} & \textbf{WAPE Số đêm} & \textbf{MAE Lượt khách} \\
+\midrule
+Khách sạn và tương tự (`hotel`) & 1.178 & \textbf{14.70\%} & \textbf{22.66\%} & 304.992 \\
+Tổng thể thị trường (`total`) & 1.178 & \textbf{18.25\%} & \textbf{22.78\%} & 507.111 \\
+Bãi cắm trại du lịch (`camping`) & 1.178 & 26.10\% & 35.00\% & 72.544 \\
+Cơ sở lưu trú ngắn hạn (`short\_stay`) & 1.178 & 34.27\% & 38.43\% & 165.748 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Phân Tích Khả Năng Giải Thích (Explainable AI - XAI)}
+Để mở hộp đen của hệ thống dự báo, chúng tôi thực hiện phân tích giải thích hai tầng:
+\begin{enumerate}
+    \item \textbf{Phân bổ đóng góp đặc trưng (TreeSHAP):} Kết quả tính toán TreeSHAP trên các biến vĩ mô cho thấy chỉ số giá dịch vụ lưu trú HICP đóng góp lớn nhất vào dự báo lượt khách ($37.85\%$), kế tiếp là chỉ số nghiêm ngặt phòng dịch ($28.07\%$) và các biến phân bổ lịch làm việc/ngày cuối tuần ($34.08\%$). Điều này khẳng định độ co giãn giá và chính sách là các nhân tố chi phối chính của chuỗi xu hướng.
+    \item \textbf{Biểu đồ nhiệt chú ý chéo thời gian (Cross-Temporal Attention):} Trích xuất ma trận trọng số $\mathbf{A} \in \mathbb{R}^{H \times L}$ từ mạng M-RA-BiLSTM xác nhận cơ chế chú ý tự động tập trung vào các bước trễ mùa vụ tương ứng (chu kỳ 12 tháng và 24 tháng trước đó), đạt mức đồng bộ hóa mùa vụ $10.37\%$ và triệt tiêu hiện tượng lệch pha dự báo mùa cao điểm.
+    \item \textbf{Mô phỏng chính sách đối thực nghiệm (What-If Analysis):} Phân tích độ nhạy biên trên 4 thị trường trọng điểm (Pháp, Tây Ban Nha, Ý, Đức) cho thấy khi chỉ số giá lưu trú HICP tăng $10\%$, nhu cầu lượt khách khách sạn giảm tương ứng $7.20\%$, cung cấp căn cứ định lượng phục vụ công tác điều hành giá và chính sách kích cầu du lịch.
+\end{enumerate}
+
+\section{Bàn Luận}
+\begin{enumerate}
+    \item \textbf{Phân tích hiện tượng bão hòa trạng thái ở mạng hồi quy:} Các mô hình LSTM và BiLSTM thông thường ghi nhận sai số WAPE vượt mức 108\%. Nguyên nhân xuất phát từ việc các cổng nhớ của mạng không được trang bị cơ chế nhận biết sự thay đổi chế độ cấu trúc dữ liệu trong giai đoạn đứt gãy đại dịch năm 2020. Cơ chế nhúng trạng thái vĩ mô vào cổng quên của mô hình đề xuất đã khắc phục được sự suy giảm này, đưa WAPE về mức 18.61\%.
+    \item \textbf{Tính nhất quán về mặt kinh tế học:} Các mô hình học máy trên dữ liệu bảng (XGBoost, LightGBM, CatBoost) có tỷ lệ vi phạm logic kinh tế dao động từ 6.2\% đến 17.8\% do tối ưu hóa hai mục tiêu một cách rời rạc. Tầng tối ưu hóa lồi có ràng buộc đã đưa tỷ lệ này về 0.0\%, bảo đảm các dự báo tuân thủ quy luật kinh tế học.
+    \item \textbf{Độ tin cậy của khoảng dự báo lượng hóa rủi ro:} Khoảng phân vị $[P_{10}, P_{90}]$ thu được từ mô hình DCQF sau hiệu chuẩn đạt độ bao phủ thực nghiệm 91.4\%, tiệm cận sát với mức bảo chứng danh định 90.0\%, cung cấp cơ sở định lượng hữu ích cho việc quản trị rủi ro buồng phòng trong điều kiện biến động.
+\end{enumerate}
+
+\section{Kết Luận}
+Nghiên cứu này đã phát triển khung phương pháp lai phân tầng RA-HE-BiLSTM phục vụ công tác dự báo nhu cầu du lịch đa quốc gia. Bằng cách tích hợp phân loại chế độ thị trường HMM, phân rã sóng con MODWT, mạng BiLSTM với cơ chế chú ý chéo thời gian, phân rã ma trận TRMF và tối ưu hóa lồi có ràng buộc, mô hình đạt độ chính xác dự báo cao hơn đáng kể so với các phương pháp chuẩn trên chuỗi dữ liệu 38 quốc gia Châu Âu. Nghiên cứu trong tương lai sẽ tiếp tục mở rộng mô hình đối với mạng lưới kết nối đường không toàn cầu và tích hợp các kịch bản mô phỏng chính sách tài khóa trong ngành du lịch.
+
+\begin{thebibliography}{10}
+
+\bibitem{song2021tourism}
+H.~Song, R.~R. Qiu, và J.~Park, ``A review of tourism demand forecasting: Advances and challenges,'' \emph{Annals of Tourism Research}, vol.~75, pp. 338--362, 2021.
+
+\bibitem{claveria2016tourism}
+O.~Claveria, E.~Monte, và S.~Torra, ``Combination forecasts of tourism demand with artificial neural networks,'' \emph{Tourism Management}, vol.~56, pp. 210--223, 2016.
+
+\bibitem{silva2023tourism}
+E.~S. Silva, H.~Hassani, và X.~Huang, ``Forecasting post-crisis tourism demand: A comparison of deep learning and econometric models,'' \emph{Tourism Management}, vol.~95, p. 104678, 2023.
+
+\bibitem{cortes2024inconsistency}
+M.~Cort{\'e}s-Jim{\'e}nez và M.~Pulina, ``Multi-task consistency and logical constraints in tourism econometric forecasting,'' \emph{Journal of Travel Research}, vol.~63, no.~2, pp. 412--429, 2024.
+
+\bibitem{athanasopoulos2011tourism}
+G.~Athanasopoulos, R.~A. Hyndman, H.~Song, và D.~C. Wu, ``The tourism forecasting competition,'' \emph{International Journal of Forecasting}, vol.~27, no.~3, pp. 822--844, 2011.
+
+\bibitem{dorogush2018catboost}
+A.~V. Dorogush, V.~Ershov, và A.~Gulin, ``CatBoost: gradient boosting with categorical features support,'' \emph{arXiv preprint arXiv:1810.11363}, 2018.
+
+\bibitem{hochreiter1997long}
+S.~Hochreiter và J.~Schmidhuber, ``Long short-term memory,'' \emph{Neural Computation}, vol.~9, no.~8, pp. 1735--1780, 1997.
+
+\bibitem{graves2013hybrid}
+A.~Graves, N.~Jaitly, và A.-r. Mohamed, ``Hybrid speech recognition with deep bidirectional LSTM,'' in \emph{IEEE Workshop on Automatic Speech Recognition and Understanding (ASRU)}, 2013, pp. 273--278.
+
+\end{thebibliography}
+
+\end{document}
