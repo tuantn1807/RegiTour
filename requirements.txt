@@ -1,7 +1,11 @@
-# ===== Data =====
+# ===== Data & Signal Processing =====
 pandas>=2.0
 numpy>=1.24
 openpyxl>=3.1
+PyWavelets>=1.4
+holidays>=0.30
+pyarrow>=14.0
+
 
 # ===== Statistical Models =====
 statsmodels>=0.14

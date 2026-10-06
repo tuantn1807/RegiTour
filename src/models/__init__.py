@@ -5,6 +5,13 @@ Models module for the RA-HE-BiLSTM Architecture.
 from src.models.regime_hmm import RegimeHMMNavigator
 from src.models.catboost_regime import CatBoostRegimeForecaster
 from src.models.m_ra_bilstm import MRABiLSTM, CoupledConsistencyLoss
+from src.models.ra_exo_dlinear import (
+    RAExoDLinearNet,
+    RAExoDLinearForecaster,
+    VanillaDLinearNet,
+    VanillaNLinearNet,
+    CoupledConsistencyLinearLoss,
+)
 from src.models.trmf_spatial import TRMFSpatialSpillover
 from src.models.dcqf_conformal import DeepConformalQuantileForecaster
 from src.models.moe_gating import DynamicMoEGatingNetwork
@@ -15,8 +22,14 @@ __all__ = [
     "CatBoostRegimeForecaster",
     "MRABiLSTM",
     "CoupledConsistencyLoss",
+    "RAExoDLinearNet",
+    "RAExoDLinearForecaster",
+    "VanillaDLinearNet",
+    "VanillaNLinearNet",
+    "CoupledConsistencyLinearLoss",
     "TRMFSpatialSpillover",
     "DeepConformalQuantileForecaster",
     "DynamicMoEGatingNetwork",
     "CoupledConsistencyOptimizer",
 ]
+
