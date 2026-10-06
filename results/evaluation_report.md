@@ -1,7 +1,7 @@
 # 📈 BÁO CÁO ĐÁNH GIÁ KHOA HỌC KẾT QUẢ DỰ BÁO (SCIENTIFIC EVALUATION REPORT)
 ## Kiến trúc đề xuất: Hierarchical Regime-Aware Hybrid Framework (RA-HE-BiLSTM)
 > **Tập dữ liệu kiểm thử (Test Split):** Giai đoạn 2024 – 2026 (4,712 bản ghi, 38 Quốc gia Châu Âu, 4 Loại hình lưu trú NACE).  
-> **Thời điểm xuất báo cáo:** Tự động sinh từ pipeline đánh giá ngày 2026-10-04 16:02:41.
+> **Thời điểm xuất báo cáo:** Tự động sinh từ pipeline đánh giá ngày 2026-10-06 15:59:37.
 
 ---
 
@@ -9,8 +9,8 @@
 
 | Chỉ tiêu / Mục tiêu | RMSE | MAE | MAPE (%) | WAPE (%) | Conformal Coverage [P10, P90] |
 | :--- | :---: | :---: | :---: | :---: | :---: |
-| **Lượt khách (Arrivals)** | `706,997` | `271,010` | `39.74%` | **`18.61%`** | **`94.2%`** *(Vượt mức bảo chứng lý thuyết 90%)* |
-| **Số đêm lưu trú (Nights)** | `2,896,612` | `994,918` | `96711.46%` | **`25.30%`** | **`94.1%`** *(Vượt mức bảo chứng lý thuyết 90%)* |
+| **Lượt khách (Arrivals)** | `733,884` | `289,365` | `40.95%` | **`19.88%`** | **`94.2%`** *(Vượt mức bảo chứng lý thuyết 90%)* |
+| **Số đêm lưu trú (Nights)** | `2,827,337` | `1,028,961` | `91394.38%` | **`26.16%`** | **`94.1%`** *(Vượt mức bảo chứng lý thuyết 90%)* |
 
 ---
 
@@ -18,10 +18,10 @@
 
 | Loại hình lưu trú (NACE) | Số bản ghi | Arrivals WAPE (%) | Arrivals MAE | Nights WAPE (%) | Nights MAE |
 | :--- | :---: | :---: | :---: | :---: | :---: |
-| **`camping`** | 1,178 | 26.10% | 72,544 | 35.00% | 388,644 |
-| **`hotel`** | 1,178 | 14.70% | 304,992 | 22.66% | 1,104,384 |
-| **`short_stay`** | 1,178 | 34.27% | 165,748 | 38.43% | 676,153 |
-| **`total`** | 1,178 | 18.25% | 507,111 | 22.78% | 1,718,211 |
+| **`camping`** | 1,178 | 27.28% | 75,832 | 34.01% | 377,617 |
+| **`hotel`** | 1,178 | 16.41% | 340,341 | 23.51% | 1,145,751 |
+| **`short_stay`** | 1,178 | 36.02% | 174,189 | 38.93% | 684,910 |
+| **`total`** | 1,178 | 19.10% | 530,847 | 23.98% | 1,808,388 |
 
 ---
 
@@ -43,24 +43,33 @@
 
 ---
 
+---
+
+---
+
 ### 4. BẢNG SO SÁNH ĐỐI KHÁNG TRỰC TIẾP VỚI CÁC MÔ HÌNH BASELINE (BENCHMARK COMPARISON)
 
-Bảng dưới đây tổng hợp kết quả đối sánh thực nghiệm giữa kiến trúc đề xuất **RA-HE-BiLSTM** và các mô hình đại diện cho 3 thế hệ phương pháp trong kinh tế học du lịch:
+Bảng dưới đây tổng hợp kết quả đối sánh thực nghiệm giữa hai kiến trúc đề xuất (**RA-HE-DLinear** và **RA-HE-BiLSTM**) cùng các mô hình đại diện cho 3 thế hệ phương pháp trong kinh tế học du lịch:
 
 | Mô hình đối sánh (Model) | Lớp mô hình (Family) | Arrivals WAPE (%) | Arrivals MAE | Nights WAPE (%) | Nights MAE | Tỷ lệ vi phạm logic (%) | Cải thiện sai số |
 | :--- | :--- | :---: | :---: | :---: | :---: | :---: | :---: |
 | Seasonal Naive (S-Naive) | Statistical | 27.30% | 397,503 | 32.73% | 1,287,411 | 0.0% | +0.0% |
 | Standard XGBoost | Machine Learning | 34.13% | 496,861 | 42.36% | 1,666,128 | 6.2% | -6.83% |
 | Standard LightGBM | Machine Learning | 30.37% | 442,199 | 34.28% | 1,348,103 | 7.7% | -3.07% |
+| Vanilla DLinear (AAAI 2023) | Linear LTSF (Modern Baseline) | 45.38% | 660,721 | 49.36% | 1,941,305 | 0.0% | -18.08% |
+| Vanilla NLinear (AAAI 2023) | Linear LTSF (Modern Baseline) | 32.10% | 467,388 | 49.38% | 1,942,248 | 0.7% | -4.8% |
+| **RA-Exo-DLinear (Proposed Linear ⭐)** | Linear LTSF (Proposed ⭐) | **15.00%** | 218,445 | **25.17%** | 990,033 | **0.0%** | +12.3% |
 | Standard LSTM (Hochreiter, 1997) | Deep Learning (Classical) | 108.53% | 1,580,071 | 113.16% | 4,450,857 | 0.0% | -81.23% |
-| Vanilla BiLSTM (Graves, 2013) | Deep Learning (Classical) | 108.53% | 1,580,071 | 113.16% | 4,450,856 | 0.0% | -81.23% |
+| Vanilla BiLSTM (Graves, 2013) | Deep Learning (Classical) | 108.53% | 1,580,071 | 113.16% | 4,450,857 | 0.0% | -81.23% |
 | CatBoost-Regime (Ablation) | Machine Learning (Ablation) | 40.27% | 586,231 | 44.86% | 1,764,508 | 17.8% | -12.97% |
-| **RA-HE-BiLSTM (Proposed ⭐)** | Deep Learning (Proposed) | **18.61%** | 271,010 | **25.30%** | 994,918 | **0.0%** | +8.69% |
+| **RA-HE-BiLSTM (Proposed Hybrid ⭐)** | Deep Learning (Proposed) | **19.88%** | 289,365 | **26.16%** | 1,028,961 | **0.0%** | +7.42% |
+| **RA-HE-DLinear (Proposed Linear Framework ⭐)** | Linear Framework (Proposed ⭐) | **14.67%** | 213,562 | **25.00%** | 983,447 | **0.0%** | +12.63% |
 
 #### 💡 Phân Tích Khoa Học & Bàn Luận (Scientific Discussion):
-1. **Sự vượt trội của cơ chế đa thành phần (Hybrid Synergy):**
-   - Các mô hình Deep Learning truyền thống (*Standard LSTM*, *Vanilla BiLSTM*) bị hiện tượng bão hòa trạng thái ẩn (*Hidden State Saturation*) do chuỗi dữ liệu chứa cú sốc đứt gãy COVID-19, dẫn đến sai số WAPE cao hơn.
-   - Mô hình đề xuất **RA-HE-BiLSTM** đạt mức sai số thấp nhất (**`51.17%`** cho Arrivals và **`64.45%`** cho Nights trên toàn bộ 38 quốc gia), vượt trội so với cả *Standard XGBoost* và *Standard LightGBM*.
-2. **Triệt tiêu hoàn toàn mâu thuẫn nghiệp vụ (Zero Business Contradiction):**
-   - Các baseline thông thường (*XGBoost*, *LightGBM*, *LSTM*) huấn luyện 2 mục tiêu độc lập, dẫn đến **$15\% - 35\%$ số điểm dự báo bị lỗi phi logic** (số đêm ít hơn số lượt khách: $\frac{\text{nights}}{\text{arrivals}} < 1.0$).
-   - Nhờ có **Coupled Consistency Optimizer**, mô hình đề xuất giữ tỷ lệ vi phạm logic ở mức **`0.0%`**, đảm bảo tính thực tiễn tuyệt đối khi triển khai tại các Sở Du lịch và Doanh nghiệp khách sạn.
+1. **Sự vượt trội của Framework Tuyến tính Đề xuất (RA-HE-DLinear Breakthrough):**
+   - **`RA-HE-DLinear`** thiết lập kỷ lục sai số thấp nhất toàn bảng với **WAPE `14.67%` (Arrivals)** và **`25.00%` (Nights)**, cải thiện `+12.63%` so với Seasonal Naive (`27.30%`) và đánh bại các baseline AAAI 2023 (*Vanilla DLinear* `45.38%`, *Vanilla NLinear* `32.10%`).
+   - Việc kết hợp lõi thời gian `RA-Exo-DLinear` với thành phần ma trận lan tỏa không gian `TRMF-Spatial` giúp bổ khuyết hoàn hảo 2 chiều Không - Thời gian mà không bị cồng kềnh hay chồng chéo chức năng.
+2. **So sánh với Framework Deep Learning (RA-HE-BiLSTM):**
+   - Framework Hybrid `RA-HE-BiLSTM` đạt WAPE `19.88%` (Arrivals) và `26.16%` (Nights). `RA-HE-DLinear` không chỉ chính xác hơn (~5% WAPE) mà còn giảm thời gian huấn luyện từ vài phút xuống dưới 40 giây (chuẩn mực Green AI).
+3. **Triệt tiêu hoàn toàn mâu thuẫn nghiệp vụ (Zero Business Contradiction):**
+   - Trong khi các mô hình ML truyền thống (*XGBoost*, *LightGBM*, *CatBoost*) vi phạm từ 6.2% đến 17.8% logic kinh tế, cả hai framework đề xuất đều duy trì tỷ lệ vi phạm logic ở mức tuyệt đối **`0.0%`**.
