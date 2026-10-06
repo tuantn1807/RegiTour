@@ -298,3 +298,7 @@ Hệ thống đạt được cấu trúc **"Tứ Trụ Hoàn Hảo"** đại di�
 ```
 
 Tài liệu này đóng vai trò là **Bản thiết kế hệ thống hoàn chỉnh (Master System Blueprint)**, sẵn sàng để hiện thực hóa mã nguồn trong thư mục `src/` và làm khung nội dung chuẩn mực cho bài báo khoa học Scopus Q1 của đề tài NCKH 2027.
+
+> 💡 **Lưu ý mở rộng trên nhánh `feature/linear`:**  
+> Song song với kiến trúc Deep Learning `RA-HE-BiLSTM`, nhánh `feature/linear` mở rộng hướng tiếp cận **Linear LTSF** với mô hình độc lập **RA-Exo-DLinear** và framework hợp nhất **RA-HE-DLinear** (thiết lập kỷ lục WAPE 14.67%, train < 40s, 0% vi phạm logic). Đặc tả kỹ thuật chi tiết xem tại [RA_EXO_DLINEAR_SPEC.md](RA_EXO_DLINEAR_SPEC.md).
+

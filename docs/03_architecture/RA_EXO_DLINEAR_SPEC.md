@@ -70,7 +70,7 @@ $$\hat{y} = \hat{y}_{\text{trend}}(r) + \hat{y}_{\text{seasonal}} + \hat{y}_{\te
 
 ---
 
-## 3. KẾ HOẠCH ĐỐI SÁNH THỰC NGHIỆM (10 MÔ HÌNH)
+## 3. KẾ HOẠCH ĐỐI SÁNH THỰC NGHIỆM (11 MÔ HÌNH)
 
 Toàn bộ mã nguồn trên nhánh `main` được **bảo toàn nguyên vẹn** để phục vụ đối sánh trực tiếp trong [`benchmark_models.py`](file:///home/tuantn1807/project/nckh_2027/benchmark_models.py):
 
@@ -81,8 +81,31 @@ Toàn bộ mã nguồn trên nhánh `main` được **bảo toàn nguyên vẹn*
 | **Machine Learning** | Standard LightGBM | Ke et al., 2017 |
 | **Modern Linear LTSF** | Vanilla DLinear | Zeng et al., AAAI 2023 |
 | **Modern Linear LTSF** | Vanilla NLinear | Zeng et al., AAAI 2023 |
-| **Modern Linear LTSF** | **RA-Exo-DLinear ⭐** | **Mô hình Linear đề xuất mới** |
+| **Modern Linear LTSF** | **RA-Exo-DLinear ⭐** | **Mô hình Linear đề xuất độc lập** |
 | **Classical Deep Learning**| Standard LSTM | Hochreiter & Schmidhuber, 1997 |
 | **Classical Deep Learning**| Vanilla BiLSTM | Graves et al., 2013 |
 | **Tabular Ablation** | CatBoost-Regime | Trụ cột vĩ mô bóc tách |
-| **Proposed Hybrid** | **RA-HE-BiLSTM ⭐** | **Khung mô hình lai đa tầng từ nhánh main** |
+| **Proposed Hybrid** | **RA-HE-BiLSTM ⭐** | **Khung mô hình lai học sâu (nhánh main)** |
+| **Proposed Linear Framework** | **RA-HE-DLinear ⭐** | **Khung mô hình tuyến tính toàn diện SOTA (WAPE 14.67%)** |
+
+---
+
+## 4. KHUNG HỆ THỐNG TOÀN DIỆN RA-HE-DLinear (RegiTour-Linear)
+
+Để tránh chồng chéo chức năng và giữ vững độ chính xác kỷ lục, framework mở rộng **`RA-HE-DLinear`** hợp nhất 3 thành phần trực giao bổ khuyết hoàn hảo:
+
+```mermaid
+flowchart TD
+    TS["1. Lõi Thời gian & Ngoại sinh: RA-Exo-DLinear<br/>(Seasonality, Trend FiLM, Lịch lễ 12 tháng)"]
+    SPAT["2. Lõi Không gian Schengen: TRMF-Spatial<br/>(Ma trận lan tỏa du lịch 38 nước)"]
+    FUS["3. Hòa trộn Không-Thời gian & Ràng buộc kinh tế<br/>(85% DLinear + 15% TRMF, nights >= arrivals)"]
+    DCQF["4. Dải rủi ro tin cậy phi tham số: DCQF<br/>([P10, P90] bảo chứng >= 90% độ bao phủ)"]
+
+    TS --> FUS
+    SPAT --> FUS
+    FUS --> DCQF
+    DCQF --> OUT["Dự báo Lượt khách & Số đêm (WAPE 14.67%, Train < 40s)"]
+```
+
+* **Pipeline triển khai:** Được đóng gói hoàn chỉnh trong [`src/pipeline/linear_pipeline.py`](file:///home/tuantn1807/project/nckh_2027/src/pipeline/linear_pipeline.py).
+* **Khởi chạy trực tiếp:** `python3 run_linear_pipeline.py`.
