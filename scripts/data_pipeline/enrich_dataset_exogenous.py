@@ -32,7 +32,7 @@ except ImportError:
 # ============================================================
 # CẤU HÌNH ĐƯỜNG DẪN & BẢNG MÃ
 # ============================================================
-PROJECT_ROOT = Path(__file__).resolve().parent
+PROJECT_ROOT = Path(__file__).resolve().parents[2]
 INPUT_CSV = PROJECT_ROOT / "data" / "processed" / "tourism_europe_expanded.csv"
 OUTPUT_CSV = PROJECT_ROOT / "data" / "processed" / "tourism_europe_enriched.csv"
 OUTPUT_PARQUET = PROJECT_ROOT / "data" / "features" / "tourism_europe_features.parquet"

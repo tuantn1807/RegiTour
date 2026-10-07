@@ -20,7 +20,7 @@ from pathlib import Path
 # ============================================================
 # 1. CẤU HÌNH THỜI GIAN, QUỐC GIA & PHÂN LOẠI NACE
 # ============================================================
-PROJECT_ROOT = Path(__file__).resolve().parent
+PROJECT_ROOT = Path(__file__).resolve().parents[2]
 OUTPUT_XLSX = PROJECT_ROOT / "tourism_europe_expanded.xlsx"
 OUTPUT_CSV = PROJECT_ROOT / "data" / "processed" / "tourism_europe_expanded.csv"
 OUTPUT_CSV.parent.mkdir(parents=True, exist_ok=True)

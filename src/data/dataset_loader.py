@@ -73,7 +73,12 @@ class TourismDataLoader:
     def load_data(self) -> pd.DataFrame:
         """Loads and sorts the parquet feature store."""
         if not self.parquet_path.exists():
-            raise FileNotFoundError(f"Feature file not found at: {self.parquet_path}")
+            raise FileNotFoundError(
+                f"Feature file not found at: {self.parquet_path}. "
+                "Build it from the project root by running "
+                "scripts/data_pipeline/build_expanded_dataset.py, then "
+                "scripts/data_pipeline/enrich_dataset_exogenous.py."
+            )
 
         df = pd.read_parquet(self.parquet_path)
         df["date"] = pd.to_datetime(df["date"])

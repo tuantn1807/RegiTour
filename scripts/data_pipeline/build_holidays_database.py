@@ -14,7 +14,7 @@ import pandas as pd
 import numpy as np
 import holidays
 
-PROJECT_ROOT = Path(__file__).resolve().parent
+PROJECT_ROOT = Path(__file__).resolve().parents[2]
 OUTPUT_LOOKUP_CSV = PROJECT_ROOT / "data" / "processed" / "holidays_europe_detailed.csv"
 OUTPUT_LOOKUP_CSV.parent.mkdir(parents=True, exist_ok=True)
 

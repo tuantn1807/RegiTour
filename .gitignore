@@ -17,6 +17,7 @@ catboost_info/
 wandb/
 runs/
 *.log
+/results/models/*.joblib
 
 # IDE and OS Metadata
 .idea/

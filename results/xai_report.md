@@ -1,44 +1,70 @@
-# Báo Cáo Giải Thích Mô Hình Trí Tuệ Nhân Tạo (XAI Report)
+# World Bank Annual Tourism Forecast — XAI Report
 
-## 1. Phân Bổ Đóng Góp Đặc Trưng (TreeSHAP Feature Attribution)
+- Workbook: `D:\App\RegiTour\RegiTour\data\raw\tourism_economics_worldbank-3.xlsx`
+- Target: `Tourist_Arrivals` (annual international tourist arrivals)
+- Country/area codes in workbook scope: 203
+- Validation period: 2016–2017
+- Validation rows explained: 384
+- The model predicts `log1p(Tourist_Arrivals)`; SHAP values are in that model-output space.
+- Feature attributions describe this fitted model and are not causal effects.
 
-Bảng xếp hạng đóng góp của các biến ngoại sinh vĩ mô vào dự báo lượt khách:
+## Permutation importance
 
-| feature | mean_abs_shap | importance_pct |
+| Feature | Importance_Mean | Importance_Std |
 | --- | --- | --- |
-| hicp_accommodation | 285447.1981 | 37.8503 |
-| covid_stringency_index | 211717.6956 | 28.0738 |
-| weekend_days | 147001.2216 | 19.4924 |
-| working_days | 109982.0105 | 14.5836 |
+| Tourist_Arrivals_lag1 | 7.5450 | 0.4483 |
+| GDP_lag1 | 0.1305 | 0.0374 |
+| Inflation_lag1 | 0.0009 | 0.0008 |
+| Tourism_Revenue_lag1 | 0.0008 | 0.0003 |
+| Country Code | 0.0007 | 0.0001 |
+| Exchange_Rate_lag1 | 0.0002 | 0.0003 |
+| Region | 0.0001 | 0.0000 |
+| GDP_Growth_lag1 | 0.0000 | 0.0000 |
+| Unemployment_lag1 | 0.0000 | 0.0000 |
+| Year | 0.0000 | 0.0000 |
+| Domestic_Tourism_Trips_lag1 | 0.0000 | 0.0000 |
+| Domestic_Accommodation_Nights_lag1 | 0.0000 | 0.0000 |
+| Population_lag1 | -0.0005 | 0.0001 |
 
-## 2. Trọng Số Chú Ý Chéo Thời Gian (Cross-Temporal Attention Analysis)
+## TreeSHAP by source variable
 
-- **Tỷ lệ tập trung vào chu kỳ 12 tháng (Lag -12):** 4.61%
-- **Tỷ lệ tập trung vào chu kỳ 24 tháng (Lag -24):** 5.76%
-- **Tổng mức độ đồng bộ hóa mùa vụ:** 10.37%
+| Feature | Mean_Abs_SHAP | Importance_Pct |
+| --- | --- | --- |
+| Tourist_Arrivals_lag1 | 1.5959 | 92.2092 |
+| GDP_lag1 | 0.0978 | 5.6530 |
+| Inflation_lag1 | 0.0143 | 0.8260 |
+| Tourism_Revenue_lag1 | 0.0064 | 0.3685 |
+| Year | 0.0033 | 0.1919 |
+| Region | 0.0029 | 0.1704 |
+| Country Code | 0.0026 | 0.1527 |
+| Population_lag1 | 0.0023 | 0.1326 |
+| Exchange_Rate_lag1 | 0.0022 | 0.1257 |
+| GDP_Growth_lag1 | 0.0020 | 0.1159 |
+| Unemployment_lag1 | 0.0009 | 0.0541 |
+| Domestic_Accommodation_Nights_lag1 | 0.0000 | 0.0000 |
+| Domestic_Tourism_Trips_lag1 | 0.0000 | 0.0000 |
 
-![Cross-Temporal Attention Heatmap](xai/attention_cross_temporal_heatmap.png)
+## One-variable scenario sensitivity
 
-## 3. Mô Phỏng Kịch Bản Giả Định Đối Thực Nghiệm (What-If Counterfactual Policy Simulation)
+The scenarios perturb one available lagged predictor at a time. They are model sensitivity checks, not causal policy effects.
 
-Độ co giãn của nhu cầu lưu trú khách sạn theo can thiệp chỉ số giá phòng HICP ($\pm 5\%, \pm 10\%$):
+| Country Code | Country | Year | Feature | Scenario | Baseline_Predicted_Arrivals | Scenario_Predicted_Arrivals | Change_Pct |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| ABW | Aruba | 2016 | Tourism_Revenue_lag1 | -10% | 1806843.9498 | 1806843.9498 | 0.0000 |
+| AGO | Angola | 2016 | Tourism_Revenue_lag1 | -10% | 683434.4097 | 683434.4097 | 0.0000 |
+| ALB | Albania | 2016 | Tourism_Revenue_lag1 | -10% | 4276265.3571 | 4276265.3571 | 0.0000 |
+| ARE | United Arab Emirates | 2016 | Tourism_Revenue_lag1 | -10% | 21653174.5414 | 21653174.5414 | 0.0000 |
+| ARG | Argentina | 2016 | Tourism_Revenue_lag1 | -10% | 7290470.0032 | 7290470.0032 | 0.0000 |
+| ARM | Armenia | 2016 | Tourism_Revenue_lag1 | -10% | 1312119.3061 | 1312119.3061 | 0.0000 |
+| ATG | Antigua and Barbuda | 2016 | Tourism_Revenue_lag1 | -10% | 845896.9639 | 845896.9639 | 0.0000 |
+| AUS | Australia | 2016 | Tourism_Revenue_lag1 | -10% | 7800307.2838 | 7800307.2838 | 0.0000 |
+| AUT | Austria | 2016 | Tourism_Revenue_lag1 | -10% | 26232503.1103 | 26232503.1103 | 0.0000 |
+| AZE | Azerbaijan | 2016 | Tourism_Revenue_lag1 | -10% | 2191511.1320 | 2191511.1320 | 0.0000 |
+| BEL | Belgium | 2016 | Tourism_Revenue_lag1 | -10% | 8577611.7003 | 8577611.7003 | 0.0000 |
+| BEN | Benin | 2016 | Tourism_Revenue_lag1 | -10% | 294838.9128 | 294838.9128 | 0.0000 |
 
-| country | accommodation | scenario | base_arrivals | simulated_arrivals | arrivals_delta_pct | base_nights | simulated_nights | nights_delta_pct |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| FR | hotel | HICP -10% | 10248061.1935 | 10985921.5995 | 7.2000 | 18175722.1290 | 19549806.7220 | 7.5600 |
-| FR | hotel | HICP -5% | 10248061.1935 | 10616991.3965 | 3.6000 | 18175722.1290 | 18862764.4255 | 3.7800 |
-| FR | hotel | HICP +5% | 10248061.1935 | 9879130.9906 | -3.6000 | 18175722.1290 | 17488679.8326 | -3.7800 |
-| FR | hotel | HICP +10% | 10248061.1935 | 9510200.7876 | -7.2000 | 18175722.1290 | 16801637.5361 | -7.5600 |
-| ES | hotel | HICP -10% | 9772538.7419 | 10476161.5314 | 7.2000 | 30250373.5484 | 32537301.7886 | 7.5600 |
-| ES | hotel | HICP -5% | 9772538.7419 | 10124350.1366 | 3.6000 | 30250373.5484 | 31393837.6685 | 3.7800 |
-| ES | hotel | HICP +5% | 9772538.7419 | 9420727.3472 | -3.6000 | 30250373.5484 | 29106909.4283 | -3.7800 |
-| ES | hotel | HICP +10% | 9772538.7419 | 9068915.9525 | -7.2000 | 30250373.5484 | 27963445.3081 | -7.5600 |
-| IT | hotel | HICP -10% | 8074091.3871 | 8655425.9670 | 7.2000 | 23835644.9677 | 25637619.7273 | 7.5600 |
-| IT | hotel | HICP -5% | 8074091.3871 | 8364758.6770 | 3.6000 | 23835644.9677 | 24736632.3475 | 3.7800 |
-| IT | hotel | HICP +5% | 8074091.3871 | 7783424.0972 | -3.6000 | 23835644.9677 | 22934657.5880 | -3.7800 |
-| IT | hotel | HICP +10% | 8074091.3871 | 7492756.8072 | -7.2000 | 23835644.9677 | 22033670.2082 | -7.5600 |
-| DE | hotel | HICP -10% | 12164276.3548 | 13040104.2524 | 7.2000 | 24700021.0968 | 26567342.6917 | 7.5600 |
-| DE | hotel | HICP -5% | 12164276.3548 | 12602190.3036 | 3.6000 | 24700021.0968 | 25633681.8942 | 3.7800 |
-| DE | hotel | HICP +5% | 12164276.3548 | 11726362.4061 | -3.6000 | 24700021.0968 | 23766360.2993 | -3.7800 |
-| DE | hotel | HICP +10% | 12164276.3548 | 11288448.4573 | -7.2000 | 24700021.0968 | 22832699.5019 | -7.5600 |
+The World Bank workbook contains annual arrivals but no accommodation-night series, HICP accommodation prices, or attention weights.
+The former Eurostat-only night/price tables and synthetic attention heatmap are not regenerated.
+Existing files such as `xai_price_elasticity.csv` or `attention_cross_temporal_heatmap.png` may remain from an earlier Eurostat run and are not current World Bank outputs.
 
+![Feature importance](xai/shap_feature_importance.png)
