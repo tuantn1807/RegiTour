@@ -146,19 +146,21 @@ def main():
     arr_cb, nig_cb = cb.predict(test_df)
     models["CatBoost-Regime (Ablation)"] = (arr_cb, nig_cb)
 
-    # 10. Proposed RA-HE-BiLSTM (Loaded from pipeline run)
+    # 10. Proposed RA-HE-BiLSTM (Loaded from pipeline run if available for Eurostat)
     if PROPOSED_RESULTS_CSV.exists():
         prop_df = pd.read_csv(PROPOSED_RESULTS_CSV)
-        arr_prop = prop_df["pred_arrivals_point"].values
-        nig_prop = prop_df["pred_nights_point"].values
-        models["RA-HE-BiLSTM (Proposed Hybrid ⭐)"] = (arr_prop, nig_prop)
+        if "pred_arrivals_point" in prop_df.columns and "pred_nights_point" in prop_df.columns and len(prop_df) == len(test_df):
+            arr_prop = prop_df["pred_arrivals_point"].values
+            nig_prop = prop_df["pred_nights_point"].values
+            models["RA-HE-BiLSTM (Proposed Hybrid ⭐)"] = (arr_prop, nig_prop)
 
     # 11. Proposed RA-HE-DLinear (Loaded from linear pipeline run)
     if PROPOSED_LINEAR_CSV.exists():
         prop_lin_df = pd.read_csv(PROPOSED_LINEAR_CSV)
-        arr_prop_lin = prop_lin_df["pred_arrivals_point"].values
-        nig_prop_lin = prop_lin_df["pred_nights_point"].values
-        models["RA-HE-DLinear (Proposed Linear Framework ⭐)"] = (arr_prop_lin, nig_prop_lin)
+        if "pred_arrivals_point" in prop_lin_df.columns and "pred_nights_point" in prop_lin_df.columns and len(prop_lin_df) == len(test_df):
+            arr_prop_lin = prop_lin_df["pred_arrivals_point"].values
+            nig_prop_lin = prop_lin_df["pred_nights_point"].values
+            models["RA-HE-DLinear (Proposed Linear Framework ⭐)"] = (arr_prop_lin, nig_prop_lin)
 
     # Tổng hợp bảng so sánh
     benchmark_rows = []

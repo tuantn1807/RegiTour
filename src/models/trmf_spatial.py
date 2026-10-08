@@ -51,7 +51,10 @@ class TRMFSpatialSpillover:
         """
         Pivots dataframe to an (N, T) matrix for the specified accommodation type.
         """
-        sub = df[df["accommodation_type"] == accom_type].copy()
+        if accom_type in df["accommodation_type"].values:
+            sub = df[df["accommodation_type"] == accom_type].copy()
+        else:
+            sub = df.copy()
         pivot = sub.pivot(index="geo", columns="date", values=target_col)
         # Sort countries & dates
         countries = list(pivot.index)
@@ -70,10 +73,18 @@ class TRMFSpatialSpillover:
     ) -> "TRMFSpatialSpillover":
         """
         Fits TRMF via Alternating Least Squares (ALS) on the (N, T) country panel.
+        Automatically adapts AR lags if temporal horizon T is short (e.g. annual panel).
         """
         Y_raw, countries, _ = self._build_panel_matrix(df, target_col, accom_type)
         self.country_index_map = {c: i for i, c in enumerate(countries)}
         N, T = Y_raw.shape
+
+        # Adaptive AR lags for short panels (e.g. annual macroeconomic data)
+        if T < 36 and max(self.ar_lags) >= 12:
+            self.ar_lags = [l for l in self.ar_lags if l < max(2, T // 3)]
+            if not self.ar_lags:
+                self.ar_lags = [1, 2] if T >= 4 else [1]
+            self.max_lag = max(self.ar_lags)
 
         # Standardize per country
         self.mean_per_country = np.mean(Y_raw, axis=1, keepdims=True)

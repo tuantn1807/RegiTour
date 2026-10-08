@@ -49,24 +49,38 @@ class RegimeHMMNavigator:
 
     def _prepare_macro_signals(self, df: pd.DataFrame) -> np.ndarray:
         """
-        Extracts aggregated macro signals across Europe to detect continental regimes.
+        Extracts aggregated macro signals to detect macroeconomic / crisis regimes.
+        Adapts seamlessly to both monthly Eurostat and annual World Bank panels.
         """
-        # Aggregate monthly indicators across all countries
-        macro_monthly = df.groupby("date").agg({
+        price_col = "hicp_accommodation" if "hicp_accommodation" in df.columns else (
+            "inflation_lag1" if "inflation_lag1" in df.columns else None
+        )
+        agg_dict = {
             "arrivals_total": "sum",
             "nights_total": "sum",
-            "hicp_accommodation": "mean",
-            "covid_stringency_index": "mean",
-        }).reset_index()
+        }
+        if price_col:
+            agg_dict[price_col] = "mean"
+        if "covid_stringency_index" in df.columns:
+            agg_dict["covid_stringency_index"] = "mean"
 
-        # Compute growth rate (YoY 12-month diff) and volatility
+        macro_monthly = df.groupby("date").agg(agg_dict).reset_index()
+
+        # Compute growth rate (YoY diff) and volatility
         arr_series = macro_monthly["arrivals_total"]
+        shift_step = 12 if len(macro_monthly) >= 60 else 1
         macro_monthly["growth_yoy"] = (
-            (arr_series - arr_series.shift(12)) / (arr_series.shift(12) + 1e-5)
+            (arr_series - arr_series.shift(shift_step)) / (arr_series.shift(shift_step) + 1e-5)
         ).fillna(0.0)
 
-        # Signal matrix: [growth_yoy, stringency_index, hicp_accommodation]
-        signals = macro_monthly[["growth_yoy", "covid_stringency_index", "hicp_accommodation"]].values
+        # Signal matrix: [growth_yoy, stringency_index, inflation/price]
+        feature_cols = ["growth_yoy"]
+        if "covid_stringency_index" in macro_monthly.columns:
+            feature_cols.append("covid_stringency_index")
+        if price_col and price_col in macro_monthly.columns:
+            feature_cols.append(price_col)
+
+        signals = macro_monthly[feature_cols].values
         # Standardize signals
         mean = np.nanmean(signals, axis=0)
         std = np.nanstd(signals, axis=0) + 1e-6

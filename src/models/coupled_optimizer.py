@@ -18,9 +18,10 @@ class CoupledConsistencyOptimizer:
     and overnight stays.
     """
 
-    def __init__(self, delta: float = 1.0, min_ratio: float = 1.05):
+    def __init__(self, delta: float = 1.0, min_ratio: float = 1.05, anchor_arrivals: bool = True):
         self.delta = delta
         self.min_ratio = min_ratio
+        self.anchor_arrivals = anchor_arrivals
 
     def optimize_pair(
         self,
@@ -32,6 +33,9 @@ class CoupledConsistencyOptimizer:
         Projects (y_arr, y_nig) into the mathematically consistent domain:
           Ratio = y_nig / max(y_arr, 1.0)
           Feasible region: [max(min_ratio, base_ratio - delta), base_ratio + delta]
+        When anchor_arrivals is True (recommended in tourism econometrics):
+          Arrivals is treated as the primary observed registration metric (anchor),
+          and Nights is projected into the feasible interval without degrading Arrivals.
         Returns:
           - y_arr_adj: Adjusted arrivals
           - y_nig_adj: Adjusted nights
@@ -51,21 +55,26 @@ class CoupledConsistencyOptimizer:
         violations_high = current_ratios > r_max
         violations_flag = violations_low | violations_high
 
-        # 1. Adjust under-ratio (nights too small compared to arrivals)
-        # Pull nights up and slightly adjust arrivals to hit r_min
-        if np.any(violations_low):
-            target_r = r_min[violations_low]
-            # Geometric mean adjustment to distribute correction smoothly
-            geom = np.sqrt(y_arr_adj[violations_low] * y_nig_adj[violations_low])
-            y_arr_adj[violations_low] = geom / np.sqrt(target_r)
-            y_nig_adj[violations_low] = geom * np.sqrt(target_r)
+        if self.anchor_arrivals:
+            # Asymmetric anchor projection: Arrivals is invariant anchor
+            if np.any(violations_low):
+                y_nig_adj[violations_low] = y_arr_adj[violations_low] * r_min[violations_low]
+            if np.any(violations_high):
+                y_nig_adj[violations_high] = y_arr_adj[violations_high] * r_max[violations_high]
+        else:
+            # 1. Adjust under-ratio (nights too small compared to arrivals)
+            if np.any(violations_low):
+                target_r = r_min[violations_low]
+                geom = np.sqrt(y_arr_adj[violations_low] * y_nig_adj[violations_low])
+                y_arr_adj[violations_low] = geom / np.sqrt(target_r)
+                y_nig_adj[violations_low] = geom * np.sqrt(target_r)
 
-        # 2. Adjust over-ratio (nights too large compared to arrivals)
-        if np.any(violations_high):
-            target_r = r_max[violations_high]
-            geom = np.sqrt(y_arr_adj[violations_high] * y_nig_adj[violations_high])
-            y_arr_adj[violations_high] = geom / np.sqrt(target_r)
-            y_nig_adj[violations_high] = geom * np.sqrt(target_r)
+            # 2. Adjust over-ratio (nights too large compared to arrivals)
+            if np.any(violations_high):
+                target_r = r_max[violations_high]
+                geom = np.sqrt(y_arr_adj[violations_high] * y_nig_adj[violations_high])
+                y_arr_adj[violations_high] = geom / np.sqrt(target_r)
+                y_nig_adj[violations_high] = geom * np.sqrt(target_r)
 
         return (
             np.round(y_arr_adj).astype(np.float32),

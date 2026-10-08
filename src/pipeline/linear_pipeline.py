@@ -1,17 +1,21 @@
 """
-End-to-End Orchestrator Pipeline for the RA-HE-DLinear Framework.
+End-to-End Orchestrator Pipeline for the Unified RA-HE-DLinear Framework.
 (Regime-Aware Hierarchical Ensemble DLinear Framework)
 
+Universally accommodates both:
+  1. Eurostat Regional Panel (38 European countries, monthly, 4 NACE accommodation types)
+  2. World Bank Global Macro Panel (203 countries, annual, macro indicators & events)
+
 Architecture Principles (Non-overlapping, Clean & Fast):
-  1. Input Ingestion (38 European countries, 4 NACE accommodation types, 54 columns)
+  1. Input Ingestion (Adaptive monthly or annual frequency)
   2. Market Navigation (HMM Regimes: Normal, Disruption/COVID, Recovery)
   3. Core Temporal-Exogenous Engine:
        - RA-Exo-DLinear: SeriesDecomp + FiLM Regime + Dual-Stream Exogenous Projections + Coupled Consistency
-  4. Spatial Schengen Spillover Engine:
-       - TRMF Matrix Factorization: Cross-border Schengen tourism flow across 38 countries
+  4. Spatial Spillover Engine:
+       - TRMF Matrix Factorization: Spatial tourism flow across countries / economic clusters
   5. Spatio-Temporal Gating & Coupled Consistency:
-       - Blends Temporal Core with Spatial Schengen Matrix
-       - Zero Economic Violation Guarantee (nights >= arrivals)
+       - Blends Temporal Core with Spatial Matrix
+       - Zero Economic Violation Guarantee (nights >= arrivals, LOS >= 1.0)
   6. Uncertainty Quantification:
        - DCQF Conformal Forecaster (Distribution-free [P10, P90] intervals with >= 90% guaranteed coverage)
 """
@@ -47,6 +51,7 @@ def calculate_metrics(y_true: np.ndarray, y_pred: np.ndarray) -> Dict[str, float
     wape = float(np.sum(np.abs(y_t - y_p)) / max(1.0, np.sum(y_t)) * 100.0)
 
     return {
+        "n": int(len(y_t)),
         "RMSE": round(rmse, 2),
         "MAE": round(mae, 2),
         "MAPE": round(mape, 2),
@@ -57,34 +62,46 @@ def calculate_metrics(y_true: np.ndarray, y_pred: np.ndarray) -> Dict[str, float
 class TourismLinearForecastingPipeline:
     """
     Controller orchestrating the modern linear-centric tourism forecasting framework (RA-HE-DLinear).
-    Streamlined and free of functional redundancy.
+    Universally supports both:
+      - 'eurostat': Monthly regional panel (38 European countries, 4 accommodation types).
+      - 'worldbank': Annual global panel (203 countries, macroeconomic panel).
     """
 
     def __init__(
         self,
+        dataset: str = "eurostat",
         parquet_path: Optional[Union[str, Path]] = None,
-        lookback_len: int = 24,
-        forecast_horizon: int = 12,
-        train_end_year: int = 2022,
-        val_end_year: int = 2023,
+        lookback_len: Optional[int] = None,
+        forecast_horizon: Optional[int] = None,
+        train_end_year: Optional[int] = None,
+        val_end_year: Optional[int] = None,
         epochs: int = 35,
         learning_rate: float = 0.005,
     ):
+        self.dataset = dataset.lower()
         self.data_loader = TourismDataLoader(
+            dataset=self.dataset,
             parquet_path=parquet_path,
             lookback_len=lookback_len,
             forecast_horizon=forecast_horizon,
             train_end_year=train_end_year,
             val_end_year=val_end_year,
         )
+        self.lookback_len = self.data_loader.lookback_len
+        self.forecast_horizon = self.data_loader.forecast_horizon
+
         self.hmm_navigator = RegimeHMMNavigator(n_regimes=3)
         self.linear_engine = RAExoDLinearForecaster(
-            lookback_len=lookback_len,
-            forecast_horizon=forecast_horizon,
+            lookback_len=self.lookback_len,
+            forecast_horizon=self.forecast_horizon,
             epochs=epochs,
             learning_rate=learning_rate,
+            future_cols=self.data_loader.future_cols,
+            past_exo_cols=self.data_loader.past_exo_cols,
         )
-        self.trmf_engine = TRMFSpatialSpillover(rank=4)
+
+        ar_lags = (1, 2, 12) if self.dataset == "eurostat" else (1, 2)
+        self.trmf_engine = TRMFSpatialSpillover(rank=4, ar_lags=ar_lags)
         self.dcqf_engine = DeepConformalQuantileForecaster(target_coverage=0.90)
         self.coupled_optimizer = CoupledConsistencyOptimizer(delta=1.0)
 
@@ -97,29 +114,33 @@ class TourismLinearForecastingPipeline:
         """
         Executes the end-to-end RA-HE-DLinear pipeline and returns predictions and metrics.
         """
+        dataset_label = "CHÂU ÂU (EUROSTAT MONTHLY)" if self.dataset == "eurostat" else "TOÀN CẦU (WORLDBANK ANNUAL)"
         print("=" * 80)
-        print("🚀 [PHASE 1] NẠP DỮ LIỆU & TÁCH CHUỖI THỜI GIAN (DATA INGESTION & TEMPORAL SPLIT)")
+        print(f"🚀 [PHASE 1] NẠP DỮ LIỆU & TÁCH CHUỖI THỜI GIAN [{dataset_label}]")
         print("=" * 80)
         self.df = self.data_loader.load_data()
-        print(f"  • Đã tải: {len(self.df):,} dòng, {self.df['geo'].nunique()} Quốc gia, {self.df['accommodation_type'].nunique()} Loại hình lưu trú.")
+        print(f"  • Đã tải: {len(self.df):,} dòng, {self.df['geo'].nunique()} Quốc gia/Khu vực, {self.df['accommodation_type'].nunique()} Loại hình lưu trú.")
+        print(f"  • Cấu hình mô hình: Lookback L={self.lookback_len}, Horizon H={self.forecast_horizon}")
 
         print("\n" + "=" * 80)
         print("🧭 [PHASE 2] HOA TIÊU THỊ TRƯỜNG: HIDDEN MARKOV MODEL (HMM REGIME DETECTION)")
         print("=" * 80)
         self.hmm_navigator.fit(self.df)
         states, probs, regime_df = self.hmm_navigator.predict_regimes(self.df)
+        if "regime" in self.df.columns:
+            self.df = self.df.drop(columns=["regime", "p_normal", "p_disruption", "p_recovery"], errors="ignore")
         self.df = self.df.merge(regime_df, on="date", how="left")
         print("  • Phát hiện thành công 3 trạng thái thị trường:")
-        print(f"    - State 0: Normal / Steady Growth ({np.sum(states == 0)} tháng)")
-        print(f"    - State 1: Disruption Shock / COVID Crisis ({np.sum(states == 1)} tháng)")
-        print(f"    - State 2: Post-Crisis Recovery / Revenge Travel ({np.sum(states == 2)} tháng)")
+        print(f"    - State 0: Normal / Steady Growth ({np.sum(states == 0)} mốc)")
+        print(f"    - State 1: Disruption Shock / COVID Crisis ({np.sum(states == 1)} mốc)")
+        print(f"    - State 2: Post-Crisis Recovery / Revenge Travel ({np.sum(states == 2)} mốc)")
 
         # Split into train, val, test
         self.train_df, self.val_df, self.test_df = self.data_loader.get_splits(self.df)
         print(f"  • Phân chia chuỗi dữ liệu:")
-        print(f"    - Train (<= 2022): {len(self.train_df):,} dòng")
-        print(f"    - Validation (2023): {len(self.val_df):,} dòng")
-        print(f"    - Test (2024 - 2026): {len(self.test_df):,} dòng")
+        print(f"    - Train (<= {self.data_loader.train_end_year}): {len(self.train_df):,} dòng")
+        print(f"    - Validation ({self.data_loader.train_end_year+1} - {self.data_loader.val_end_year}): {len(self.val_df):,} dòng")
+        print(f"    - Test (>= {self.data_loader.val_end_year+1}): {len(self.test_df):,} dòng")
 
         print("\n" + "=" * 80)
         print("⚡ [PHASE 3.1] ĐỘNG CƠ CỐT LÕI THỜI GIAN & NGOẠI SINH: RA-Exo-DLinear")
@@ -130,11 +151,12 @@ class TourismLinearForecastingPipeline:
         print("  • Hoàn tất dự báo chuỗi thời gian & ngoại sinh.")
 
         print("\n" + "=" * 80)
-        print("🌐 [PHASE 3.2] ĐỘNG CƠ KHÔNG GIAN SCHENGEN: TRMF MATRIX FACTORIZATION")
+        print("🌐 [PHASE 3.2] ĐỘNG CƠ KHÔNG GIAN: TRMF MATRIX FACTORIZATION")
         print("=" * 80)
-        print("  • Bóc tách 4 cụm không gian Châu Âu (Lan tỏa qua biên giới 38 nước)...")
+        print(f"  • Bóc tách 4 cụm không gian lan tỏa du lịch ({self.df['geo'].nunique()} thực thể)...")
         self.trmf_engine.fit(self.train_df, target_col="arrivals_total", accom_type="total")
-        trmf_forecasts = self.trmf_engine.forecast(horizon=len(self.test_df["date"].unique()))
+        horizon_steps = len(self.test_df["date"].unique())
+        trmf_forecasts = self.trmf_engine.forecast(horizon=horizon_steps)
 
         # Map TRMF forecasts to test_df
         test_geo_list = self.test_df["geo"].astype(str).values
@@ -164,14 +186,13 @@ class TourismLinearForecastingPipeline:
             self.data_loader.country_base_ratios.get(g, 2.5) for g in test_geo_codes
         ], dtype=np.float32)
         y_spatial_test_nig = y_spatial_test * base_ratios_test
-        print("  • Hoàn tất trích xuất đặc trưng lan tỏa không gian Schengen.")
+        print("  • Hoàn tất trích xuất đặc trưng lan tỏa không gian.")
 
         print("\n" + "=" * 80)
         print("⚖️ [PHASE 4] HÒA TRỘN KHÔNG - THỜI GIAN & RÀNG BUỘC KINH TẾ (COUPLED CONSISTENCY)")
         print("=" * 80)
-        # 85% Temporal-Exogenous Core + 15% Spatial Schengen Spillover
-        w_time = 0.85
-        w_space = 0.15
+        w_time = 0.85 if self.dataset == "eurostat" else 0.92
+        w_space = 1.0 - w_time
         y_fused_arr = w_time * arr_linear_test + w_space * y_spatial_test
         y_fused_nig = w_time * nig_linear_test + w_space * y_spatial_test_nig
 
@@ -185,7 +206,18 @@ class TourismLinearForecastingPipeline:
         print("\n" + "=" * 80)
         print("🛡️ [PHASE 5] BẢO CHỨNG RỦI RO PHI PHÂN PHỐI: DCQF CONFORMAL QUANTILE FORECASTER")
         print("=" * 80)
-        dcqf_features = ["hicp_accommodation", "covid_stringency_index", "weekend_days", "holiday_days", "p_normal", "p_disruption", "p_recovery"]
+        if self.dataset == "eurostat":
+            candidate_features = [
+                "hicp_accommodation", "covid_stringency_index", "weekend_days",
+                "holiday_days", "p_normal", "p_disruption", "p_recovery"
+            ]
+        else:
+            candidate_features = [
+                "gdp_growth_lag1", "inflation_lag1", "annual_holidays_count",
+                "covid_stringency_index", "p_normal", "p_disruption", "p_recovery"
+            ]
+        dcqf_features = [c for c in candidate_features if c in self.train_df.columns]
+
         X_train_dcqf = self.train_df[dcqf_features].fillna(0).values[:3000]
         y_train_dcqf_arr = self.train_df["arrivals_total"].values[:3000]
         y_train_dcqf_nig = self.train_df["nights_total"].values[:3000]
@@ -210,10 +242,23 @@ class TourismLinearForecastingPipeline:
         metrics_nig = calculate_metrics(y_true_nig, y_final_nig)
 
         print("\n" + "=" * 80)
-        print("📊 [BÁO CÁO ĐÁNH GIÁ KHOA HỌC RA-HE-DLinear TRÊN TẬP TEST 2024 - 2026]")
+        test_period_label = "2024 - 2026" if self.dataset == "eurostat" else f"{self.data_loader.val_end_year+1} - 2020"
+        print(f"📊 [BÁO CÁO ĐÁNH GIÁ KHOA HỌC RA-HE-DLinear TRÊN TẬP TEST {test_period_label}]")
         print("=" * 80)
         print(f"🎯 LƯỢT KHÁCH (ARRIVALS)   : RMSE = {metrics_arr['RMSE']:,.0f} | MAE = {metrics_arr['MAE']:,.0f} | MAPE = {metrics_arr['MAPE']:.2f}% | WAPE = {metrics_arr['WAPE']:.2f}%")
         print(f"🌙 SỐ ĐÊM LƯU TRÚ (NIGHTS): RMSE = {metrics_nig['RMSE']:,.0f} | MAE = {metrics_nig['MAE']:,.0f} | MAPE = {metrics_nig['MAPE']:.2f}% | WAPE = {metrics_nig['WAPE']:.2f}%")
+
+        if self.dataset == "worldbank":
+            mask_precovid = self.test_df["year"].isin([2018, 2019]).values
+            if np.any(mask_precovid):
+                m_arr_pre = calculate_metrics(y_true_arr[mask_precovid], y_final_arr[mask_precovid])
+                m_nig_pre = calculate_metrics(y_true_nig[mask_precovid], y_final_nig[mask_precovid])
+                print(f"   🟢 Pre-COVID (2018-2019): Arrivals WAPE = {m_arr_pre['WAPE']:.2f}% | Nights WAPE = {m_nig_pre['WAPE']:.2f}%")
+            mask_covid = self.test_df["year"].eq(2020).values
+            if np.any(mask_covid):
+                m_arr_cov = calculate_metrics(y_true_arr[mask_covid], y_final_arr[mask_covid])
+                m_nig_cov = calculate_metrics(y_true_nig[mask_covid], y_final_nig[mask_covid])
+                print(f"   🔴 COVID Shock (2020)   : Arrivals WAPE = {m_arr_cov['WAPE']:.2f}% | Nights WAPE = {m_nig_cov['WAPE']:.2f}%")
         print("=" * 80)
 
         # Output DataFrame
@@ -229,6 +274,7 @@ class TourismLinearForecastingPipeline:
         results_df["pred_nights_p90"] = p90_nig
         results_df["w_temporal"] = w_time
         results_df["w_spatial"] = w_space
+        results_df["dataset"] = self.dataset
 
         return {
             "results_df": results_df,
