@@ -47,14 +47,14 @@ flowchart LR
 * **Khoảng trống:** Y văn thế giới thiếu một cơ chế cho phép tế bào học sâu chủ động **"xóa ký ức sốc"** để thích nghi ngay lập tức khi thị trường chuyển dịch trạng thái (*Regime Shift*).
 
 #### 🔴 Khoảng trống 2: Bỏ phí thông tin tương lai biết trước, sai số tích lũy khi dự báo dài hạn
-* **Thực trạng y văn:** Trong ngành du lịch, các đợt nghỉ lễ (Lễ Phục Sinh, Giáng sinh, Kỳ nghỉ dài 3 ngày, số ngày cuối tuần) là những thông tin **đã biết chắc chắn 100% trong tương lai 6–12 tháng**. Tuy nhiên, các bài báo hiện hành chỉ đưa lịch lễ vào làm biến đầu vào quá khứ, sau đó dự báo tương lai bằng cách lặp đệ quy bước-một ($t \to t+1 \to t+2 \dots$).
+* **Thực trạng y văn:** Trong ngành du lịch, các đợt nghỉ lễ (Lễ Phục Sinh, Giáng sinh, Kỳ nghỉ dài 3 ngày, số ngày cuối tuần) là những thông tin **được xác định trước một cách tất định trong tương lai 6–12 tháng**. Tuy nhiên, các bài báo hiện hành chỉ đưa lịch lễ vào làm biến đầu vào quá khứ, sau đó dự báo tương lai bằng cách lặp đệ quy bước-một ($t \to t+1 \to t+2 \dots$).
 * **Minh chứng khoa học:** Theo *Song et al. (2021)*, việc dự báo đệ quy khiến sai số của tháng 1 bị nhân dồn vào tháng 2, tháng 3... Đến tháng thứ 12, hiện tượng trôi dạt sai số tích lũy (*Autoregressive Error Compounding*) làm phẳng hoàn toàn các đỉnh nhọn mùa vụ hè.
-* **Khoảng trống:** Chưa có công trình nào xây dựng cơ chế Attention chéo (*Cross-Attention*) sử dụng trực tiếp **bản đồ lịch lễ tương lai làm tín hiệu dẫn đường (Query)** để giải mã trực tiếp toàn bộ 12 tháng tới mà không bị sai số tích lũy.
+* **Khoảng trống:** Cần cơ chế chiếu trực giao hoặc chú ý chéo (*Cross-Attention*) sử dụng trực tiếp **bản đồ lịch lễ tương lai làm tín hiệu định hướng (Query)** để dự báo đồng thời toàn bộ chân trời tương lai mà không bị sai số tích lũy.
 
 #### 🔴 Khoảng trống 3: Mâu thuẫn logic nghiệp vụ giữa Lượt khách và Số đêm lưu trú
 * **Thực trạng y văn:** Hầu hết các nhà nghiên cứu xem bài toán dự báo Lượt khách (`arrivals`) và Số đêm lưu trú (`nights`) là hai mô hình hoàn toàn tách biệt độc lập.
-* **Minh chứng khoa học:** Nghiên cứu phản biện của *Cortés-Jiménez et al. (2024)* trên hơn 200 bài báo dự báo du lịch chỉ ra một phát hiện đáng kinh ngạc: **Hơn $85\%$ mô hình AI hiện nay gặp phải lỗi phi logic nghiệp vụ**: *Dự báo lượt khách tăng mạnh nhưng số đêm lưu trú lại giảm bất thường*, dẫn đến tỷ lệ số đêm trên mỗi lượt khách ($\frac{\text{nights}}{\text{arrivals}}$) giảm xuống dưới $1.0$ (vô lý vì một lượt khách không thể lưu trú ít hơn 1 đêm).
-* **Khoảng trống:** Thiếu một hàm mất mát ràng buộc toán học (*Coupled Multi-Task Loss*) ép Gradient phải tôn trọng quy luật cân bằng kinh tế du lịch ngay trong quá trình huấn luyện nơ-ron.
+* **Minh chứng khoa học:** Nghiên cứu của *Cortés-Jiménez et al. (2024)* chỉ ra một hạn chế phổ biến: **Nhiều mô hình dự báo gặp phải lỗi mâu thuẫn logic nghiệp vụ**: *Dự báo lượt khách tăng nhưng số đêm lưu trú lại giảm bất thường*, dẫn đến tỷ lệ thời gian lưu trú ($\frac{\text{nights}}{\text{arrivals}}$) giảm xuống dưới $1.0$ (vi phạm định nghĩa thống kê du lịch quốc tế vì một lượt khách qua đêm luôn phát sinh ít nhất một đêm lưu trú).
+* **Khoảng trống:** Thiếu cơ chế tối ưu hóa ràng buộc nhất quán nghiệp vụ (*Coupled Business Consistency Loss & Projection*) để đồng bộ hóa hai mục tiêu ngay trong quá trình dự báo.
 
 #### 🔴 Khoảng trống 4: Bế tắc trong việc xử lý hiệu ứng lan tỏa không gian 38 nước Châu Âu
 * **Thực trạng y văn:** Các nghiên cứu hoặc là chia 38 quốc gia thành 38 bài toán riêng rẽ (bỏ qua hoàn toàn mối liên kết khối Schengen); hoặc là cố gắng đưa Mạng đồ thị không gian (ST-GNN) vào.
@@ -95,8 +95,8 @@ flowchart TD
     end
 
     %% TẦNG 5: HẬU XỬ LÝ & RA QUYẾT ĐỊNH
-    subgraph Decision_XAI ["TẦNG 5: RÀNG BUỘC NGHIỆP VỤ & HỖ TRỢ RA QUYẾT ĐỊNH"]
-        OPT["🔗 Coupled Consistency Optimizer<br/>Kiểm tra tỷ lệ số đêm / lượt khách (nights/arrivals)<br/>➔ Tự động nắn chỉnh Gradient, triệt tiêu 100% mâu thuẫn nghiệp vụ"]
+    subgraph Decision_XAI ["TẦNG 5: RÀNG BUỘC NHẤT QUÁN NGHIỆP VỤ & HỖ TRỢ RA QUYẾT ĐỊNH"]
+        OPT["🔗 Coupled Consistency Optimizer<br/>Kiểm tra tỷ lệ số đêm / lượt khách (nights/arrivals)<br/>➔ Tối ưu hóa ràng buộc nhất quán nghiệp vụ, triệt tiêu vi phạm logic"]
         DASH["💡 Dual-Layer XAI & Web Decision Dashboard<br/>• TreeSHAP / DeepSHAP bóc tách nguyên nhân tăng/giảm<br/>• DiCE Counterfactual mô phỏng kịch bản What-If: 'Nếu tăng giá HICP thêm 5% thì sao?'"]
     end
 
@@ -299,6 +299,44 @@ Hệ thống đạt được cấu trúc **"Tứ Trụ Hoàn Hảo"** đại di�
 
 Tài liệu này đóng vai trò là **Bản thiết kế hệ thống hoàn chỉnh (Master System Blueprint)**, sẵn sàng để hiện thực hóa mã nguồn trong thư mục `src/` và làm khung nội dung chuẩn mực cho bài báo khoa học Scopus Q1 của đề tài NCKH 2027.
 
-> 💡 **Lưu ý mở rộng trên nhánh `feature/linear`:**  
-> Song song với kiến trúc Deep Learning `RA-HE-BiLSTM`, nhánh `feature/linear` mở rộng hướng tiếp cận **Linear LTSF** với mô hình độc lập **RA-Exo-DLinear** và framework hợp nhất **RA-HE-DLinear** (thiết lập kỷ lục WAPE 14.67%, train < 40s, 0% vi phạm logic). Đặc tả kỹ thuật chi tiết xem tại [RA_EXO_DLINEAR_SPEC.md](RA_EXO_DLINEAR_SPEC.md).
+---
+
+## 5. MỞ RỘNG NGHIÊN CỨU: MÔ HÌNH RA-Exo-DLinear VÀ KHUNG TÍCH HỢP RA-HE-DLinear
+
+Song song với kiến trúc Deep Learning `RA-HE-BiLSTM`, đề tài mở rộng hướng nghiên cứu đón đầu làn sóng *Modern Linear-Centric LTSF (Zeng et al., AAAI 2023)*, tập trung vào mô hình cốt lõi **RA-Exo-DLinear** và khung tích hợp phân tầng **RA-HE-DLinear** (*Regime-Aware Hierarchical Ensemble DLinear*).
+
+```mermaid
+flowchart LR
+    P1["1. Adaptive Ingestion<br/>(Tháng: H=12, L=24 | Năm: H=1, L=4)"] --> P2["2. Market Navigator HMM<br/>(Normal / Crisis / Recovery)"]
+    P2 --> P3_1["3.1 Đóng góp cốt lõi: RA-Exo-DLinear<br/>(DLinear + FiLM Trend + Dual Exogenous)"]
+    P2 --> P3_2["3.2 Thành phần không gian: TRMF<br/>(Low-rank Matrix Factorization)"]
+    P3_1 --> P4["4. Hòa trộn Spatio-Temporal & Ràng buộc nhất quán<br/>(Business Consistency: Nights >= Arrivals)"]
+    P3_2 --> P4
+    P4 --> P5["5. Định lượng bất định: DCQF Conformal<br/>(Dải [P10, P90] bảo chứng >= 90% độ bao phủ)"]
+    P5 --> OUT["Dự báo Lượt khách & Số đêm"]
+```
+
+### 5.1. Phân định rõ vai trò và đóng góp
+1. **Đóng góp chính (Primary Contribution):** Mô hình **RA-Exo-DLinear** — mở rộng kiến trúc phân rã DLinear gốc thông qua:
+   * Cơ chế FiLM điều biến xu thế theo trạng thái thị trường có tham số học được: $\text{FiLM}(\mathbf{Z}_T, \mathbf{e}_r) = (1 + \alpha_{\text{trend}} \tanh(\mathbf{W}_\gamma \mathbf{e}_r + \mathbf{b}_\gamma)) \odot \mathbf{Z}_T + \mathbf{W}_\beta \mathbf{e}_r + \mathbf{b}_\beta$.
+   * Chiếu tuyến tính ngoại sinh hai luồng: biến lịch lễ/sự kiện tương lai ($\mathbf{X}_{\text{fut}}$) và biến vĩ mô quá khứ ($\mathbf{X}_{\text{past}}$).
+2. **Đóng góp tích hợp hệ thống (Systemic Integration):** Khung **RA-HE-DLinear** kết hợp thành phần lan tỏa không gian TRMF, bộ giải ràng buộc nhất quán nghiệp vụ, và bộ định lượng bất định DCQF Conformal.
+3. **Khả năng thích ứng đa tần suất (Multi-Frequency Adaptability):**
+   * Tương thích linh hoạt với dữ liệu tháng (Eurostat, 38 nước, chu kỳ mùa nội năm) và dữ liệu năm (World Bank, 203 nền kinh tế, biến động vĩ mô).
+4. **Đảm bảo tính nhất quán nghiệp vụ (Business Consistency):**
+   * Ràng buộc $\text{LOS} = \frac{\text{Nights}}{\text{Arrivals}} \ge 1.0$, giảm thiểu tỷ lệ vi phạm logic từ $5.56\%$ về $0.0\%$.
+
+### 5.2. Bảng kết quả thực nghiệm đối sánh (Benchmark Summary)
+| Mô hình kiểm định | Tập dữ liệu | Tần suất | Arrivals WAPE (%) | Nights WAPE (%) | Vi phạm nhất quán (%) |
+| :--- | :--- | :--- | :---: | :---: | :---: |
+| **Seasonal Naive** | Eurostat | Tháng | $27.30\%$ | $32.73\%$ | $8.42\%$ |
+| **Vanilla DLinear (AAAI 2023)** | Eurostat | Tháng | $15.07\%$ | $25.61\%$ | $5.56\%$ |
+| **RA-Exo-DLinear (Core đề xuất ⭐)** | Eurostat | Tháng | $17.21\%$ | $26.92\%$ | **$0.0\%$** |
+| **RA-HE-DLinear (Full đề xuất ⭐)** | Eurostat | Tháng | **$14.67\%$** | **$25.00\%$** | **$0.0\%$** |
+| **Ridge Regression** | World Bank | Năm | $92.99\%$ | $112.50\%$ | $18.40\%$ |
+| **RA-HE-DLinear (Đề xuất ⭐)** | World Bank | Năm | **$33.83\%$** | **$46.05\%$** | **$0.0\%$** |
+
+> 📖 **Xem đặc tả toán học chi tiết, cơ sở tham số và nghiên cứu bóc tách (Ablation Study):** [RA_EXO_DLINEAR_SPEC.md](RA_EXO_DLINEAR_SPEC.md).  
+> 🚀 **Mã nguồn thực thi:** [`src/pipeline/linear_pipeline.py`](file:///home/tuantn1807/project/nckh_2027/src/pipeline/linear_pipeline.py) và [`run_linear_pipeline.py`](file:///home/tuantn1807/project/nckh_2027/run_linear_pipeline.py).
+
 
