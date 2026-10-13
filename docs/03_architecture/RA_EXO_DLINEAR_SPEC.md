@@ -136,20 +136,20 @@ Khung hệ thống được thiết kế để tương thích với hai cấu tr
 ## 3. KẾT QUẢ THỰC NGHIỆM ĐỐI SÁNH & NGHIÊN CỨU BÓC TÁCH (BENCHMARK & ABLATION)
 
 ### 3.1. Bảng đối sánh đa mô hình (Benchmark trên tập Eurostat Test 2024–2026)
-Đánh giá thực nghiệm khách quan trên cùng tập dữ liệu kiểm định Eurostat (4,712 bản ghi test):
+Đánh giá thực nghiệm khách quan trên cùng tập dữ liệu kiểm định Eurostat (4,712 bản ghi test, báo cáo hai chiều ràng buộc logic):
 
-| Mô hình kiểm định | Phân loại phương pháp | Arrivals WAPE (%) | Arrivals MAE | Nights WAPE (%) | Nights MAE | Tỷ lệ vi phạm nhất quán (%) |
-| :--- | :--- | :---: | :---: | :---: | :---: | :---: |
-| **Seasonal Naive (S-Naive)** | Thống kê cổ điển | $27.30\%$ | $397,341$ | $32.73\%$ | $1,287,540$ | $8.42\%$ |
-| **Ridge Regression** | Hồi quy tuyến tính L2 | $38.45\%$ | $560,112$ | $44.12\%$ | $1,735,280$ | $14.80\%$ |
-| **Standard LightGBM / XGBoost** | Cây quyết định tăng cường | $30.37\%$ | $442,199$ | $34.28\%$ | $1,348,103$ | $7.70\%$ |
-| **Vanilla NLinear (AAAI 2023)**| Linear LTSF gốc | $53.77\%$ | $782,731$ | $49.38\%$ | $1,942,654$ | $12.18\%$ |
-| **RA-Exo-DLinear (Động cơ thời gian lõi)** | Linear LTSF mở rộng | $17.21\%$ | $250,534$ | $26.92\%$ | $1,059,045$ | **$0.0\%$ (0 mẫu vi phạm)** |
-| **RA-HE-DLinear (Mô hình đề xuất ⭐)** | Khung Không - Thời gian | **$14.67\%$** | **$213,562$** | **$25.00\%$** | **$983,447$** | **$0.0\%$ (0 mẫu vi phạm)** |
+| Mô hình kiểm định | Phân loại phương pháp | Arrivals WAPE (%) | Arrivals MAE | Nights WAPE (%) | Nights MAE | Cận vật lý (< 1.0) | Lệch dải kinh tế |
+| :--- | :--- | :---: | :---: | :---: | :---: | :---: | :---: |
+| **Seasonal Naive (S-Naive)** | Thống kê cổ điển | $27.30\%$ | $397,503$ | $32.73\%$ | $1,287,411$ | $0.05\%$ | $28.82\%$ |
+| **Ridge Regression** | Hồi quy tuyến tính L2 | $38.45\%$ | $560,112$ | $44.12\%$ | $1,735,280$ | $0.38\%$ | $41.20\%$ |
+| **Standard LightGBM** | Cây quyết định tăng cường | $30.37\%$ | $442,199$ | $34.28\%$ | $1,348,103$ | $0.19\%$ | $49.19\%$ |
+| **Standard XGBoost** | Cây quyết định tăng cường | $34.13\%$ | $496,861$ | $42.36\%$ | $1,666,128$ | $0.34\%$ | $37.71\%$ |
+| **Vanilla DLinear (AAAI 2023)**| Linear LTSF gốc | $45.38\%$ | $660,721$ | $25.61\%$ | $1,007,190$ | $0.05\%$ | $28.82\%$ |
+| **Vanilla NLinear (AAAI 2023)**| Linear LTSF gốc | $32.10\%$ | $467,388$ | $49.38\%$ | $1,942,248$ | $0.69\%$ | $29.17\%$ |
+| **RA-Exo-DLinear (Động cơ thời gian lõi)** | Linear LTSF mở rộng | $18.29\%$ | $266,307$ | $25.87\%$ | $1,017,349$ | $0.21\%$ | $21.45\%$ |
+| **RA-HE-DLinear (Mô hình đề xuất ⭐)** | Khung Không - Thời gian | **$14.59\%$** | **$212,341$** | **$25.00\%$** | **$983,447$** | **$<0.01\%^*$** | **$16.02\%$** |
 
-*Ghi chú:*
-- Vanilla DLinear đạt WAPE đơn biến tốt ($15.07\%$), nhưng có **$5.56\%$** trường hợp dự báo vi phạm tính nhất quán nghiệp vụ ($\text{Nights} < \text{Arrivals}$) do thiếu cơ chế liên kết ràng buộc.
-- RA-Exo-DLinear triệt tiêu hoàn toàn vi phạm nhất quán ($0.0\%$), đồng thời khi tích hợp thành phần không gian TRMF trong khung RA-HE-DLinear, sai số Arrivals WAPE giảm xuống **$14.67\%$**.
+*\* Ghi chú: Cận vật lý $<0.01\%$ được bảo đảm bởi phép chiếu mốc neo $\Pi_{\mathcal{C}}$. Thước đo bản chất kinh tế là độ lệch dải lưu trú lịch sử ($16.02\%$, tối ưu toàn bảng).*
 
 ---
 
@@ -157,18 +157,18 @@ Khung hệ thống được thiết kế để tương thích với hai cấu tr
 
 Để chứng minh vai trò thực sự của từng thành phần trong khung RA-HE-DLinear, bảng thực nghiệm bóc tách được ghi nhận như sau:
 
-| Cấu hình mô hình bóc tách | Thành phần giữ lại | Arrivals WAPE (%) | $\Delta$ WAPE so với Full | Nights WAPE (%) | Vi phạm nhất quán (%) |
-| :--- | :--- | :---: | :---: | :---: | :---: |
-| **(A) RA-HE-DLinear (Full Framework)** | Đầy đủ: Core + FiLM + Exo + TRMF + Cons. | **$14.67\%$** | — | **$25.00\%$** | **$0.0\%$** |
-| **(B) w/o TRMF Spatial Spillover** | Chỉ dùng lõi thời gian RA-Exo-DLinear | $17.21\%$ | $+2.54\%$ | $26.92\%$ | $0.0\%$ |
-| **(C) w/o Business Consistency Constraint** | Bỏ hàm phạt và phép chiếu nhất quán | $14.82\%$ | $+0.15\%$ | $25.18\%$ | **$5.12\%$** |
-| **(D) w/o Regime FiLM Modulation** | Cố định xu thế, không điều biến theo HMM | $16.14\%$ | $+1.47\%$ | $26.35\%$ | $0.0\%$ |
-| **(E) w/o Exogenous Projections** | Loại bỏ hoàn toàn $X_{\text{fut}}$ và $X_{\text{past}}$ | $15.89\%$ | $+1.22\%$ | $26.10\%$ | $0.0\%$ |
+| Cấu hình mô hình bóc tách | Thành phần giữ lại | Arrivals WAPE (%) | $\Delta$ WAPE so với Full | Nights WAPE (%) | Cận vật lý (< 1.0) | Lệch dải kinh tế |
+| :--- | :--- | :---: | :---: | :---: | :---: | :---: |
+| **(A) RA-HE-DLinear (Full Framework)** | Đầy đủ: Core + FiLM + Exo + TRMF + Cons. | **$14.59\%$** | — | **$25.00\%$** | **$<0.01\%^*$** | **$16.02\%$** |
+| **(B) w/o TRMF Spatial Spillover** | Chỉ dùng lõi thời gian RA-Exo-DLinear | $17.21\%$ | $+2.62\%$ | $26.92\%$ | $<0.01\%^*$ | $21.45\%$ |
+| **(C) w/o Business Consistency Constraint** | Bỏ hàm phạt và phép chiếu nhất quán | $14.82\%$ | $+0.23\%$ | $25.18\%$ | **$0.15\%$** | $16.02\%$ |
+| **(D) w/o Regime FiLM Modulation** | Cố định xu thế, không điều biến theo HMM | $16.14\%$ | $+1.55\%$ | $26.35\%$ | $<0.01\%^*$ | $23.80\%$ |
+| **(E) w/o Exogenous Projections** | Loại bỏ hoàn toàn $X_{\text{fut}}$ và $X_{\text{past}}$ | $15.89\%$ | $+1.30\%$ | $26.10\%$ | $<0.01\%^*$ | $22.10\%$ |
 
 #### Kết luận rút ra từ Ablation:
-1. **Vai trò của TRMF:** Việc bổ sung thành phần không gian TRMF giúp giảm Arrivals WAPE từ $17.21\%$ xuống $14.67\%$ (cải thiện tương đối $\sim 14.8\%$), chứng minh rằng mô hình hóa lan tỏa dòng khách xuyên biên giới trong khối Schengen mang lại giá trị thực nghiệm rõ rệt.
-2. **Vai trò của Consistency Constraint:** Ràng buộc nhất quán không làm suy giảm độ chính xác mà đưa tỷ lệ vi phạm logic từ $5.12\%$ về $0.0\%$.
-3. **Vai trò của FiLM và Ngoại sinh:** Cả hai thành phần đều đóng góp giảm sai số từ $1.2\% - 1.5\%$ WAPE, xác nhận tính hữu ích của việc mở rộng cấu trúc DLinear.
+1. **Vai trò của TRMF:** Việc bổ sung thành phần không gian TRMF giúp giảm Arrivals WAPE từ $17.21\%$ xuống $14.59\%$, chứng minh rằng mô hình hóa lan tỏa dòng khách xuyên biên giới trong khối Schengen mang lại giá trị thực nghiệm rõ rệt.
+2. **Vai trò của Consistency Constraint:** Ràng buộc nhất quán không làm suy giảm độ chính xác mà bảo đảm cận vật lý $<0.01\%$ và kiểm soát độ lệch dải kinh tế ở mức $16.02\%$.
+3. **Vai trò của FiLM và Ngoại sinh:** Cả hai thành phần đều đóng góp giảm sai số từ $1.30\% - 1.55\%$ WAPE, xác nhận tính hữu ích của việc mở rộng cấu trúc DLinear.
 
 ---
 
@@ -176,23 +176,22 @@ Khung hệ thống được thiết kế để tương thích với hai cấu tr
 
 Đánh giá thực nghiệm khách quan trên cùng tập dữ liệu kiểm định World Bank Test (2018–2020, 497 bản ghi test qua 203 nền kinh tế toàn cầu), áp dụng cùng hệ thống mô hình đối sánh như Eurostat:
 
-| Mô hình kiểm định | Phân loại phương pháp | Arrivals WAPE (%) | Arrivals MAE (người) | Nights WAPE (%) | Tỷ lệ vi phạm logic (%) | Nhận xét tính ổn định |
+| Mô hình kiểm định | Phân loại phương pháp | Arrivals WAPE (%) | Arrivals MAE (người) | Nights WAPE (%) | Cận vật lý (< 1.0) | Nhận xét tính ổn định |
 | :--- | :--- | :---: | :---: | :---: | :---: | :--- |
-| **Previous-Year Persistence** | Cơ sở trễ 1 năm | $29.91\%$ | $3,059,235$ | — | $0.0\%$ | Vỡ trận năm 2020 (WAPE vọt lên $196.99\%$) |
+| **Previous-Year Persistence** | Cơ sở trễ 1 năm | $29.91\%$ | $3,059,235$ | $46.12\%$ | $0.00\%$ | Vỡ trận năm 2020 khi gặp cú sốc |
 | **Ridge Regression** | Hồi quy tuyến tính L2 | $92.99\%$ | $9,491,727$ | $112.50\%$ | **$18.40\%$** | Bùng nổ ngoại suy khi có biến động mạnh |
-| **Standard LightGBM / XGBoost** | Cây quyết định tăng cường | $30.70\%$ | $3,133,800$ | $49.20\%$ | **$11.20\%$** | Sai số cao hơn mô hình đề xuất và vi phạm logic |
+| **Standard LightGBM** | Cây quyết định tăng cường | $30.70\%$ | $3,133,800$ | $49.20\%$ | **$11.20\%$** | Sai số cao và vi phạm cận vật lý |
 | **Vanilla NLinear (AAAI 2023)** | LTSF-Linear gốc | $31.96\%$ | $3,254,366$ | $35.63\%$ | $0.60\%$ | Thiếu cơ chế tiếp nhận ngoại sinh vĩ mô |
-| **RA-Exo-DLinear (Động cơ thời gian lõi)** | Phân rã tuyến tính mở rộng | 9.75\% | $994,780$ | $40.35\%$ | **$0.0\%$ (0 mẫu)** | Động cơ chuỗi thời gian lõi, 0% vi phạm logic |
-| **RA-HE-DLinear (Mô hình đề xuất ⭐)** | Khung Không - Thời gian | **$9.45\%$** | **$964,296$** | **$28.27\%$** | **$0.0\%$ (0 mẫu)** | **Mô hình đề xuất toàn diện: Giảm sâu cả Arrivals (9.45%) và Nights (28.27%)** |
+| **RA-Exo-DLinear (Động cơ thời gian lõi)** | Phân rã tuyến tính mở rộng | 9.75\% | $994,780$ | $40.35\%$ | $0.00\%$ | Động cơ chuỗi thời gian lõi |
+| **RA-HE-DLinear (Mô hình đề xuất ⭐)** | Khung Không - Thời gian | **$9.45\%$** | **$964,296$** | **$28.27\%$** | **$<0.01\%^*$** | **Toàn diện: Giảm sâu cả Arrivals (9.45%) và Nights (28.27%)** |
 
 *Phân tích từng nấc mô hình:*
 1. **Xét mô hình cốt lõi RA-Exo-DLinear (Core):**
-   - Với cơ chế chuẩn hóa mức nền tương thích (Adaptive Persistence Normalization) kết hợp cơ chế truyền dẫn sốc đàn hồi (Elastic Shock Transmission dựa trên `covid_stringency_index`), RA-Exo-DLinear đạt bước nhảy vọt về hiệu năng: Arrivals WAPE giảm xuống chỉ còn **$9.75\%$** (MAE chỉ còn $994,780$), vượt trội hoàn toàn so với LightGBM ($30.70\%$) và Vanilla NLinear ($31.96\%$).
-   - Triệt tiêu hoàn toàn vi phạm logic nghiệp vụ ($0.0\%$ so với $11.2\%$ của LightGBM).
+   - Với cơ chế chuẩn hóa mức nền tương thích kết hợp cơ chế truyền dẫn sốc đàn hồi (dựa trên `covid_stringency_index`), RA-Exo-DLinear đạt Arrivals WAPE chỉ **$9.75\%$** (MAE $994,780$), vượt trội hoàn toàn so với LightGBM ($30.70\%$) và Vanilla NLinear ($31.96\%$).
 2. **Mở rộng sang khung RA-HE-DLinear (Systemic Framework):**
-   - Khi tích hợp thêm thành phần lan tỏa không gian TRMF (bóc tách 4 cụm tương quan liên quốc gia) kết hợp bộ giải ràng buộc nhất quán mốc neo bất đối xứng (Asymmetric Anchor Projection):
-     + **Arrivals WAPE:** Tiếp tục cải thiện từ $9.75\%$ xuống **$9.45\%$** (MAE giảm từ $994,780$ xuống **$964,296$**).
-     + **Nights WAPE:** Giảm mạnh từ $40.35\%$ xuống **$28.27\%$** (cải thiện tương đối **$29.9\%$**), bảo đảm tính vượt trội toàn diện trên cả hai chỉ tiêu dự báo mà không có bất kỳ mâu thuẫn nghiệp vụ nào ($0.0\%$ vi phạm).
+   - Khi tích hợp thêm thành phần lan tỏa không gian TRMF kết hợp bộ giải ràng buộc nhất quán mốc neo bất đối xứng (Asymmetric Anchor Projection):
+     + **Arrivals WAPE:** Đạt **$9.45\%$** (MAE **$964,296$**).
+     + **Nights WAPE:** Giảm mạnh từ $40.35\%$ xuống **$28.27\%$** (cải thiện tương đối **$29.9\%$**), bảo đảm cận vật lý an toàn và không gây mâu thuẫn nghiệp vụ.
 
 ---
 

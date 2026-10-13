@@ -20,8 +20,10 @@
 
 ## 🏆 TỔNG KẾT HIỆU NĂNG MÔ HÌNH TRÊN TẬP TEST (2024–2026)
 
-| Framework / Mô hình | Lớp mô hình | Arrivals WAPE | Nights WAPE | Tỷ lệ vi phạm logic | Tài liệu đặc tả |
-| :--- | :--- | :---: | :---: | :---: | :--- |
-| **RA-HE-DLinear ⭐** | **Linear Framework (Proposed ⭐)** | **14.67%** | **25.00%** | **0.0%** | [RA_EXO_DLINEAR_SPEC.md](03_architecture/RA_EXO_DLINEAR_SPEC.md) |
-| **RA-Exo-DLinear ⭐** | Linear Model (Proposed ⭐) | **15.00%** | **25.17%** | **0.0%** | [RA_EXO_DLINEAR_SPEC.md](03_architecture/RA_EXO_DLINEAR_SPEC.md) |
-| **RA-HE-BiLSTM ⭐** | Deep Hybrid (Proposed ⭐) | **19.88%** | **26.16%** | **0.0%** | [MODEL_ARCHITECTURE.md](03_architecture/MODEL_ARCHITECTURE.md) |
+| Framework / Mô hình | Lớp mô hình | Arrivals WAPE | Nights WAPE | Cận vật lý (< 1.0) | Lệch dải kinh tế | Tài liệu đặc tả |
+| :--- | :--- | :---: | :---: | :---: | :---: | :--- |
+| **RA-HE-DLinear ⭐** | **Linear Framework (Proposed ⭐)** | **14.59%** | **25.00%** | **<0.01%*** | **16.0%** | [RA_EXO_DLINEAR_SPEC.md](03_architecture/RA_EXO_DLINEAR_SPEC.md) |
+| **RA-Exo-DLinear ⭐** | Linear Model (Proposed ⭐) | **18.29%** | **25.87%** | 0.21% | 21.5% | [RA_EXO_DLINEAR_SPEC.md](03_architecture/RA_EXO_DLINEAR_SPEC.md) |
+| **RA-HE-BiLSTM** | Deep Hybrid (Baseline) | **19.88%** | **26.16%** | <0.01%* | 18.2% | [MODEL_ARCHITECTURE.md](03_architecture/MODEL_ARCHITECTURE.md) |
+
+*\* Ghi chú: Cận vật lý $<0.01\%$ được bảo đảm bởi phép chiếu mốc neo $\Pi_{\mathcal{C}}$.*

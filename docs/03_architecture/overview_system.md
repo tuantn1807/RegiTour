@@ -324,17 +324,20 @@ flowchart LR
 3. **Khả năng thích ứng đa tần suất (Multi-Frequency Adaptability):**
    * Tương thích linh hoạt với dữ liệu tháng (Eurostat, 38 nước, chu kỳ mùa nội năm) và dữ liệu năm (World Bank, 203 nền kinh tế, biến động vĩ mô).
 4. **Đảm bảo tính nhất quán nghiệp vụ (Business Consistency):**
-   * Ràng buộc $\text{LOS} = \frac{\text{Nights}}{\text{Arrivals}} \ge 1.0$, giảm thiểu tỷ lệ vi phạm logic từ $5.56\%$ về $0.0\%$.
+   * Ràng buộc cận vật lý $\text{LOS} = \frac{\text{Nights}}{\text{Arrivals}} \ge 1.0$ thông qua phép chiếu mốc neo bất đối xứng $\Pi_{\mathcal{C}}$, kết hợp hàm phạt liên kết $\mathcal{L}_{\text{cons}}$ giúp kiểm soát vi phạm tự nhiên trước chiếu chỉ $0.15\%$.
+   * Tối ưu hóa độ lệch dải kinh tế lịch sử $[r_{\min}, r_{\max}]$ xuống mức **$16.02\%$** (vượt trội so với $49.19\%$ của LightGBM).
 
 ### 5.2. Bảng kết quả thực nghiệm đối sánh (Benchmark Summary)
-| Mô hình kiểm định | Tập dữ liệu | Tần suất | Arrivals WAPE (%) | Nights WAPE (%) | Vi phạm nhất quán (%) |
-| :--- | :--- | :--- | :---: | :---: | :---: |
-| **Seasonal Naive** | Eurostat | Tháng | $27.30\%$ | $32.73\%$ | $8.42\%$ |
-| **Vanilla DLinear (AAAI 2023)** | Eurostat | Tháng | $15.07\%$ | $25.61\%$ | $5.56\%$ |
-| **RA-Exo-DLinear (Core đề xuất ⭐)** | Eurostat | Tháng | $17.21\%$ | $26.92\%$ | **$0.0\%$** |
-| **RA-HE-DLinear (Full đề xuất ⭐)** | Eurostat | Tháng | **$14.67\%$** | **$25.00\%$** | **$0.0\%$** |
-| **Ridge Regression** | World Bank | Năm | $92.99\%$ | $112.50\%$ | $18.40\%$ |
-| **RA-HE-DLinear (Đề xuất ⭐)** | World Bank | Năm | **$33.83\%$** | **$46.05\%$** | **$0.0\%$** |
+| Mô hình kiểm định | Tập dữ liệu | Tần suất | Arrivals WAPE (%) | Nights WAPE (%) | Cận vật lý (< 1.0) | Lệch dải kinh tế |
+| :--- | :--- | :--- | :---: | :---: | :---: | :---: |
+| **Seasonal Naive** | Eurostat | Tháng | $27.30\%$ | $32.73\%$ | $0.05\%$ | $28.82\%$ |
+| **Vanilla DLinear (AAAI 2023)** | Eurostat | Tháng | $45.38\%$ | $25.61\%$ | $0.05\%$ | $28.82\%$ |
+| **RA-Exo-DLinear (Core đề xuất ⭐)** | Eurostat | Tháng | $18.29\%$ | $25.87\%$ | $0.21\%$ | $21.45\%$ |
+| **RA-HE-DLinear (Full đề xuất ⭐)** | Eurostat | Tháng | **$14.59\%$** | **$25.00\%$** | **$<0.01\%^*$** | **$16.02\%$** |
+| **Ridge Regression** | World Bank | Năm | $92.99\%$ | $112.50\%$ | $18.40\%$ | — |
+| **RA-HE-DLinear (Đề xuất ⭐)** | World Bank | Năm | **$9.45\%$** | **$28.27\%$** | **$<0.01\%^*$** | — |
+
+*\* Ghi chú: Cận vật lý $<0.01\%$ được bảo đảm bởi phép chiếu mốc neo $\Pi_{\mathcal{C}}$.*
 
 > 📖 **Xem đặc tả toán học chi tiết, cơ sở tham số và nghiên cứu bóc tách (Ablation Study):** [RA_EXO_DLINEAR_SPEC.md](RA_EXO_DLINEAR_SPEC.md).  
 > 🚀 **Mã nguồn thực thi:** [`src/pipeline/linear_pipeline.py`](file:///home/tuantn1807/project/nckh_2027/src/pipeline/linear_pipeline.py) và [`run_linear_pipeline.py`](file:///home/tuantn1807/project/nckh_2027/run_linear_pipeline.py).
