@@ -77,8 +77,12 @@ class TourismLinearForecastingPipeline:
         val_end_year: Optional[int] = None,
         epochs: int = 35,
         learning_rate: float = 0.005,
+        optimize_weights: bool = True,
+        w_time: Optional[float] = None,
     ):
         self.dataset = dataset.lower()
+        self.optimize_weights = optimize_weights
+        self.w_time = w_time
         self.data_loader = TourismDataLoader(
             dataset=self.dataset,
             parquet_path=parquet_path,
@@ -148,6 +152,10 @@ class TourismLinearForecastingPipeline:
         print("  • Huấn luyện RA-Exo-DLinear (Phân rã thực thể + FiLM Regime + Ngoại sinh 2 luồng)...")
         self.linear_engine.fit(self.train_df)
         arr_linear_test, nig_linear_test = self.linear_engine.predict(self.test_df)
+        if self.val_df is not None and len(self.val_df) > 0:
+            arr_linear_val, nig_linear_val = self.linear_engine.predict(self.val_df)
+        else:
+            arr_linear_val, nig_linear_val = None, None
         print("  • Hoàn tất dự báo chuỗi thời gian & ngoại sinh.")
 
         print("\n" + "=" * 80)
@@ -155,43 +163,56 @@ class TourismLinearForecastingPipeline:
         print("=" * 80)
         print(f"  • Bóc tách 4 cụm không gian lan tỏa du lịch ({self.df['geo'].nunique()} thực thể)...")
         self.trmf_engine.fit(self.train_df, target_col="arrivals_total", accom_type="total")
-        horizon_steps = len(self.test_df["date"].unique())
+
+        # Khung thời gian dự báo phủ cả tập Validation và Test
+        val_date_unique = sorted(self.val_df["date"].unique()) if self.val_df is not None and len(self.val_df) > 0 else []
+        test_date_unique = sorted(self.test_df["date"].unique())
+        all_future_dates = sorted(list(set(val_date_unique + test_date_unique)))
+        horizon_steps = len(all_future_dates)
         trmf_forecasts = self.trmf_engine.forecast(horizon=horizon_steps)
 
-        # Map TRMF forecasts to test_df
-        test_geo_list = self.test_df["geo"].astype(str).values
-        test_date_unique = sorted(self.test_df["date"].unique())
-        date_to_idx = {d: i for i, d in enumerate(test_date_unique)}
-        test_dates = self.test_df["date"].values
-
+        # Trọng số loại hình lưu trú từ tập Train
         total_arr_train = self.train_df[self.train_df["accommodation_type"] == "total"].groupby("geo")["arrivals_total"].sum()
         accom_arr_train = self.train_df.groupby(["geo", "accommodation_type"])["arrivals_total"].sum()
         accom_shares = (accom_arr_train / total_arr_train).fillna(0.25).to_dict()
 
-        test_accom_list = self.test_df["accommodation_type"].values
-        y_spatial_test = np.zeros(len(self.test_df), dtype=np.float32)
-        for i in range(len(self.test_df)):
-            geo_code = test_geo_list[i]
-            acc_type = test_accom_list[i]
-            d = test_dates[i]
-            h_idx = date_to_idx.get(d, 0)
-            share = accom_shares.get((geo_code, acc_type), 1.0 if acc_type == "total" else 0.25)
-            if geo_code in trmf_forecasts and h_idx < len(trmf_forecasts[geo_code]):
-                y_spatial_test[i] = trmf_forecasts[geo_code][h_idx] * share
-            else:
-                y_spatial_test[i] = arr_linear_test[i]
+        # Trích xuất tín hiệu không gian cho tập Test
+        y_spatial_test, y_spatial_test_nig = self._extract_spatial_signals(
+            self.test_df, trmf_forecasts, accom_shares, arr_linear_test, all_future_dates
+        )
 
-        test_geo_codes = self.test_df["geo"].astype(str).values
-        base_ratios_test = np.array([
-            self.data_loader.country_base_ratios.get(g, 2.5) for g in test_geo_codes
-        ], dtype=np.float32)
-        y_spatial_test_nig = y_spatial_test * base_ratios_test
+        # Trích xuất tín hiệu không gian cho tập Validation
+        if self.val_df is not None and len(self.val_df) > 0 and arr_linear_val is not None:
+            y_spatial_val, y_spatial_val_nig = self._extract_spatial_signals(
+                self.val_df, trmf_forecasts, accom_shares, arr_linear_val, all_future_dates
+            )
+        else:
+            y_spatial_val, y_spatial_val_nig = None, None
         print("  • Hoàn tất trích xuất đặc trưng lan tỏa không gian.")
 
         print("\n" + "=" * 80)
         print("⚖️ [PHASE 4] HÒA TRỘN KHÔNG - THỜI GIAN & RÀNG BUỘC KINH TẾ (COUPLED CONSISTENCY)")
         print("=" * 80)
-        w_time = 0.85 if self.dataset == "eurostat" else 0.92
+        test_geo_codes = self.test_df["geo"].astype(str).values
+        base_ratios_test = np.array([
+            self.data_loader.country_base_ratios.get(g, 2.5) for g in test_geo_codes
+        ], dtype=np.float32)
+
+        # Tối ưu hóa khoa học trọng số hòa trộn w_time trên tập Validation độc lập
+        if self.optimize_weights and self.val_df is not None and len(self.val_df) > 0 and arr_linear_val is not None:
+            w_time = self._optimize_fusion_weight(
+                arr_linear_val=arr_linear_val,
+                nig_linear_val=nig_linear_val,
+                y_spatial_val=y_spatial_val,
+                y_spatial_val_nig=y_spatial_val_nig,
+            )
+        elif self.w_time is not None:
+            w_time = float(self.w_time)
+            print(f"  • Sử dụng trọng số cố định được chỉ định: w_time = {w_time:.4f}")
+        else:
+            w_time = 0.85 if self.dataset == "eurostat" else 0.92
+            print(f"  • Không có tập validation, sử dụng trọng số mặc định: w_time = {w_time:.4f}")
+
         w_space = 1.0 - w_time
         y_fused_arr = w_time * arr_linear_test + w_space * y_spatial_test
         y_fused_nig = w_time * nig_linear_test + w_space * y_spatial_test_nig
@@ -200,7 +221,7 @@ class TourismLinearForecastingPipeline:
         y_final_arr, y_final_nig, violations = self.coupled_optimizer.optimize_pair(
             y_fused_arr, y_fused_nig, base_ratios=base_ratios_test
         )
-        print(f"  • Hòa trộn: {w_time*100:.0f}% RA-Exo-DLinear + {w_space*100:.0f}% TRMF-Spatial.")
+        print(f"  • Hòa trộn: {w_time*100:.1f}% RA-Exo-DLinear + {w_space*100:.1f}% TRMF-Spatial.")
         print(f"  • Rà soát ràng buộc kinh tế: Triệt tiêu 100% mâu thuẫn (nights >= arrivals).")
 
         print("\n" + "=" * 80)
@@ -280,4 +301,94 @@ class TourismLinearForecastingPipeline:
             "results_df": results_df,
             "metrics_arrivals": metrics_arr,
             "metrics_nights": metrics_nig,
+            "w_time": w_time,
+            "w_space": w_space,
         }
+
+    def _extract_spatial_signals(
+        self,
+        target_df: pd.DataFrame,
+        trmf_forecasts: Dict[str, np.ndarray],
+        accom_shares: Dict[Tuple[str, str], float],
+        fallback_arr: np.ndarray,
+        future_dates: List[pd.Timestamp],
+    ) -> Tuple[np.ndarray, np.ndarray]:
+        """
+        Maps multi-step TRMF latent country factor projections to target entity rows
+        weighted by historical accommodation shares.
+        """
+        date_to_idx = {d: i for i, d in enumerate(future_dates)}
+        target_geo_list = target_df["geo"].astype(str).values
+        target_accom_list = target_df["accommodation_type"].values
+        target_dates = target_df["date"].values
+
+        y_spatial = np.zeros(len(target_df), dtype=np.float32)
+        for i in range(len(target_df)):
+            geo_code = target_geo_list[i]
+            acc_type = target_accom_list[i]
+            d = target_dates[i]
+            h_idx = date_to_idx.get(d, 0)
+            share = accom_shares.get((geo_code, acc_type), 1.0 if acc_type == "total" else 0.25)
+            if geo_code in trmf_forecasts and h_idx < len(trmf_forecasts[geo_code]):
+                y_spatial[i] = trmf_forecasts[geo_code][h_idx] * share
+            else:
+                y_spatial[i] = fallback_arr[i]
+
+        target_geo_codes = target_df["geo"].astype(str).values
+        base_ratios = np.array([
+            self.data_loader.country_base_ratios.get(g, 2.5) for g in target_geo_codes
+        ], dtype=np.float32)
+        y_spatial_nig = y_spatial * base_ratios
+        return y_spatial, y_spatial_nig
+
+    def _optimize_fusion_weight(
+        self,
+        arr_linear_val: np.ndarray,
+        nig_linear_val: np.ndarray,
+        y_spatial_val: np.ndarray,
+        y_spatial_val_nig: np.ndarray,
+    ) -> float:
+        """
+        Solves the constrained convex combination problem on out-of-sample validation data:
+            min_{w in [0, 1]} L_val(w)
+        where L_val(w) evaluates the forecast error on the validation ground truth
+        after coupled consistency projection.
+        Guarantees strict separation between hyperparameter selection and test set evaluation (no data leakage).
+        """
+        y_true_arr = self.val_df[self.data_loader.target_arrivals].values
+        y_true_nig = self.val_df[self.data_loader.target_nights].values
+        val_geo_codes = self.val_df["geo"].astype(str).values
+        base_ratios_val = np.array([
+            self.data_loader.country_base_ratios.get(g, 2.5) for g in val_geo_codes
+        ], dtype=np.float32)
+
+        def val_loss_fn(w: float) -> float:
+            w = float(np.clip(w, 0.0, 1.0))
+            fused_arr = w * arr_linear_val + (1.0 - w) * y_spatial_val
+            fused_nig = w * nig_linear_val + (1.0 - w) * y_spatial_val_nig
+            f_arr, f_nig, _ = self.coupled_optimizer.optimize_pair(
+                fused_arr, fused_nig, base_ratios=base_ratios_val
+            )
+            wape_arr = float(np.sum(np.abs(y_true_arr - f_arr)) / max(1.0, np.sum(y_true_arr)) * 100.0)
+            wape_nig = float(np.sum(np.abs(y_true_nig - f_nig)) / max(1.0, np.sum(y_true_nig)) * 100.0)
+            return 0.5 * wape_arr + 0.5 * wape_nig
+
+        # Domain-prior constraint: National endogenous seasonality & calendar drivers dominate >= 70% (Eurostat) or >= 80% (World Bank)
+        w_min = 0.70 if self.dataset == "eurostat" else 0.80
+        w_max = 1.00
+
+        try:
+            from scipy.optimize import minimize_scalar
+            res = minimize_scalar(val_loss_fn, bounds=(w_min, w_max), method="bounded")
+            w_best = float(res.x)
+        except Exception:
+            candidates = np.linspace(w_min, w_max, 61)
+            losses = [val_loss_fn(c) for c in candidates]
+            w_best = float(candidates[np.argmin(losses)])
+
+        val_score = val_loss_fn(w_best)
+        print(f"    - Miền tối ưu hóa ràng buộc tiên nghiệm kinh tế: w_time in [{w_min:.2f}, {w_max:.2f}]")
+        print(f"    - Nghiệm tối ưu trên Validation: w_time* = {w_best:.4f} ({w_best*100:.1f}% Thời gian + {(1.0-w_best)*100:.1f}% Không gian)")
+        print(f"    - Validation WAPE kết hợp tại điểm tối ưu: {val_score:.2f}%")
+        return round(w_best, 4)
+
