@@ -25,6 +25,31 @@ runs/
 *.swo
 *~
 .DS_Store
+Thumbs.db
+
+# Streamlit Credentials & Secrets
+.streamlit/credentials.toml
+.streamlit/secrets.toml
+
+# Environment Variables & Secrets
+.env
+.env.*
+*.env
+
+# Compressed Archives & Large Binaries
+*.zip
+*.tar
+*.tar.gz
+*.tgz
+*.rar
+*.7z
+
+# Databases
+*.sqlite3
+*.db
+
+# Jupyter Notebook Checkpoints
+.ipynb_checkpoints/
 
 # Data Directories & Raw Dumps (Do not push data)
 /data/

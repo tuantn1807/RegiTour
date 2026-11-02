@@ -138,11 +138,19 @@ class TourismForecastingPipeline:
         print(f"  • Dự báo nền tảng vĩ mô Y_trend cho tập Test hoàn tất.")
 
         print("\n" + "=" * 80)
-        print("🌐 [PHASE 3.2] HUẤN LUYỆN ĐỘNG CƠ 3: TRMF MATRIX FACTORIZATION (LAN TỎA KHÔNG GIAN)")
+        print("🌐 [PHASE 3.2] HUẤN LUYỆN ĐỘNG CƠ 3: DUAL TRMF MATRIX FACTORIZATION (LAN TỎA KHÔNG GIAN)")
         print("=" * 80)
-        self.trmf_engine.fit(self.train_df, target_col="arrivals_total", accom_type="total")
-        trmf_forecasts = self.trmf_engine.forecast(horizon=len(self.test_df["date"].unique()))
-        print(f"  • Bóc tách 4 cụm không gian Châu Âu (KHÔNG DÙNG GNN, độ phức tạp O(N*r)).")
+        # Dual TRMF modeling for independent visitor arrivals (Yarr) and overnight stays (Ynig)
+        self.trmf_engine.fit_dual(
+            self.train_df,
+            target_arr="arrivals_total",
+            target_nig="nights_total",
+            accom_type="total",
+        )
+        trmf_forecasts_arr, trmf_forecasts_nig = self.trmf_engine.forecast_dual(
+            horizon=len(self.test_df["date"].unique())
+        )
+        print(f"  • Bóc tách 4 cụm không gian Châu Âu độc lập cho cả Yarr và Ynig (độ phức tạp O(N*r)).")
 
         # Map TRMF forecasts to test_df
         test_geo_list = self.test_df["geo"].astype(str).values
@@ -150,23 +158,37 @@ class TourismForecastingPipeline:
         date_to_idx = {d: i for i, d in enumerate(test_date_unique)}
         test_dates = self.test_df["date"].values
 
-        # Compute accommodation share per country to calibrate spatial cross-border signals
+        # Compute accommodation shares per country for both Arrivals and Nights
         total_arr_train = self.train_df[self.train_df["accommodation_type"] == "total"].groupby("geo")["arrivals_total"].sum()
         accom_arr_train = self.train_df.groupby(["geo", "accommodation_type"])["arrivals_total"].sum()
-        accom_shares = (accom_arr_train / total_arr_train).fillna(0.25).to_dict()
+        accom_shares_arr = (accom_arr_train / total_arr_train).fillna(0.25).to_dict()
+
+        total_nig_train = self.train_df[self.train_df["accommodation_type"] == "total"].groupby("geo")["nights_total"].sum()
+        accom_nig_train = self.train_df.groupby(["geo", "accommodation_type"])["nights_total"].sum()
+        accom_shares_nig = (accom_nig_train / total_nig_train).fillna(0.25).to_dict()
 
         test_accom_list = self.test_df["accommodation_type"].values
         y_spatial_test = np.zeros(len(self.test_df), dtype=np.float32)
+        y_spatial_test_nig = np.zeros(len(self.test_df), dtype=np.float32)
+
         for i in range(len(self.test_df)):
             geo_code = test_geo_list[i]
             acc_type = test_accom_list[i]
             d = test_dates[i]
             h_idx = date_to_idx.get(d, 0)
-            share = accom_shares.get((geo_code, acc_type), 1.0 if acc_type == "total" else 0.25)
-            if geo_code in trmf_forecasts and h_idx < len(trmf_forecasts[geo_code]):
-                y_spatial_test[i] = trmf_forecasts[geo_code][h_idx] * share
+
+            share_arr = accom_shares_arr.get((geo_code, acc_type), 1.0 if acc_type == "total" else 0.25)
+            share_nig = accom_shares_nig.get((geo_code, acc_type), 1.0 if acc_type == "total" else 0.25)
+
+            if geo_code in trmf_forecasts_arr and h_idx < len(trmf_forecasts_arr[geo_code]):
+                y_spatial_test[i] = trmf_forecasts_arr[geo_code][h_idx] * share_arr
             else:
                 y_spatial_test[i] = y_trend_test_arr[i]
+
+            if geo_code in trmf_forecasts_nig and h_idx < len(trmf_forecasts_nig[geo_code]):
+                y_spatial_test_nig[i] = trmf_forecasts_nig[geo_code][h_idx] * share_nig
+            else:
+                y_spatial_test_nig[i] = y_trend_test_nig[i]
 
         print("\n" + "=" * 80)
         print("⭐ [PHASE 3.3] HUẤN LUYỆN ĐỘNG CƠ 2: M-RA-BiLSTM ATTENTION (LỊCH LỄ & ĐỈNH NHỌN)")
@@ -249,9 +271,8 @@ class TourismForecastingPipeline:
             self.data_loader.country_base_ratios.get(g, 2.5) for g in test_geo_codes
         ], dtype=np.float32)
 
-        # Dynamic MoE ensembling: 80% seasonal-macro adaptive core + 20% spatial Schengen spillover
+        # Dynamic MoE ensembling: 80% seasonal-macro adaptive core + 20% spatial Schengen spillover (independent dual TRMF)
         y_point_arr = 0.80 * y_seasonal_test_arr + 0.20 * y_spatial_test
-        y_spatial_test_nig = y_spatial_test * base_ratios_test
         y_point_nig = 0.80 * y_seasonal_test_nig + 0.20 * y_spatial_test_nig
 
         gating_weights = np.zeros((len(self.test_df), 3), dtype=np.float32)
