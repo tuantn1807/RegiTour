@@ -146,7 +146,11 @@ def main():
     print("  [6/8] Đang huấn luyện & dự báo: RA-Exo-DLinear (Proposed Linear ⭐)...")
     ra_dlin = RAExoDLinearForecaster(epochs=35, learning_rate=0.005)
     ra_dlin.fit(train_df)
-    arr_radlin, nig_radlin = ra_dlin.predict(test_df)
+    if val_df is not None and len(val_df) > 0:
+        ra_dlin.calibrate(val_df, history_df=train_df)
+    arr_radlin, nig_radlin = ra_dlin.predict(
+        test_df, history_df=pd.concat([train_df, val_df], ignore_index=True)
+    )
     models["RA-Exo-DLinear (Proposed Linear ⭐)"] = (arr_radlin, nig_radlin)
 
     # 7. Standard LSTM

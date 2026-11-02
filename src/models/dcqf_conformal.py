@@ -1,188 +1,124 @@
-"""
-Deep Conformal Quantile Forecaster (DCQF).
-Engine 4 in the RA-HE-BiLSTM Architecture.
-Specializes in Uncertainty Quantification and Risk Interval Prediction [P10, P50, P90].
-Combines:
-  1. Multi-quantile asymmetric Pinball Loss (Quantile Regression)
-  2. Conformal Prediction Calibration with distribution-free 90% coverage guarantee.
-"""
+"""Residual-based split conformal intervals for point forecasts."""
 
-from typing import Dict, List, Optional, Tuple
+from typing import Dict, Tuple
+
 import numpy as np
-
-try:
-    import torch
-    import torch.nn as nn
-    import torch.nn.functional as F
-    HAS_TORCH = True
-except ImportError:
-    HAS_TORCH = False
+import pandas as pd
 
 
-def pinball_loss(y_pred: np.ndarray, y_true: np.ndarray, alpha: float) -> float:
+def split_validation_temporally(
+    validation_df: pd.DataFrame,
+    calibration_fraction: float = 0.5,
+) -> Tuple[pd.DataFrame, pd.DataFrame]:
+    """Split validation by date into tuning and later calibration periods.
+
+    The two returned frames never share a timestamp. With fewer than two
+    timestamps, all validation rows are reserved for calibration and the
+    tuning frame is empty.
     """
-    Computes Pinball Loss for a given quantile alpha.
-    """
-    diff = y_true - y_pred
-    return float(np.mean(np.maximum(alpha * diff, (alpha - 1.0) * diff)))
+    if validation_df.empty:
+        empty = validation_df.iloc[0:0].copy()
+        return empty, validation_df.copy()
+
+    if "date" not in validation_df.columns:
+        raise ValueError("Temporal validation split requires a 'date' column.")
+
+    dates = pd.Index(pd.to_datetime(validation_df["date"]).dropna().unique()).sort_values()
+    if len(dates) < 2:
+        return validation_df.iloc[0:0].copy(), validation_df.copy()
+
+    fraction = float(np.clip(calibration_fraction, 0.0, 1.0))
+    n_calibration_dates = max(1, int(np.ceil(len(dates) * fraction)))
+    n_calibration_dates = min(n_calibration_dates, len(dates) - 1)
+    split_date = dates[len(dates) - n_calibration_dates]
+    row_dates = pd.to_datetime(validation_df["date"])
+
+    tuning_df = validation_df.loc[row_dates < split_date].copy()
+    calibration_df = validation_df.loc[row_dates >= split_date].copy()
+    return tuning_df, calibration_df
 
 
-class QuantileMLP:
+class ResidualConformalForecaster:
+    """Calibrate intervals from out-of-sample residuals of the point forecaster.
+
+    This class does not train a second prediction model. For each target it
+    stores the finite-sample conformal quantile of absolute validation errors,
+    then applies that margin to the corresponding point forecasts.
     """
-    Multi-output Quantile MLP predicting quantiles [P10, P50, P90] simultaneously.
-    """
-    def __init__(
+
+    def __init__(self, target_coverage: float = 0.90):
+        if not 0.0 < target_coverage < 1.0:
+            raise ValueError("target_coverage must be between 0 and 1.")
+        self.target_coverage = float(target_coverage)
+        self.conformal_q_arr = float("inf")
+        self.conformal_q_nig = float("inf")
+        self.calibration_size_arr = 0
+        self.calibration_size_nig = 0
+        self.is_calibrated = False
+
+    @staticmethod
+    def _finite_sample_quantile(scores: np.ndarray, coverage: float) -> float:
+        scores = np.asarray(scores, dtype=np.float64)
+        scores = scores[np.isfinite(scores)]
+        n = len(scores)
+        if n == 0:
+            return float("inf")
+
+        # Split-conformal order statistic: ceil((n + 1) * coverage).
+        rank = int(np.ceil((n + 1) * coverage))
+        if rank > n:
+            return float("inf")
+        return float(np.partition(scores, rank - 1)[rank - 1])
+
+    def calibrate_residuals(
         self,
-        input_dim: int,
-        hidden_dims: Tuple[int, ...] = (64, 32),
-        quantiles: Tuple[float, ...] = (0.10, 0.50, 0.90),
-        learning_rate: float = 1e-3,
-        epochs: int = 150,
-        batch_size: int = 64,
-    ):
-        self.input_dim = input_dim
-        self.quantiles = list(quantiles)
-        self.learning_rate = learning_rate
-        self.epochs = epochs
-        self.batch_size = batch_size
+        y_true_arr: np.ndarray,
+        y_pred_arr: np.ndarray,
+        y_true_nig: np.ndarray,
+        y_pred_nig: np.ndarray,
+    ) -> "ResidualConformalForecaster":
+        """Calibrate from paired held-out truths and main-model point forecasts."""
+        pairs = (
+            ("arrivals", y_true_arr, y_pred_arr),
+            ("nights", y_true_nig, y_pred_nig),
+        )
+        quantiles = {}
+        sizes = {}
+        for name, y_true, y_pred in pairs:
+            truth = np.asarray(y_true, dtype=np.float64).reshape(-1)
+            prediction = np.asarray(y_pred, dtype=np.float64).reshape(-1)
+            if len(truth) != len(prediction):
+                raise ValueError(f"{name}: truth and prediction lengths do not match.")
+            valid = np.isfinite(truth) & np.isfinite(prediction)
+            scores = np.abs(truth[valid] - prediction[valid])
+            quantiles[name] = self._finite_sample_quantile(scores, self.target_coverage)
+            sizes[name] = int(len(scores))
 
-        if HAS_TORCH:
-            layers = []
-            prev_dim = input_dim
-            for h in hidden_dims:
-                layers.append(nn.Linear(prev_dim, h))
-                layers.append(nn.ReLU())
-                layers.append(nn.Dropout(0.1))
-                prev_dim = h
-            # Output 3 quantiles for each target
-            layers.append(nn.Linear(prev_dim, len(quantiles)))
-            self.network = nn.Sequential(*layers)
-            self.optimizer = torch.optim.Adam(self.network.parameters(), lr=learning_rate)
-        else:
-            self.network = None
-
-    def fit(self, X: np.ndarray, y: np.ndarray):
-        if not HAS_TORCH:
-            return self
-
-        self.network.train()
-        X_t = torch.tensor(X, dtype=torch.float32)
-        y_t = torch.tensor(y, dtype=torch.float32).unsqueeze(-1)
-        dataset = torch.utils.data.TensorDataset(X_t, y_t)
-        loader = torch.utils.data.DataLoader(dataset, batch_size=self.batch_size, shuffle=True)
-
-        for _ in range(self.epochs):
-            for batch_x, batch_y in loader:
-                self.optimizer.zero_grad()
-                preds = self.network(batch_x)  # (B, 3)
-                # Compute Pinball loss across quantiles
-                total_loss = 0.0
-                for q_idx, q in enumerate(self.quantiles):
-                    pred_q = preds[:, q_idx:q_idx+1]
-                    diff = batch_y - pred_q
-                    loss_q = torch.mean(torch.max(q * diff, (q - 1.0) * diff))
-                    total_loss = total_loss + loss_q
-
-                total_loss.backward()
-                self.optimizer.step()
+        self.conformal_q_arr = quantiles["arrivals"]
+        self.conformal_q_nig = quantiles["nights"]
+        self.calibration_size_arr = sizes["arrivals"]
+        self.calibration_size_nig = sizes["nights"]
+        self.is_calibrated = self.calibration_size_arr > 0 and self.calibration_size_nig > 0
         return self
 
-    def predict(self, X: np.ndarray) -> np.ndarray:
-        if not HAS_TORCH:
-            # Fallback simple quantile estimation
-            median = np.median(X, axis=1, keepdims=True)
-            return np.hstack([median * 0.85, median, median * 1.15])
-
-        self.network.eval()
-        with torch.no_grad():
-            X_t = torch.tensor(X, dtype=torch.float32)
-            preds = self.network(X_t).numpy()
-            # Enforce monotonic quantiles: P10 <= P50 <= P90
-            preds[:, 0] = np.minimum(preds[:, 0], preds[:, 1])
-            preds[:, 2] = np.maximum(preds[:, 2], preds[:, 1])
-            preds = np.clip(preds, a_min=0, a_max=None)
-            return preds
-
-
-class DeepConformalQuantileForecaster:
-    """
-    DCQF Engine: Trains quantile neural forecaster and performs conformal calibration
-    to guarantee finite-sample distribution-free coverage.
-    """
-
-    def __init__(
-        self,
-        quantiles: Tuple[float, ...] = (0.10, 0.50, 0.90),
-        target_coverage: float = 0.90,
-    ):
-        self.quantiles = quantiles
-        self.target_coverage = target_coverage
-        self.model_arr: Optional[QuantileMLP] = None
-        self.model_nig: Optional[QuantileMLP] = None
-        self.conformal_q_arr: float = 0.0
-        self.conformal_q_nig: float = 0.0
-
-    def fit_and_calibrate(
-        self,
-        X_train: np.ndarray,
-        y_train_arr: np.ndarray,
-        y_train_nig: np.ndarray,
-        X_calib: np.ndarray,
-        y_calib_arr: np.ndarray,
-        y_calib_nig: np.ndarray,
-    ) -> "DeepConformalQuantileForecaster":
-        """
-        1. Trains QuantileMLP on training set.
-        2. Computes conformity non-conformity scores on calibration set:
-           s_i = max(y_i - q_90, q_10 - y_i)
-        3. Sets conformal margin q_hat at ceil((N+1)*(1-alpha))/N.
-        """
-        feat_dim = X_train.shape[1]
-        self.model_arr = QuantileMLP(input_dim=feat_dim, quantiles=self.quantiles)
-        self.model_nig = QuantileMLP(input_dim=feat_dim, quantiles=self.quantiles)
-
-        self.model_arr.fit(X_train, y_train_arr)
-        self.model_nig.fit(X_train, y_train_nig)
-
-        # Conformal calibration step
-        if len(X_calib) > 0:
-            preds_calib_arr = self.model_arr.predict(X_calib)
-            p10_arr, p90_arr = preds_calib_arr[:, 0], preds_calib_arr[:, 2]
-            scores_arr = np.maximum(y_calib_arr - p90_arr, p10_arr - y_calib_arr)
-            n_calib = len(scores_arr)
-            alpha_error = 1.0 - self.target_coverage
-            q_idx = int(np.ceil((n_calib + 1) * (1.0 - alpha_error))) - 1
-            q_idx = max(0, min(q_idx, n_calib - 1))
-            self.conformal_q_arr = float(np.sort(scores_arr)[q_idx])
-
-            preds_calib_nig = self.model_nig.predict(X_calib)
-            p10_nig, p90_nig = preds_calib_nig[:, 0], preds_calib_nig[:, 2]
-            scores_nig = np.maximum(y_calib_nig - p90_nig, p10_nig - y_calib_nig)
-            self.conformal_q_nig = float(np.sort(scores_nig)[q_idx])
-
-        return self
+    @staticmethod
+    def _intervals(point: np.ndarray, margin: float) -> Tuple[np.ndarray, np.ndarray, np.ndarray]:
+        point = np.asarray(point, dtype=np.float64).reshape(-1)
+        lower = np.maximum(0.0, point - margin)
+        upper = np.maximum(0.0, point + margin)
+        return lower.astype(np.float32), point.astype(np.float32), upper.astype(np.float32)
 
     def predict_conformal_intervals(
-        self, X: np.ndarray
+        self,
+        y_pred_arr: np.ndarray,
+        y_pred_nig: np.ndarray,
     ) -> Dict[str, Tuple[np.ndarray, np.ndarray, np.ndarray]]:
-        """
-        Returns guaranteed intervals:
-          - arrivals: (P10_conformal, P50, P90_conformal)
-          - nights: (P10_conformal, P50, P90_conformal)
-        """
-        preds_arr = self.model_arr.predict(X)
-        preds_nig = self.model_nig.predict(X)
-
-        # Apply conformal adjustments
-        p10_arr_conf = np.clip(preds_arr[:, 0] - self.conformal_q_arr, a_min=0, a_max=None)
-        p50_arr = preds_arr[:, 1]
-        p90_arr_conf = np.clip(preds_arr[:, 2] + self.conformal_q_arr, a_min=0, a_max=None)
-
-        p10_nig_conf = np.clip(preds_nig[:, 0] - self.conformal_q_nig, a_min=0, a_max=None)
-        p50_nig = preds_nig[:, 1]
-        p90_nig_conf = np.clip(preds_nig[:, 2] + self.conformal_q_nig, a_min=0, a_max=None)
-
+        """Return nonnegative conformal lower/point/upper forecast limits."""
         return {
-            "arrivals": (p10_arr_conf, p50_arr, p90_arr_conf),
-            "nights": (p10_nig_conf, p50_nig, p90_nig_conf),
+            "arrivals": self._intervals(y_pred_arr, self.conformal_q_arr),
+            "nights": self._intervals(y_pred_nig, self.conformal_q_nig),
         }
+
+
+# Legacy import alias; this class now exposes the residual-calibration API.
+DeepConformalQuantileForecaster = ResidualConformalForecaster

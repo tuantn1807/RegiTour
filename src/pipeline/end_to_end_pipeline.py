@@ -7,7 +7,7 @@ Implements the 5-layer workflow described in overview_system.md:
        - Engine 1: CatBoost-Regime (Macro trend Y_trend)
        - Engine 2: M-RA-BiLSTM Attention (Seasonal & festival Y_seasonal)
        - Engine 3: TRMF Spatial Factorization (Schengen spillovers Y_spatial)
-       - Engine 4: DCQF Conformal Forecaster (Uncertainty [P10, P50, P90])
+       - Engine 4: Residual conformal intervals calibrated from held-out composite forecasts
   4. Dynamic MoE Gating Arbiter (w1*trend + w2*seasonal + w3*spatial)
   5. Coupled Consistency Optimizer & Decision Reporting (Ratio compliance)
 """
@@ -23,7 +23,7 @@ from src.models.regime_hmm import RegimeHMMNavigator
 from src.models.catboost_regime import CatBoostRegimeForecaster
 from src.models.m_ra_bilstm import MRABiLSTM, CoupledConsistencyLoss
 from src.models.trmf_spatial import TRMFSpatialSpillover
-from src.models.dcqf_conformal import DeepConformalQuantileForecaster
+from src.models.dcqf_conformal import ResidualConformalForecaster
 from src.models.moe_gating import DynamicMoEGatingNetwork
 from src.models.coupled_optimizer import CoupledConsistencyOptimizer
 
@@ -84,7 +84,7 @@ class TourismForecastingPipeline:
         self.hmm_navigator = RegimeHMMNavigator(n_regimes=3)
         self.catboost_engine = CatBoostRegimeForecaster(iterations=300)
         self.trmf_engine = TRMFSpatialSpillover(rank=4)
-        self.dcqf_engine = DeepConformalQuantileForecaster(target_coverage=0.90)
+        self.dcqf_engine = ResidualConformalForecaster(target_coverage=0.90)
         self.moe_gating = DynamicMoEGatingNetwork(input_dim=7)
         self.coupled_optimizer = CoupledConsistencyOptimizer(delta=1.0)
 
@@ -135,19 +135,22 @@ class TourismForecastingPipeline:
         print("=" * 80)
         self.catboost_engine.fit(self.train_df)
         y_trend_test_arr, y_trend_test_nig = self.catboost_engine.predict(self.test_df)
+        y_trend_val_arr, y_trend_val_nig = self.catboost_engine.predict(self.val_df)
         print(f"  • Dự báo nền tảng vĩ mô Y_trend cho tập Test hoàn tất.")
 
         print("\n" + "=" * 80)
         print("🌐 [PHASE 3.2] HUẤN LUYỆN ĐỘNG CƠ 3: TRMF MATRIX FACTORIZATION (LAN TỎA KHÔNG GIAN)")
         print("=" * 80)
         self.trmf_engine.fit(self.train_df, target_col="arrivals_total", accom_type="total")
-        trmf_forecasts = self.trmf_engine.forecast(horizon=len(self.test_df["date"].unique()))
+        val_date_unique = sorted(self.val_df["date"].unique())
+        test_date_unique = sorted(self.test_df["date"].unique())
+        all_future_dates = sorted(set(val_date_unique + test_date_unique))
+        trmf_forecasts = self.trmf_engine.forecast(horizon=len(all_future_dates))
         print(f"  • Bóc tách 4 cụm không gian Châu Âu (KHÔNG DÙNG GNN, độ phức tạp O(N*r)).")
 
         # Map TRMF forecasts to test_df
         test_geo_list = self.test_df["geo"].astype(str).values
-        test_date_unique = sorted(self.test_df["date"].unique())
-        date_to_idx = {d: i for i, d in enumerate(test_date_unique)}
+        date_to_idx = {d: i for i, d in enumerate(all_future_dates)}
         test_dates = self.test_df["date"].values
 
         # Compute accommodation share per country to calibrate spatial cross-border signals
@@ -167,6 +170,18 @@ class TourismForecastingPipeline:
                 y_spatial_test[i] = trmf_forecasts[geo_code][h_idx] * share
             else:
                 y_spatial_test[i] = y_trend_test_arr[i]
+
+        val_geo_list = self.val_df["geo"].astype(str).values
+        val_acc_list = self.val_df["accommodation_type"].values
+        val_dates = self.val_df["date"].values
+        y_spatial_val = np.zeros(len(self.val_df), dtype=np.float32)
+        for i, (geo_code, acc_type, date) in enumerate(zip(val_geo_list, val_acc_list, val_dates)):
+            h_idx = date_to_idx.get(date, 0)
+            share = accom_shares.get((geo_code, acc_type), 1.0 if acc_type == "total" else 0.25)
+            if geo_code in trmf_forecasts and h_idx < len(trmf_forecasts[geo_code]):
+                y_spatial_val[i] = trmf_forecasts[geo_code][h_idx] * share
+            else:
+                y_spatial_val[i] = y_trend_val_arr[i]
 
         print("\n" + "=" * 80)
         print("⭐ [PHASE 3.3] HUẤN LUYỆN ĐỘNG CƠ 2: M-RA-BiLSTM ATTENTION (LỊCH LỄ & ĐỈNH NHỌN)")
@@ -210,26 +225,31 @@ class TourismForecastingPipeline:
         y_seasonal_test_nig = y_seasonal_base_nig * growth_nig
         print("  • Khớp bản đồ lịch lễ tương lai và cổng quên Regime hoàn tất.")
 
-        print("\n" + "=" * 80)
-        print("🛡️ [PHASE 3.4] HUẤN LUYỆN ĐỘNG CƠ 4: DCQF CONFORMAL QUANTILE FORECASTER")
-        print("=" * 80)
-        # Prepare tabular features for DCQF
-        dcqf_features = ["hicp_accommodation", "covid_stringency_index", "weekend_days", "holiday_days", "p_normal", "p_disruption", "p_recovery"]
-        X_train_dcqf = self.train_df[dcqf_features].fillna(0).values[:3000]
-        y_train_dcqf_arr = self.train_df["arrivals_total"].values[:3000]
-        y_train_dcqf_nig = self.train_df["nights_total"].values[:3000]
+        val_geo = self.val_df["geo"].values
+        val_acc = self.val_df["accommodation_type"].values
+        val_month = self.val_df["month"].values
+        val_base_ratios = np.array([
+            self.data_loader.country_base_ratios.get(str(g), 2.5) for g in val_geo
+        ], dtype=np.float32)
+        growth_val_arr = np.array([
+            y_trend_val_arr[i] / max(100.0, train_trend_mean_arr.get((g, a), 1000.0))
+            for i, (g, a) in enumerate(zip(val_geo, val_acc))
+        ], dtype=np.float32)
+        growth_val_arr = np.clip(growth_val_arr, 0.75, 1.40)
+        growth_val_nig = np.array([
+            y_trend_val_nig[i] / max(250.0, train_trend_mean_nig.get((g, a), 2500.0))
+            for i, (g, a) in enumerate(zip(val_geo, val_acc))
+        ], dtype=np.float32)
+        growth_val_nig = np.clip(growth_val_nig, 0.75, 1.40)
+        y_seasonal_val_arr = np.array([
+            seas_profile_arr.get((g, a, m), 100.0)
+            for g, a, m in zip(val_geo, val_acc, val_month)
+        ], dtype=np.float32) * growth_val_arr
+        y_seasonal_val_nig = np.array([
+            seas_profile_nig.get((g, a, m), 250.0)
+            for g, a, m in zip(val_geo, val_acc, val_month)
+        ], dtype=np.float32) * growth_val_nig
 
-        X_val_dcqf = self.val_df[dcqf_features].fillna(0).values[:1000]
-        y_val_dcqf_arr = self.val_df["arrivals_total"].values[:1000]
-        y_val_dcqf_nig = self.val_df["nights_total"].values[:1000]
-
-        self.dcqf_engine.fit_and_calibrate(
-            X_train_dcqf, y_train_dcqf_arr, y_train_dcqf_nig,
-            X_val_dcqf, y_val_dcqf_arr, y_val_dcqf_nig,
-        )
-        X_test_dcqf = self.test_df[dcqf_features].fillna(0).values
-        conformal_intervals = self.dcqf_engine.predict_conformal_intervals(X_test_dcqf)
-        print("  • Hiệu chuẩn Conformal hoàn tất: Đảm bảo độ bao phủ rủi ro 90% không phụ thuộc phân phối.")
 
         print("\n" + "=" * 80)
         print("⚖️ [PHASE 4] TRỌNG TÀI ĐỊNH TUYẾN ĐỘNG: DYNAMIC MoE GATING NETWORK")
@@ -272,6 +292,37 @@ class TourismForecastingPipeline:
         num_corrected = np.sum(violations)
         print(f"  • Phát hiện & nắn chỉnh {num_corrected:,} điểm dữ liệu vi phạm tỷ lệ kinh tế học (Triệt tiêu 100% mâu thuẫn).")
 
+        print("\n" + "=" * 80)
+        print("🛡️ [PHASE 3.4] HIỆU CHUẨN RESIDUAL CONFORMAL TỪ DỰ BÁO CHÍNH")
+        print("=" * 80)
+        # Calibrate the intervals from held-out residuals of the same composite forecaster.
+        y_point_val_arr = 0.80 * y_seasonal_val_arr + 0.20 * y_spatial_val
+        y_spatial_val_nig = y_spatial_val * val_base_ratios
+        y_point_val_nig = 0.80 * y_seasonal_val_nig + 0.20 * y_spatial_val_nig
+        y_final_val_arr, y_final_val_nig, _ = self.coupled_optimizer.optimize_pair(
+            y_point_val_arr,
+            y_point_val_nig,
+            base_ratios=val_base_ratios,
+        )
+        self.dcqf_engine.calibrate_residuals(
+            self.val_df["arrivals_total"].to_numpy(),
+            y_final_val_arr,
+            self.val_df["nights_total"].to_numpy(),
+            y_final_val_nig,
+        )
+        print(
+            "  • Hiệu chuẩn residual ngoài mẫu: "
+            f"{self.dcqf_engine.calibration_size_arr:,} dòng validation."
+        )
+        print(
+            "  • Biên conformal: "
+            f"arrivals ±{self.dcqf_engine.conformal_q_arr:,.0f}; "
+            f"nights ±{self.dcqf_engine.conformal_q_nig:,.0f}"
+        )
+        conformal_intervals = self.dcqf_engine.predict_conformal_intervals(
+            y_final_arr, y_final_nig
+        )
+
         # Evaluate on Test set
         y_true_arr = self.test_df["arrivals_total"].values
         y_true_nig = self.test_df["nights_total"].values
@@ -284,20 +335,23 @@ class TourismForecastingPipeline:
         print("=" * 80)
         print(f"🎯 LƯỢT KHÁCH (ARRIVALS)   : RMSE = {metrics_arr['RMSE']:,.0f} | MAE = {metrics_arr['MAE']:,.0f} | MAPE = {metrics_arr['MAPE']:.2f}% | WAPE = {metrics_arr['WAPE']:.2f}%")
         print(f"🌙 SỐ ĐÊM LƯU TRÚ (NIGHTS): RMSE = {metrics_nig['RMSE']:,.0f} | MAE = {metrics_nig['MAE']:,.0f} | MAPE = {metrics_nig['MAPE']:.2f}% | WAPE = {metrics_nig['WAPE']:.2f}%")
-        print(f"🛡️ BẢO CHỨNG RỦI RO [P10, P90] : Độ bao phủ thực tế đạt 91.4% (vượt mức bảo chứng lý thuyết 90%)")
+        print(
+            "🛡️ CONFORMAL RESIDUALS: hiệu chuẩn từ "
+            f"{self.dcqf_engine.calibration_size_arr:,} dự báo validation ngoài mẫu."
+        )
         print("=" * 80)
 
         # Build output dataframe
-        p10_arr, p50_arr, p90_arr = conformal_intervals["arrivals"]
-        p10_nig, p50_nig, p90_nig = conformal_intervals["nights"]
+        lower_arr, _, upper_arr = conformal_intervals["arrivals"]
+        lower_nig, _, upper_nig = conformal_intervals["nights"]
 
         results_df = self.test_df[["date", "geo", "accommodation_type", "arrivals_total", "nights_total"]].copy()
         results_df["pred_arrivals_point"] = y_final_arr
         results_df["pred_nights_point"] = y_final_nig
-        results_df["pred_arrivals_p10"] = p10_arr
-        results_df["pred_arrivals_p90"] = p90_arr
-        results_df["pred_nights_p10"] = p10_nig
-        results_df["pred_nights_p90"] = p90_nig
+        results_df["pred_arrivals_lower_90"] = lower_arr
+        results_df["pred_arrivals_upper_90"] = upper_arr
+        results_df["pred_nights_lower_90"] = lower_nig
+        results_df["pred_nights_upper_90"] = upper_nig
         results_df["w_trend"] = gating_weights[:, 0]
         results_df["w_seasonal"] = gating_weights[:, 1]
         results_df["w_spatial"] = gating_weights[:, 2]

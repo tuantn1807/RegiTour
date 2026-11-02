@@ -80,7 +80,7 @@ def generate_architecture_figure_en():
     # 6. CONSISTENCY PROJECTION & CONFORMAL UNCERTAINTY
     draw_card(0.73, 0.71, 0.25, 0.24, "Asymmetric Anchor Projector ($\\Pi_{\\mathcal{C}}$)", "Coupled loss $\\mathcal{L}_{\\mathrm{cons}}$ during training\nAsymmetric physical projection:\n$\\Pi_{\\mathcal{C}}(\\hat{Y}_{\\mathrm{arr}}, \\hat{Y}_{\\mathrm{nig}}) = (\\hat{Y}_{\\mathrm{arr}}, \\max(\\hat{Y}_{\\mathrm{nig}}, \\hat{Y}_{\\mathrm{arr}} \\cdot 1.0))$\n(Eliminates physical violations to strictly 0.00%)", c_cons_bg, c_cons_bd)
 
-    draw_card(0.73, 0.10, 0.25, 0.24, "Conformal Risk Calibration (DCQF)", "Distribution-free coverage guarantee:\n$\\mathrm{P}(Y \\in [P_{10}, P_{90}]) \\geq 90\\%$\nFinite-sample split calibration", c_conf_bg, c_conf_bd)
+    draw_card(0.73, 0.10, 0.25, 0.24, "Residual Conformal Intervals", "Target coverage: 90%\nCalibrated from held-out\nmain-model residuals", c_conf_bg, c_conf_bd)
 
     # Flow arrows
     draw_flow_arrow(0.25, 0.81, 0.33, 0.88, "$\\mathbf{Y}_t$")

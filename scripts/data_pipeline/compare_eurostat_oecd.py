@@ -9,7 +9,7 @@ from pathlib import Path
 import numpy as np
 import pandas as pd
 
-PROJECT_ROOT = Path(__file__).resolve().parent
+PROJECT_ROOT = Path(__file__).resolve().parents[2]
 EUROSTAT_CSV = PROJECT_ROOT / "data" / "processed" / "tourism_europe_expanded.csv"
 OECD_CLEAN_CSV = PROJECT_ROOT / "data_oced" / "oecd_tourism_benchmark_clean.csv"
 OUTPUT_REPORT_CSV = PROJECT_ROOT / "data_oced" / "comparison_eurostat_vs_oecd.csv"

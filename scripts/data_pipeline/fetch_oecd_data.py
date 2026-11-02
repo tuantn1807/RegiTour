@@ -17,7 +17,7 @@ import pandas as pd
 import requests
 
 # 1. Đường dẫn thư mục đích theo yêu cầu: 'data_oced'
-PROJECT_ROOT = Path(__file__).resolve().parent
+PROJECT_ROOT = Path(__file__).resolve().parents[2]
 DEST_DIR = PROJECT_ROOT / "data_oced"
 DEST_DIR.mkdir(parents=True, exist_ok=True)
 

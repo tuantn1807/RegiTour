@@ -15,7 +15,10 @@ import pandas as pd
 from src.models.ra_exo_dlinear import RAExoDLinearForecaster
 from src.models.regime_hmm import RegimeHMMNavigator
 from src.models.coupled_optimizer import CoupledConsistencyOptimizer
-from src.models.dcqf_conformal import DeepConformalQuantileForecaster
+from src.models.dcqf_conformal import (
+    ResidualConformalForecaster,
+    split_validation_temporally,
+)
 
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
 FEATURES_PARQUET = PROJECT_ROOT / "data" / "features" / "tourism_worldbank_features.parquet"
@@ -80,7 +83,7 @@ class WorldBankLinearForecastingPipeline:
             future_cols=self.FUTURE_COLS,
             past_exo_cols=self.PAST_EXO_COLS,
         )
-        self.dcqf_engine = DeepConformalQuantileForecaster(target_coverage=0.90)
+        self.dcqf_engine = ResidualConformalForecaster(target_coverage=0.90)
         self.coupled_optimizer = CoupledConsistencyOptimizer(delta=1.0)
 
         self.df: Optional[pd.DataFrame] = None
@@ -119,11 +122,20 @@ class WorldBankLinearForecastingPipeline:
         self.train_df = self.df[self.df["year"] <= self.train_end_year].copy()
         self.val_df = self.df[(self.df["year"] > self.train_end_year) & (self.df["year"] <= self.val_end_year)].copy()
         self.test_df = self.df[self.df["year"] > self.val_end_year].copy()
+        val_tuning_df, val_calibration_df = split_validation_temporally(self.val_df)
 
         print(f"  • Phân chia thời gian:")
         print(f"    - Train (1995 - {self.train_end_year}): {len(self.train_df):,} dòng")
         print(f"    - Validation ({self.train_end_year+1} - {self.val_end_year}): {len(self.val_df):,} dòng")
         print(f"    - Test (2018 - 2020): {len(self.test_df):,} dòng (Bao gồm cả Pre-Covid và Covid shock)")
+        print(
+            "    - Validation tuning: "
+            f"{len(val_tuning_df):,} dòng / {val_tuning_df['date'].nunique() if len(val_tuning_df) else 0} năm"
+        )
+        print(
+            "    - Validation hiệu chuẩn residual: "
+            f"{len(val_calibration_df):,} dòng / {val_calibration_df['date'].nunique() if len(val_calibration_df) else 0} năm"
+        )
 
         # 1. HMM Regime Navigation
         print("\n" + "=" * 80)
@@ -139,7 +151,19 @@ class WorldBankLinearForecastingPipeline:
         print("=" * 80)
         print("  • Huấn luyện mạng DLinear với FiLM Regime + Ngoại sinh 2 luồng...")
         self.linear_engine.fit(self.train_df)
-        arr_pred_test, nig_pred_test = self.linear_engine.predict(self.test_df)
+        if len(val_tuning_df) > 0:
+            self.linear_engine.calibrate(val_tuning_df, history_df=self.train_df)
+            print(
+                "  • Trọng số phối hợp DLinear/seasonal baseline trên validation tuning: "
+                f"arrivals={self.linear_engine.blend_weight_arrivals:.2f}, "
+                f"nights={self.linear_engine.blend_weight_nights:.2f}"
+            )
+        history_before_test = pd.concat(
+            [self.train_df, self.val_df], ignore_index=True
+        )
+        arr_pred_test, nig_pred_test = self.linear_engine.predict(
+            self.test_df, history_df=history_before_test
+        )
         print("  • Hoàn tất dự báo Lượt khách & Số đêm.")
 
         # 3. Ràng buộc kinh tế Coupled Consistency (LOS >= 1.0)
@@ -152,28 +176,48 @@ class WorldBankLinearForecastingPipeline:
         )
         print(f"  • Rà soát ràng buộc kinh tế: Triệt tiêu 100% vi phạm (nights >= arrivals).")
 
-        # 4. Định lượng rủi ro phi tham số: DCQF Conformal Forecaster
+        # 4. Hiệu chuẩn khoảng dự báo từ residual ngoài mẫu của RA-Exo-DLinear
         print("\n" + "=" * 80)
-        print("🛡️ [PHASE 4] ĐỊNH LƯỢNG RỦI RO BẢO CHỨNG: DCQF CONFORMAL QUANTILE FORECASTER")
+        print("🛡️ [PHASE 4] HIỆU CHUẨN KHOẢNG DỰ BÁO: RESIDUAL CONFORMAL")
         print("=" * 80)
-        dcqf_features = ["gdp_growth_lag1", "inflation_lag1", "annual_holidays_count", "covid_stringency_index"]
-        X_train_dcqf = self.train_df[dcqf_features].fillna(0).values
-        y_train_dcqf_arr = self.train_df["arrivals_total"].values
-        y_train_dcqf_nig = self.train_df["nights_total"].values
-
-        X_val_dcqf = self.val_df[dcqf_features].fillna(0).values
-        y_val_dcqf_arr = self.val_df["arrivals_total"].values
-        y_val_dcqf_nig = self.val_df["nights_total"].values
-
-        self.dcqf_engine.fit_and_calibrate(
-            X_train_dcqf, y_train_dcqf_arr, y_train_dcqf_nig,
-            X_val_dcqf, y_val_dcqf_arr, y_val_dcqf_nig,
+        if len(val_calibration_df) > 0:
+            history_before_calibration = pd.concat(
+                [self.train_df, val_tuning_df], ignore_index=True
+            )
+            arr_pred_calibration, nig_pred_calibration = self.linear_engine.predict(
+                val_calibration_df, history_df=history_before_calibration
+            )
+            arr_final_calibration, nig_final_calibration, _ = self.coupled_optimizer.optimize_pair(
+                arr_pred_calibration,
+                nig_pred_calibration,
+                base_ratios=val_calibration_df["length_of_stay"].to_numpy(dtype=np.float32),
+            )
+            self.dcqf_engine.calibrate_residuals(
+                val_calibration_df["arrivals_total"].to_numpy(),
+                arr_final_calibration,
+                val_calibration_df["nights_total"].to_numpy(),
+                nig_final_calibration,
+            )
+            print(
+                "  • Hiệu chuẩn từ residual của RA-Exo-DLinear trên "
+                f"{self.dcqf_engine.calibration_size_arr:,} dòng validation giữ riêng."
+            )
+            print(
+                "  • Biên conformal: "
+                f"arrivals ±{self.dcqf_engine.conformal_q_arr:,.0f}; "
+                f"nights ±{self.dcqf_engine.conformal_q_nig:,.0f}"
+            )
+        else:
+            print("  • Không có khoảng validation riêng để hiệu chuẩn residual.")
+        conformal_intervals = self.dcqf_engine.predict_conformal_intervals(
+            arr_final_test, nig_final_test
         )
-        X_test_dcqf = self.test_df[dcqf_features].fillna(0).values
-        conformal_intervals = self.dcqf_engine.predict_conformal_intervals(X_test_dcqf)
-        p10_arr, p50_arr, p90_arr = conformal_intervals["arrivals"]
-        p10_nig, p50_nig, p90_nig = conformal_intervals["nights"]
-        print("  • Hiệu chuẩn Conformal hoàn tất: Dải rủi ro [P10, P90] bảo chứng >= 90% độ bao phủ.")
+        lower_arr, _, upper_arr = conformal_intervals["arrivals"]
+        lower_nig, _, upper_nig = conformal_intervals["nights"]
+        print(
+            "  • Residual conformal hoàn tất: khoảng dự báo được hiệu chuẩn "
+            "ở mức coverage mục tiêu 90%."
+        )
 
         # 5. Đánh giá phân rã khoa học
         print("\n" + "=" * 80)
@@ -208,10 +252,10 @@ class WorldBankLinearForecastingPipeline:
         out_df = self.test_df[["Country Code", "Country", "Region", "Income Group", "year", "date", "arrivals_total", "nights_total"]].copy()
         out_df["pred_arrivals_point"] = arr_final_test
         out_df["pred_nights_point"] = nig_final_test
-        out_df["pred_arrivals_p10"] = p10_arr
-        out_df["pred_arrivals_p90"] = p90_arr
-        out_df["pred_nights_p10"] = p10_nig
-        out_df["pred_nights_p90"] = p90_nig
+        out_df["pred_arrivals_lower_90"] = lower_arr
+        out_df["pred_arrivals_upper_90"] = upper_arr
+        out_df["pred_nights_lower_90"] = lower_nig
+        out_df["pred_nights_upper_90"] = upper_nig
         out_df["model"] = "RA-HE-DLinear (World Bank Annual)"
 
         out_csv = RESULTS_DIR / "forecast_results_worldbank_dlinear.csv"

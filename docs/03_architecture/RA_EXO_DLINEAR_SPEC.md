@@ -124,7 +124,7 @@ Khung **RA-HE-DLinear** (*Regime-Aware Hierarchical Ensemble DLinear*) đóng va
 - **Đóng góp tích hợp hệ thống (Systemic Integration):** Khung **RA-HE-DLinear** — bổ sung ba khối thành phần bổ trợ:
   1. *Lan tỏa không gian TRMF:* Nắm bắt tương quan chéo giữa các quốc gia qua phân rã ma trận tự hồi quy thời gian.
   2. *Hòa trộn Không - Thời gian & Bộ giải ràng buộc nhất quán nghiệp vụ (Coupled Consistency).*
-  3. *Định lượng bất định phi phân phối DCQF Conformal:* Cung cấp dải tin cậy $[P10, P90]$ có bảo chứng xác suất bao phủ $\ge 90\%$.
+  3. *Residual conformal:* Hiệu chuẩn khoảng dự báo từ sai số ngoài mẫu của RA-HE-DLinear, với coverage mục tiêu 90%; bảo đảm hữu hạn mẫu phụ thuộc giả định exchangeability và không bao phủ mọi dịch chuyển phân phối theo thời gian.
 
 ### 2.2. Khả năng thích ứng đa tần suất (Multi-Frequency Adaptability)
 Khung hệ thống được thiết kế để tương thích với hai cấu trúc tần suất khác biệt mà không cần thay đổi kiến trúc cốt lõi:

@@ -17,7 +17,7 @@ Architecture Principles (Non-overlapping, Clean & Fast):
        - Blends Temporal Core with Spatial Matrix
        - Zero Economic Violation Guarantee (nights >= arrivals, LOS >= 1.0)
   6. Uncertainty Quantification:
-       - DCQF Conformal Forecaster (Distribution-free [P10, P90] intervals with >= 90% guaranteed coverage)
+       - Residual conformal intervals calibrated from held-out main-model errors
 """
 
 from pathlib import Path
@@ -29,7 +29,10 @@ from src.data.dataset_loader import TourismDataLoader
 from src.models.regime_hmm import RegimeHMMNavigator
 from src.models.ra_exo_dlinear import RAExoDLinearForecaster
 from src.models.trmf_spatial import TRMFSpatialSpillover
-from src.models.dcqf_conformal import DeepConformalQuantileForecaster
+from src.models.dcqf_conformal import (
+    ResidualConformalForecaster,
+    split_validation_temporally,
+)
 from src.models.coupled_optimizer import CoupledConsistencyOptimizer
 
 
@@ -106,7 +109,7 @@ class TourismLinearForecastingPipeline:
 
         ar_lags = (1, 2, 12) if self.dataset == "eurostat" else (1, 2)
         self.trmf_engine = TRMFSpatialSpillover(rank=4, ar_lags=ar_lags)
-        self.dcqf_engine = DeepConformalQuantileForecaster(target_coverage=0.90)
+        self.dcqf_engine = ResidualConformalForecaster(target_coverage=0.90)
         self.coupled_optimizer = CoupledConsistencyOptimizer(delta=1.0)
 
         self.df: Optional[pd.DataFrame] = None
@@ -141,21 +144,54 @@ class TourismLinearForecastingPipeline:
 
         # Split into train, val, test
         self.train_df, self.val_df, self.test_df = self.data_loader.get_splits(self.df)
+        val_tuning_df, val_calibration_df = split_validation_temporally(self.val_df)
         print(f"  • Phân chia chuỗi dữ liệu:")
         print(f"    - Train (<= {self.data_loader.train_end_year}): {len(self.train_df):,} dòng")
         print(f"    - Validation ({self.data_loader.train_end_year+1} - {self.data_loader.val_end_year}): {len(self.val_df):,} dòng")
         print(f"    - Test (>= {self.data_loader.val_end_year+1}): {len(self.test_df):,} dòng")
+        print(
+            "    - Validation tuning: "
+            f"{len(val_tuning_df):,} dòng / {val_tuning_df['date'].nunique() if len(val_tuning_df) else 0} mốc thời gian"
+        )
+        print(
+            "    - Validation hiệu chuẩn residual: "
+            f"{len(val_calibration_df):,} dòng / {val_calibration_df['date'].nunique() if len(val_calibration_df) else 0} mốc thời gian"
+        )
 
         print("\n" + "=" * 80)
         print("⚡ [PHASE 3.1] ĐỘNG CƠ CỐT LÕI THỜI GIAN & NGOẠI SINH: RA-Exo-DLinear")
         print("=" * 80)
         print("  • Huấn luyện RA-Exo-DLinear (Phân rã thực thể + FiLM Regime + Ngoại sinh 2 luồng)...")
         self.linear_engine.fit(self.train_df)
-        arr_linear_test, nig_linear_test = self.linear_engine.predict(self.test_df)
-        if self.val_df is not None and len(self.val_df) > 0:
-            arr_linear_val, nig_linear_val = self.linear_engine.predict(self.val_df)
+        if len(val_tuning_df) > 0:
+            self.linear_engine.calibrate(val_tuning_df, history_df=self.train_df)
+            print(
+                "  • Trọng số phối hợp DLinear/seasonal baseline được chọn trên phần validation tuning: "
+                f"arrivals={self.linear_engine.blend_weight_arrivals:.2f}, "
+                f"nights={self.linear_engine.blend_weight_nights:.2f}"
+            )
+        if len(val_tuning_df) > 0:
+            arr_linear_val, nig_linear_val = self.linear_engine.predict(
+                val_tuning_df, history_df=self.train_df
+            )
         else:
-            arr_linear_val, nig_linear_val = None, None
+            arr_linear_val = nig_linear_val = None
+        if len(val_calibration_df) > 0:
+            history_before_calibration = pd.concat(
+                [self.train_df, val_tuning_df], ignore_index=True
+            )
+            arr_linear_calibration, nig_linear_calibration = self.linear_engine.predict(
+                val_calibration_df, history_df=history_before_calibration
+            )
+        else:
+            arr_linear_calibration = nig_linear_calibration = None
+        history_before_test = [self.train_df]
+        if self.val_df is not None and len(self.val_df) > 0:
+            history_before_test.append(self.val_df)
+        arr_linear_test, nig_linear_test = self.linear_engine.predict(
+            self.test_df,
+            history_df=pd.concat(history_before_test, ignore_index=True),
+        )
         print("  • Hoàn tất dự báo chuỗi thời gian & ngoại sinh.")
 
         print("\n" + "=" * 80)
@@ -182,12 +218,22 @@ class TourismLinearForecastingPipeline:
         )
 
         # Trích xuất tín hiệu không gian cho tập Validation
-        if self.val_df is not None and len(self.val_df) > 0 and arr_linear_val is not None:
+        if len(val_tuning_df) > 0 and arr_linear_val is not None:
             y_spatial_val, y_spatial_val_nig = self._extract_spatial_signals(
-                self.val_df, trmf_forecasts, accom_shares, arr_linear_val, all_future_dates
+                val_tuning_df, trmf_forecasts, accom_shares, arr_linear_val, all_future_dates
             )
         else:
             y_spatial_val, y_spatial_val_nig = None, None
+        if len(val_calibration_df) > 0 and arr_linear_calibration is not None:
+            y_spatial_calibration, y_spatial_calibration_nig = self._extract_spatial_signals(
+                val_calibration_df,
+                trmf_forecasts,
+                accom_shares,
+                arr_linear_calibration,
+                all_future_dates,
+            )
+        else:
+            y_spatial_calibration = y_spatial_calibration_nig = None
         print("  • Hoàn tất trích xuất đặc trưng lan tỏa không gian.")
 
         print("\n" + "=" * 80)
@@ -199,8 +245,9 @@ class TourismLinearForecastingPipeline:
         ], dtype=np.float32)
 
         # Tối ưu hóa khoa học trọng số hòa trộn w_time trên tập Validation độc lập
-        if self.optimize_weights and self.val_df is not None and len(self.val_df) > 0 and arr_linear_val is not None:
+        if self.optimize_weights and len(val_tuning_df) > 0 and arr_linear_val is not None:
             w_time = self._optimize_fusion_weight(
+                validation_df=val_tuning_df,
                 arr_linear_val=arr_linear_val,
                 nig_linear_val=nig_linear_val,
                 y_spatial_val=y_spatial_val,
@@ -225,35 +272,52 @@ class TourismLinearForecastingPipeline:
         print(f"  • Rà soát ràng buộc kinh tế: Triệt tiêu 100% mâu thuẫn (nights >= arrivals).")
 
         print("\n" + "=" * 80)
-        print("🛡️ [PHASE 5] BẢO CHỨNG RỦI RO PHI PHÂN PHỐI: DCQF CONFORMAL QUANTILE FORECASTER")
+        print("🛡️ [PHASE 5] HIỆU CHUẨN KHOẢNG DỰ BÁO TỪ RESIDUAL RA-HE-DLINEAR")
         print("=" * 80)
-        if self.dataset == "eurostat":
-            candidate_features = [
-                "hicp_accommodation", "covid_stringency_index", "weekend_days",
-                "holiday_days", "p_normal", "p_disruption", "p_recovery"
-            ]
+        if (
+            len(val_calibration_df) > 0
+            and arr_linear_calibration is not None
+            and y_spatial_calibration is not None
+        ):
+            calibration_geo_codes = val_calibration_df["geo"].astype(str).values
+            base_ratios_calibration = np.array([
+                self.data_loader.country_base_ratios.get(g, 2.5)
+                for g in calibration_geo_codes
+            ], dtype=np.float32)
+            fused_calibration_arr = (
+                w_time * arr_linear_calibration
+                + w_space * y_spatial_calibration
+            )
+            fused_calibration_nig = (
+                w_time * nig_linear_calibration
+                + w_space * y_spatial_calibration_nig
+            )
+            pred_calibration_arr, pred_calibration_nig, _ = self.coupled_optimizer.optimize_pair(
+                fused_calibration_arr,
+                fused_calibration_nig,
+                base_ratios=base_ratios_calibration,
+            )
+            self.dcqf_engine.calibrate_residuals(
+                val_calibration_df["arrivals_total"].to_numpy(),
+                pred_calibration_arr,
+                val_calibration_df["nights_total"].to_numpy(),
+                pred_calibration_nig,
+            )
+            print(
+                "  • Hiệu chuẩn residual ngoài mẫu trên "
+                f"{self.dcqf_engine.calibration_size_arr:,} dòng validation; "
+                "tập này không dùng để chọn trọng số."
+            )
+            print(
+                "  • Biên conformal: "
+                f"arrivals ±{self.dcqf_engine.conformal_q_arr:,.0f}; "
+                f"nights ±{self.dcqf_engine.conformal_q_nig:,.0f}"
+            )
         else:
-            candidate_features = [
-                "gdp_growth_lag1", "inflation_lag1", "annual_holidays_count",
-                "covid_stringency_index", "p_normal", "p_disruption", "p_recovery"
-            ]
-        dcqf_features = [c for c in candidate_features if c in self.train_df.columns]
-
-        X_train_dcqf = self.train_df[dcqf_features].fillna(0).values[:3000]
-        y_train_dcqf_arr = self.train_df["arrivals_total"].values[:3000]
-        y_train_dcqf_nig = self.train_df["nights_total"].values[:3000]
-
-        X_val_dcqf = self.val_df[dcqf_features].fillna(0).values[:1000]
-        y_val_dcqf_arr = self.val_df["arrivals_total"].values[:1000]
-        y_val_dcqf_nig = self.val_df["nights_total"].values[:1000]
-
-        self.dcqf_engine.fit_and_calibrate(
-            X_train_dcqf, y_train_dcqf_arr, y_train_dcqf_nig,
-            X_val_dcqf, y_val_dcqf_arr, y_val_dcqf_nig,
+            print("  • Không có khoảng validation riêng để hiệu chuẩn residual.")
+        conformal_intervals = self.dcqf_engine.predict_conformal_intervals(
+            y_final_arr, y_final_nig
         )
-        X_test_dcqf = self.test_df[dcqf_features].fillna(0).values
-        conformal_intervals = self.dcqf_engine.predict_conformal_intervals(X_test_dcqf)
-        print("  • Hiệu chuẩn Conformal hoàn tất: Dải tin cậy [P10, P90] bảo chứng >= 90% độ bao phủ.")
 
         # Evaluate on Test set
         y_true_arr = self.test_df["arrivals_total"].values
@@ -283,16 +347,16 @@ class TourismLinearForecastingPipeline:
         print("=" * 80)
 
         # Output DataFrame
-        p10_arr, p50_arr, p90_arr = conformal_intervals["arrivals"]
-        p10_nig, p50_nig, p90_nig = conformal_intervals["nights"]
+        lower_arr, _, upper_arr = conformal_intervals["arrivals"]
+        lower_nig, _, upper_nig = conformal_intervals["nights"]
 
         results_df = self.test_df[["date", "geo", "accommodation_type", "arrivals_total", "nights_total"]].copy()
         results_df["pred_arrivals_point"] = y_final_arr
         results_df["pred_nights_point"] = y_final_nig
-        results_df["pred_arrivals_p10"] = p10_arr
-        results_df["pred_arrivals_p90"] = p90_arr
-        results_df["pred_nights_p10"] = p10_nig
-        results_df["pred_nights_p90"] = p90_nig
+        results_df["pred_arrivals_lower_90"] = lower_arr
+        results_df["pred_arrivals_upper_90"] = upper_arr
+        results_df["pred_nights_lower_90"] = lower_nig
+        results_df["pred_nights_upper_90"] = upper_nig
         results_df["w_temporal"] = w_time
         results_df["w_spatial"] = w_space
         results_df["dataset"] = self.dataset
@@ -343,6 +407,7 @@ class TourismLinearForecastingPipeline:
 
     def _optimize_fusion_weight(
         self,
+        validation_df: pd.DataFrame,
         arr_linear_val: np.ndarray,
         nig_linear_val: np.ndarray,
         y_spatial_val: np.ndarray,
@@ -355,9 +420,9 @@ class TourismLinearForecastingPipeline:
         after coupled consistency projection.
         Guarantees strict separation between hyperparameter selection and test set evaluation (no data leakage).
         """
-        y_true_arr = self.val_df[self.data_loader.target_arrivals].values
-        y_true_nig = self.val_df[self.data_loader.target_nights].values
-        val_geo_codes = self.val_df["geo"].astype(str).values
+        y_true_arr = validation_df[self.data_loader.target_arrivals].values
+        y_true_nig = validation_df[self.data_loader.target_nights].values
+        val_geo_codes = validation_df["geo"].astype(str).values
         base_ratios_val = np.array([
             self.data_loader.country_base_ratios.get(g, 2.5) for g in val_geo_codes
         ], dtype=np.float32)

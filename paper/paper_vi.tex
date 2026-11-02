@@ -85,7 +85,7 @@ Nhằm xử lý các hạn chế trên, bài báo đề xuất khung mô hình \
     \item \textbf{Đề xuất động cơ thời gian RA-Exo-DLinear:} Mở rộng kiến trúc phân rã xu thế--mùa vụ của DLinear bằng cơ chế Điều biến Tuyến tính theo Đặc trưng (FiLM) cho nhánh xu thế dựa trên trạng thái thị trường HMM, đồng thời bổ sung các ánh xạ tuyến tính có tham số học được cho biến lịch lễ tương lai và biến kinh tế quá khứ.
     \item \textbf{Mô hình hóa phụ thuộc liên quốc gia bằng TRMF:} Sử dụng phương pháp phân rã ma trận có điều chuẩn theo thời gian (Temporal Regularized Matrix Factorization, TRMF) để biểu diễn các mẫu biến động chung giữa các quốc gia. Khả năng phản ánh các cơ chế liên kết cụ thể, chẳng hạn trong khu vực Schengen, cần được diễn giải trong phạm vi các biến và dữ liệu thực nghiệm đã sử dụng.
     \item \textbf{Xây dựng phép hiệu chỉnh dự báo theo ràng buộc giữa lượt khách và số đêm lưu trú $\Pi_{\mathcal{C}}$:} Xây dựng toán tử chiếu mốc neo bảo đảm cận vật lý $\hat{Y}_{\text{nig}} \ge \hat{Y}_{\text{arr}}$ kết hợp hàm phạt liên kết $\mathcal{L}_{\text{cons}}$, giúp kiểm soát vi phạm tự nhiên trước chiếu ở mức 0,15\% (7/4.712 mẫu) và đưa mức lệch dải kinh tế lịch sử về 16,02\% (thay vì 49,19\% của LightGBM).
-    \item \textbf{Ước lượng khoảng dự báo bằng Conformal Prediction:} Ứng dụng kỹ thuật Deep Conformal Quantile Forecasting (DCQF) thiết lập khoảng dự báo $[P_{10}, P_{90}]$ có cơ sở lý thuyết về độ bao phủ dưới các giả định tương ứng $\ge 90\%$ trên mẫu hữu hạn mà không phụ thuộc giả định phân phối chuẩn.
+    \item \textbf{Hiệu chuẩn khoảng dự báo bằng residual conformal:} Tính phân vị sai số tuyệt đối trên phần validation giữ riêng của bộ dự báo chính, sau khi tách phần validation dùng chọn trọng số; mức coverage 90\% là mục tiêu và bảo đảm hữu hạn mẫu cần giả định exchangeability.
     \item \textbf{Đánh giá thực nghiệm trên hai bộ dữ liệu:} Đánh giá trên bảng dữ liệu tháng Eurostat (38 quốc gia) và dữ liệu năm World Bank (203 nền kinh tế) theo giao thức kiểm định không rò rỉ dữ liệu, báo cáo đầy đủ chỉ số thống kê Mean $\pm$ Std qua 1.000 lượt bootstrap, phân tích bóc tách thành phần và phân tích độ nhạy.
 \end{enumerate}
 \section{Các Nghiên Cứu Liên Quan}
@@ -151,7 +151,7 @@ Hệ thống vận hành theo quy trình thống nhất:
     \item \textbf{Mô hình thời gian thích ứng chế độ (RA-Exo-DLinear):} Áp dụng điều biến FiLM trên nhánh xu thế và ánh xạ tuyến tính hai luồng ngoại sinh $(\mathbf{X}_{\text{fut}}, \mathbf{X}_{\text{past}})$.
     \item \textbf{Động cơ lan tỏa không gian (TRMF):} Ước lượng các nhân tố phụ thuộc chung giữa các quốc gia theo mô hình ma trận thấp chiều ($R=4$).
     \item \textbf{Hòa trộn không -- thời gian và giải ràng buộc kinh tế ($\Pi_{\mathcal{C}}$):} Hòa trộn tín hiệu và áp dụng phép chiếu lồi mốc neo bảo đảm $\hat{Y}_{\text{nig}} \ge \hat{Y}_{\text{arr}}$.
-    \item \textbf{Lượng hóa độ bất định (Conformal DCQF):} Hiệu chuẩn khoảng tin cậy $[P_{10}, P_{90}]$ đánh giá độ bao phủ thực nghiệm không phụ thuộc phân phối.
+    \item \textbf{Lượng hóa độ bất định (Residual Conformal):} Hiệu chuẩn cận dưới/trên từ residual ngoài mẫu của dự báo chính và báo cáo coverage thực nghiệm trên tập kiểm thử.
 \end{enumerate}
 \subsection{Mô Hình Hóa Thời Gian Thích Ứng Chế Độ (RA-Exo-DLinear)}
 \noindent \textbf{Input:} Chuỗi trễ nội sinh $\mathbf{X}$, biến ngoại sinh lịch lễ tương lai $\mathbf{X}_{\text{fut}}$, biến kinh tế vĩ mô quá khứ $\mathbf{X}_{\text{past}}$, và trạng thái thị trường $s_t$.
@@ -222,18 +222,16 @@ với $\text{LOS}_{\min} = 1,0$. Trong phép hiệu chỉnh này, dự báo số
 \mathcal{L}_{\text{cons}} = \frac{1}{B} \sum_{b=1}^B \operatorname{ReLU}\left(\hat{Y}_{b}^{\text{arr}} \times 1.0 - \hat{Y}_{b}^{\text{nig}}\right)^2
 \end{equation}
 \noindent \textbf{Đóng góp:} Trên tập kiểm thử được báo cáo, 7 trong số 4.712 mẫu dự báo thô vi phạm ràng buộc đã xác định, tương ứng 0,15\%.  Sau khi áp dụng phép chiếu  $\Pi_{\mathcal{C}}$ không còn mẫu nào vi phạm ràng buộc này. Các chỉ số WAPE và MAE sau hiệu chỉnh giảm nhẹ trong thí nghiệm được báo cáo. Kết quả này phản ánh tác động của phép chiếu trên tập dữ liệu đang xét, không đồng nghĩa phép chiếu luôn cải thiện độ chính xác trong mọi trường hợp.
-\subsection{Lượng Hóa Độ Bất Định Bằng Conformal Prediction (DCQF)}
-Để cung cấp dải tin cậy có bảo chứng lý thuyết, chúng tôi áp dụng Deep Conformal Quantile Forecasting (DCQF) \cite{angelopoulos2021conformal}. Trên tập hiệu chuẩn độc lập $\mathcal{D}_{\text{cal}} = \{(\mathbf{x}_i, y_i)\}_{i=1}^{n_{\text{cal}}}$, mô hình ước lượng hai phân vị sơ bộ $\hat{q}_{\alpha/2}(\mathbf{x}_i)$ và $\hat{q}_{1-\alpha/2}(\mathbf{x}_i)$ thông qua Pinball Loss. Điểm không tương đồng (non-conformity score) được tính qua:
+\subsection{Lượng Hóa Độ Bất Định Bằng Residual Conformal}
+Không huấn luyện một mạng lượng tử độc lập. Thay vào đó, dự báo điểm cuối của RA-HE-DLinear (sau hòa trộn không--thời gian và phép chiếu ràng buộc) được tạo trên hai phần validation theo thứ tự thời gian: phần đầu dùng chọn trọng số, phần sau chỉ dùng hiệu chuẩn. Với residual ngoài mẫu $r_i = y_i - \hat{y}_i$ trên tập hiệu chuẩn $\mathcal{D}_{\text{cal}}$, điểm không tương đồng là:
 \begin{equation}
-s_i = \max\left(\hat{q}_{\alpha/2}(\mathbf{x}_i) - y_i, \, y_i - \hat{q}_{1-\alpha/2}(\mathbf{x}_i)\right)
+s_i = |r_i| = |y_i - \hat{y}_i|.
 \end{equation}
-Phân vị hiệu chuẩn $\hat{Q}_{1-\alpha}$ được xác định tại mức $\lceil (n_{\text{cal}} + 1)(1 - \alpha) \rceil / n_{\text{cal}}$. Khoảng tin cậy cuối cùng cho mẫu kiểm thử mới là:
+Gọi $n_{\text{cal}}$ là số residual hữu hạn và $\hat{Q}_{1-\alpha}$ là thống kê thứ tự hạng $k = \lceil (n_{\text{cal}} + 1)(1-\alpha) \rceil$. Nếu $k > n_{\text{cal}}$, đặt $\hat{Q}_{1-\alpha}=+\infty$ theo hiệu chuẩn split conformal hữu hạn mẫu. Khoảng cho dự báo điểm mới $\hat{y}_{t+h}$ là:
 \begin{equation}
-\begin{aligned}
-\mathcal{I}_{1-\alpha}(\mathbf{x}_{t+h}) = \big[ & \hat{q}_{\alpha/2}(\mathbf{x}_{t+h}) - \hat{Q}_{1-\alpha}, \\
-& \hat{q}_{1-\alpha/2}(\mathbf{x}_{t+h}) + \hat{Q}_{1-\alpha}\big]
-\end{aligned}
+\mathcal{I}_{1-\alpha}(\hat{y}_{t+h}) = \left[\max(0, \hat{y}_{t+h} - \hat{Q}_{1-\alpha}),\; \hat{y}_{t+h} + \hat{Q}_{1-\alpha}\right].
 \end{equation}
+Hai biên này là cận conformal, không phải các phân vị $P_{10}$ và $P_{90}$. Bảo đảm coverage hữu hạn mẫu cần giả định exchangeability; với chuỗi thời gian có dịch chuyển phân phối, coverage phải được đánh giá thực nghiệm trên tập kiểm thử.
 \subsection{Quy Trình Huấn Luyện và Suy Diễn Tổng Thể}
 Thuật toán~\ref{alg:training_inference} tóm tắt toàn bộ quy trình từ khâu tiền xử lý, huấn luyện đến suy diễn và lượng hóa rủi ro của khung RA-HE-DLinear.
 \begin{algorithm}[H]
@@ -249,8 +247,8 @@ Thuật toán~\ref{alg:training_inference} tóm tắt toàn bộ quy trình từ
     \STATE Hòa trộn $\hat{\mathbf{Y}}_{\text{fused}}$; tối ưu AdamW với $\mathcal{L}_{\text{total}}$.
 \ENDFOR
 \STATE Chiếu mốc neo ràng buộc kinh tế: $\hat{\mathbf{Y}}^* = \Pi_{\mathcal{C}}(\hat{\mathbf{Y}}_{\text{fused}})$.
-\STATE Hiệu chuẩn conformal tính dải tin cậy $[\mathbf{P}_{10}, \mathbf{P}_{90}]$.
-\RETURN Dự báo điểm $\hat{\mathbf{Y}}^*$ và dải tin cậy $[\mathbf{P}_{10}, \mathbf{P}_{90}]$.
+\STATE Tính residual validation ngoài mẫu và hiệu chuẩn cận conformal $\hat{Q}_{1-\alpha}$.
+\RETURN Dự báo điểm $\hat{\mathbf{Y}}^*$ và khoảng $[\max(0,\hat{\mathbf{Y}}^* - \hat{Q}_{1-\alpha}),\hat{\mathbf{Y}}^* + \hat{Q}_{1-\alpha}]$.
 \end{algorithmic}
 \end{algorithm}
 \section{Kết Quả Thực Nghiệm}
@@ -430,7 +428,7 @@ Hình~\ref{fig:projection_scatter} trực quan hóa 7 trường hợp vi phạm 
 Bảng~\ref{tab:conformal_metrics} tổng hợp độ bao phủ thực nghiệm và độ rộng khoảng dự báo chuẩn hóa (NPIW).
 \begin{table}[!htbp]
 \centering
-\caption{Đánh giá lượng hóa độ bất định bằng Conformal Prediction (DCQF)}
+\caption{Độ bao phủ thực nghiệm của khoảng residual conformal}
 \label{tab:conformal_metrics}
 \small
 \setlength{\tabcolsep}{2.5pt}
