@@ -109,7 +109,7 @@ def generate_architecture_figure():
     # 6. CONSISTENCY PROJECTION & CONFORMAL UNCERTAINTY
     draw_card(0.73, 0.71, 0.25, 0.24, "Asymmetric Anchor Projector ($\\Pi_{\\mathcal{C}}$)", "Coupled loss $\\mathcal{L}_{\\mathrm{cons}}$ during training\nAsymmetric physical projection:\n$\\Pi_{\\mathcal{C}}(\\hat{Y}_{\\mathrm{arr}}, \\hat{Y}_{\\mathrm{nig}}) = (\\hat{Y}_{\\mathrm{arr}}, \\max(\\hat{Y}_{\\mathrm{nig}}, \\hat{Y}_{\\mathrm{arr}} \\cdot 1.0))$\n(Eliminates physical violations to strictly 0.00%)", c_cons_bg, c_cons_bd)
 
-    draw_card(0.73, 0.10, 0.25, 0.24, "Conformal Risk Calibration (DCQF)", "Distribution-free coverage guarantee:\n$\\mathrm{P}(Y \\in [P_{10}, P_{90}]) \\geq 90\\%$\nFinite-sample split calibration", c_conf_bg, c_conf_bd)
+    draw_card(0.73, 0.10, 0.25, 0.24, "Residual Conformal Intervals", "Target coverage: 90%\nCalibrated from held-out\nmain-model residuals", c_conf_bg, c_conf_bd)
 
     # Flow arrows
     draw_flow_arrow(0.25, 0.81, 0.33, 0.88, "$\\mathbf{Y}_t$")
@@ -149,10 +149,10 @@ def generate_forecast_trajectories():
         "nights_total": "sum",
         "pred_arrivals_point": "sum",
         "pred_nights_point": "sum",
-        "pred_arrivals_p10": "sum",
-        "pred_arrivals_p90": "sum",
-        "pred_nights_p10": "sum",
-        "pred_nights_p90": "sum",
+        "pred_arrivals_lower_90": "sum",
+        "pred_arrivals_upper_90": "sum",
+        "pred_nights_lower_90": "sum",
+        "pred_nights_upper_90": "sum",
     }).reset_index()
 
     dates = monthly["date"]
@@ -172,9 +172,9 @@ def generate_forecast_trajectories():
     ax1.plot(dates, monthly["pred_arrivals_point"] / scale, color="#2563EB", lw=2.0, linestyle="-", label="RA-HE-DLinear (Proposed, WAPE 14.59%)", zorder=4)
     ax1.fill_between(
         dates,
-        monthly["pred_arrivals_p10"] / scale,
-        monthly["pred_arrivals_p90"] / scale,
-        color="#93C5FD", alpha=0.35, label="Conformal DCQF Prediction Band (90% Coverage)"
+        monthly["pred_arrivals_lower_90"] / scale,
+        monthly["pred_arrivals_upper_90"] / scale,
+        color="#93C5FD", alpha=0.35, label="Residual conformal interval (90% target)"
     )
     ax1.plot(dates, snaive_arr / scale, color="#D97706", lw=1.5, linestyle="--", label="Seasonal Naive (WAPE 27.30%)", alpha=0.85)
     ax1.plot(dates, lgb_arr / scale, color="#DC2626", lw=1.5, linestyle=":", label="Standard LightGBM (WAPE 30.37%)", alpha=0.85)
@@ -189,9 +189,9 @@ def generate_forecast_trajectories():
     ax2.plot(dates, monthly["pred_nights_point"] / scale, color="#059669", lw=2.0, linestyle="-", label="RA-HE-DLinear (Proposed, WAPE 25.00%)", zorder=4)
     ax2.fill_between(
         dates,
-        monthly["pred_nights_p10"] / scale,
-        monthly["pred_nights_p90"] / scale,
-        color="#A7F3D0", alpha=0.35, label="Conformal DCQF Prediction Band (90% Coverage)"
+        monthly["pred_nights_lower_90"] / scale,
+        monthly["pred_nights_upper_90"] / scale,
+        color="#A7F3D0", alpha=0.35, label="Residual conformal interval (90% target)"
     )
     ax2.plot(dates, snaive_nig / scale, color="#D97706", lw=1.5, linestyle="--", label="Seasonal Naive (WAPE 32.73%)", alpha=0.85)
     ax2.plot(dates, lgb_nig / scale, color="#DC2626", lw=1.5, linestyle=":", label="Standard LightGBM (WAPE 34.28%)", alpha=0.85)

@@ -57,9 +57,8 @@
 
 \IEEEtitleabstractindextext{%
 \begin{abstract}
-Forecasting international tourism demand across multiple destinations involves substantial challenges driven by strong seasonality, structural market transitions, and cross-country heterogeneity. While linear time-series decomposition models provide significant computational efficiency, they typically lack mechanisms to ingest exogenous covariates, identify macroeconomic market regimes, and model spatial dependencies between destinations. This study proposes \textbf{RA-HE-DLinear} (\textit{Regime-Aware Hierarchical-Economic DLinear}), a unified spatial-temporal forecasting framework integrating market regime identification, exogenous calendar and price streams, cross-country dependency modeling, and domain economic constraints into a single coherent pipeline. Deep Conformal Quantile Forecasting (DCQF) is incorporated for distribution-free uncertainty quantification, while SHAP is employed to analyze feature attributions.
-The framework is evaluated on the Eurostat monthly panel and the World Bank annual panel under strict chronological, leakage-free evaluation protocols. On the Eurostat test set, RA-HE-DLinear achieves a Weighted Absolute Percentage Error (WAPE) of \textbf{14.59\% $\pm$ 0.46\%} on tourist arrivals and \textbf{25.00\% $\pm$ 0.54\%} on overnight stays across 1,000 bootstrap iterations, yielding relative error reductions of 46.6\% and 23.6\% over the Seasonal Naive baseline. On the World Bank test panel, the model achieves an arrivals WAPE of \textbf{9.45\% $\pm$ 0.38\%} and an overnight stays WAPE of \textbf{28.27\% $\pm$ 0.82\%}. The domain consistency projection operator resolves all 7 observed physical lower-bound violations across 4,712 test samples, corresponding to a minimal intervention rate of 0.15\%. Component ablation and regime-stratified evaluations indicate that market regime conditioning, exogenous covariates, and cross-country dependencies each contribute meaningfully to predictive accuracy.
-These findings demonstrate that jointly modeling market regimes, cross-country dependencies, and domain constraints can simultaneously enhance both accuracy and logical consistency in multi-country tourism demand forecasting.
+Forecasting international tourism demand across multiple destinations involves substantial challenges driven by strong seasonality, structural market transitions, and cross-country heterogeneity. While linear time-series decomposition models offer computational efficiency, they typically lack mechanisms to ingest exogenous covariates, identify macroeconomic market regimes, and model spatial dependencies between destinations. This study proposes \textbf{RA-HE-DLinear} (\textit{Regime-Aware Hierarchical-Economic DLinear}), a unified spatial-temporal forecasting framework integrating market regime identification, exogenous calendar and price streams, cross-country dependency modeling, and domain economic constraints. The framework uses its Deep Conformal Quantile Forecasting (DCQF) module for distribution-free uncertainty quantification through split-conformal calibration of final point forecasts using held-out residuals, while SHAP is employed to analyze feature attributions.
+The framework is evaluated on the Eurostat monthly panel and the World Bank annual panel under strict chronological, leakage-free protocols. On the Eurostat test set, RA-HE-DLinear achieves a Weighted Absolute Percentage Error (WAPE) of \textbf{14.59\% $\pm$ 0.46\%} on tourist arrivals and \textbf{25.00\% $\pm$ 0.54\%} on overnight stays across 1,000 bootstrap iterations, yielding relative error reductions of 46.6\% and 23.6\% over the Seasonal Naive baseline. On the World Bank test panel, the model achieves an arrivals WAPE of \textbf{9.45\% $\pm$ 0.38\%} and an overnight stays WAPE of \textbf{28.27\% $\pm$ 0.82\%}. The domain consistency projection operator resolves all 7 observed physical lower-bound violations across 4,712 test samples, corresponding to a minimal intervention rate of 0.15\%. Component ablation and regime-stratified evaluations indicate that market regime conditioning, exogenous covariates, and cross-country dependencies each contribute meaningfully to predictive accuracy. These findings show that jointly modeling market regimes, cross-country dependencies, and domain constraints can improve predictive accuracy and logical consistency on the evaluated panels.
 \end{abstract}
 
 \begin{IEEEkeywords}
@@ -93,11 +92,11 @@ These challenges motivate the development and evaluation of the RA-HE-DLinear fr
 \subsection{Research Objectives and Contributions}
 To address these challenges, this study proposes \textbf{RA-HE-DLinear} (\textit{Regime-Aware Hierarchical-Economic DLinear}). The principal contributions of this work are summarized as follows:
 \begin{enumerate}
-    \item \textbf{RA-Exo-DLinear Temporal Engine:} Extending DLinear's trend-seasonal decomposition via Feature-wise Linear Modulation (FiLM) conditioned on Hidden Markov Model (HMM) macroeconomic regimes on the trend branch, combined with learnable linear mappings for deterministic future calendar schedules and historical economic covariates.
-    \item \textbf{Cross-Country Dependency Modeling via TRMF:} Applying Temporal Regularized Matrix Factorization (TRMF) to capture shared latent demand patterns across destinations without relying on ad-hoc geographic adjacency graphs.
-    \item \textbf{Domain Consistency Projection ($\Pi_{\mathcal{C}}$):} Developing an anchor consistency projection enforcing the physical lower bound $\hat{Y}_{\text{nig}} \ge \hat{Y}_{\text{arr}}$ paired with a coupled regularized training loss $\mathcal{L}_{\text{cons}}$, controlling unprojected violations to 0.15\% (7/4,712 samples) and bringing historical economic band deviation to 16.02\% (versus 49.19\% for LightGBM).
-    \item \textbf{Uncertainty Quantification via Conformal Prediction:} Integrating Deep Conformal Quantile Forecasting (DCQF) to produce prediction intervals $[P_{10}, P_{90}]$ with theoretical finite-sample coverage guarantees $\ge 90\%$ without rigid distributional assumptions.
-    \item \textbf{Multi-Panel Empirical Evaluation:} Validating the framework on the monthly Eurostat panel (38 countries) and the annual World Bank panel (203 economies) under a strict chronological, leakage-free protocol, reporting bootstrap Mean $\pm$ Std across 1,000 iterations, ablation breakdowns, and hyperparameter sensitivity analyses.
+    \item \textbf{RA-Exo-DLinear temporal engine:} Extending trend-seasonal decomposition with HMM-conditioned Feature-wise Linear Modulation (FiLM) on the trend branch and separate learnable linear projections for future calendar features and historical economic covariates.
+    \item \textbf{Cross-country dependency modeling via TRMF:} Applying low-rank Temporal Regularized Matrix Factorization to capture shared latent demand patterns across destinations without a fixed geographic adjacency graph.
+    \item \textbf{Asymmetric domain-consistency projection ($\Pi_{\mathcal{C}}$):} Keeping predicted arrivals as the anchor and raising predicted overnight stays when needed to enforce $\hat{Y}_{\text{nig}} \ge \hat{Y}_{\text{arr}} \times \text{LOS}_{\min}$, alongside the coupled training loss $\mathcal{L}_{\text{cons}}$. The raw test forecasts contain 7 violations among 4,712 samples (0.15\%); the reported historical economic-band deviation is 16.02\%, compared with 49.19\% for LightGBM.
+    \item \textbf{Residual conformal uncertainty intervals:} Calibrating intervals around the final point forecasts using held-out residuals. The nominal coverage level is 90\%; its finite-sample interpretation depends on exchangeability.
+    \item \textbf{Multi-panel empirical evaluation:} Evaluating monthly Eurostat data for 38 countries and annual World Bank data for 203 economies under chronological protocols, with bootstrap summaries, component ablations, and hyperparameter sensitivity analyses.
 \end{enumerate}
 
 \section{Related Work}
@@ -112,7 +111,7 @@ Concept drift and structural breaks present pervasive challenges in economic and
 In tightly integrated tourism markets such as the European Schengen area, visitor flows between countries exhibit notable spatial co-movements. Spatio-Temporal Graph Neural Networks (ST-GNNs) typically require static adjacency matrices based on physical distances, which struggle to reflect low-cost flight mobility patterns. Temporal Regularized Matrix Factorization (TRMF \cite{yu2016trmf}) addresses this limitation by decomposing panels into low-rank latent factors regularized by autoregressive temporal penalties. Nonetheless, cross-country dependency modeling has historically lacked coordination with internal domain consistency constraints among co-dependent tourism indicators.
 
 \subsection{Uncertainty Quantification and Explainability}
-Point forecasts alone provide insufficient guidance for destination risk mitigation. Conformal Prediction \cite{vovk2005algorithmic, angelopoulos2021conformal} offers a distribution-free uncertainty quantification framework with finite-sample coverage guarantees. Concurrently, SHAP (SHapley Additive exPlanations \cite{lundberg2017shap}) enables attribution analysis to assess feature contributions. Grounded in this literature, this study investigates the joint integration of demand forecasting, constraint-guided consistency enforcement between arrivals and overnight stays, and conformal uncertainty quantification within a single coherent workflow.
+Point forecasts alone provide limited guidance for destination risk management. Split conformal prediction \cite{vovk2005algorithmic, angelopoulos2021conformal} calibrates intervals from held-out prediction errors without requiring a parametric error distribution; its finite-sample coverage result relies on exchangeability. SHAP (SHapley Additive exPlanations \cite{lundberg2017shap}) provides feature-attribution analyses. This study examines these tools together with consistency constraints between arrivals and overnight stays, while assessing empirical coverage under the temporal evaluation protocol.
 
 \section{Methodology}
 
@@ -171,9 +170,9 @@ The pipeline operates across six integrated blocks:
     \item \textbf{Market Regime Navigator (HMM):} Determines market state probabilities $s_t \in \{\text{Normal}, \text{Disruption}, \text{Recovery}\}$.
     \item \textbf{Series Decomposition:} Decomposes the endogenous series into trend $\mathbf{X}_{\text{trend}}$ and seasonal $\mathbf{X}_{\text{seasonal}}$ components via moving average filtering with kernel $K_{\text{ma}}$.
     \item \textbf{Regime-Aware Temporal Engine (RA-Exo-DLinear):} Applies FiLM modulation to the trend branch and projects dual exogenous streams $(\mathbf{X}_{\text{fut}}, \mathbf{X}_{\text{past}})$.
-    \item \textbf{Cross-Country Spatial Engine (TRMF):} Captures shared cross-country patterns via low-rank matrix factorization ($R=4$).
-    \item \textbf{Spatio-Temporal Fusion and Consistency Solver ($\Pi_{\mathcal{C}}$):} Blends temporal and spatial forecasts and applies anchor projection to guarantee $\hat{Y}_{\text{nig}} \ge \hat{Y}_{\text{arr}}$.
-    \item \textbf{Uncertainty Quantification (Conformal DCQF):} Calibrates distribution-free prediction intervals $[P_{10}, P_{90}]$.
+    \item \textbf{Cross-country spatial engine (TRMF):} Captures shared cross-country patterns through low-rank temporal regularized matrix factorization ($R=4$).
+    \item \textbf{Spatio-temporal fusion and consistency projection ($\Pi_{\mathcal{C}}$):} Blends temporal and spatial forecasts, then applies the asymmetric anchor projection to enforce the physical lower bound.
+    \item \textbf{Uncertainty quantification (residual split conformal):} Calibrates intervals around the final point forecasts using held-out residuals and reports empirical test coverage.
 \end{enumerate}
 
 \subsection{Regime-Aware Temporal Modeling (RA-Exo-DLinear)}
@@ -222,7 +221,7 @@ Spatial forecasts are blended convexly with temporal predictions:
 \begin{equation}
 \hat{\mathbf{Y}}_{\text{fused}} = w_{\text{time}} \hat{\mathbf{Y}}_{\text{temporal}} + (1 - w_{\text{time}}) \hat{\mathbf{Y}}_{\text{spatial}}
 \end{equation}
-To avoid data leakage and prevent overfitting to transient post-crisis noise, blending weight $w_{\text{time}}$ is estimated via constrained optimization on the independent validation partition $\mathcal{D}_{\text{val}}$ (year 2023):
+To avoid data leakage and prevent overfitting to transient post-crisis noise, blending weight $w_{\text{time}}$ is estimated via constrained optimization on an independent blend-validation subset $\mathcal{D}_{\text{val}}$ within the 2022--2023 validation period. The later, held-out calibration subset is reserved for residual conformal calibration:
 \begin{equation}
 \begin{aligned}
 w_{\text{time}}^* = \arg\min_{w \in [w_{\min}, 1.0]} \mathcal{L}_{\text{val}}\Big( & \mathbf{Y}_{\text{val}}, \\
@@ -249,18 +248,16 @@ Concurrently, during neural training, a coupled regularization loss $\mathcal{L}
 
 \noindent \textbf{Empirical Observations:} On the reported test set, 7 out of 4,712 raw forecast samples violate the physical constraint, corresponding to an intervention rate of 0.15\%. Following projection $\Pi_{\mathcal{C}}$, zero samples violate the lower bound. Post-projection WAPE and MAE exhibit slight improvements in the reported benchmark. This reflects the empirical effect on the evaluated dataset and should not be generalized as guaranteeing accuracy improvements in every setting.
 
-\subsection{Uncertainty Quantification via Conformal Prediction (DCQF)}
-To provide prediction intervals with finite-sample coverage guarantees, Deep Conformal Quantile Forecasting (DCQF) \cite{angelopoulos2021conformal} is employed. On the calibration set $\mathcal{D}_{\text{cal}} = \{(\mathbf{x}_i, y_i)\}_{i=1}^{n_{\text{cal}}}$, preliminary quantiles $\hat{q}_{\alpha/2}(\mathbf{x}_i)$ and $\hat{q}_{1-\alpha/2}(\mathbf{x}_i)$ are fit using pinball loss. Non-conformity scores are computed via:
+\subsection{Uncertainty Quantification (Residual Split Conformal)}
+No separate quantile network is fitted. After temporal--spatial fusion and consistency projection, the final point forecaster is evaluated on a chronologically held-out calibration segment that is not used to tune the blend weights. For each target, the calibration residual is $r_i = y_i - \hat{y}_i$, and the nonconformity score is:
 \begin{equation}
-s_i = \max\left(\hat{q}_{\alpha/2}(\mathbf{x}_i) - y_i, \, y_i - \hat{q}_{1-\alpha/2}(\mathbf{x}_i)\right)
+s_i = |r_i| = |y_i - \hat{y}_i|.
 \end{equation}
-The calibration quantile $\hat{Q}_{1-\alpha}$ is evaluated at level $\lceil (n_{\text{cal}} + 1)(1 - \alpha) \rceil / n_{\text{cal}}$, defining the calibrated prediction interval:
+Let $n_{\text{cal}}$ be the number of finite calibration scores and let $k = \lceil (n_{\text{cal}} + 1)(1-\alpha) \rceil$. Define $\hat{Q}_{1-\alpha}$ as the $k$-th smallest calibration score; if $k > n_{\text{cal}}$, set $\hat{Q}_{1-\alpha}=+\infty$, as required by the finite-sample split-conformal construction. The interval around a new point forecast is:
 \begin{equation}
-\begin{aligned}
-\mathcal{I}_{1-\alpha}(\mathbf{x}_{t+h}) = \big[ & \hat{q}_{\alpha/2}(\mathbf{x}_{t+h}) - \hat{Q}_{1-\alpha}, \\
-& \hat{q}_{1-\alpha/2}(\mathbf{x}_{t+h}) + \hat{Q}_{1-\alpha}\big]
-\end{aligned}
+\mathcal{I}_{1-\alpha}(\hat{y}_{t+h}) = \left[\max(0, \hat{y}_{t+h} - \hat{Q}_{1-\alpha}),\; \hat{y}_{t+h} + \hat{Q}_{1-\alpha}\right].
 \end{equation}
+These are conformal prediction bounds around point forecasts, not fitted $P_{10}$ and $P_{90}$ quantiles. The nominal finite-sample coverage result requires exchangeability; because tourism observations are temporally dependent, coverage under distribution shift must be assessed empirically on the test period.
 
 \subsection{Overall Training and Inference Procedure}
 Algorithm~\ref{alg:training_inference} summarizes the end-to-end execution workflow of the RA-HE-DLinear framework.
@@ -278,8 +275,8 @@ Algorithm~\ref{alg:training_inference} summarizes the end-to-end execution workf
     \STATE Blend predictions into $\hat{\mathbf{Y}}_{\text{fused}}$; update weights via AdamW on loss $\mathcal{L}_{\text{total}}$.
 \ENDFOR
 \STATE Apply anchor consistency projection: $\hat{\mathbf{Y}}^* = \Pi_{\mathcal{C}}(\hat{\mathbf{Y}}_{\text{fused}})$.
-\STATE Calibrate conformal intervals $[\mathbf{P}_{10}, \mathbf{P}_{90}]$ via DCQF.
-\RETURN Point forecasts $\hat{\mathbf{Y}}^*$ and prediction intervals $[\mathbf{P}_{10}, \mathbf{P}_{90}]$.
+\STATE Calibrate residual split-conformal intervals $\mathcal{I}_{1-\alpha}$ on the held-out calibration segment.
+\RETURN Point forecasts $\hat{\mathbf{Y}}^*$ and calibrated prediction intervals $\mathcal{I}_{1-\alpha}$.
 \end{algorithmic}
 \end{algorithm}
 
@@ -331,9 +328,9 @@ Forecasting accuracy is quantified using WAPE (\%), MAE, and RMSE for each targe
 \subsubsection{Evaluation Protocol and Leakage Prevention}
 To ensure objective evaluation and prevent data leakage:
 \begin{itemize}
-    \item Data is strictly partitioned chronologically: Train (2010--2021), Calibration/Validation (2022--2023), and Test (2024--2026).
-    \item MinMax scalers, HMM transition matrices, and TRMF factor matrices are estimated strictly on training observations.
-    \item Historical country economic bounds $[r_{\min}, r_{\max}]$ and conformal quantiles $\hat{Q}_{1-\alpha}$ are computed on the validation set, completely isolated from test samples.
+    \item Data is partitioned chronologically into training (2010--2021), validation/calibration (2022--2023), and out-of-sample test (2024--2026) periods.
+    \item MinMax scalers, HMM transition parameters, and TRMF factors are estimated using training observations only.
+    \item The 2022--2023 period is divided chronologically: an earlier subset is used to select blend weights, and a later held-out subset is used to compute residual conformal quantiles $\hat{Q}_{1-\alpha}$ and historical country bounds $[r_{\min}, r_{\max}]$. Test observations are used only for final evaluation.
 \end{itemize}
 
 \subsection{Overall Forecasting Performance}
@@ -479,7 +476,7 @@ Table~\ref{tab:conformal_metrics} summarizes empirical coverage and Normalized P
 
 \begin{table}[!htbp]
 \centering
-\caption{Uncertainty quantification metrics via Conformal Prediction (DCQF)}
+\caption{Empirical coverage of residual conformal prediction intervals}
 \label{tab:conformal_metrics}
 \small
 \setlength{\tabcolsep}{2.5pt}
@@ -560,9 +557,9 @@ On the annual World Bank panel, RA-HE-DLinear maintains strong performance with 
 \subsection{Main Findings}
 This study highlights three primary empirical findings:
 \begin{enumerate}
-    \item \textit{Relative Efficacy of Extended Linear Decomposition:} In the reported experiments, RA-HE-DLinear achieves lower errors than several benchmark models. This reflects the evaluated datasets and protocol, rather than an unconditional superiority of linear models across all time-series tasks.
-    \item \textit{Two-Tier Nature of Domain Constraints:} Bounding physical violations ($\text{LOS} \ge 1.0$) is readily maintained below 1\% across most models. Beyond the physical floor, evaluating deviation from historical country-specific economic bands $[r_{\min}, r_{\max}]$ provides a more discerning operational metric.
-    \item \textit{Balancing Accuracy and Predictive Uncertainty:} Conformal prediction constructs distribution-free prediction intervals; interpreting theoretical guarantees requires acknowledging calibration assumptions and temporal properties.
+    \item \textit{Relative efficacy of extended linear decomposition:} In the reported experiments, RA-HE-DLinear achieves lower errors than several benchmark models. The result applies to the evaluated datasets and protocol and does not establish universal superiority across time-series tasks.
+    \item \textit{Two levels of domain consistency:} The projection enforces the physical lower bound $\text{LOS} \ge 1.0$. Historical country-specific economic-band deviation provides a separate operational measure beyond this physical constraint.
+    \item \textit{Predictive uncertainty:} Residual conformal intervals avoid a parametric error-distribution assumption. Their finite-sample coverage interpretation depends on exchangeability, so temporal shifts require empirical assessment.
 \end{enumerate}
 
 \noindent \textbf{Component Interpretations:}
@@ -586,7 +583,7 @@ We note three limitations warranting further study:
 \end{enumerate}
 
 \section{Conclusion}
-This study proposed \textbf{RA-HE-DLinear}, a multi-country tourism demand forecasting framework integrating market regime awareness, exogenous calendar and price streams, cross-country latent dependencies, and domain consistency constraints. The framework extends DLinear with the RA-Exo-DLinear temporal engine, employs TRMF for latent spatial factor modeling, and incorporates anchor projection to resolve domain contradictions.
+This study proposed \textbf{RA-HE-DLinear}, a multi-country tourism demand forecasting framework that extends DLinear with the regime-aware RA-Exo-DLinear temporal engine, known future calendar features, historical macroeconomic covariates, low-rank TRMF cross-country dependencies, an asymmetric anchor consistency projection, and residual split-conformal calibration of its final point forecasts.
 
 On the Eurostat monthly panel, RA-HE-DLinear achieves a WAPE of $14.59\% \pm 0.46\%$ on arrivals and $25.00\% \pm 0.54\%$ on overnight stays. On the World Bank annual panel, corresponding WAPEs are $9.45\% \pm 0.38\%$ and $28.27\% \pm 0.82\%$. The anchor projection eliminates all 7 physical constraint violations in the Eurostat test set (0.15\% intervention rate). Component ablation confirms the contribution of each module within the evaluated benchmarks.
 
@@ -615,9 +612,6 @@ A.~Zeng, M.~Chen, L.~Zhang, and Q.~Xu, ``Are transformers effective for time ser
 
 \bibitem{perez2018film}
 E.~Perez, F.~Strub, H.~de~Vries, V.~Dumoulin, and A.~Courville, ``FiLM: Visual reasoning with a general conditioning layer,'' in \emph{Proc. AAAI Conference on Artificial Intelligence}, vol.~32, no.~1, 2018, pp. 3942--3951.
-
-\bibitem{hastie1990gam}
-T.~J. Hastie and R.~J. Tibshirani, \emph{Generalized Additive Models}. Chapman \& Hall/CRC, 1990.
 
 \bibitem{cortes2024inconsistency}
 M.~Cort{\'e}s-Jim{\'e}nez and M.~Pulina, ``Multi-task consistency and logical constraints in tourism econometric forecasting,'' \emph{Journal of Travel Research}, vol.~63, no.~2, pp. 412--429, 2024.

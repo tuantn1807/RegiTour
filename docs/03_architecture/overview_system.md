@@ -86,7 +86,7 @@ flowchart TD
         
         EXP3["🌐 Động cơ 3: TRMF Matrix Factorization (Đại số Ma trận Hạng thấp)<br/>Học: Phân rã ma trận Y(38xT) ≈ W·X^T bóc tách 4 cụm lan tỏa Châu Âu<br/>➔ Xuất ra: Tín hiệu Lan tỏa Liên quốc gia (Y_spatial) [KHÔNG DÙNG GNN]"]
         
-        EXP4["🛡️ Động cơ 4: Deep Conformal Quantile Forecaster (DCQF)<br/>Học: Tối ưu Pinball Loss trên toàn bộ vector đặc trưng đa biến<br/>➔ Xuất ra: Dải Rủi ro & Bất định [P10, P50, P90] (Bảo chứng toán học 90%)"]
+        EXP4["🛡️ Động cơ 4: Residual Conformal<br/>Hiệu chuẩn residual ngoài mẫu của bộ dự báo chính<br/>➔ Xuất khoảng dưới/trên với coverage mục tiêu 90%"]
     end
 
     %% TẦNG 4: TRỌNG TÀI MoE
@@ -119,7 +119,7 @@ flowchart TD
     EXP3 -->|Y_spatial| MOE
 
     MOE -->|Dự báo điểm Y_point| OPT
-    EXP4 -->|Dải rủi ro [P10, P90]| OPT
+    EXP4 -->|Khoảng residual conformal, mục tiêu 90%| OPT
     OPT --> DASH
 ```
 
@@ -157,10 +157,10 @@ flowchart TD
 * **Nhiệm vụ:** Nhận toàn bộ ma trận dữ liệu $\mathbf{Y}_{38 \times T}$ của 38 quốc gia đồng thời.
 * **Độc quyền chức năng:** Bằng đại số tuyến tính ma trận hạng thấp ($\mathbf{Y} \approx \mathbf{W} \cdot \mathbf{X}^T$), mô hình tự động bóc tách **4 Cụm Không Gian Du Lịch Tự Nhiên** của Châu Âu (Nam Âu biển đảo, Tây Âu trung tâm, Bắc Âu, Đông Âu) và các nhân tố kinh tế chung của khối Schengen. Mô hình tính toán hiệu ứng lan tỏa xuyên biên giới (ví dụ: du lịch Đức bùng nổ sẽ lan tỏa sang Áo và Thụy Sĩ) với chi phí tính toán tuyến tính $O(N \cdot r)$, **loại bỏ hoàn toàn sự phụ thuộc vào ma trận kề biên giới giả định và sự nặng nề của GNN** $\to$ Xuất ra **Tín hiệu Lan tỏa Không gian ($Y_{\text{spatial}}$)**.
 
-#### 🛡️ 6. Động cơ 4: `Deep Conformal Quantile Forecaster (DCQF)` (Chuyên gia Quản Trị Rủi Ro)
-* **Bản chất:** Mạng nơ-ron học sâu tối ưu hóa hàm tổn thất bất đối xứng đa phân vị (*Pinball Loss*) kết hợp thuật toán hiệu chuẩn *Conformal Prediction* (*Vovk et al.*).
-* **Nhiệm vụ:** Không tham gia dự báo điểm trung bình ($\mathbb{E}[Y]$) như 3 mô hình trên. DCQF đo lường mức độ bất định của thị trường.
-* **Độc quyền chức năng:** Xuất ra **Dải Phân vị Rủi ro $[P_{10}, P_{50}, P_{90}]$** với **bảo chứng toán học về độ bao phủ $90\%$ không phụ thuộc giả định phân phối (Distribution-Free Coverage Guarantee)**. Cung cấp kịch bản bi quan ($P_{10}$ để dự phòng dòng tiền) và kịch bản bùng nổ ($P_{90}$ để chuẩn bị quỹ phòng khách sạn).
+#### 🛡️ 6. Động cơ 4: `Residual Conformal` (Hiệu chuẩn khoảng dự báo)
+* **Bản chất:** Không huấn luyện mạng dự báo độc lập; dùng residual trên phần validation giữ riêng của bộ dự báo điểm chính để tính biên conformal.
+* **Nhiệm vụ:** Tạo cận dưới/trên quanh dự báo điểm cuối (sau hòa trộn và ràng buộc nhất quán).
+* **Diễn giải:** 90% là coverage mục tiêu. Bảo đảm hữu hạn mẫu của split conformal cần giả định exchangeability; với chuỗi thời gian có dịch chuyển phân phối, cần báo cáo coverage thực nghiệm trên tập test.
 
 #### ⚖️ 7. Trọng tài Điều phối Động — `Dynamic MoE Gating Network`
 * **Bản chất:** Mạng nơ-ron đa tầng (MLP Softmax) đóng vai trò thẩm phán điều phối.
@@ -187,7 +187,7 @@ Hãy hình dung cách toàn bộ hệ thống phối hợp nhịp nhàng như m�
    * **`CatBoost`** nhìn sóng $A$ và thấy giá phòng HICP tăng nhẹ $3.8\% \to$ Dự báo nền tảng vĩ mô: **$2.100.000$ lượt khách**.
    * **`M-RA-BiLSTM`** nhìn sóng $D$ và soi vào bản đồ lịch lễ (tháng 8 có 5 cuối tuần + ngày Lễ Đức Mẹ) $\to$ Khớp đỉnh nhọn: **$+ 750.000$ lượt khách**.
    * **`TRMF`** nhìn toàn cảnh Châu Âu, nhận thấy các nước láng giềng (Đức, Bỉ, Thụy Sĩ, Ý) đang bước vào kỳ nghỉ hè rầm rộ $\to$ Bóc tách hiệu ứng lan tỏa xuyên biên giới chảy vào Pháp: **$+ 120.000$ lượt khách**.
-   * **`DCQF`** tính toán dải rủi ro an toàn: Kịch bản thắt chặt ($P_{10}$): **$2.710.000$ khách**; Kịch bản bùng nổ ($P_{90}$): **$3.230.000$ khách**.
+   * **`Residual Conformal`** tạo khoảng **$[2.710.000, 3.230.000]$ khách** quanh dự báo điểm bằng sai số đã hiệu chuẩn; hai biên này không phải quantile $P_{10}/P_{90}$.
 4. **Trọng tài MoE Gating** nhận diện tháng 8 là đỉnh hè $\to$ Gán trọng số: $25\%$ cho Vĩ mô, $55\%$ cho Lịch lễ, $20\%$ cho Lan tỏa không gian $\to$ Dự báo điểm tối ưu: **$\hat{Y}_{\text{point}} = 2.970.000$ lượt khách**.
 5. **Coupled Optimizer** tự động nắn chỉnh số đêm lưu trú đạt chuẩn tỷ lệ $2.6$ đêm/khách $\to$ **$7.722.000$ đêm**.
 6. **Web Dashboard** hiển thị dải rủi ro tin cậy và thanh trượt What-If cho phép Bộ Du lịch Pháp thử nghiệm kịch bản điều chỉnh giá phòng.
@@ -291,7 +291,7 @@ Hệ thống đạt được cấu trúc **"Tứ Trụ Hoàn Hảo"** đại di�
 │ 1. CatBoost-Regime 🏛️        │ Machine Learning (Cây GBDT)  │ Dự báo Xu hướng Vĩ mô & Giá cả │
 │ 2. M-RA-BiLSTM Attention ⭐  │ Deep Learning (BiLSTM+Attn)  │ Dự báo Đỉnh nhọn Lịch lễ & Sốc │
 │ 3. TRMF Factorization 🌐     │ Linear Algebra (Low-Rank MF) │ Lan tỏa Không gian 38 nước     │
-│ 4. Conformal DCQF 🛡️         │ Uncertainty Quantification   │ Đo lường Dải Rủi ro [P10, P90] │
+│ 4. Residual Conformal 🛡️     │ Uncertainty Quantification   │ Khoảng dự báo, mục tiêu 90%   │
 └──────────────────────────────┴──────────────────────────────┴────────────────────────────────┤
 │ 🧭 Hoa tiêu: HMM (Regime)   │ 🌊 Bộ lọc: MODWT (Wavelets)   │ ⚖️ Trọng tài: MoE Gating        │
 └──────────────────────────────┴──────────────────────────────┴────────────────────────────────┘
@@ -312,7 +312,7 @@ flowchart LR
     P2 --> P3_2["3.2 Thành phần không gian: TRMF<br/>(Low-rank Matrix Factorization)"]
     P3_1 --> P4["4. Hòa trộn Spatio-Temporal & Ràng buộc nhất quán<br/>(Business Consistency: Nights >= Arrivals)"]
     P3_2 --> P4
-    P4 --> P5["5. Định lượng bất định: DCQF Conformal<br/>(Dải [P10, P90] bảo chứng >= 90% độ bao phủ)"]
+    P4 --> P5["5. Định lượng bất định: Residual Conformal<br/>(Hiệu chuẩn residual validation; mục tiêu coverage 90%)"]
     P5 --> OUT["Dự báo Lượt khách & Số đêm"]
 ```
 
@@ -320,7 +320,7 @@ flowchart LR
 1. **Đóng góp chính (Primary Contribution):** Mô hình **RA-Exo-DLinear** — mở rộng kiến trúc phân rã DLinear gốc thông qua:
    * Cơ chế FiLM điều biến xu thế theo trạng thái thị trường có tham số học được: $\text{FiLM}(\mathbf{Z}_T, \mathbf{e}_r) = (1 + \alpha_{\text{trend}} \tanh(\mathbf{W}_\gamma \mathbf{e}_r + \mathbf{b}_\gamma)) \odot \mathbf{Z}_T + \mathbf{W}_\beta \mathbf{e}_r + \mathbf{b}_\beta$.
    * Chiếu tuyến tính ngoại sinh hai luồng: biến lịch lễ/sự kiện tương lai ($\mathbf{X}_{\text{fut}}$) và biến vĩ mô quá khứ ($\mathbf{X}_{\text{past}}$).
-2. **Đóng góp tích hợp hệ thống (Systemic Integration):** Khung **RA-HE-DLinear** kết hợp thành phần lan tỏa không gian TRMF, bộ giải ràng buộc nhất quán nghiệp vụ, và bộ định lượng bất định DCQF Conformal.
+2. **Đóng góp tích hợp hệ thống (Systemic Integration):** Khung **RA-HE-DLinear** kết hợp thành phần lan tỏa không gian TRMF, bộ giải ràng buộc nhất quán nghiệp vụ, và hiệu chuẩn khoảng residual conformal.
 3. **Khả năng thích ứng đa tần suất (Multi-Frequency Adaptability):**
    * Tương thích linh hoạt với dữ liệu tháng (Eurostat, 38 nước, chu kỳ mùa nội năm) và dữ liệu năm (World Bank, 203 nền kinh tế, biến động vĩ mô).
 4. **Đảm bảo tính nhất quán nghiệp vụ (Business Consistency):**

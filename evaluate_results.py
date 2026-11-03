@@ -55,15 +55,15 @@ def main():
     m_arr = compute_metrics(df["arrivals_total"].values, df["pred_arrivals_point"].values)
     m_nig = compute_metrics(df["nights_total"].values, df["pred_nights_point"].values)
 
-    # Đánh giá độ bao phủ dải rủi ro Conformal Coverage [P10, P90]
+    # Đánh giá thực nghiệm độ bao phủ trên tập test của khoảng residual conformal.
     cov_arr = float(np.mean(
-        (df["arrivals_total"] >= df["pred_arrivals_p10"]) &
-        (df["arrivals_total"] <= df["pred_arrivals_p90"])
+        (df["arrivals_total"] >= df["pred_arrivals_lower_90"]) &
+        (df["arrivals_total"] <= df["pred_arrivals_upper_90"])
     ) * 100.0)
 
     cov_nig = float(np.mean(
-        (df["nights_total"] >= df["pred_nights_p10"]) &
-        (df["nights_total"] <= df["pred_nights_p90"])
+        (df["nights_total"] >= df["pred_nights_lower_90"]) &
+        (df["nights_total"] <= df["pred_nights_upper_90"])
     ) * 100.0)
 
     overall_df = pd.DataFrame([
@@ -73,7 +73,7 @@ def main():
             "MAE": f"{m_arr['MAE']:,.0f}",
             "MAPE (%)": f"{m_arr['MAPE (%)']:.2f}%",
             "WAPE (%)": f"{m_arr['WAPE (%)']:.2f}%",
-            "Conformal Coverage [P10, P90]": f"{cov_arr:.1f}% (Bảo chứng 90%)",
+            "Residual conformal coverage (target 90%)": f"{cov_arr:.1f}%",
         },
         {
             "Chỉ tiêu / Mục tiêu": "Số đêm lưu trú (Nights)",
@@ -81,7 +81,7 @@ def main():
             "MAE": f"{m_nig['MAE']:,.0f}",
             "MAPE (%)": f"{m_nig['MAPE (%)']:.2f}%",
             "WAPE (%)": f"{m_nig['WAPE (%)']:.2f}%",
-            "Conformal Coverage [P10, P90]": f"{cov_nig:.1f}% (Bảo chứng 90%)",
+            "Residual conformal coverage (target 90%)": f"{cov_nig:.1f}%",
         }
     ])
     overall_csv = TABLES_DIR / "overall_metrics.csv"
@@ -131,10 +131,10 @@ def main():
 
 ### 1. BẢNG TỔNG HỢP HIỆU NĂNG TOÀN DIỆN (OVERALL PERFORMANCE)
 
-| Chỉ tiêu / Mục tiêu | RMSE | MAE | MAPE (%) | WAPE (%) | Conformal Coverage [P10, P90] |
+| Chỉ tiêu / Mục tiêu | RMSE | MAE | MAPE (%) | WAPE (%) | Test coverage (mục tiêu 90%) |
 | :--- | :---: | :---: | :---: | :---: | :---: |
-| **Lượt khách (Arrivals)** | `{m_arr['RMSE']:,.0f}` | `{m_arr['MAE']:,.0f}` | `{m_arr['MAPE (%)']:.2f}%` | **`{m_arr['WAPE (%)']:.2f}%`** | **`{cov_arr:.1f}%`** *(Vượt mức bảo chứng lý thuyết 90%)* |
-| **Số đêm lưu trú (Nights)** | `{m_nig['RMSE']:,.0f}` | `{m_nig['MAE']:,.0f}` | `{m_nig['MAPE (%)']:.2f}%` | **`{m_nig['WAPE (%)']:.2f}%`** | **`{cov_nig:.1f}%`** *(Vượt mức bảo chứng lý thuyết 90%)* |
+| **Lượt khách (Arrivals)** | `{m_arr['RMSE']:,.0f}` | `{m_arr['MAE']:,.0f}` | `{m_arr['MAPE (%)']:.2f}%` | **`{m_arr['WAPE (%)']:.2f}%`** | **`{cov_arr:.1f}%`** |
+| **Số đêm lưu trú (Nights)** | `{m_nig['RMSE']:,.0f}` | `{m_nig['MAE']:,.0f}` | `{m_nig['MAPE (%)']:.2f}%` | **`{m_nig['WAPE (%)']:.2f}%`** | **`{cov_nig:.1f}%`** |
 
 ---
 
@@ -155,9 +155,9 @@ def main():
    - Tầng `Coupled Consistency Optimizer` đã rà soát và triệt tiêu **100% các vi phạm phi logic** (tỷ lệ $\\frac{\\text{nights}}{\\text{arrivals}} < 1.0$).
    - Toàn bộ kết quả dự báo trên 4,712 bản ghi tập Test đều nằm trong dải tỷ lệ lưu trú lịch sử hợp lệ của từng quốc gia.
 
-2. **Bảo chứng toán học về độ bao phủ không phụ thuộc phân phối (Conformal Prediction):**
-   - Động cơ DCQF đạt độ bao phủ thực tế **91.4%**, hoàn toàn thỏa mãn định lý biên toán học $\\mathbb{P}(y \\in [P_{10}, P_{90}]) \\ge 1 - \\alpha = 90\\%$.
-   - Giúp các nhà hoạch định chính sách du lịch Châu Âu có cơ sở quản trị rủi ro vững chắc cho kịch bản thắt chặt ($P_{10}$) và bùng nổ mùa hè ($P_{90}$).
+2. **Hiệu chuẩn khoảng dự báo bằng residual conformal:**
+   - Biên dưới/trên được tạo từ phân vị sai số tuyệt đối của dự báo validation ngoài mẫu; độ bao phủ trên test được báo cáo thực nghiệm ở bảng trên.
+   - Mức 90% là coverage mục tiêu. Bảo đảm split-conformal hữu hạn mẫu cần giả định exchangeability; không phải bảo đảm trước mọi dịch chuyển phân phối theo thời gian.
 
 3. **Cơ chế trọng tài động MoE:**
    - Trọng số trung bình trên tập Test: **30% Trend (Vĩ mô) + 26% Seasonal (Lịch lễ) + 44% Spatial (Lan tỏa Schengen)**, khẳng định vai trò thiết yếu của việc mô hình hóa không gian liên quốc gia mà không cần dùng GNN cồng kềnh.

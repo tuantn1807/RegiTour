@@ -103,8 +103,27 @@ class RegimeHMMNavigator:
                 covariance_type=self.covariance_type,
                 n_iter=self.n_iter,
                 random_state=self.random_state,
+                # A small pseudocount keeps rarely observed states decodable,
+                # especially on short annual panels.
+                transmat_prior=1.1,
             )
             self.model.fit(signals)
+            transmat = np.nan_to_num(
+                np.asarray(self.model.transmat_, dtype=np.float64),
+                nan=0.0,
+                posinf=0.0,
+                neginf=0.0,
+            )
+            row_sums = transmat.sum(axis=1)
+            empty_rows = row_sums <= 0.0
+            if np.any(empty_rows):
+                transmat[empty_rows] = 1.0 / self.n_regimes
+                row_sums = transmat.sum(axis=1)
+                print(
+                    "[!] HMM có trạng thái không có chuyển tiếp quan sát được; "
+                    "đã đặt phân phối chuyển tiếp đều cho hàng rỗng."
+                )
+            self.model.transmat_ = transmat / row_sums[:, None]
             raw_states = self.model.predict(signals)
             raw_probs = self.model.predict_proba(signals)
         else:

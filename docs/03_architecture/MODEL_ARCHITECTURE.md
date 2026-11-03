@@ -33,7 +33,7 @@ flowchart TD
         end
 
         subgraph Engine_Quantile ["TRỤ CỘT BẢO CHỨNG RỦI RO"]
-            M4["Deep Conformal Quantile Forecaster (DCQF)<br/>(Tối ưu Pinball Loss xuất dải rủi ro an toàn [P10, P50, P90])"]
+            M4["Residual Conformal<br/>(Hiệu chuẩn residual ngoài mẫu của bộ dự báo chính)"]
         end
     end
 
@@ -42,7 +42,7 @@ flowchart TD
     end
 
     subgraph Final_Outputs ["KẾT QUẢ ĐẦU RA & GIẢI THÍCH CHÍNH SÁCH"]
-        PRED["DỰ BÁO ĐỒNG THỜI DÀI HẠN (H = 6, 12 THÁNG):<br/>• Điểm dự báo tối ưu: Lượt khách & Số đêm lưu trú<br/>• Dải bao phủ rủi ro xác suất: [P10, P50, P90]<br/>• Công suất phòng: [Occupancy_t+1 ... Occupancy_t+H]"]
+        PRED["DỰ BÁO ĐỒNG THỜI DÀI HẠN (H = 6, 12 THÁNG):<br/>• Điểm dự báo tối ưu: Lượt khách & Số đêm lưu trú<br/>• Khoảng dưới/trên residual conformal (mục tiêu 90%)<br/>• Công suất phòng: [Occupancy_t+1 ... Occupancy_t+H]"]
         XAI["DUAL-LAYER XAI & POLICY WHAT-IF ENGINE:<br/>• Phân tích đóng góp biến (TreeSHAP / DeepSHAP)<br/>• Kịch bản giả định hành động chính sách giá phòng (DiCE What-If)"]
     end
 
@@ -164,7 +164,7 @@ flowchart TD
         
         EXP3["🌐 Động cơ 3: TRMF Matrix Factorization ⭐ MỚI<br/>Học: Phân rã ma trận Y(38xT) ≈ W·X^T bóc tách 4 cụm lan tỏa không gian Châu Âu (KHÔNG DÙNG GNN)<br/>➔ Xuất ra: Tín hiệu Lan tỏa Liên quốc gia (Y_spatial)"]
         
-        EXP4["🛡️ Động cơ 4: Deep Conformal Quantile Forecaster (DCQF)<br/>Học: Hàm mất mát bất đối xứng Pinball Loss trên toàn bộ vector đặc trưng<br/>➔ Xuất ra: Dải Rủi ro & Bất định [P10, P50, P90] (Probabilistic Forecast)"]
+        EXP4["🛡️ Động cơ 4: Residual Conformal<br/>Hiệu chuẩn sai số validation ngoài mẫu của dự báo chính<br/>➔ Xuất khoảng dưới/trên với coverage mục tiêu 90%"]
     end
 
     %% TẦNG ĐIỀU PHỐI TRỌNG TÀI
@@ -197,7 +197,7 @@ flowchart TD
     EXP3 -->|Y_spatial| MOE
 
     MOE -->|Dự báo điểm Y_point| OPT
-    EXP4 -->|Dải rủi ro [P10, P90]| OPT
+    EXP4 -->|Khoảng residual conformal, mục tiêu 90%| OPT
     OPT --> DASH
 ```
 
@@ -215,14 +215,14 @@ flowchart TD
    * **Động cơ 1 (`CatBoost-Regime`):** Nhận sóng $A$ kết hợp biến ngoại sinh dạng bảng (HICP, lạm phát, mã 38 nước) để đưa ra dự báo **Xu hướng Vĩ mô ($Y_{\text{trend}}$)**.
    * **Động cơ 2 (`M-RA-BiLSTM`):** Nhận sóng $D$ kết hợp tra cứu Bản đồ Lịch lễ tương lai 6–12 tháng qua cơ chế Cross-Attention để xuất ra **Đỉnh nhọn Mùa vụ & Lễ hội ($Y_{\text{seasonal}}$)**.
    * **Động cơ 3 (`TRMF`):** Gom toàn bộ 38 quốc gia vào ma trận $\mathbf{Y}_{38 \times T}$, phân rã ma trận hạng thấp kết hợp điều chuẩn tự hồi quy thời gian để xuất ra **Tín hiệu Lan tỏa Không gian Liên quốc gia ($Y_{\text{spatial}}$)** mà **hoàn toàn không cần dùng GNN**.
-   * **Động cơ 4 (`Deep Conformal Quantile Forecaster - DCQF`):** Tối ưu hóa hàm tổn thất bất đối xứng Pinball Loss để xuất ra **Dải Phân vị Rủi ro $[P_{10}, P_{50}, P_{90}]$**.
+   * **Động cơ 4 (`Residual Conformal`):** Dùng residual validation ngoài mẫu của dự báo chính để hiệu chuẩn cận dưới/trên; đây không phải mô hình quantile độc lập.
 4. **Bước 4: Trọng tài định tuyến động (`MoE Gating Network`)**
    * Nhận kết quả từ 3 chuyên gia dự báo điểm ($Y_{\text{trend}}, Y_{\text{seasonal}}, Y_{\text{spatial}}$) cùng với ngữ cảnh tháng và nhãn Regime từ HMM.
    * Tính toán bộ 3 trọng số động $w_1(t) + w_2(t) + w_3(t) = 1$ để tạo ra giá trị dự báo điểm tối ưu $\hat{Y}_{\text{point}}$.
 5. **Bước 5: Ràng buộc logic nghiệp vụ (`Coupled Optimizer`)**
    * So sánh tỷ lệ giữa số đêm dự báo và lượt khách dự báo $\frac{\hat{Y}_{\text{nig}}}{\hat{Y}_{\text{arr}}}$. Nếu tỷ lệ này lệch khỏi biên độ thực tế lịch sử (ví dụ khách ở dưới 1 đêm hoặc trên 10 đêm vô lý), bộ tối ưu sẽ nắn chỉnh Gradient ngay lập tức.
 6. **Bước 6: Hỗ trợ ra quyết định (`XAI Dashboard`)**
-   * Hiển thị kết quả dự báo điểm cùng dải rủi ro $[P_{10}, P_{90}]$ trên giao diện trực quan.
+   * Hiển thị kết quả dự báo điểm cùng cận dưới/trên residual conformal trên giao diện trực quan.
    * Cung cấp công cụ **DiCE Counterfactual What-If**: Cho phép nhà quản lý kéo thanh trượt điều chỉnh giá phòng HICP để xem nhu cầu lưu trú thay đổi như thế nào.
 
 ---
@@ -236,7 +236,7 @@ flowchart TD
    * **`CatBoost-Regime`:** Nhìn sóng chậm $A$ và chỉ số giá phòng HICP tăng $4.2\% \rightarrow$ Dự báo nền vĩ mô: **$2.100.000$ lượt khách**.
    * **`M-RA-BiLSTM`:** Nhìn sóng $D$ và khớp trực tiếp lịch lễ (tháng 8 có 5 cuối tuần + Lễ Đức Mẹ) $\rightarrow$ Khớp đỉnh nhọn mùa vụ: **$+ 750.000$ lượt khách**.
    * **`TRMF`:** Nhìn thấy nhu cầu du lịch bùng nổ ở các nước láng giềng Tây Âu (Đức, Bỉ, Thụy Sĩ, Ý) $\rightarrow$ Bóc tách hiệu ứng lan tỏa không gian xuyên biên giới chảy vào Pháp: **$+ 120.000$ lượt khách**.
-   * **`DCQF (Conformal)`:** Tính toán dải rủi ro phân vị bảo chứng:
+   * **`Residual Conformal`:** Mở rộng cận quanh dự báo điểm bằng residual validation đã hiệu chuẩn:
      * Kịch bản rủi ro thắt chặt chi tiêu ($P_{10}$): **$2.710.000$ khách**.
      * Kịch bản kỳ vọng trung vị ($P_{50}$): **$2.970.000$ khách**.
      * Kịch bản bùng nổ du lịch hè ($P_{90}$): **$3.230.000$ khách**.
@@ -257,7 +257,7 @@ Bảng ma trận dưới đây chứng minh tính độc lập tuyệt đối c�
 | **1** | **CatBoost-Regime 🏛️** | Gradient Boosted Decision Trees (GBDT) | Sóng chậm vĩ mô $A$ + HICP giá phòng + Mã 38 nước + Nhóm lưu trú | **Dự báo Xu hướng Vĩ mô ($Y_{\text{trend}}$):** Bắt quy luật phi tuyến của lạm phát, giá cả và đặc thù tĩnh từng nước. | **Độc quyền xử lý dữ liệu bảng tĩnh & vĩ mô**; không có cấu trúc đệ quy chuỗi thời gian, không bị ảnh hưởng bởi nhiễu bước ngắn. |
 | **2** | **M-RA-BiLSTM ⭐** | Deep Recurrent + Dual-Stream Cross-Attention | Sóng mùa vụ $D$ + Bản đồ lịch lễ tương lai ($t+1 \dots t+H$) | **Dự báo Đỉnh nhọn Mùa vụ & Lễ hội ($Y_{\text{seasonal}}$):** Nắm bắt cú giật tăng vọt do Lễ Phục sinh, Giáng sinh, Kỳ nghỉ 3 ngày. | **Mô hình duy nhất có Cross-Attention giải mã trực tiếp từ tương lai**, dùng lịch lễ tương lai làm Query chiếu về quá khứ. |
 | **3** | **TRMF (Matrix Factorization) 🌐** | Đại số Ma trận Hạng thấp + Điều chuẩn Tự hồi quy AR | Toàn bộ ma trận đa quốc gia $\mathbf{Y}_{38 \times T}$ (38 nước $\times$ 192 tháng) | **Dự báo Lan tỏa Không gian ($Y_{\text{spatial}}$):** Bóc tách các cụm tương quan và hiệu ứng lan tỏa nhu cầu xuyên biên giới Châu Âu. | **Độc quyền xử lý tương quan không gian đa quốc gia KHÔNG DÙNG GNN**; đại số tuyến tính thuần túy, hoàn toàn không trùng lặp với BiLSTM hay CatBoost. |
-| **4** | **Deep Conformal Quantile Forecaster (DCQF) 🛡️** | Multi-Quantile Deep Network + Conformal Calibrator | Vector đặc trưng toàn diện + Độ biến động lịch sử (Rolling Volatility) | **Dự báo Dải Rủi ro & Bất định $[P_{10}, P_{50}, P_{90}]$:** Đo lường kịch bản xấu nhất và tốt nhất với bảo chứng toán học. | **Mô hình duy nhất dự báo phân phối xác suất (Probabilistic Risk Forecaster)**; 3 mô hình trên chỉ dự báo điểm (Point Forecast $\mathbb{E}[Y]$). |
+| **4** | **Residual Conformal 🛡️** | Split conformal trên residual của dự báo chính | Dự báo điểm và nhãn trên validation giữ riêng | **Hiệu chuẩn cận dưới/trên với coverage mục tiêu 90%**; độ bao phủ test được đo thực nghiệm. | Không huấn luyện mô hình dự báo thứ hai; bảo đảm hữu hạn mẫu cần giả định exchangeability. |
 
 ---
 
@@ -272,15 +272,10 @@ Bảng ma trận dưới đây chứng minh tính độc lập tuyệt đối c�
   * GNN đòi hỏi phải tự định nghĩa ma trận kề biên giới giả định $\mathbf{A}_{38 \times 38}$ (rất chủ quan và dễ gây nhiễu nếu khách đi máy bay thay vì đi đường bộ) cùng chi phí tính toán đồ thị nặng nề.
   * TRMF giải quyết hiệu ứng lan tỏa không gian hoàn toàn bằng **Đại số tuyến tính ma trận (Low-Rank Decomposition)**, tự động học tương quan dữ liệu thực tế mà không cần bất kỳ giả định đồ thị biên giới nào!
 
-#### B. Động cơ Bổ sung 2: Deep Conformal Quantile Forecaster (DCQF)
-* **Cơ sở khoa học:** Trong kinh doanh khách sạn và lữ hành, dự báo điểm trung bình (ví dụ: $2.500.000$ lượt khách) là không đủ để quản trị rủi ro phá sản hoặc quá tải hạ tầng. Doanh nghiệp cần biết khoảng dao động tin cậy để lập kế hoạch vốn và nhân lực.
-* **Hàm tổn thất bất đối xứng đa phân vị (Multi-Quantile Pinball Loss):**
-  $$\mathcal{L}_{q}(y, \hat{y}_q) = \max\left( q(y - \hat{y}_q), (1 - q)(\hat{y}_q - y) \right), \quad q \in \{0.10, 0.50, 0.90\}$$
-* **Thuật toán hiệu chuẩn Conformal Prediction (Distribution-Free Coverage Guarantee):**
-  Hệ thống tính điểm không tương đồng (Non-conformity score) trên tập thẩm định để tìm ngưỡng hiệu chỉnh $\hat{q}_{\alpha}$:
-  $$\mathbb{P}\left( Y_{t+h} \in [\hat{P}_{10}(t+h) - \hat{q}_{\alpha}, \; \hat{P}_{90}(t+h) + \hat{q}_{\alpha}] \right) \ge 1 - \alpha = 90\%$$
-* **Tại sao không trùng lặp với các mô hình khác?**  
-  Đây là động cơ duy nhất trong toàn bộ hệ thống giải bài toán **Dự báo Khoảng Tin Cậy Bất Định (Uncertainty Quantification)** có bảo chứng toán học, cung cấp biên an toàn vận hành cho toàn bộ ngành du lịch.
+#### B. Động cơ Bổ sung 2: Residual Conformal
+* **Cơ sở:** Dự báo điểm không cho biết độ lớn của sai số; khoảng dự báo thể hiện sai số quan sát được trên giai đoạn hiệu chuẩn độc lập.
+* **Điểm không tương đồng:** Với mỗi mục tiêu, dùng $s_i = |y_i - \hat{y}_i|$ từ dự báo validation ngoài mẫu của cùng bộ dự báo chính.
+* **Biên conformal:** Lấy thống kê thứ tự hữu hạn mẫu ở coverage mục tiêu rồi áp dụng biên quanh dự báo điểm test. Bảo đảm lý thuyết cần exchangeability và không chống được dịch chuyển phân phối thời gian tùy ý.
 
 ---
 
@@ -317,7 +312,7 @@ Bảng dưới đây trình bày rõ 5 đóng góp khoa học chính (*Key Contr
 | **1. Động cơ Học sâu `M-RA-BiLSTM`** | Dùng LSTM thông thường (Hochreiter 1997) coi chuỗi 15 năm là phân phối phẳng; dự báo dài hạn bằng cách lặp đệ quy ($t \to t+1 \to t+2$). | Tích hợp **Regime Embedding** vào cổng quên (Forget Gate); giải mã trực tiếp 12 tháng qua **Dual-Stream Cross-Attention** với lịch lễ tương lai. | • *Silva et al. (2023):* LSTM thường bị bão hòa trạng thái ẩn khi gặp biến động lớn ($\text{MAPE} > 40\%$). Nhúng Regime giúp Forget Gate chủ động xóa ký ức sốc.<br>• Dự báo đệ quy bị nổ sai số tích lũy ($\text{Error Compounding}$). Cross-Attention dùng lịch lễ tương lai làm Query triệt tiêu hoàn toàn sai số trôi dạt. |
 | **2. Lan Tỏa Không Gian Bằng Phân Rã Ma Trận (`TRMF`)** | Coi 38 quốc gia tách rời độc lập, hoặc dùng GNN phức tạp đòi hỏi ma trận kề biên giới giả định và chi phí $O(N^2)$. | Tích hợp **Mô hình Phân rã Ma trận Điều chuẩn Thời gian (TRMF)** bóc tách 4 cụm không gian Châu Âu và yếu tố lan tỏa chung mà **hoàn toàn không dùng GNN**. | • *Yu et al. (NeurIPS):* TRMF mô hình hóa tương quan không gian liên quốc gia bằng đại số ma trận hạng thấp, không cần giả định đồ thị biên giới chủ quan, chi phí tính toán tuyến tính $O(N \cdot r)$, ổn định vượt trội so với GNN trên chuỗi vĩ mô. |
 | **3. Bóc Tách Tần Số (`MODWT Wavelet Filter`)** | Ép một mô hình học sâu duy nhất phải tự học cả sóng vĩ mô chậm lẫn đỉnh nhọn mùa vụ, dẫn đến hiện tượng quá tải và làm phẳng đỉnh mùa vụ (Over-smoothing). | Ứng dụng **Bộ lọc sóng con MODWT** bóc tách chuỗi thành 2 thành phần trực giao $A$ (Vĩ mô) và $D$ (Mùa vụ) trước khi đưa vào các chuyên gia thích hợp. | • *Định lý phân rã Wold (Kinh tế lượng):* Chuỗi thời gian gồm thành phần tất định và sóng dừng. Phân rã trước giúp CatBoost chuyên tâm học vĩ mô và BiLSTM chuyên tâm học đỉnh nhọn lễ hội, cải thiện độ chính xác đỉnh nhọn thêm 22–35%. |
-| **4. Đo Lường Bất Định Có Bảo Chứng (`DCQF Conformal Engine`)** | Chỉ dự báo điểm trung bình ($\mathbb{E}[Y]$), không có thông tin về rủi ro biến động, khiến doanh nghiệp bị động khi xảy ra kịch bản xấu. | Tích hợp **Deep Conformal Quantile Forecaster** tối ưu Pinball Loss kết hợp hiệu chuẩn Conformal Prediction. | • *Vovk et al. (2020):* Conformal Prediction cung cấp bảo chứng toán học về độ bao phủ dải tin cậy $1-\alpha=90\%$ mà không phụ thuộc vào giả định phân phối chuẩn (Distribution-Free), trực tiếp phục vụ quản trị rủi ro kinh doanh. |
+| **4. Hiệu chuẩn khoảng (`Residual Conformal`)** | Chỉ dự báo điểm chưa thể hiện sai số dự báo quan sát được. | Dùng residual validation ngoài mẫu của dự báo chính để hiệu chuẩn cận dưới/trên, với coverage mục tiêu 90%. | Coverage test cần được đo thực nghiệm; bảo đảm split-conformal hữu hạn mẫu dựa trên exchangeability và không bảo đảm trước dịch chuyển thời gian tùy ý. |
 | **5. Ràng buộc Đa mục tiêu Logic (`Coupled Loss`)** | Dự báo riêng rẽ Lượt khách (`arrivals`) và Số đêm (`nights`) ở 2 bài toán độc lập không liên quan. | Tích hợp **Hàm mất mát phạt mâu thuẫn tỷ lệ** $\frac{\text{nights}}{\text{arrivals}}$ trực tiếp vào quá trình tối ưu Gradient. | • *Cortés-Jiménez et al. (2024):* Hơn 85% nghiên cứu dự báo du lịch bị lỗi mâu thuẫn logic: *khách tăng nhưng đêm lưu trú giảm*. Ràng buộc toán học của đề tài triệt tiêu 100% lỗi này. |
 
 ---
@@ -378,7 +373,7 @@ flowchart TD
 1. **Mean Absolute Percentage Error (MAPE):** Tiêu chuẩn vàng đo sai số tương đối phần trăm. Mục tiêu: $\text{MAPE} < 5.0\%$.
 2. **Root Mean Squared Error (RMSE):** Đánh giá độ nhạy với các sai số lớn.
 3. **Weighted Absolute Percentage Error (WAPE):** Đánh giá công bằng giữa các nước lớn (Pháp, Tây Ban Nha) và nước nhỏ (Malta, Síp).
-4. **Pinball Loss & Coverage Rate (PICP):** Đánh giá độ chính xác của dải bao phủ rủi ro xác suất do DCQF dự báo.
+4. **Residual Conformal Coverage:** Báo cáo coverage thực nghiệm của khoảng dự báo đã hiệu chuẩn trên tập test.
 5. **Peak Error Drop:** Thước đo độ ổn định khi thị trường xảy ra đứt gãy hoặc bước vào mùa cao điểm đột biến.
 
 ---
@@ -405,14 +400,14 @@ nckh_2027/
 │   │   ├── catboost_engine.py                <- Động cơ 1: Dự báo vĩ mô Tabular GBDT
 │   │   ├── m_ra_bilstm.py                    <- Động cơ 2: PyTorch M-RA-BiLSTM Attention ⭐
 │   │   ├── trmf_engine.py                    <- Động cơ 3: Phân rã ma trận lan tỏa không gian TRMF
-│   │   ├── conformal_quantile.py             <- Động cơ 4: Deep Conformal Quantile Risk Engine
+│   │   ├── dcqf_conformal.py                  <- Hiệu chuẩn residual của dự báo chính
 │   │   ├── moe_gating.py                     <- Trọng tài Meta-Learner Dynamic MoE Gating
 │   │   └── loss_functions.py                 <- Hàm mất mát ràng buộc đa mục tiêu (Coupled Loss)
 │   ├── explainability/
 │   │   ├── shap_explainer.py                 <- Tầng giải thích SHAP
 │   │   └── counterfactual_engine.py          <- Tầng giải thích kịch bản DiCE What-If
 │   └── evaluation/
-│       └── metrics.py                        <- Bộ tính toán MAPE, RMSE, WAPE, Pinball Loss, PICP
+│       └── metrics.py                        <- Bộ tính toán MAPE, RMSE, WAPE và conformal coverage thực nghiệm
 ├── MODEL_ARCHITECTURE.md                     <- Tài liệu thiết kế kiến trúc hoàn chỉnh
 └── DATA_GUIDE.md                             <- Hướng dẫn hạ tầng dữ liệu và API
 ```

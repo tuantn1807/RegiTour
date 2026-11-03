@@ -13,7 +13,10 @@ from src.models.ra_exo_dlinear import (
     CoupledConsistencyLinearLoss,
 )
 from src.models.trmf_spatial import TRMFSpatialSpillover
-from src.models.dcqf_conformal import DeepConformalQuantileForecaster
+from src.models.dcqf_conformal import (
+    DeepConformalQuantileForecaster,
+    ResidualConformalForecaster,
+)
 from src.models.moe_gating import DynamicMoEGatingNetwork
 from src.models.coupled_optimizer import CoupledConsistencyOptimizer
 
@@ -29,6 +32,7 @@ __all__ = [
     "CoupledConsistencyLinearLoss",
     "TRMFSpatialSpillover",
     "DeepConformalQuantileForecaster",
+    "ResidualConformalForecaster",
     "DynamicMoEGatingNetwork",
     "CoupledConsistencyOptimizer",
 ]
