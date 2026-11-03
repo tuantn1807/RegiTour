@@ -14,7 +14,7 @@
 
 1. **Unsupervised Market Regime Identification (Gaussian HMM):** Classifies structural market conditions into *Normal Growth*, *Disruption Shock*, and *Post-Crisis Recovery*, injecting dynamic context embeddings across downstream forecasting modules.
 2. **Core Temporal-Exogenous Engine (RA-Exo-DLinear):** Extends moving-average series decomposition (DLinear) via Generalized Additive Model (GAM) formulation with Feature-wise Linear Modulation (FiLM) on trend and dual-stream linear projections for deterministic future calendar events and past macroeconomic covariates.
-3. **Graph-Free Spatial Factorization (TRMF):** Decomposes multi-country panel series into low-rank spatial clusters ($r=4$) with autoregressive temporal regularization, capturing cross-border tourism spillovers without subjective graph priors.
+3. **Graph-Free Spatial Factorization (Dual TRMF):** Decomposes multi-country panel series into low-rank spatial clusters ($r=4$) with autoregressive temporal regularization. Models independent spatial factorization for both Visitor Arrivals ($Y_{\mathrm{arr}}$) and Overnight Stays ($Y_{\mathrm{nig}}$), capturing destination Length of Stay (LoS) duration patterns and cross-border tourism spillovers without subjective graph priors.
 4. **Coupled Consistency Convex Optimization:** Enforces strict physical domain bounds ($\text{Nights} \ge \text{Arrivals} \times \text{LOS}_{\min}$) via anchor projection $\Pi_{\mathcal{C}}$ and coupled training loss $\mathcal{L}_{\text{cons}}$, controlling raw neural violations to $0.15\%$ and minimizing economic band deviation to **16.0%**.
 5. **Distribution-Free Uncertainty Quantification (DCQF):** Delivers calibrated conformal prediction intervals $[P_{10}, P_{90}]$ with an empirical finite-sample coverage of **94.2%**.
 6. **Multi-Frequency Panel Adaptability:** Seamlessly accommodates both monthly regional panels (Eurostat: $H=12, L=24$) and annual macroeconomic panels (World Bank: $H=1, L=4$).
@@ -42,7 +42,7 @@ Evaluated on the out-of-sample test partition (**2024–2026**, 4,712 observatio
 
 ---
 
-## 🚀 Quick Start
+## 🚀 Quick Start & Interactive Demos
 
 ### 1. Installation
 ```bash
@@ -51,20 +51,36 @@ cd RegiTour
 pip install -r requirements.txt
 ```
 
-### 2. Run End-to-End Forecasting Pipeline
+### 2. Interactive Demos (Web Dashboard & CLI)
+Khởi chạy bảng điều khiển tương tác trực quan hoặc demo dòng lệnh nhanh:
+```bash
+# Cách 1: Sử dụng launcher tự động (khuyên dùng, tự nhận diện môi trường Python)
+python run_demo.py
+
+# Cách 2: Chạy trực tiếp Streamlit (qua môi trường ảo .venv)
+source .venv/bin/activate && streamlit run dashboard/app.py
+# hoặc:
+python -m streamlit run dashboard/app.py
+
+# Cách 3: Demo dòng lệnh tức thời trong Terminal (CLI Demo, không cần trình duyệt)
+python demo.py
+```
+
+### 3. Run End-to-End Forecasting Pipeline
 Khởi chạy quy trình dự báo du lịch với kiến trúc tuyến tính tối ưu **RA-HE-DLinear**:
 ```bash
 python run_linear_pipeline.py --dataset eurostat
 python run_linear_pipeline.py --dataset worldbank
 ```
 
-### 3. Run Baseline Benchmark Evaluation
+### 4. Run Baseline Benchmark Evaluation
 So sánh đối đầu giữa các mô hình qua các thế hệ y văn:
 ```bash
 python benchmark_models.py
 ```
 
-### 4. Run XAI and Policy Simulation
+### 5. Run XAI and Policy Simulation
+Trích xuất ma trận chú ý chéo thực tế từ mô hình học sâu và mô phỏng chính sách giá HICP:
 ```bash
 python run_xai_analysis.py
 ```

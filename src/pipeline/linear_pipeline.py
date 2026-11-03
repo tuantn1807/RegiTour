@@ -195,46 +195,75 @@ class TourismLinearForecastingPipeline:
         print("  • Hoàn tất dự báo chuỗi thời gian & ngoại sinh.")
 
         print("\n" + "=" * 80)
-        print("🌐 [PHASE 3.2] ĐỘNG CƠ KHÔNG GIAN: TRMF MATRIX FACTORIZATION")
+        print("🌐 [PHASE 3.2] ĐỘNG CƠ KHÔNG GIAN: DUAL TRMF MATRIX FACTORIZATION")
         print("=" * 80)
-        print(f"  • Bóc tách 4 cụm không gian lan tỏa du lịch ({self.df['geo'].nunique()} thực thể)...")
-        self.trmf_engine.fit(self.train_df, target_col="arrivals_total", accom_type="total")
+        print(f"  • Bóc tách 4 cụm không gian lan tỏa độc lập cho Lượt khách (Yarr) và Số đêm (Ynig)...")
+        # Dual TRMF modeling: Learns separate spatial factors W_arr and W_nig,
+        # capturing visitor volume vs length-of-stay (LoS) duration spatial dynamics.
+        self.trmf_engine.fit_dual(
+            self.train_df,
+            target_arr="arrivals_total",
+            target_nig="nights_total",
+            accom_type="total",
+        )
 
         # Khung thời gian dự báo phủ cả tập Validation và Test
         val_date_unique = sorted(self.val_df["date"].unique()) if self.val_df is not None and len(self.val_df) > 0 else []
         test_date_unique = sorted(self.test_df["date"].unique())
         all_future_dates = sorted(list(set(val_date_unique + test_date_unique)))
         horizon_steps = len(all_future_dates)
-        trmf_forecasts = self.trmf_engine.forecast(horizon=horizon_steps)
+        trmf_forecasts_arr, trmf_forecasts_nig = self.trmf_engine.forecast_dual(horizon=horizon_steps)
 
-        # Trọng số loại hình lưu trú từ tập Train
+        # Trọng số loại hình lưu trú độc lập cho cả Arrivals và Nights từ tập Train
         total_arr_train = self.train_df[self.train_df["accommodation_type"] == "total"].groupby("geo")["arrivals_total"].sum()
         accom_arr_train = self.train_df.groupby(["geo", "accommodation_type"])["arrivals_total"].sum()
-        accom_shares = (accom_arr_train / total_arr_train).fillna(0.25).to_dict()
+        accom_shares_arr = (accom_arr_train / total_arr_train).fillna(0.25).to_dict()
 
-        # Trích xuất tín hiệu không gian cho tập Test
+        total_nig_train = self.train_df[self.train_df["accommodation_type"] == "total"].groupby("geo")["nights_total"].sum()
+        accom_nig_train = self.train_df.groupby(["geo", "accommodation_type"])["nights_total"].sum()
+        accom_shares_nig = (accom_nig_train / total_nig_train).fillna(0.25).to_dict()
+
+        # Trích xuất tín hiệu không gian cho tập Test (độc lập cả Yarr và Ynig)
         y_spatial_test, y_spatial_test_nig = self._extract_spatial_signals(
-            self.test_df, trmf_forecasts, accom_shares, arr_linear_test, all_future_dates
+            self.test_df,
+            trmf_forecasts_arr,
+            trmf_forecasts_nig,
+            accom_shares_arr,
+            accom_shares_nig,
+            arr_linear_test,
+            nig_linear_test,
+            all_future_dates,
         )
 
         # Trích xuất tín hiệu không gian cho tập Validation
         if len(val_tuning_df) > 0 and arr_linear_val is not None:
             y_spatial_val, y_spatial_val_nig = self._extract_spatial_signals(
-                val_tuning_df, trmf_forecasts, accom_shares, arr_linear_val, all_future_dates
+                val_tuning_df,
+                trmf_forecasts_arr,
+                trmf_forecasts_nig,
+                accom_shares_arr,
+                accom_shares_nig,
+                arr_linear_val,
+                nig_linear_val,
+                all_future_dates,
             )
         else:
             y_spatial_val, y_spatial_val_nig = None, None
+
         if len(val_calibration_df) > 0 and arr_linear_calibration is not None:
             y_spatial_calibration, y_spatial_calibration_nig = self._extract_spatial_signals(
                 val_calibration_df,
-                trmf_forecasts,
-                accom_shares,
+                trmf_forecasts_arr,
+                trmf_forecasts_nig,
+                accom_shares_arr,
+                accom_shares_nig,
                 arr_linear_calibration,
+                nig_linear_calibration,
                 all_future_dates,
             )
         else:
             y_spatial_calibration = y_spatial_calibration_nig = None
-        print("  • Hoàn tất trích xuất đặc trưng lan tỏa không gian.")
+        print("  • Hoàn tất trích xuất đặc trưng lan tỏa không gian độc lập (Yarr & Ynig).")
 
         print("\n" + "=" * 80)
         print("⚖️ [PHASE 4] HÒA TRỘN KHÔNG - THỜI GIAN & RÀNG BUỘC KINH TẾ (COUPLED CONSISTENCY)")
@@ -351,6 +380,10 @@ class TourismLinearForecastingPipeline:
         lower_nig, _, upper_nig = conformal_intervals["nights"]
 
         results_df = self.test_df[["date", "geo", "accommodation_type", "arrivals_total", "nights_total"]].copy()
+        # Pre-projection unconstrained predictions (raw before anchor projection)
+        results_df["pred_arrivals_raw"] = y_fused_arr
+        results_df["pred_nights_raw"] = y_fused_nig
+        # Final consistent predictions
         results_df["pred_arrivals_point"] = y_final_arr
         results_df["pred_nights_point"] = y_final_nig
         results_df["pred_arrivals_lower_90"] = lower_arr
@@ -372,38 +405,47 @@ class TourismLinearForecastingPipeline:
     def _extract_spatial_signals(
         self,
         target_df: pd.DataFrame,
-        trmf_forecasts: Dict[str, np.ndarray],
-        accom_shares: Dict[Tuple[str, str], float],
+        trmf_forecasts_arr: Dict[str, np.ndarray],
+        trmf_forecasts_nig: Dict[str, np.ndarray],
+        accom_shares_arr: Dict[Tuple[str, str], float],
+        accom_shares_nig: Dict[Tuple[str, str], float],
         fallback_arr: np.ndarray,
+        fallback_nig: np.ndarray,
         future_dates: List[pd.Timestamp],
     ) -> Tuple[np.ndarray, np.ndarray]:
         """
-        Maps multi-step TRMF latent country factor projections to target entity rows
-        weighted by historical accommodation shares.
+        Maps multi-step TRMF dual latent country factor projections to target entity rows
+        weighted by historical accommodation shares, learning independent spatial spillovers
+        for both visitor arrivals and overnight stay duration (Length of Stay).
         """
         date_to_idx = {d: i for i, d in enumerate(future_dates)}
         target_geo_list = target_df["geo"].astype(str).values
         target_accom_list = target_df["accommodation_type"].values
         target_dates = target_df["date"].values
 
-        y_spatial = np.zeros(len(target_df), dtype=np.float32)
+        y_spatial_arr = np.zeros(len(target_df), dtype=np.float32)
+        y_spatial_nig = np.zeros(len(target_df), dtype=np.float32)
+
         for i in range(len(target_df)):
             geo_code = target_geo_list[i]
             acc_type = target_accom_list[i]
             d = target_dates[i]
             h_idx = date_to_idx.get(d, 0)
-            share = accom_shares.get((geo_code, acc_type), 1.0 if acc_type == "total" else 0.25)
-            if geo_code in trmf_forecasts and h_idx < len(trmf_forecasts[geo_code]):
-                y_spatial[i] = trmf_forecasts[geo_code][h_idx] * share
-            else:
-                y_spatial[i] = fallback_arr[i]
 
-        target_geo_codes = target_df["geo"].astype(str).values
-        base_ratios = np.array([
-            self.data_loader.country_base_ratios.get(g, 2.5) for g in target_geo_codes
-        ], dtype=np.float32)
-        y_spatial_nig = y_spatial * base_ratios
-        return y_spatial, y_spatial_nig
+            share_arr = accom_shares_arr.get((geo_code, acc_type), 1.0 if acc_type == "total" else 0.25)
+            share_nig = accom_shares_nig.get((geo_code, acc_type), 1.0 if acc_type == "total" else 0.25)
+
+            if geo_code in trmf_forecasts_arr and h_idx < len(trmf_forecasts_arr[geo_code]):
+                y_spatial_arr[i] = trmf_forecasts_arr[geo_code][h_idx] * share_arr
+            else:
+                y_spatial_arr[i] = fallback_arr[i]
+
+            if geo_code in trmf_forecasts_nig and h_idx < len(trmf_forecasts_nig[geo_code]):
+                y_spatial_nig[i] = trmf_forecasts_nig[geo_code][h_idx] * share_nig
+            else:
+                y_spatial_nig[i] = fallback_nig[i]
+
+        return y_spatial_arr, y_spatial_nig
 
     def _optimize_fusion_weight(
         self,

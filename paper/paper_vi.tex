@@ -21,6 +21,26 @@
     urlcolor=blue
 }
 
+% Đồng nhất phông chữ abstract và từ khóa với phông toàn bài (Roman/Serif thay vì Sans-Serif mặc định của compsoc)
+\makeatletter
+\def\abstract{\normalfont\@IEEEtweakunitybaselinestretch{1.15}\rmfamily
+    \if@twocolumn
+      \@IEEEabskeysecsize\noindent\textbf{\abstractname}---\relax
+    \else
+      \bgroup\par\addvspace{0.5\baselineskip}\centering\vspace{-1.78ex}\@IEEEabskeysecsize\textbf{\abstractname}\par\addvspace{0.5\baselineskip}\egroup\quotation\@IEEEabskeysecsize%
+    \fi\@IEEEgobbleleadPARNLSP}
+\def\IEEEkeywords{\normalfont\@IEEEtweakunitybaselinestretch{1.15}\rmfamily
+    \if@twocolumn
+      \@IEEEabskeysecsize\vskip 0.5\baselineskip plus 0.25\baselineskip minus 0.25\baselineskip\noindent
+      \textbf{\IEEEkeywordsname}---\relax
+    \else
+      \bgroup\par\addvspace{0.5\baselineskip}\centering\@IEEEabskeysecsize\textbf{\IEEEkeywordsname}\par\addvspace{0.5\baselineskip}\egroup\quotation\@IEEEabskeysecsize%
+    \fi\@IEEEgobbleleadPARNLSP}
+\makeatother
+
+% Xóa biểu tượng diamond (icon AI) ở dấu gạch ngang phân cách abstract, giữ đường kẻ ngang liền mạch trang nhã
+\renewcommand{\IEEEcompsocdiamondline}{\rule{8.5cm}{0.5pt}}
+
 % Enforce IEEEtran numbering schema (I, II... for sections; A, B... for subsections) against babel overrides
 \addto\captionsvietnamese{%
   \renewcommand{\thesection}{\Roman{section}}%
@@ -185,14 +205,14 @@ Dự báo thô được tính bằng cách kết hợp giá trị cơ sở với
 \subsection{Mô Hình Hóa Phụ Thuộc Liên Quốc Gia (TRMF)}
 \noindent \textbf{Input:} Ma trận chuỗi quan sát của toàn bộ $N$ quốc gia $\mathbf{Y} \in \mathbb{R}^{N \times T}$.
 
-\noindent \textbf{Xử lý:} TRMF \cite{yu2016trmf} phân rã ma trận thành tích của ma trận thực thể $\mathbf{W} \in \mathbb{R}^{N \times R}$ và ma trận thời gian $\mathbf{X}_{\text{sp}} \in \mathbb{R}^{T \times R}$:
+\noindent \textbf{Xử lý:} Dual TRMF \cite{yu2016trmf} phân rã độc lập hai ma trận quan sát: Lượt khách $\mathbf{Y}_{\text{arr}} \approx \mathbf{W}_{\text{arr}} \mathbf{X}_{\text{arr}}^T$ (mô hình hóa dòng khách luân chuyển xuyên biên giới) và Số đêm lưu trú $\mathbf{Y}_{\text{nig}} \approx \mathbf{W}_{\text{nig}} \mathbf{X}_{\text{nig}}^T$ (học cấu trúc lan tỏa không gian độc lập của thời gian lưu trú Length of Stay mà không giả định tỷ lệ tuyến tính đơn giản):
 \begin{equation}
 \begin{aligned}
-\min_{\mathbf{W}, \mathbf{X}_{\text{sp}}, \boldsymbol{\Theta}} \sum_{(i, t) \in \Omega} (Y_{i, t} - \mathbf{w}_i^T \mathbf{x}_t)^2 &+ \lambda_w \|\mathbf{W}\|_F^2 \\
-&+ \lambda_x \mathcal{R}_{\text{AR}}(\mathbf{X}_{\text{sp}}, \boldsymbol{\Theta})
+\min_{\mathbf{W}_k, \mathbf{X}_k, \boldsymbol{\Theta}_k} \sum_{(i, t) \in \Omega} (Y_{k, i, t} - \mathbf{w}_{k, i}^T \mathbf{x}_{k, t})^2 &+ \lambda_w \|\mathbf{W}_k\|_F^2 \\
+&+ \lambda_x \mathcal{R}_{\text{AR}}(\mathbf{X}_k, \boldsymbol{\Theta}_k)
 \end{aligned}
 \end{equation}
-với số hạng tự hồi quy $\mathcal{R}_{\text{AR}}$ trên tập trễ $\mathcal{L} = \{1, 2, 12\}$.Bằng phương pháp phân tích PCA/SVD, bốn thành phần đầu giải thích $88{,}50\%$ tổng phương sai giữa 38 quốc gia; do đó, nghiên cứu lựa chọn hạng phân rã $R=4$
+với $k \in \{\text{arr}, \text{nig}\}$, và số hạng tự hồi quy $\mathcal{R}_{\text{AR}}$ trên tập trễ $\mathcal{L} = \{1, 2, 12\}$. Bằng phương pháp phân tích PCA/SVD, bốn thành phần đầu giải thích $88{,}50\%$ tổng phương sai giữa 38 quốc gia; do đó, nghiên cứu lựa chọn hạng phân rã $R=4$.
 
 Tín hiệu không gian được hòa trộn lồi với động cơ thời gian:
 \begin{equation}
