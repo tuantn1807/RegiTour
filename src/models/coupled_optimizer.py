@@ -6,6 +6,10 @@ Enforces:
   1. Physical Lower Bound: Nights / Arrivals >= 1.0
   2. Historical Realistic Range: [Ratio_base - delta, Ratio_base + delta]
 Performs convex projection to eliminate business contradictions.
+
+The paper's DLinear pipelines use project_physical_pair(), which enforces only
+the physical lower bound. optimize_pair() retains the separate legacy economic
+band adjustment for callers that explicitly request that behavior.
 """
 
 from typing import Dict, List, Optional, Tuple
@@ -22,6 +26,24 @@ class CoupledConsistencyOptimizer:
         self.delta = delta
         self.min_ratio = min_ratio
         self.anchor_arrivals = anchor_arrivals
+
+    @staticmethod
+    def project_physical_pair(
+        y_arr_pred: np.ndarray,
+        y_nig_pred: np.ndarray,
+    ) -> Tuple[np.ndarray, np.ndarray, np.ndarray]:
+        """Paper Pi_C: preserve nonnegative arrivals; raise nights only if needed.
+
+        Historical economic bands are evaluation criteria, not constraints of
+        this projection. No rounding or positive floor is applied.
+        """
+        arrivals = np.asarray(y_arr_pred, dtype=np.float32)
+        nights = np.asarray(y_nig_pred, dtype=np.float32)
+        if arrivals.shape != nights.shape:
+            raise ValueError("Arrivals and nights must have identical shapes.")
+        arrivals = np.maximum(arrivals, 0.0)
+        violations = nights < arrivals
+        return arrivals.copy(), np.maximum(nights, arrivals), violations
 
     def optimize_pair(
         self,

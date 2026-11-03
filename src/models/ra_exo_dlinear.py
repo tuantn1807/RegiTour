@@ -10,23 +10,26 @@ Mathematical Lineage from Vanilla DLinear (Zeng et al., AAAI 2023):
   2. Theoretical Limitation in Tourism Econometrics:
      Vanilla DLinear is endogenous-only, unaware of deterministic future calendars (holidays, bridge days),
      fragile under macroeconomic regime breaks (COVID-19), and uncoupled across co-dependent targets.
-  3. Extended Relative-Deviation Formulation (GAM / First-Order Taylor):
-     Regime modulation acts on the projected trend; the DLinear forecast is expressed
-     relative to the empirical baseline before future and past exogenous adjustments:
-       delta_DLinear = (Y_RA_DLinear - S_base) / (S_base + 1.0)
-       Y_hat = ReLU(S_base * (1.0 + delta_DLinear + delta_fut + delta_past))
+  3. Forecast equation (identical additive and relative-deviation forms):
+       B = gamma(e_r) * (W_T X_trend) + beta(e_r) + W_S X_seasonal
+       S = max(S_empirical, 1.0); delta_trend = (B - S) / S
+       Y_raw = ReLU(B + S * (delta_fut + delta_past))
+             = ReLU(S * (1.0 + delta_trend + delta_fut + delta_past))
+     With FiLM and exogenous streams disabled, this reduces exactly to
+     nonnegative DLinear. No seasonal-baseline ensemble or event-year rule is used.
   4. Regime-Aware FiLM Modulation:
      delta_regime = alpha_trend * tanh(W_gamma * e_r + b_gamma), where e_r is the HMM regime embedding.
      alpha_trend is a learnable scaling parameter initialized to 0.35.
   5. Dual-Stream Exogenous Projections:
-     delta_fut = alpha_fut * tanh(W_F * X_fut + b_F)  [initialized ~ 0.25 from calendar variance prior]
-     delta_past = alpha_past * tanh(W_P * X_past + b_P) [initialized ~ 0.20 from macroeconomic variance prior]
+     delta_fut = alpha_fut * tanh(W_F * X_fut + b_F), alpha_fut initialized to 0.25.
+     delta_past = alpha_past * tanh(W_P * X_past + b_P), alpha_past initialized to 0.20.
      All alpha parameters are trainable via AdamW gradient descent with bounded tanh activation.
   6. Domain Business Consistency Constraint:
-     Enforces nights >= arrivals (LOS = nights / arrivals >= 1.0) strictly based on UN Tourism / Eurostat
-     definitional accounting standards for overnight visitors.
+     Train on raw forecasts so the consistency penalty has a learning signal.
+     Apply the physical projection once, after temporal/spatial fusion in the pipeline.
 """
 
+import warnings
 from typing import Dict, List, Optional, Tuple, Union
 import numpy as np
 import pandas as pd
@@ -52,6 +55,8 @@ if HAS_TORCH:
         """
         def __init__(self, kernel_size: int = 13):
             super().__init__()
+            if kernel_size < 1 or kernel_size % 2 == 0:
+                raise ValueError("kernel_size must be a positive odd integer.")
             self.kernel_size = kernel_size
             self.avg = nn.AvgPool1d(kernel_size=kernel_size, stride=1, padding=0)
 
@@ -72,7 +77,7 @@ if HAS_TORCH:
 
 
     # ============================================================
-    # 2. CLASSICAL BASELINES: VANILLA DLINEAR & NLINEAR (AAAI 2023)
+    # 2. CLASSICAL BASELINE: VANILLA DLINEAR (AAAI 2023)
     # ============================================================
     class VanillaDLinearNet(nn.Module):
         """
@@ -92,22 +97,6 @@ if HAS_TORCH:
             return trend_out + seas_out
 
 
-    class VanillaNLinearNet(nn.Module):
-        """
-        Vanilla NLinear (Zeng et al., AAAI 2023).
-        Normalizes by subtracting last observed value, maps linearly, adds back.
-        """
-        def __init__(self, lookback_len: int = 24, forecast_horizon: int = 12, num_channels: int = 2):
-            super().__init__()
-            self.linear = nn.Linear(lookback_len, forecast_horizon)
-
-        def forward(self, x: torch.Tensor) -> torch.Tensor:
-            last_val = x[:, -1:, :]
-            x_norm = x - last_val
-            out = self.linear(x_norm.permute(0, 2, 1)).permute(0, 2, 1)
-            return out + last_val
-
-
     # ============================================================
     # 3. PROPOSED CORE ARCHITECTURE: RA-Exo-DLinear
     # ============================================================
@@ -120,7 +109,7 @@ if HAS_TORCH:
           - FiLM modulation conditioned on regime state (Perez et al., 2018)
           - Dual-stream bounded linear exogenous projections (GAM formulation)
           - Learnable scaling parameters (alpha) for relative deviations
-          - Business consistency constraint (Nights >= Arrivals)
+          - Raw nonnegative outputs for consistency-regularized training
         """
         def __init__(
             self,
@@ -137,7 +126,6 @@ if HAS_TORCH:
             kernel_size: int = 13,
             use_film: bool = True,
             use_exo: bool = True,
-            use_consistency: bool = True,
         ):
             super().__init__()
             self.L = lookback_len
@@ -145,7 +133,8 @@ if HAS_TORCH:
             self.target_dim = target_dim
             self.use_film = use_film
             self.use_exo = use_exo
-            self.use_consistency = use_consistency
+            if target_dim != 2:
+                raise ValueError("RAExoDLinearNet expects arrivals and nights (target_dim=2).")
 
             # DLinear backbone: decompose each target history, then project both
             # components independently from lookback length L to horizon H.
@@ -222,17 +211,19 @@ if HAS_TORCH:
 
             # 2. FiLM modulation is applied to the projected trend branch.
             if self.use_film:
-                delta_trend_a = self.alpha_trend_a * torch.tanh(self.film_trend_a(e_r).squeeze(-1))
-                delta_trend_n = self.alpha_trend_n * torch.tanh(self.film_trend_n(e_r).squeeze(-1))
+                film_gain_a = self.alpha_trend_a * torch.tanh(self.film_trend_a(e_r).squeeze(-1))
+                film_gain_n = self.alpha_trend_n * torch.tanh(self.film_trend_n(e_r).squeeze(-1))
                 beta_a = self.film_bias_a(e_r).squeeze(-1)
                 beta_n = self.film_bias_n(e_r).squeeze(-1)
             else:
-                delta_trend_a = torch.zeros(x_target_history.shape[0], device=x_target_history.device)
-                delta_trend_n = torch.zeros_like(delta_trend_a)
-                beta_a = torch.zeros_like(delta_trend_a)
-                beta_n = torch.zeros_like(delta_trend_n)
-            trend_mod_a = trend_out[:, :, 0] * (1.0 + delta_trend_a.unsqueeze(1)) + beta_a.unsqueeze(1)
-            trend_mod_n = trend_out[:, :, 1] * (1.0 + delta_trend_n.unsqueeze(1)) + beta_n.unsqueeze(1)
+                film_gain_a = x_target_history.new_zeros(x_target_history.shape[0])
+                film_gain_n = torch.zeros_like(film_gain_a)
+                beta_a = torch.zeros_like(film_gain_a)
+                beta_n = torch.zeros_like(film_gain_n)
+            gamma_a = 1.0 + film_gain_a.unsqueeze(1)
+            gamma_n = 1.0 + film_gain_n.unsqueeze(1)
+            trend_mod_a = trend_out[:, :, 0] * gamma_a + beta_a.unsqueeze(1)
+            trend_mod_n = trend_out[:, :, 1] * gamma_n + beta_n.unsqueeze(1)
             base_a = trend_mod_a + seas_out[:, :, 0]
             base_n = trend_mod_n + seas_out[:, :, 1]
 
@@ -256,38 +247,53 @@ if HAS_TORCH:
                 delta_past_a = zero_horizon
                 delta_past_n = zero_horizon
 
-            # 4. Express the regime-modulated DLinear forecasts as deviations
-            # from the empirical baseline, then add the relative exogenous terms.
-            delta_dlinear_a = (base_a - s_base_a) / (s_base_a + 1.0)
-            delta_dlinear_n = (base_n - s_base_n) / (s_base_n + 1.0)
-            factor_a = 1.0 + delta_dlinear_a + delta_fut_a + delta_past_a
-            arr_pred = F.relu(s_base_a * factor_a)
+            # 4. Exact paper equation, evaluated additively to avoid cancellation.
+            # Every quantity below has shape (B,H). S is a positive scale, not
+            # a second forecast mixed into the learned DLinear output.
+            scale_a = s_base_a.clamp_min(1.0)
+            scale_n = s_base_n.clamp_min(1.0)
+            delta_trend_a = (base_a - scale_a) / scale_a
+            delta_trend_n = (base_n - scale_n) / scale_n
+            future_a, future_n = scale_a * delta_fut_a, scale_n * delta_fut_n
+            past_a, past_n = scale_a * delta_past_a, scale_n * delta_past_n
+            pre_activation_a = base_a + future_a + past_a
+            pre_activation_n = base_n + future_n + past_n
+            arr_pred = F.relu(pre_activation_a)
+            nig_pred = F.relu(pre_activation_n)
 
-            factor_n = 1.0 + delta_dlinear_n + delta_fut_n + delta_past_n
-            nig_raw = F.relu(s_base_n * factor_n)
-
-            # 5. Domain Business Consistency Constraint: Nights >= Arrivals.
-            if self.use_consistency:
-                nig_pred = torch.maximum(nig_raw, arr_pred)
-            else:
-                nig_pred = nig_raw
+            # No hard cross-target clipping here: L_cons must see violations.
+            # The pipeline applies Pi_C after temporal/spatial fusion.
 
             if return_components:
                 return {
                     "arrivals": arr_pred,
                     "nights": nig_pred,
+                    "arrivals_raw": arr_pred,
+                    "nights_raw": nig_pred,
+                    "baseline_arrivals": scale_a,
+                    "baseline_nights": scale_n,
+                    "temporal_arrivals": base_a,
+                    "temporal_nights": base_n,
+                    "future_contribution_arrivals": future_a,
+                    "future_contribution_nights": future_n,
+                    "past_contribution_arrivals": past_a,
+                    "past_contribution_nights": past_n,
+                    "nonnegative_adjustment_arrivals": arr_pred - pre_activation_a,
+                    "nonnegative_adjustment_nights": nig_pred - pre_activation_n,
                     "dlinear_trend_arrivals": trend_out[:, :, 0],
                     "dlinear_seasonal_arrivals": seas_out[:, :, 0],
                     "dlinear_trend_nights": trend_out[:, :, 1],
                     "dlinear_seasonal_nights": seas_out[:, :, 1],
-                    "delta_dlinear_arrivals": delta_dlinear_a,
-                    "delta_dlinear_nights": delta_dlinear_n,
+                    "delta_dlinear_arrivals": delta_trend_a,
+                    "delta_dlinear_nights": delta_trend_n,
+                    "film_gamma_arrivals": gamma_a.expand(-1, horizon),
+                    "film_gamma_nights": gamma_n.expand(-1, horizon),
                     "film_beta_arrivals": beta_a.unsqueeze(1).expand(-1, horizon),
                     "film_beta_nights": beta_n.unsqueeze(1).expand(-1, horizon),
-                    "delta_trend_arrivals": delta_trend_a.unsqueeze(1).expand(-1, horizon),
+                    "delta_trend_arrivals": delta_trend_a,
                     "delta_future_arrivals": delta_fut_a,
                     "delta_past_arrivals": delta_past_a,
-                    "delta_trend_nights": delta_trend_n.unsqueeze(1).expand(-1, horizon),
+                    "delta_trend_nights": delta_trend_n,
                     "delta_future_nights": delta_fut_n,
                     "delta_past_nights": delta_past_n,
                 }
@@ -315,11 +321,11 @@ if HAS_TORCH:
             s_base_a: torch.Tensor,
             s_base_n: torch.Tensor,
         ) -> torch.Tensor:
-            scale_a = s_base_a + 1.0
-            scale_n = s_base_n + 1.0
+            scale_a = s_base_a.clamp_min(1.0)
+            scale_n = s_base_n.clamp_min(1.0)
 
-            l_arr = F.smooth_l1_loss(arr_pred / scale_a, arr_true / scale_a)
-            l_nig = F.smooth_l1_loss(nig_pred / scale_n, nig_true / scale_n)
+            l_arr = F.mse_loss(arr_pred / scale_a, arr_true / scale_a)
+            l_nig = F.mse_loss(nig_pred / scale_n, nig_true / scale_n)
 
             # Economic penalty if nights < arrivals
             violation = F.relu(arr_pred - nig_pred)
@@ -332,8 +338,6 @@ else:
     class SeriesDecomp:
         pass
     class VanillaDLinearNet:
-        pass
-    class VanillaNLinearNet:
         pass
     class RAExoDLinearNet:
         pass
@@ -351,7 +355,9 @@ class RAExoDLinearForecaster:
     Training examples are built per entity from a target lookback window,
     known future calendar features, a past-exogenous lookback window, and H
     consecutive target values. Prediction aggregates overlapping H-step
-    forecasts back to one prediction per requested entity/date row.
+    forecasts back to one prediction per requested entity/date row. All outputs
+    are raw (before Pi_C). use_consistency controls the training penalty only;
+    the enclosing pipeline enforces the physical constraint after fusion.
     """
     FUTURE_COLS = [
         "month", "days_in_month", "weekend_days", "working_days",
@@ -383,6 +389,8 @@ class RAExoDLinearForecaster:
         num_epochs: Optional[int] = None,
         future_cols: Optional[List[str]] = None,
         past_exo_cols: Optional[List[str]] = None,
+        lambda_cons: float = 0.2,
+        short_history_policy: str = "edge",
         **kwargs,
     ):
         if history_len is not None:
@@ -402,6 +410,11 @@ class RAExoDLinearForecaster:
         self.use_film = kwargs.get("use_film", True)
         self.use_exo = kwargs.get("use_exo", True)
         self.use_consistency = kwargs.get("use_consistency", True)
+        self.lambda_cons = float(lambda_cons) if self.use_consistency else 0.0
+        if short_history_policy not in {"edge", "error"}:
+            raise ValueError("short_history_policy must be 'edge' or 'error'.")
+        self.short_history_policy = short_history_policy
+        self.last_prediction_diagnostics = pd.DataFrame()
 
         self.net: Optional[RAExoDLinearNet] = None
         self.device = torch.device("cuda" if (HAS_TORCH and torch.cuda.is_available()) else "cpu") if HAS_TORCH else "cpu"
@@ -411,7 +424,6 @@ class RAExoDLinearForecaster:
         self.seas_nig_map: Dict[Tuple[str, str, int], float] = {}
         self.entity_arr_map: Dict[Tuple[str, str], float] = {}
         self.entity_nig_map: Dict[Tuple[str, str], float] = {}
-        self.base_ratios_map: Dict[Tuple[str, str], float] = {}
         self.future_exo_cols: List[str] = []
         self.past_exo_cols: List[str] = []
         self.future_exo_mean = np.zeros(0, dtype=np.float32)
@@ -420,8 +432,6 @@ class RAExoDLinearForecaster:
         self.past_exo_scale = np.ones(0, dtype=np.float32)
         self.has_monthly_seasonality = False
         self._fit_frame: Optional[pd.DataFrame] = None
-        self.blend_weight_arrivals = 1.0
-        self.blend_weight_nights = 1.0
 
     @staticmethod
     def _feature_matrix(
@@ -440,16 +450,15 @@ class RAExoDLinearForecaster:
 
     @staticmethod
     def _encode_regimes(frame: pd.DataFrame, default: int = 2) -> np.ndarray:
+        """Prefer the fitted HMM state over calendar labels used for diagnostics."""
         regime_map = {"pre_2020": 0, "2020_2021": 1, "from_2022": 2}
-        if "period_group" in frame.columns:
-            values = frame["period_group"].map(regime_map).fillna(default).to_numpy(dtype=np.int64)
-        elif "regime" in frame.columns:
-            raw = frame["regime"]
-            numeric = pd.to_numeric(raw, errors="coerce")
-            labels = raw.map(regime_map)
-            values = numeric.fillna(labels).fillna(default).to_numpy(dtype=np.int64)
-        else:
-            values = np.full(len(frame), default, dtype=np.int64)
+        values = pd.Series(np.nan, index=frame.index)
+        for column in ("regime_state", "regime", "period_group"):
+            if column in frame.columns:
+                raw = frame[column]
+                encoded = pd.to_numeric(raw, errors="coerce").fillna(raw.map(regime_map))
+                values = values.fillna(encoded)
+        values = values.fillna(default).to_numpy(dtype=np.int64)
         return np.clip(values, 0, 2).astype(np.int64, copy=False)
 
     def _baseline_sequence(
@@ -457,8 +466,6 @@ class RAExoDLinearForecaster:
         geo: str,
         accom: str,
         future_rows: pd.DataFrame,
-        last_arrival: Optional[float],
-        last_nights: Optional[float],
     ) -> Tuple[np.ndarray, np.ndarray]:
         entity_key = (str(geo), str(accom))
         fallback_a = self.entity_arr_map.get(entity_key, 100.0)
@@ -474,15 +481,15 @@ class RAExoDLinearForecaster:
                 for month in future_rows["month"]
             ], dtype=np.float32)
         else:
-            base_a = np.full(len(future_rows), fallback_a if last_arrival is None else last_arrival, dtype=np.float32)
-            base_n = np.full(len(future_rows), fallback_n if last_nights is None else last_nights, dtype=np.float32)
+            base_a = np.full(len(future_rows), fallback_a, dtype=np.float32)
+            base_n = np.full(len(future_rows), fallback_n, dtype=np.float32)
 
-        return np.maximum(base_a, 0.0), np.maximum(base_n, 0.0)
+        return np.maximum(base_a, 1.0), np.maximum(base_n, 1.0)
 
     def fit(self, train_df: pd.DataFrame):
         """Fit the model from per-entity sliding windows and H-step labels."""
         if not HAS_TORCH:
-            return self
+            raise ImportError("Training RAExoDLinearForecaster requires PyTorch.")
         if self.lookback_len < 1 or self.forecast_horizon < 1:
             raise ValueError("lookback_len and forecast_horizon must both be positive.")
 
@@ -523,14 +530,6 @@ class RAExoDLinearForecaster:
                 (str(key[0]), str(key[1]), int(key[2])): float(value)
                 for key, value in monthly_nig.items()
             }
-
-        ratios = frame.groupby(list(self.ENTITY_COLS)).apply(
-            lambda group: float(group["nights_total"].sum() / max(1.0, group["arrivals_total"].sum()))
-        ).to_dict()
-        self.base_ratios_map = {
-            (str(key[0]), str(key[1])): max(1.0, float(value))
-            for key, value in ratios.items()
-        }
 
         self.past_exo_cols = [col for col in self.past_exo_cols_config if col in frame.columns]
         self.future_exo_cols = [col for col in self.future_cols_config if col in frame.columns]
@@ -574,7 +573,6 @@ class RAExoDLinearForecaster:
                 future_rows = group.iloc[target_start:target_start + self.forecast_horizon]
                 base_a, base_n = self._baseline_sequence(
                     str(geo), str(accom), future_rows,
-                    float(targets[origin, 0]), float(targets[origin, 1]),
                 )
 
                 samples_history.append(targets[target_start - self.lookback_len:target_start])
@@ -619,13 +617,12 @@ class RAExoDLinearForecaster:
             kernel_size=self.kernel_size,
             use_film=self.use_film,
             use_exo=self.use_exo,
-            use_consistency=self.use_consistency,
         ).to(self.device)
 
         optimizer = torch.optim.AdamW(
             self.net.parameters(), lr=self.learning_rate, weight_decay=1e-4
         )
-        criterion = CoupledConsistencyLinearLoss()
+        criterion = CoupledConsistencyLinearLoss(lambda_cons=self.lambda_cons)
         self.net.train()
 
         for _ in range(self.epochs):
@@ -652,7 +649,13 @@ class RAExoDLinearForecaster:
         test_df: pd.DataFrame,
         history_df: Optional[pd.DataFrame] = None,
     ) -> Dict[str, np.ndarray]:
-        """Build forecast-origin windows and map each horizon step to test rows."""
+        """Build windows from past observations up to each forecast origin.
+
+        For a nonempty history shorter than L, the 'edge' policy repeats its
+        earliest available value on the left. These are boundary values, not
+        additional observations. The 'error' policy requires L actual rows.
+        No window can be formed without at least one past observation.
+        """
         test = test_df.copy().reset_index(drop=True)
         if "accommodation_type" not in test.columns:
             test["accommodation_type"] = "total"
@@ -686,12 +689,14 @@ class RAExoDLinearForecaster:
         baselines_a = []
         baselines_n = []
         destinations = []
+        history_counts = []
 
         for (geo, accom), group in source.groupby(list(self.ENTITY_COLS), sort=False):
             group = group.sort_values("date").reset_index(drop=True)
             n_rows = len(group)
             last_target_start = n_rows - self.forecast_horizon
-            if last_target_start < self.lookback_len:
+            first_target_start = 1 if self.short_history_policy == "edge" else self.lookback_len
+            if last_target_start < first_target_start:
                 continue
 
             targets = group[list(self.TARGET_COLS)].apply(pd.to_numeric, errors="coerce").fillna(0.0).to_numpy(dtype=np.float32)
@@ -703,7 +708,7 @@ class RAExoDLinearForecaster:
             )
             regime_values = self._encode_regimes(group, default=2)
 
-            for target_start in range(self.lookback_len, last_target_start + 1):
+            for target_start in range(first_target_start, last_target_start + 1):
                 future_rows = group.iloc[target_start:target_start + self.forecast_horizon]
                 destination = np.full(self.forecast_horizon, -1, dtype=np.int64)
                 for horizon_idx, (_, future_row) in enumerate(future_rows.iterrows()):
@@ -718,13 +723,25 @@ class RAExoDLinearForecaster:
                     continue
 
                 origin = target_start - 1
-                histories.append(targets[target_start - self.lookback_len:target_start])
+                history_start = max(0, target_start - self.lookback_len)
+                target_history = targets[history_start:target_start]
+                past_history = past_exo[history_start:target_start]
+                n_observed = len(target_history)
+                n_padding = self.lookback_len - n_observed
+                if n_padding:
+                    target_history = np.concatenate([
+                        np.repeat(target_history[:1], n_padding, axis=0), target_history
+                    ])
+                    past_history = np.concatenate([
+                        np.repeat(past_history[:1], n_padding, axis=0), past_history
+                    ])
+                histories.append(target_history)
                 future_features.append(future_exo[target_start:target_start + self.forecast_horizon])
-                past_features.append(past_exo[target_start - self.lookback_len:target_start])
+                past_features.append(past_history)
+                history_counts.append(n_observed)
                 regimes.append(regime_values[origin])
                 base_a, base_n = self._baseline_sequence(
                     str(geo), str(accom), future_rows,
-                    float(targets[origin, 0]), float(targets[origin, 1]),
                 )
                 baselines_a.append(base_a)
                 baselines_n.append(base_n)
@@ -738,6 +755,7 @@ class RAExoDLinearForecaster:
             "baseline_a": np.stack(baselines_a).astype(np.float32) if baselines_a else np.zeros((0, self.forecast_horizon), dtype=np.float32),
             "baseline_n": np.stack(baselines_n).astype(np.float32) if baselines_n else np.zeros((0, self.forecast_horizon), dtype=np.float32),
             "destinations": np.stack(destinations) if destinations else np.zeros((0, self.forecast_horizon), dtype=np.int64),
+            "history_observations": np.asarray(history_counts, dtype=np.int64),
         }
 
     def _infer_windows(self, windows: Dict[str, np.ndarray]) -> Dict[str, np.ndarray]:
@@ -766,152 +784,80 @@ class RAExoDLinearForecaster:
 
         return {name: np.concatenate(parts, axis=0) for name, parts in collected.items()}
 
-    def _fallback_baseline(self, frame: pd.DataFrame) -> Tuple[np.ndarray, np.ndarray]:
-        arrivals = []
-        nights = []
-        for _, row in frame.iterrows():
-            geo = str(row["geo"])
-            accom = str(row.get("accommodation_type", "total"))
-            entity = (geo, accom)
-            if self.has_monthly_seasonality and "month" in frame.columns and pd.notna(row.get("month")):
-                month = int(row["month"])
-                arrivals.append(self.seas_arr_map.get((geo, accom, month), self.entity_arr_map.get(entity, 100.0)))
-                nights.append(self.seas_nig_map.get((geo, accom, month), self.entity_nig_map.get(entity, 250.0)))
-            else:
-                arrivals.append(self.entity_arr_map.get(entity, 100.0))
-                nights.append(self.entity_nig_map.get(entity, 250.0))
-        return np.asarray(arrivals, dtype=np.float32), np.asarray(nights, dtype=np.float32)
-
-    def _postprocess_predictions(
-        self,
-        frame: pd.DataFrame,
-        arrivals: np.ndarray,
-        nights: np.ndarray,
-    ) -> Tuple[np.ndarray, np.ndarray]:
-        if not self.has_monthly_seasonality and "covid_stringency_index" in frame.columns:
-            stringency = pd.to_numeric(frame["covid_stringency_index"], errors="coerce").fillna(0).to_numpy()
-            years = pd.to_datetime(frame["date"]).dt.year.to_numpy() if "date" in frame.columns else np.zeros(len(frame))
-            shock_mask = (years == 2020) & (stringency > 20.0)
-            if np.any(shock_mask):
-                shock_factor = np.clip(1.0 - 0.72 * (stringency / 100.0), 0.15, 0.60)
-                arrivals = np.where(shock_mask, arrivals * shock_factor, arrivals)
-                nights = np.where(shock_mask, nights * shock_factor, nights)
-
-        arrivals = np.clip(arrivals, 10.0, None).astype(np.float32)
-        ratios = np.asarray([
-            self.base_ratios_map.get(
-                (str(geo), str(accom)), 1.0
-            )
-            for geo, accom in zip(
-                frame["geo"],
-                frame.get("accommodation_type", pd.Series(["total"] * len(frame))),
-            )
-        ], dtype=np.float32)
-        if self.use_consistency:
-            nights = np.maximum(nights, arrivals * ratios).astype(np.float32)
-        else:
-            nights = np.clip(nights, 10.0, None).astype(np.float32)
-        return arrivals, nights
-
-    def calibrate(
-        self,
-        validation_df: pd.DataFrame,
-        history_df: Optional[pd.DataFrame] = None,
-    ) -> "RAExoDLinearForecaster":
-        """Choose per-target model/baseline blend weights on held-out validation data."""
-        if not HAS_TORCH or self.net is None or len(validation_df) == 0:
-            return self
-
-        model_a, model_n = self.predict(
-            validation_df, history_df=history_df, apply_calibration=False
-        )
-        base_a, base_n = self._fallback_baseline(validation_df)
-        base_a, base_n = self._postprocess_predictions(validation_df, base_a, base_n)
-
-        def best_model_weight(y_true: np.ndarray, model_pred: np.ndarray, base_pred: np.ndarray) -> float:
-            valid = y_true >= 100
-            if not np.any(valid):
-                valid = y_true > 0
-            if not np.any(valid):
-                return 1.0
-            denom = max(1.0, float(np.sum(y_true[valid])))
-            candidates = np.linspace(0.0, 1.0, 21)
-            scores = [
-                float(np.sum(np.abs(y_true[valid] - (weight * model_pred[valid] + (1.0 - weight) * base_pred[valid]))) / denom)
-                for weight in candidates
-            ]
-            return float(candidates[int(np.argmin(scores))])
-
-        self.blend_weight_arrivals = best_model_weight(
-            validation_df["arrivals_total"].to_numpy(dtype=np.float64),
-            model_a.astype(np.float64),
-            base_a.astype(np.float64),
-        )
-        self.blend_weight_nights = best_model_weight(
-            validation_df["nights_total"].to_numpy(dtype=np.float64),
-            model_n.astype(np.float64),
-            base_n.astype(np.float64),
-        )
-        return self
-
     def predict(
         self,
         test_df: pd.DataFrame,
         history_df: Optional[pd.DataFrame] = None,
-        apply_calibration: bool = True,
     ) -> Tuple[np.ndarray, np.ndarray]:
         """
-        Predict each test row by averaging all available rolling-origin forecasts
-        whose H-step horizon covers that row.
+        Return raw, nonnegative forecasts from the paper equation.
+
+        Average the model's H-step forecasts over available rolling origins.
+        Target values observed before each origin form its history. Final
+        cross-target projection belongs to the enclosing RA-HE pipeline.
         """
         if not HAS_TORCH or self.net is None:
-            zeros = np.zeros(len(test_df), dtype=np.float32)
-            return zeros, zeros
+            raise RuntimeError("Fit the PyTorch forecaster before requesting predictions.")
         if len(test_df) == 0:
+            self.last_prediction_diagnostics = pd.DataFrame()
             empty = np.zeros(0, dtype=np.float32)
             return empty, empty
 
         test = test_df.copy().reset_index(drop=True)
         if "accommodation_type" not in test.columns:
             test["accommodation_type"] = "total"
+        self.last_prediction_diagnostics = pd.DataFrame()
         windows = self._make_forecast_windows(test, history_df=history_df)
-        fallback_a, fallback_n = self._fallback_baseline(test)
-
         if len(windows["history"]) == 0:
-            arrivals, nights = fallback_a, fallback_n
-        else:
-            components = self._infer_windows(windows)
-            sums_a = np.zeros(len(test), dtype=np.float64)
-            sums_n = np.zeros(len(test), dtype=np.float64)
-            counts = np.zeros(len(test), dtype=np.int64)
+            raise ValueError("No forecast windows: supply enough per-entity history for the configured lookback.")
+        components = self._infer_windows(windows)
+        sums_a = np.zeros(len(test), dtype=np.float64)
+        sums_n = np.zeros(len(test), dtype=np.float64)
+        counts = np.zeros(len(test), dtype=np.int64)
+        min_history = np.full(len(test), self.lookback_len, dtype=np.int64)
 
-            for window_idx, destination in enumerate(windows["destinations"]):
-                for horizon_idx, row_idx in enumerate(destination):
-                    if row_idx < 0:
-                        continue
-                    sums_a[row_idx] += float(components["arrivals"][window_idx, horizon_idx])
-                    sums_n[row_idx] += float(components["nights"][window_idx, horizon_idx])
-                    counts[row_idx] += 1
+        for window_idx, destination in enumerate(windows["destinations"]):
+            for horizon_idx, row_idx in enumerate(destination):
+                if row_idx < 0:
+                    continue
+                sums_a[row_idx] += float(components["arrivals"][window_idx, horizon_idx])
+                sums_n[row_idx] += float(components["nights"][window_idx, horizon_idx])
+                counts[row_idx] += 1
+                min_history[row_idx] = min(min_history[row_idx], windows["history_observations"][window_idx])
 
-            arrivals = fallback_a.copy()
-            nights = fallback_n.copy()
-            has_prediction = counts > 0
-            arrivals[has_prediction] = (sums_a[has_prediction] / counts[has_prediction]).astype(np.float32)
-            nights[has_prediction] = (sums_n[has_prediction] / counts[has_prediction]).astype(np.float32)
-
-        if apply_calibration:
-            base_a, base_n = self._fallback_baseline(test)
-            base_a, base_n = self._postprocess_predictions(test, base_a, base_n)
-            arrivals = self.blend_weight_arrivals * arrivals + (1.0 - self.blend_weight_arrivals) * base_a
-            nights = self.blend_weight_nights * nights + (1.0 - self.blend_weight_nights) * base_n
-        return self._postprocess_predictions(test, arrivals, nights)
+        if np.any(counts == 0):
+            uncovered = test.loc[counts == 0, ["geo", "accommodation_type", "date"]]
+            raise ValueError(
+                f"{int(np.sum(counts == 0))} rows lack a complete forecast window; "
+                "supply past observations for every entity, or use short_history_policy='edge' "
+                "for nonempty short histories. Examples: "
+                f"{uncovered.head(5).to_dict('records')}"
+            )
+        self.last_prediction_diagnostics = test[["date", "geo", "accommodation_type"]].copy()
+        self.last_prediction_diagnostics["forecast_origin_count"] = counts
+        self.last_prediction_diagnostics["history_observations_min"] = min_history
+        self.last_prediction_diagnostics["history_padding_max"] = self.lookback_len - min_history
+        n_padded_rows = int(np.sum(min_history < self.lookback_len))
+        if n_padded_rows:
+            warnings.warn(
+                f"{n_padded_rows} forecast rows use short histories: repeat the earliest past "
+                "observation on the left to fill the lookback. Padding counts are recorded "
+                "in last_prediction_diagnostics; no future targets are used for padding.",
+                UserWarning,
+                stacklevel=2,
+            )
+        return (sums_a / counts).astype(np.float32), (sums_n / counts).astype(np.float32)
 
     def decompose(
         self,
         test_sample_df: pd.DataFrame,
         history_df: Optional[pd.DataFrame] = None,
     ) -> Dict[str, np.ndarray]:
-        """Return horizon-aligned DLinear and regime/exogenous components per test row."""
+        """Return components averaged over the same origins as predict().
+
+        Include the ReLU adjustment so the additive components reconstruct
+        averaged raw predictions even when activation clips some horizons.
+        """
         if not HAS_TORCH or self.net is None or len(test_sample_df) == 0:
             return {}
 

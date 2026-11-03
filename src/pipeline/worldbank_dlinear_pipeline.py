@@ -151,28 +151,21 @@ class WorldBankLinearForecastingPipeline:
         print("=" * 80)
         print("  • Huấn luyện mạng DLinear với FiLM Regime + Ngoại sinh 2 luồng...")
         self.linear_engine.fit(self.train_df)
-        if len(val_tuning_df) > 0:
-            self.linear_engine.calibrate(val_tuning_df, history_df=self.train_df)
-            print(
-                "  • Trọng số phối hợp DLinear/seasonal baseline trên validation tuning: "
-                f"arrivals={self.linear_engine.blend_weight_arrivals:.2f}, "
-                f"nights={self.linear_engine.blend_weight_nights:.2f}"
-            )
         history_before_test = pd.concat(
             [self.train_df, self.val_df], ignore_index=True
         )
         arr_pred_test, nig_pred_test = self.linear_engine.predict(
             self.test_df, history_df=history_before_test
         )
+        test_history_diagnostics = self.linear_engine.last_prediction_diagnostics.copy()
         print("  • Hoàn tất dự báo Lượt khách & Số đêm.")
 
         # 3. Ràng buộc kinh tế Coupled Consistency (LOS >= 1.0)
         print("\n" + "=" * 80)
         print("🔗 [PHASE 3] RÀNG BUỘC KINH TẾ HỌC DU LỊCH (COUPLED CONSISTENCY OPTIMIZER)")
         print("=" * 80)
-        base_ratios_test = self.test_df["length_of_stay"].values.astype(np.float32)
-        arr_final_test, nig_final_test, violations = self.coupled_optimizer.optimize_pair(
-            arr_pred_test, nig_pred_test, base_ratios=base_ratios_test
+        arr_final_test, nig_final_test, violations = self.coupled_optimizer.project_physical_pair(
+            arr_pred_test, nig_pred_test
         )
         print(f"  • Rà soát ràng buộc kinh tế: Triệt tiêu 100% vi phạm (nights >= arrivals).")
 
@@ -187,10 +180,9 @@ class WorldBankLinearForecastingPipeline:
             arr_pred_calibration, nig_pred_calibration = self.linear_engine.predict(
                 val_calibration_df, history_df=history_before_calibration
             )
-            arr_final_calibration, nig_final_calibration, _ = self.coupled_optimizer.optimize_pair(
+            arr_final_calibration, nig_final_calibration, _ = self.coupled_optimizer.project_physical_pair(
                 arr_pred_calibration,
                 nig_pred_calibration,
-                base_ratios=val_calibration_df["length_of_stay"].to_numpy(dtype=np.float32),
             )
             self.dcqf_engine.calibrate_residuals(
                 val_calibration_df["arrivals_total"].to_numpy(),
@@ -257,6 +249,8 @@ class WorldBankLinearForecastingPipeline:
         out_df["pred_nights_lower_90"] = lower_nig
         out_df["pred_nights_upper_90"] = upper_nig
         out_df["model"] = "RA-HE-DLinear (World Bank Annual)"
+        for column in ("forecast_origin_count", "history_observations_min", "history_padding_max"):
+            out_df[column] = test_history_diagnostics[column].to_numpy()
 
         out_csv = RESULTS_DIR / "forecast_results_worldbank_dlinear.csv"
         out_df.to_csv(out_csv, index=False)

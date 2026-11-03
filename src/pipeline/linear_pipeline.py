@@ -164,13 +164,6 @@ class TourismLinearForecastingPipeline:
         print("  • Huấn luyện RA-Exo-DLinear (Phân rã thực thể + FiLM Regime + Ngoại sinh 2 luồng)...")
         self.linear_engine.fit(self.train_df)
         if len(val_tuning_df) > 0:
-            self.linear_engine.calibrate(val_tuning_df, history_df=self.train_df)
-            print(
-                "  • Trọng số phối hợp DLinear/seasonal baseline được chọn trên phần validation tuning: "
-                f"arrivals={self.linear_engine.blend_weight_arrivals:.2f}, "
-                f"nights={self.linear_engine.blend_weight_nights:.2f}"
-            )
-        if len(val_tuning_df) > 0:
             arr_linear_val, nig_linear_val = self.linear_engine.predict(
                 val_tuning_df, history_df=self.train_df
             )
@@ -192,6 +185,7 @@ class TourismLinearForecastingPipeline:
             self.test_df,
             history_df=pd.concat(history_before_test, ignore_index=True),
         )
+        test_history_diagnostics = self.linear_engine.last_prediction_diagnostics.copy()
         print("  • Hoàn tất dự báo chuỗi thời gian & ngoại sinh.")
 
         print("\n" + "=" * 80)
@@ -268,11 +262,6 @@ class TourismLinearForecastingPipeline:
         print("\n" + "=" * 80)
         print("⚖️ [PHASE 4] HÒA TRỘN KHÔNG - THỜI GIAN & RÀNG BUỘC KINH TẾ (COUPLED CONSISTENCY)")
         print("=" * 80)
-        test_geo_codes = self.test_df["geo"].astype(str).values
-        base_ratios_test = np.array([
-            self.data_loader.country_base_ratios.get(g, 2.5) for g in test_geo_codes
-        ], dtype=np.float32)
-
         # Tối ưu hóa khoa học trọng số hòa trộn w_time trên tập Validation độc lập
         if self.optimize_weights and len(val_tuning_df) > 0 and arr_linear_val is not None:
             w_time = self._optimize_fusion_weight(
@@ -294,8 +283,8 @@ class TourismLinearForecastingPipeline:
         y_fused_nig = w_time * nig_linear_test + w_space * y_spatial_test_nig
 
         # Enforce consistency (zero business contradiction)
-        y_final_arr, y_final_nig, violations = self.coupled_optimizer.optimize_pair(
-            y_fused_arr, y_fused_nig, base_ratios=base_ratios_test
+        y_final_arr, y_final_nig, violations = self.coupled_optimizer.project_physical_pair(
+            y_fused_arr, y_fused_nig
         )
         print(f"  • Hòa trộn: {w_time*100:.1f}% RA-Exo-DLinear + {w_space*100:.1f}% TRMF-Spatial.")
         print(f"  • Rà soát ràng buộc kinh tế: Triệt tiêu 100% mâu thuẫn (nights >= arrivals).")
@@ -308,11 +297,6 @@ class TourismLinearForecastingPipeline:
             and arr_linear_calibration is not None
             and y_spatial_calibration is not None
         ):
-            calibration_geo_codes = val_calibration_df["geo"].astype(str).values
-            base_ratios_calibration = np.array([
-                self.data_loader.country_base_ratios.get(g, 2.5)
-                for g in calibration_geo_codes
-            ], dtype=np.float32)
             fused_calibration_arr = (
                 w_time * arr_linear_calibration
                 + w_space * y_spatial_calibration
@@ -321,10 +305,9 @@ class TourismLinearForecastingPipeline:
                 w_time * nig_linear_calibration
                 + w_space * y_spatial_calibration_nig
             )
-            pred_calibration_arr, pred_calibration_nig, _ = self.coupled_optimizer.optimize_pair(
+            pred_calibration_arr, pred_calibration_nig, _ = self.coupled_optimizer.project_physical_pair(
                 fused_calibration_arr,
                 fused_calibration_nig,
-                base_ratios=base_ratios_calibration,
             )
             self.dcqf_engine.calibrate_residuals(
                 val_calibration_df["arrivals_total"].to_numpy(),
@@ -393,6 +376,8 @@ class TourismLinearForecastingPipeline:
         results_df["w_temporal"] = w_time
         results_df["w_spatial"] = w_space
         results_df["dataset"] = self.dataset
+        for column in ("forecast_origin_count", "history_observations_min", "history_padding_max"):
+            results_df[column] = test_history_diagnostics[column].to_numpy()
 
         return {
             "results_df": results_df,
@@ -464,37 +449,30 @@ class TourismLinearForecastingPipeline:
         """
         y_true_arr = validation_df[self.data_loader.target_arrivals].values
         y_true_nig = validation_df[self.data_loader.target_nights].values
-        val_geo_codes = validation_df["geo"].astype(str).values
-        base_ratios_val = np.array([
-            self.data_loader.country_base_ratios.get(g, 2.5) for g in val_geo_codes
-        ], dtype=np.float32)
-
         def val_loss_fn(w: float) -> float:
             w = float(np.clip(w, 0.0, 1.0))
             fused_arr = w * arr_linear_val + (1.0 - w) * y_spatial_val
             fused_nig = w * nig_linear_val + (1.0 - w) * y_spatial_val_nig
-            f_arr, f_nig, _ = self.coupled_optimizer.optimize_pair(
-                fused_arr, fused_nig, base_ratios=base_ratios_val
+            f_arr, f_nig, _ = self.coupled_optimizer.project_physical_pair(
+                fused_arr, fused_nig
             )
             wape_arr = float(np.sum(np.abs(y_true_arr - f_arr)) / max(1.0, np.sum(y_true_arr)) * 100.0)
             wape_nig = float(np.sum(np.abs(y_true_nig - f_nig)) / max(1.0, np.sum(y_true_nig)) * 100.0)
             return 0.5 * wape_arr + 0.5 * wape_nig
 
-        # Domain-prior constraint: National endogenous seasonality & calendar drivers dominate >= 70% (Eurostat) or >= 80% (World Bank)
-        w_min = 0.70 if self.dataset == "eurostat" else 0.80
-        w_max = 1.00
+        # Search the full closed convex-mixture domain, including both pure-component endpoints.
+        w_min, w_max = 0.0, 1.0
 
         try:
             from scipy.optimize import minimize_scalar
             res = minimize_scalar(val_loss_fn, bounds=(w_min, w_max), method="bounded")
-            w_best = float(res.x)
+            candidates = [w_min, float(res.x), w_max]
         except Exception:
-            candidates = np.linspace(w_min, w_max, 61)
-            losses = [val_loss_fn(c) for c in candidates]
-            w_best = float(candidates[np.argmin(losses)])
+            candidates = np.linspace(w_min, w_max, 101).tolist()
+        w_best = float(min(candidates, key=val_loss_fn))
 
         val_score = val_loss_fn(w_best)
-        print(f"    - Miền tối ưu hóa ràng buộc tiên nghiệm kinh tế: w_time in [{w_min:.2f}, {w_max:.2f}]")
+        print(f"    - Miền tối ưu hóa validation: w_time in [{w_min:.2f}, {w_max:.2f}]")
         print(f"    - Nghiệm tối ưu trên Validation: w_time* = {w_best:.4f} ({w_best*100:.1f}% Thời gian + {(1.0-w_best)*100:.1f}% Không gian)")
         print(f"    - Validation WAPE kết hợp tại điểm tối ưu: {val_score:.2f}%")
         return round(w_best, 4)

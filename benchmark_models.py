@@ -2,19 +2,17 @@
 Script: benchmark_models.py
 Mục đích: Huấn luyện và đánh giá đối kháng trực tiếp giữa mô hình đề xuất
           (Proposed RA-HE-BiLSTM) và 5 mô hình đại diện cho 3 làn sóng y văn thế giới:
-          1. S-Naive (Seasonal Naive - Baseline Thống kê kinh tế lượng)
-          2. Standard XGBoost (Baseline Machine Learning tiêu chuẩn)
-          3. Standard LightGBM (Baseline Machine Learning tối ưu)
-          4. Standard LSTM (Hochreiter & Schmidhuber, 1997 - Deep Learning cổ điển)
-          5. Vanilla BiLSTM (Graves et al., 2013 - Deep Learning hai chiều)
-          6. CatBoost-Regime Standalone (Nghiên cứu bóc tách Ablation: Chỉ dùng vĩ mô)
-          7. RA-HE-BiLSTM (Mô hình lai tích hợp đề xuất ⭐)
+          Seasonal Naive, XGBoost, LightGBM, Vanilla DLinear, Vanilla BiLSTM,
+          CatBoost-Regime, PatchTST, iTransformer, TimesNet, and the proposed models.
+          Classical LSTM and Vanilla NLinear are intentionally excluded.
 Đầu ra:
   - results/tables/benchmark_model_comparison.csv
   - Cập nhật mục 4 vào results/evaluation_report.md
 """
 
+import argparse
 from pathlib import Path
+from typing import Tuple
 import numpy as np
 import pandas as pd
 
@@ -23,11 +21,15 @@ from src.models.baselines import (
     SeasonalNaiveForecaster,
     StandardXGBoostForecaster,
     StandardLightGBMForecaster,
-    StandardLSTMForecaster,
+    VanillaBiLSTMForecaster,
     VanillaDLinearForecaster,
-    VanillaNLinearForecaster,
 )
 from src.models.ra_exo_dlinear import RAExoDLinearForecaster
+from src.models.transformer_baselines import (
+    PatchTSTForecaster,
+    TimesNetForecaster,
+    iTransformerForecaster,
+)
 
 
 PROJECT_ROOT = Path(__file__).resolve().parent
@@ -35,7 +37,12 @@ RESULTS_DIR = PROJECT_ROOT / "results"
 TABLES_DIR = RESULTS_DIR / "tables"
 TABLES_DIR.mkdir(parents=True, exist_ok=True)
 PROPOSED_RESULTS_CSV = RESULTS_DIR / "forecast_results_ra_he_bilstm.csv"
-PROPOSED_LINEAR_CSV = RESULTS_DIR / "forecast_results_ra_he_dlinear.csv"
+PROPOSED_LINEAR_CSV = RESULTS_DIR / "forecast_results_ra_he_dlinear_eurostat.csv"
+
+RUNNABLE_MODELS = [
+    "xgboost", "lightgbm", "dlinear", "ra_exo_dlinear", "bilstm",
+    "catboost", "patchtst", "itransformer", "timesnet",
+]
 
 
 def calculate_metrics(y_true: np.ndarray, y_pred: np.ndarray) -> dict:
@@ -94,8 +101,21 @@ def compute_inconsistency_rates(
 
 
 def main():
+    parser = argparse.ArgumentParser(description="Train and compare RegiTour forecasting baselines")
+    parser.add_argument(
+        "--models",
+        nargs="+",
+        choices=RUNNABLE_MODELS,
+        help=(
+            "Optional subset to run. Seasonal Naive is always included as the reference; "
+            "for example: --models patchtst itransformer timesnet"
+        ),
+    )
+    args = parser.parse_args()
+    selected_models = set(args.models) if args.models else set(RUNNABLE_MODELS)
+
     print("=" * 80)
-    print("🏁 [CHẠY ĐỐI THỦ SO SÁNH] HUẤN LUYỆN & SO SÁNH CÁC MÔ HÌNH BASELINE VỚI RA-HE-DLinear")
+    print("🏁 [BENCHMARK] HUẤN LUYỆN VÀ SO SÁNH CÁC MÔ HÌNH DỰ BÁO")
     print("=" * 80)
 
     loader = TourismDataLoader()
@@ -108,75 +128,69 @@ def main():
     models = {}
 
     # 1. Seasonal Naive
-    print("  [1/5] Đang huấn luyện & dự báo: Seasonal Naive (Thống kê cổ điển)...")
+    print("  Đang dự báo: Seasonal Naive (mốc tham chiếu)...")
     snaive = SeasonalNaiveForecaster()
     snaive.fit(train_df)
     arr_snaive, nig_snaive = snaive.predict(test_df)
     models["Seasonal Naive (S-Naive)"] = (arr_snaive, nig_snaive)
 
-    # 2. Standard XGBoost
-    print("  [2/5] Đang huấn luyện & dự báo: Standard XGBoost (ML Chuẩn)...")
-    xgb_model = StandardXGBoostForecaster(n_estimators=200, learning_rate=0.05)
-    xgb_model.fit(train_df)
-    arr_xgb, nig_xgb = xgb_model.predict(test_df)
-    models["Standard XGBoost"] = (arr_xgb, nig_xgb)
+    if "xgboost" in selected_models:
+        print("  Đang huấn luyện: Standard XGBoost...")
+        forecaster = StandardXGBoostForecaster(n_estimators=200, learning_rate=0.05)
+        forecaster.fit(train_df)
+        models["Standard XGBoost"] = forecaster.predict(test_df)
 
-    # 3. Standard LightGBM
-    print("  [3/5] Đang huấn luyện & dự báo: Standard LightGBM (ML Tối ưu)...")
-    lgb_model = StandardLightGBMForecaster(n_estimators=200, learning_rate=0.05)
-    lgb_model.fit(train_df)
-    arr_lgb, nig_lgb = lgb_model.predict(test_df)
-    models["Standard LightGBM"] = (arr_lgb, nig_lgb)
+    if "lightgbm" in selected_models:
+        print("  Đang huấn luyện: Standard LightGBM...")
+        forecaster = StandardLightGBMForecaster(n_estimators=200, learning_rate=0.05)
+        forecaster.fit(train_df)
+        models["Standard LightGBM"] = forecaster.predict(test_df)
 
-    # 4. Modern Linear LTSF: Vanilla DLinear (AAAI 2023)
-    print("  [4/8] Đang huấn luyện & dự báo: Vanilla DLinear (Zeng et al., AAAI 2023)...")
-    dlinear_model = VanillaDLinearForecaster(epochs=25)
-    dlinear_model.fit(train_df)
-    arr_dlin, nig_dlin = dlinear_model.predict(test_df)
-    models["Vanilla DLinear (AAAI 2023)"] = (arr_dlin, nig_dlin)
+    if "dlinear" in selected_models:
+        print("  Đang huấn luyện: Vanilla DLinear...")
+        forecaster = VanillaDLinearForecaster(epochs=25)
+        forecaster.fit(train_df)
+        models["Vanilla DLinear (AAAI 2023)"] = forecaster.predict(
+            test_df, history_df=pd.concat([train_df, val_df], ignore_index=True)
+        )
 
-    # 5. Modern Linear LTSF: Vanilla NLinear (AAAI 2023)
-    print("  [5/8] Đang huấn luyện & dự báo: Vanilla NLinear (Zeng et al., AAAI 2023)...")
-    nlinear_model = VanillaNLinearForecaster(epochs=25)
-    nlinear_model.fit(train_df)
-    arr_nlin, nig_nlin = nlinear_model.predict(test_df)
-    models["Vanilla NLinear (AAAI 2023)"] = (arr_nlin, nig_nlin)
+    if "ra_exo_dlinear" in selected_models:
+        print("  Đang huấn luyện: RA-Exo-DLinear...")
+        forecaster = RAExoDLinearForecaster(epochs=35, learning_rate=0.005)
+        forecaster.fit(train_df)
+        models["RA-Exo-DLinear (Proposed Linear ⭐)"] = forecaster.predict(
+            test_df, history_df=pd.concat([train_df, val_df], ignore_index=True)
+        )
 
-    # 6. Novel Proposed Linear: RA-Exo-DLinear
-    print("  [6/8] Đang huấn luyện & dự báo: RA-Exo-DLinear (Proposed Linear ⭐)...")
-    ra_dlin = RAExoDLinearForecaster(epochs=35, learning_rate=0.005)
-    ra_dlin.fit(train_df)
-    if val_df is not None and len(val_df) > 0:
-        ra_dlin.calibrate(val_df, history_df=train_df)
-    arr_radlin, nig_radlin = ra_dlin.predict(
-        test_df, history_df=pd.concat([train_df, val_df], ignore_index=True)
-    )
-    models["RA-Exo-DLinear (Proposed Linear ⭐)"] = (arr_radlin, nig_radlin)
+    if "bilstm" in selected_models:
+        print("  Đang huấn luyện: Vanilla BiLSTM...")
+        forecaster = VanillaBiLSTMForecaster(epochs=25)
+        forecaster.fit(train_df)
+        models["Vanilla BiLSTM (Graves, 2013)"] = forecaster.predict(test_df)
 
-    # 7. Standard LSTM
-    print("  [7/8] Đang huấn luyện & dự báo: Standard LSTM (Hochreiter, 1997)...")
-    lstm_model = StandardLSTMForecaster(bidirectional=False, epochs=25)
-    lstm_model.fit(train_df)
-    arr_lstm, nig_lstm = lstm_model.predict(test_df)
-    models["Standard LSTM (Hochreiter, 1997)"] = (arr_lstm, nig_lstm)
+    if "catboost" in selected_models:
+        print("  Đang huấn luyện: CatBoost-Regime (Ablation)...")
+        from src.models.catboost_regime import CatBoostRegimeForecaster
+        forecaster = CatBoostRegimeForecaster(iterations=250)
+        forecaster.fit(train_df, target_arr_col="arrivals_total", target_nig_col="nights_total")
+        models["CatBoost-Regime (Ablation)"] = forecaster.predict(test_df)
 
-    # 8. Vanilla BiLSTM
-    print("  [8/8] Đang huấn luyện & dự báo: Vanilla BiLSTM (Graves, 2013)...")
-    bilstm_model = StandardLSTMForecaster(bidirectional=True, epochs=25)
-    bilstm_model.fit(train_df)
-    arr_bilstm, nig_bilstm = bilstm_model.predict(test_df)
-    models["Vanilla BiLSTM (Graves, 2013)"] = (arr_bilstm, nig_bilstm)
-
-    # 9. CatBoost-Regime Standalone (Ablation)
-    print("  [+] Đang huấn luyện & dự báo: CatBoost-Regime (Standalone Ablation)...")
-    from src.models.catboost_regime import CatBoostRegimeForecaster
-    cb = CatBoostRegimeForecaster(iterations=250)
-    cb.fit(train_df, target_arr_col="arrivals_total", target_nig_col="nights_total")
-    arr_cb, nig_cb = cb.predict(test_df)
-    models["CatBoost-Regime (Ablation)"] = (arr_cb, nig_cb)
+    transformer_models = [
+        ("patchtst", "PatchTST", PatchTSTForecaster),
+        ("itransformer", "iTransformer", iTransformerForecaster),
+        ("timesnet", "TimesNet", TimesNetForecaster),
+    ]
+    transformer_history = pd.concat([train_df, val_df], ignore_index=True)
+    for key, label, forecaster_class in transformer_models:
+        if key not in selected_models:
+            continue
+        print(f"  Đang huấn luyện: {label} (lookback=24, horizon=12)...")
+        forecaster = forecaster_class(lookback=24, horizon=12, epochs=30, patience=6)
+        forecaster.fit(train_df, val_df=val_df)
+        models[label] = forecaster.predict(test_df, history_df=transformer_history)
 
     # 10. Proposed RA-HE-BiLSTM (Loaded from pipeline run if available for Eurostat)
-    if PROPOSED_RESULTS_CSV.exists():
+    if not args.models and PROPOSED_RESULTS_CSV.exists():
         prop_df = pd.read_csv(PROPOSED_RESULTS_CSV)
         if "pred_arrivals_point" in prop_df.columns and "pred_nights_point" in prop_df.columns and len(prop_df) == len(test_df):
             arr_prop = prop_df["pred_arrivals_point"].values
@@ -184,7 +198,7 @@ def main():
             models["RA-HE-BiLSTM (Proposed Hybrid ⭐)"] = (arr_prop, nig_prop)
 
     # 11. Proposed RA-HE-DLinear (Loaded from linear pipeline run)
-    if PROPOSED_LINEAR_CSV.exists():
+    if not args.models and PROPOSED_LINEAR_CSV.exists():
         prop_lin_df = pd.read_csv(PROPOSED_LINEAR_CSV)
         if "pred_arrivals_point" in prop_lin_df.columns and "pred_nights_point" in prop_lin_df.columns and len(prop_lin_df) == len(test_df):
             arr_prop_lin = prop_lin_df["pred_arrivals_point"].values
@@ -197,15 +211,12 @@ def main():
 
     # Tổng hợp bảng so sánh
     benchmark_rows = []
-    base_arr_wape = None
+    base_arr_wape = calculate_metrics(y_true_arr, models["Seasonal Naive (S-Naive)"][0])["WAPE"]
 
     for name, (pred_a, pred_n) in models.items():
         m_a = calculate_metrics(y_true_arr, pred_a)
         m_n = calculate_metrics(y_true_nig, pred_n)
         phys_incons, band_incons = compute_inconsistency_rates(pred_a, pred_n, base_ratios=test_base_ratios)
-
-        if base_arr_wape is None:
-            base_arr_wape = m_a["WAPE"]
 
         error_drop = round(base_arr_wape - m_a["WAPE"], 2)
 
@@ -222,6 +233,8 @@ def main():
                 return "Statistical"
             elif "CatBoost" in model_name:
                 return "Machine Learning (Ablation)"
+            elif model_name in {"PatchTST", "iTransformer", "TimesNet"}:
+                return "Transformer LTSF"
             elif "XGBoost" in model_name or "LightGBM" in model_name:
                 return "Machine Learning"
             else:
@@ -268,12 +281,12 @@ Bảng dưới đây tổng hợp kết quả đối sánh thực nghiệm giữ
             is_prop = "Proposed" in r["Mô hình đối sánh (Model)"]
             prefix = "**" if is_prop else ""
             suffix = "**" if is_prop else ""
-            comp_md += f"| {prefix}{r['Mô hình đối sánh (Model)']}{suffix} | {r['Lớp mô hình (Family)']} | {prefix}{r['Arrivals WAPE (%)']}{suffix} | {r['Arrivals MAE']} | {prefix}{r['Nights WAPE (%)']}{suffix} | {r['Nights MAE']} | {prefix}{r['Vi phạm cận vật lý (< 1.0)']}{suffix} | {prefix}{r['Lệch dải kinh tế ([r_min, r_max)']}{suffix} | {r['Cải thiện sai số vs S-Naive']} |\n"
+            comp_md += f"| {prefix}{r['Mô hình đối sánh (Model)']}{suffix} | {r['Lớp mô hình (Family)']} | {prefix}{r['Arrivals WAPE (%)']}{suffix} | {r['Arrivals MAE']} | {prefix}{r['Nights WAPE (%)']}{suffix} | {r['Nights MAE']} | {prefix}{r['Vi phạm cận vật lý (< 1.0)']}{suffix} | {prefix}{r['Lệch dải kinh tế ([r_min, r_max])']}{suffix} | {r['Cải thiện sai số vs S-Naive']} |\n"
 
         comp_md += r"""
 #### 💡 Phân Tích Khoa Học & Bàn Luận (Scientific Discussion):
 1. **Sự vượt trội của Framework Tuyến tính Đề xuất (RA-HE-DLinear):**
-   - **`RA-HE-DLinear`** thiết lập kỷ lục sai số thấp nhất toàn bảng với **WAPE `14.59%` (Arrivals)** và **`25.00%` (Nights)**, cải thiện `+12.71%` so với Seasonal Naive (`27.30%`) và đánh bại các baseline AAAI 2023 (*Vanilla DLinear* `45.38%`, *Vanilla NLinear* `32.10%`).
+   - **`RA-HE-DLinear`** đạt WAPE `14.59%` (Arrivals) và `25.00%` (Nights) trong kết quả hiện có. Các Transformer LTSF (PatchTST, iTransformer, TimesNet) được đưa vào bảng benchmark để đánh giá cùng giao thức.
    - Việc kết hợp lõi thời gian `RA-Exo-DLinear` với thành phần ma trận lan tỏa không gian `TRMF-Spatial` giúp bổ khuyết hoàn hảo 2 chiều Không - Thời gian mà không bị cồng kềnh hay chồng chéo chức năng.
 2. **Làm rõ tính nhất quán kinh tế (Domain Consistency Clarification):**
    - **Cận dưới vật lý ($\text{LOS} < 1.0$):** Ngay cả dữ liệu thực tế (Ground Truth) cũng xuất hiện $0.05\%$ (2 quan sát/4.712) do sai số ghi nhận tại một số cơ sở lưu trú nhỏ. Ở mô hình đề xuất, tỷ lệ này tiệm cận $0.00\%$ do toán tử chiếu lồi $\Pi_{\mathcal{C}}$ bảo đảm về mặt cấu trúc giải thuật.

@@ -3,12 +3,16 @@ Baseline Models for Comparative Scientific Benchmarking.
 Implements the 3 waves of literature baselines:
   1. Wave 1 - Econometric / Statistical: Seasonal Naive (S-Naive)
   2. Wave 2 - Standard Machine Learning: Standard XGBoost & LightGBM (No Wavelets, No Regime)
-  3. Wave 3 - Classical Deep Learning: Standard LSTM (Hochreiter, 1997) & Vanilla BiLSTM (Graves, 2013)
+  3. Wave 3 - Classical Deep Learning: Vanilla BiLSTM (Graves, 2013)
+  4. Wave 4 - Modern LTSF: Vanilla DLinear (Zeng et al., AAAI 2023)
+
+Modern transformer baselines are implemented in transformer_baselines.py.
 """
 
 from typing import Dict, List, Optional, Tuple
 import numpy as np
 import pandas as pd
+from src.models.ra_exo_dlinear import RAExoDLinearForecaster
 
 try:
     import xgboost as xgb
@@ -25,7 +29,6 @@ except ImportError:
 try:
     import torch
     import torch.nn as nn
-    import torch.nn.functional as F
     HAS_TORCH = True
 except ImportError:
     HAS_TORCH = False
@@ -177,24 +180,23 @@ class StandardLightGBMForecaster:
 
 
 # ============================================================
-# 3. CLASSICAL DEEP LEARNING BASELINES: STANDARD LSTM & BiLSTM
+# 3. CLASSICAL DEEP LEARNING BASELINE: VANILLA BiLSTM
 # ============================================================
 if HAS_TORCH:
-    class ClassicalLSTMNet(nn.Module):
+    class VanillaBiLSTMNet(nn.Module):
         """
-        Vanilla LSTM Network (Hochreiter & Schmidhuber, 1997).
-        Static forget gate, no regime awareness, standard linear projection.
+        Vanilla bidirectional LSTM used as the retained recurrent baseline.
         """
-        def __init__(self, input_dim: int, hidden_dim: int = 64, bidirectional: bool = False):
+        def __init__(self, input_dim: int, hidden_dim: int = 64):
             super().__init__()
             self.lstm = nn.LSTM(
                 input_size=input_dim,
                 hidden_size=hidden_dim,
                 num_layers=2,
                 batch_first=True,
-                bidirectional=bidirectional,
+                bidirectional=True,
             )
-            out_dim = hidden_dim * (2 if bidirectional else 1)
+            out_dim = hidden_dim * 2
             self.fc_arr = nn.Linear(out_dim, 1)
             self.fc_nig = nn.Linear(out_dim, 1)
 
@@ -206,18 +208,15 @@ if HAS_TORCH:
             return y_arr, y_nig
 
 
-class StandardLSTMForecaster:
-    """
-    Standard Deep Learning LSTM Forecaster.
-    """
+class VanillaBiLSTMForecaster:
+    """Vanilla bidirectional LSTM forecaster."""
     FEATURE_COLS = [
         "month", "year", "days_in_month", "weekend_days",
         "hicp_accommodation", "covid_stringency_index",
         "country_id", "accom_id"
     ]
 
-    def __init__(self, bidirectional: bool = False, epochs: int = 30, batch_size: int = 128):
-        self.bidirectional = bidirectional
+    def __init__(self, epochs: int = 30, batch_size: int = 128):
         self.epochs = epochs
         self.batch_size = batch_size
         self.net = None
@@ -250,7 +249,7 @@ class StandardLSTMForecaster:
         dataset = torch.utils.data.TensorDataset(X_t, ya_t, yn_t)
         loader = torch.utils.data.DataLoader(dataset, batch_size=self.batch_size, shuffle=True)
 
-        self.net = ClassicalLSTMNet(input_dim=len(self.cols), bidirectional=self.bidirectional)
+        self.net = VanillaBiLSTMNet(input_dim=len(self.cols))
         optimizer = torch.optim.Adam(self.net.parameters(), lr=2e-3)
         criterion = nn.MSELoss()
 
@@ -284,174 +283,35 @@ class StandardLSTMForecaster:
 # ============================================================
 # 4. WAVE 4 - MODERN LINEAR LTSF BASELINES (Zeng et al., AAAI 2023)
 # ============================================================
-class VanillaDLinearForecaster:
+class VanillaDLinearForecaster(RAExoDLinearForecaster):
+    """Actual target-history DLinear, with both extension streams disabled.
+
+    Shares windowing with RA-Exo-DLinear so the baseline differs only in its
+    forecasting equation: ReLU(W_T X_trend + W_S X_seasonal).
     """
-    Standard DLinear Benchmark (AAAI 2023).
-    Univariate moving average decomposition + single linear layer.
-    """
-    FEATURE_COLS = [
-        "month", "year", "days_in_month", "weekend_days",
-        "country_id", "accom_id"
-    ]
 
-    def __init__(self, kernel_size: int = 13, epochs: int = 30, batch_size: int = 128):
-        self.kernel_size = kernel_size
-        self.epochs = epochs
-        self.batch_size = batch_size
-        self.net = None
-        self.seas_arr = {}
-        self.seas_nig = {}
-
-    def fit(self, train_df: pd.DataFrame):
-        if not HAS_TORCH:
-            return self
-
-        self.cols = [c for c in self.FEATURE_COLS if c in train_df.columns]
-        seas_a = train_df.groupby(["geo", "accommodation_type", "month"])["arrivals_total"].median().to_dict()
-        seas_n = train_df.groupby(["geo", "accommodation_type", "month"])["nights_total"].median().to_dict()
-        self.seas_arr = { (str(k[0]), str(k[1]), int(k[2])): float(v) for k, v in seas_a.items() }
-        self.seas_nig = { (str(k[0]), str(k[1]), int(k[2])): float(v) for k, v in seas_n.items() }
-
-        # Simple linear projection over calendar indicators
-        X_raw = train_df[self.cols].fillna(0).values.astype(np.float32)
-        S_a = np.array([self.seas_arr.get((str(g), str(a), int(m)), 100.0) for g, a, m in zip(train_df["geo"], train_df["accommodation_type"], train_df["month"])], dtype=np.float32)
-        S_n = np.array([self.seas_nig.get((str(g), str(a), int(m)), 250.0) for g, a, m in zip(train_df["geo"], train_df["accommodation_type"], train_df["month"])], dtype=np.float32)
-        y_arr = train_df["arrivals_total"].values.astype(np.float32)
-        y_nig = train_df["nights_total"].values.astype(np.float32)
-
-        class SimpleDLinearTabular(nn.Module):
-            def __init__(self, in_features: int):
-                super().__init__()
-                self.fc_a = nn.Linear(in_features, 1)
-                self.fc_n = nn.Linear(in_features, 1)
-
-            def forward(self, x: torch.Tensor, sa: torch.Tensor, sn: torch.Tensor) -> Tuple[torch.Tensor, torch.Tensor]:
-                # DLinear additive on seasonal profile (no consistency enforcement)
-                delta_a = 0.25 * torch.tanh(self.fc_a(x).squeeze(-1))
-                delta_n = 0.25 * torch.tanh(self.fc_n(x).squeeze(-1))
-                ya = F.relu(sa * (1.0 + delta_a))
-                yn = F.relu(sn * (1.0 + delta_n))
-                return ya, yn
-
-        dataset = torch.utils.data.TensorDataset(
-            torch.tensor(X_raw), torch.tensor(S_a), torch.tensor(S_n),
-            torch.tensor(y_arr), torch.tensor(y_nig)
+    def __init__(
+        self,
+        kernel_size: int = 13,
+        epochs: int = 30,
+        batch_size: int = 128,
+        lookback_len: int = 24,
+        forecast_horizon: int = 12,
+        learning_rate: float = 0.005,
+        random_state: int = 42,
+    ) -> None:
+        super().__init__(
+            lookback_len=lookback_len,
+            forecast_horizon=forecast_horizon,
+            kernel_size=kernel_size,
+            epochs=epochs,
+            batch_size=batch_size,
+            learning_rate=learning_rate,
+            random_state=random_state,
+            future_cols=[],
+            past_exo_cols=[],
+            use_film=False,
+            use_exo=False,
+            use_consistency=False,
         )
-        loader = torch.utils.data.DataLoader(dataset, batch_size=self.batch_size, shuffle=True)
-
-        self.net = SimpleDLinearTabular(in_features=len(self.cols))
-        optimizer = torch.optim.Adam(self.net.parameters(), lr=5e-3)
-
-        self.net.train()
-        for _ in range(self.epochs):
-            for bx, bsa, bsn, bya, byn in loader:
-                optimizer.zero_grad()
-                pa, pn = self.net(bx, bsa, bsn)
-                loss = F.smooth_l1_loss(pa / (bsa + 1.0), bya / (bsa + 1.0)) + F.smooth_l1_loss(pn / (bsn + 1.0), byn / (bsn + 1.0))
-                loss.backward()
-                optimizer.step()
-
-        return self
-
-    def predict(self, test_df: pd.DataFrame) -> Tuple[np.ndarray, np.ndarray]:
-        if not HAS_TORCH or self.net is None:
-            return np.zeros(len(test_df), dtype=np.float32), np.zeros(len(test_df), dtype=np.float32)
-
-        self.net.eval()
-        X_raw = test_df[self.cols].fillna(0).values.astype(np.float32)
-        S_a = np.array([self.seas_arr.get((str(g), str(a), int(m)), 100.0) for g, a, m in zip(test_df["geo"], test_df["accommodation_type"], test_df["month"])], dtype=np.float32)
-        S_n = np.array([self.seas_nig.get((str(g), str(a), int(m)), 250.0) for g, a, m in zip(test_df["geo"], test_df["accommodation_type"], test_df["month"])], dtype=np.float32)
-
-        with torch.no_grad():
-            pa, pn = self.net(torch.tensor(X_raw), torch.tensor(S_a), torch.tensor(S_n))
-            arr_pred = pa.numpy()
-            nig_pred = pn.numpy()
-
-        return np.clip(arr_pred, 10.0, None).astype(np.float32), np.clip(nig_pred, 25.0, None).astype(np.float32)
-
-
-class VanillaNLinearForecaster:
-    """
-    Standard NLinear Benchmark (AAAI 2023).
-    Normalizes by entity baseline, passes through linear layer, then adds back.
-    No regime awareness and no economic consistency constraints (exhibits business contradictions).
-    """
-    FEATURE_COLS = [
-        "month", "year", "days_in_month", "weekend_days",
-        "country_id", "accom_id"
-    ]
-
-    def __init__(self, epochs: int = 25, batch_size: int = 256):
-        self.epochs = epochs
-        self.batch_size = batch_size
-        self.net = None
-        self.cols: List[str] = []
-        self.mean_arr_map = {}
-        self.mean_nig_map = {}
-
-    def fit(self, train_df: pd.DataFrame):
-        if not HAS_TORCH:
-            return self
-
-        self.cols = [c for c in self.FEATURE_COLS if c in train_df.columns]
-        m_a = train_df.groupby(["geo", "accommodation_type"])["arrivals_total"].median().to_dict()
-        m_n = train_df.groupby(["geo", "accommodation_type"])["nights_total"].median().to_dict()
-        self.mean_arr_map = { (str(k[0]), str(k[1])): float(v) for k, v in m_a.items() }
-        self.mean_nig_map = { (str(k[0]), str(k[1])): float(v) for k, v in m_n.items() }
-
-        X_raw = train_df[self.cols].fillna(0).values.astype(np.float32)
-        M_a = np.array([self.mean_arr_map.get((str(g), str(a)), 1000.0) for g, a in zip(train_df["geo"], train_df["accommodation_type"])], dtype=np.float32)
-        M_n = np.array([self.mean_nig_map.get((str(g), str(a)), 2500.0) for g, a in zip(train_df["geo"], train_df["accommodation_type"])], dtype=np.float32)
-
-        y_arr = train_df["arrivals_total"].values.astype(np.float32)
-        y_nig = train_df["nights_total"].values.astype(np.float32)
-
-        class SimpleNLinearTabular(nn.Module):
-            def __init__(self, in_features: int):
-                super().__init__()
-                self.fc_a = nn.Linear(in_features, 1)
-                self.fc_n = nn.Linear(in_features, 1)
-
-            def forward(self, x: torch.Tensor, ma: torch.Tensor, mn: torch.Tensor) -> Tuple[torch.Tensor, torch.Tensor]:
-                # NLinear: entity shift + linear mapping
-                ya = F.relu(ma * (1.0 + 0.3 * torch.tanh(self.fc_a(x).squeeze(-1))))
-                yn = F.relu(mn * (1.0 + 0.3 * torch.tanh(self.fc_n(x).squeeze(-1))))
-                return ya, yn
-
-        dataset = torch.utils.data.TensorDataset(
-            torch.tensor(X_raw), torch.tensor(M_a), torch.tensor(M_n),
-            torch.tensor(y_arr), torch.tensor(y_nig)
-        )
-        loader = torch.utils.data.DataLoader(dataset, batch_size=self.batch_size, shuffle=True)
-
-        self.net = SimpleNLinearTabular(in_features=len(self.cols))
-        optimizer = torch.optim.Adam(self.net.parameters(), lr=5e-3)
-
-        self.net.train()
-        for _ in range(self.epochs):
-            for bx, bma, bmn, bya, byn in loader:
-                optimizer.zero_grad()
-                pa, pn = self.net(bx, bma, bmn)
-                loss = F.smooth_l1_loss(pa / (bma + 1.0), bya / (bma + 1.0)) + F.smooth_l1_loss(pn / (bmn + 1.0), byn / (bmn + 1.0))
-                loss.backward()
-                optimizer.step()
-
-        return self
-
-    def predict(self, test_df: pd.DataFrame) -> Tuple[np.ndarray, np.ndarray]:
-        if not HAS_TORCH or self.net is None:
-            return np.zeros(len(test_df), dtype=np.float32), np.zeros(len(test_df), dtype=np.float32)
-
-        self.net.eval()
-        X_raw = test_df[self.cols].fillna(0).values.astype(np.float32)
-        M_a = np.array([self.mean_arr_map.get((str(g), str(a)), 1000.0) for g, a in zip(test_df["geo"], test_df["accommodation_type"])], dtype=np.float32)
-        M_n = np.array([self.mean_nig_map.get((str(g), str(a)), 2500.0) for g, a in zip(test_df["geo"], test_df["accommodation_type"])], dtype=np.float32)
-
-        with torch.no_grad():
-            pa, pn = self.net(torch.tensor(X_raw), torch.tensor(M_a), torch.tensor(M_n))
-            arr_pred = pa.numpy()
-            nig_pred = pn.numpy()
-
-        return np.clip(arr_pred, 10.0, None).astype(np.float32), np.clip(nig_pred, 25.0, None).astype(np.float32)
-
 

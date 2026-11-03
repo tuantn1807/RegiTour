@@ -1,0 +1,60 @@
+{
+  "old_commit": "9df92d85e1bd6e26ddb73b5c8079ae7a0e0f46fa",
+  "epochs": 35,
+  "threads": 1,
+  "seed": 42,
+  "train_end_year": 2022,
+  "val_end_year": 2023,
+  "torch_version": "2.15.0+cpu",
+  "configurations": {
+    "old": {
+      "train_rows": 23712,
+      "validation_rows": 1824,
+      "test_rows": 4864,
+      "test_start": "2024-01-01 00:00:00",
+      "test_end": "2026-08-01 00:00:00",
+      "lookback": 24,
+      "horizon": 12,
+      "kernel_size": 13,
+      "learning_rate": 0.005,
+      "w_temporal": 0.7,
+      "runtime_seconds": 241.69023869998637,
+      "arrivals_baseline_blend": 0.45,
+      "nights_baseline_blend": 0.2,
+      "network_parameters": 4752
+    },
+    "new": {
+      "train_rows": 23712,
+      "validation_rows": 1824,
+      "test_rows": 4864,
+      "test_start": "2024-01-01 00:00:00",
+      "test_end": "2026-08-01 00:00:00",
+      "lookback": 24,
+      "horizon": 12,
+      "kernel_size": 13,
+      "learning_rate": 0.005,
+      "w_temporal": 0.0,
+      "runtime_seconds": 228.57651369998348,
+      "arrivals_baseline_blend": null,
+      "nights_baseline_blend": null,
+      "network_parameters": 4752
+    }
+  },
+  "data_sha256": "49b1c98d07418387598ae341f5b8683790178219c734f7dccdfe249088f56000",
+  "sources_sha256": {
+    "model": {
+      "old": "537d3fdf9aff93949506112f9dc7da06ab3fd2db458305f12d13d3f684dc62ee",
+      "new": "6785c69b45dfdf90aec0ccdbd68d0ac9bf43e17511e6e92069bc44ea9c077f17"
+    },
+    "projection": {
+      "old": "ee5bf4f8a3c232a2b1c8920eddfc173c13ce04c3b54669745feae0a285297a6c",
+      "new": "db422f34d42d26934e7f31cfb74992a1e49e890865de6c0b39e64f1b06a3aa07"
+    },
+    "pipeline": {
+      "old": "585c617c79679951f81944b8afb53c0c92114950384a22af60d1a888842444a6",
+      "new": "e896d3abbd565bc83843ee86573e8892f85c53a75200a1995e7cdb4fd5867609"
+    }
+  },
+  "metric_filter": "Compute each target's metrics where observed target >= 100, as in calculate_metrics().",
+  "comparison_scope": "Full implementation versions; includes changes in loss, baseline calibration, projection and fusion search. Not an isolated equation ablation."
+}

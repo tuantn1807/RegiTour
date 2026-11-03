@@ -9,7 +9,6 @@ from src.models.ra_exo_dlinear import (
     RAExoDLinearNet,
     RAExoDLinearForecaster,
     VanillaDLinearNet,
-    VanillaNLinearNet,
     CoupledConsistencyLinearLoss,
 )
 from src.models.trmf_spatial import TRMFSpatialSpillover
@@ -19,6 +18,11 @@ from src.models.dcqf_conformal import (
 )
 from src.models.moe_gating import DynamicMoEGatingNetwork
 from src.models.coupled_optimizer import CoupledConsistencyOptimizer
+from src.models.transformer_baselines import (
+    PatchTSTForecaster,
+    iTransformerForecaster,
+    TimesNetForecaster,
+)
 
 __all__ = [
     "RegimeHMMNavigator",
@@ -28,12 +32,14 @@ __all__ = [
     "RAExoDLinearNet",
     "RAExoDLinearForecaster",
     "VanillaDLinearNet",
-    "VanillaNLinearNet",
     "CoupledConsistencyLinearLoss",
     "TRMFSpatialSpillover",
     "DeepConformalQuantileForecaster",
     "ResidualConformalForecaster",
     "DynamicMoEGatingNetwork",
     "CoupledConsistencyOptimizer",
+    "PatchTSTForecaster",
+    "iTransformerForecaster",
+    "TimesNetForecaster",
 ]
 
