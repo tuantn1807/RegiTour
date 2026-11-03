@@ -141,20 +141,9 @@ class TourismForecastingPipeline:
         print("\n" + "=" * 80)
         print("🌐 [PHASE 3.2] HUẤN LUYỆN ĐỘNG CƠ 3: DUAL TRMF MATRIX FACTORIZATION (LAN TỎA KHÔNG GIAN)")
         print("=" * 80)
-        # Dual TRMF modeling for independent visitor arrivals (Yarr) and overnight stays (Ynig)
-        self.trmf_engine.fit_dual(
-            self.train_df,
-            target_arr="arrivals_total",
-            target_nig="nights_total",
-            accom_type="total",
-        )
-        val_date_unique = sorted(self.val_df["date"].unique())
-        test_date_unique = sorted(self.test_df["date"].unique())
-        all_future_dates = sorted(set(val_date_unique + test_date_unique))
-        trmf_forecasts_arr, trmf_forecasts_nig = self.trmf_engine.forecast_dual(
-            horizon=len(all_future_dates)
-        )
-        print(f"  • Bóc tách 4 cụm không gian độc lập cho Yarr và Ynig (độ phức tạp O(N*r)).")
+        self.trmf_engine.fit(self.train_df, target_col="arrivals_total", accom_type="total")
+        trmf_forecasts = self.trmf_engine.forecast(horizon=len(self.test_df["date"].unique()))
+        print(f"  • Bóc tách 4 cụm không gian Châu Âu (KHÔNG DÙNG GNN, độ phức tạp O(N*r)).")
 
         # Map TRMF forecasts to test_df
         test_geo_list = self.test_df["geo"].astype(str).values
@@ -187,28 +176,6 @@ class TourismForecastingPipeline:
                 y_spatial_test[i] = trmf_forecasts_arr[geo_code][h_idx] * share_arr
             else:
                 y_spatial_test[i] = y_trend_test_arr[i]
-            if geo_code in trmf_forecasts_nig and h_idx < len(trmf_forecasts_nig[geo_code]):
-                y_spatial_test_nig[i] = trmf_forecasts_nig[geo_code][h_idx] * share_nig
-            else:
-                y_spatial_test_nig[i] = y_trend_test_nig[i]
-
-        val_geo_list = self.val_df["geo"].astype(str).values
-        val_acc_list = self.val_df["accommodation_type"].values
-        val_dates = self.val_df["date"].values
-        y_spatial_val = np.zeros(len(self.val_df), dtype=np.float32)
-        y_spatial_val_nig = np.zeros(len(self.val_df), dtype=np.float32)
-        for i, (geo_code, acc_type, date) in enumerate(zip(val_geo_list, val_acc_list, val_dates)):
-            h_idx = date_to_idx.get(date, 0)
-            share_arr = accom_shares_arr.get((geo_code, acc_type), 1.0 if acc_type == "total" else 0.25)
-            share_nig = accom_shares_nig.get((geo_code, acc_type), 1.0 if acc_type == "total" else 0.25)
-            if geo_code in trmf_forecasts_arr and h_idx < len(trmf_forecasts_arr[geo_code]):
-                y_spatial_val[i] = trmf_forecasts_arr[geo_code][h_idx] * share_arr
-            else:
-                y_spatial_val[i] = y_trend_val_arr[i]
-            if geo_code in trmf_forecasts_nig and h_idx < len(trmf_forecasts_nig[geo_code]):
-                y_spatial_val_nig[i] = trmf_forecasts_nig[geo_code][h_idx] * share_nig
-            else:
-                y_spatial_val_nig[i] = y_trend_val_nig[i]
 
         print("\n" + "=" * 80)
         print("⭐ [PHASE 3.3] HUẤN LUYỆN ĐỘNG CƠ 2: M-RA-BiLSTM ATTENTION (LỊCH LỄ & ĐỈNH NHỌN)")
@@ -323,6 +290,7 @@ class TourismForecastingPipeline:
         print("=" * 80)
         # Calibrate the intervals from held-out residuals of the same composite forecaster.
         y_point_val_arr = 0.80 * y_seasonal_val_arr + 0.20 * y_spatial_val
+        y_spatial_val_nig = y_spatial_val * val_base_ratios
         y_point_val_nig = 0.80 * y_seasonal_val_nig + 0.20 * y_spatial_val_nig
         y_final_val_arr, y_final_val_nig, _ = self.coupled_optimizer.optimize_pair(
             y_point_val_arr,

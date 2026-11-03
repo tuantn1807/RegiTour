@@ -48,8 +48,8 @@ flowchart TD
     subgraph Extensions ["2. ĐIỀU BIẾN FiLM & CHIẾU NGOẠI SINH"]
         W_S["Tuyến tính Mùa vụ: W_S * X_S"]
         FiLM["Điều biến FiLM trên Trend:<br/>gamma(e_r) * (W_T * X_T) + beta(e_r)"]
-        W_F["Chiếu Ngoại sinh Tương lai: W_F * X_fut"]
-        W_P["Chiếu Ngoại sinh Quá khứ: W_P * X_past"]
+        W_F["delta_fut = alpha_fut * tanh(Linear(X_fut))"]
+        W_P["delta_past = alpha_past * tanh(Linear(X_past))"]
         
         X_S --> W_S
         X_T --> FiLM
@@ -59,7 +59,7 @@ flowchart TD
     end
 
     subgraph Additive_Fusion ["3. TỔNG HỢP PHỤ GIA MỞ RỘNG (EXTENDED ADDITIVE DECOMPOSITION)"]
-        SUM["Y_hat = FiLM(Trend, r) + Seasonal + Proj(X_fut) + Proj(X_past)"]
+        SUM["Y_raw = ReLU(FiLM(Trend, r) + Seasonal + S_base * (delta_fut + delta_past))"]
         FiLM --> SUM
         W_S --> SUM
         W_F --> SUM
@@ -75,7 +75,10 @@ flowchart TD
 ```
 
 #### Công thức toán học mở rộng:
-$$\hat{\mathbf{Y}}_{\text{RA-Exo-DLinear}} = \underbrace{\text{FiLM}\big(\mathbf{W}_T \mathbf{X}_{\text{trend}}, \, \mathbf{e}_r\big)}_{\text{Regime-Modulated Trend}} + \underbrace{\mathbf{W}_S \mathbf{X}_{\text{seasonal}}}_{\text{Seasonal}} + \underbrace{\mathbf{W}_F \mathbf{X}_{\text{fut}}}_{\text{Future Exogenous Projection}} + \underbrace{\mathbf{W}_P \mathbf{X}_{\text{past}}}_{\text{Past Exogenous Projection}}$$
+$$\mathbf{B} = \text{FiLM}\big(\mathbf{W}_T\mathbf{X}_{\text{trend}},\mathbf{e}_r\big)+\mathbf{W}_S\mathbf{X}_{\text{seasonal}},\qquad
+\hat{\mathbf{Y}}_{\text{raw}}=\operatorname{ReLU}\left(\mathbf{B}+\mathbf{S}_{\text{base}}\odot(\boldsymbol\delta_{\text{fut}}+\boldsymbol\delta_{\text{past}})\right).$$
+
+Các phép chiếu tuyến tính bao gồm bias học được. Hai độ lệch ngoại sinh là `alpha * tanh(Linear(stream))`; nhánh quá khứ ánh xạ toàn cửa sổ nhìn lại sang từng bước dự báo. `S_base` là quy mô trung vị chỉ tính từ train và được chặn dưới tại 1 để xử lý trung vị bằng 0. Khi tắt FiLM và ngoại sinh, công thức thu về đúng `ReLU(W_T X_trend + W_S X_seasonal)`, không phụ thuộc một dự báo baseline pha trộn thêm.
 
 Trong đó:
 
@@ -86,18 +89,14 @@ Trong đó:
    $$\gamma(\mathbf{e}_r) = 1.0 + \alpha_{\text{trend}} \cdot \tanh(\mathbf{W}_\gamma \mathbf{e}_r + \mathbf{b}_\gamma), \quad \beta(\mathbf{e}_r) = \mathbf{W}_\beta \mathbf{e}_r + \mathbf{b}_\beta$$
 
 2. **Cơ sở lựa chọn và tối ưu hóa các hệ số $\alpha$:**
-   Thay vì cố định hằng số, các hệ số co giãn $\alpha_{\text{trend}}, \alpha_{\text{fut}}, \alpha_{\text{past}}$ được thiết lập dưới dạng **tham số học được qua gradient descent ($\alpha \in \mathbb{R}$)**, khởi tạo từ giá trị tìm kiếm trên tập kiểm định validation ($\alpha_{\text{trend}}^{(0)} = 0.35, \alpha_{\text{fut}}^{(0)} = 0.25, \alpha_{\text{past}}^{(0)} = 0.20$). Hàm $\tanh$ đóng vai trò chặn ngưỡng dao động, tránh hiện tượng bùng nổ gradient khi xảy ra biến động mạnh.
+   Các hệ số $\alpha_{\text{trend}}, \alpha_{\text{fut}}, \alpha_{\text{past}}$ là **tham số học được qua gradient descent ($\alpha\in\mathbb{R}$)**, khởi tạo lần lượt bằng $0.35$, $0.25$ và $0.20$. Hàm $\tanh$ chặn đầu ra phép chiếu trước khi nhân với hệ số học được; các giá trị khởi tạo không mặc nhiên là một kết quả tối ưu trên validation.
 
-3. **Cơ sở lý thuyết của công thức Factor (Xấp xỉ Taylor sai phân tương đối bậc một):**
-   Trong kinh tế học lượng giác chuỗi thời gian, mối quan hệ giữa chuỗi thực tế và chuỗi nền tảng $S_{\text{base}}$ thường tuân theo mô hình nhân hàm mũ:
-   $$Y_t = S_{\text{base}, t} \cdot \exp\big(\delta_{\text{trend}} + \delta_{\text{fut}} + \delta_{\text{past}}\big)$$
-   Khi các độ lệch tương đối $\delta$ quanh điểm cân bằng cơ sở có biên độ vừa phải, khai triển chuỗi Taylor bậc một quanh $\delta \to 0$ cho ta:
-   $$\exp(\delta) \approx 1 + \delta \implies Y_t \approx S_{\text{base}, t} \cdot \big(1 + \delta_{\text{trend}} + \delta_{\text{fut}} + \delta_{\text{past}}\big)$$
-   Đây chính là cơ sở giải thích tại sao công thức Factor có dạng cộng tuyến tính các độ lệch tương đối $\delta$:
-   - $\delta_{\text{trend}} = \alpha_{\text{trend}} \cdot \tanh(\mathbf{W}_\gamma \mathbf{e}_r + \mathbf{b}_\gamma)$
+3. **Đẳng thức giữa dạng phụ gia và dạng Factor:**
+   Với $S_{\text{base}}>0$, đặt các độ lệch tương đối như sau:
+   - $\delta_{\text{trend}} = (\mathbf{B}-\mathbf{S}_{\text{base}})/\mathbf{S}_{\text{base}}$, bao gồm cả hai nhánh DLinear và FiLM. Độ lệch này khác hệ số FiLM $\gamma-1$.
    - $\delta_{\text{fut}} = \alpha_{\text{fut}} \cdot \tanh(\mathbf{W}_F \mathbf{X}_{\text{fut}} + \mathbf{b}_F)$
    - $\delta_{\text{past}} = \alpha_{\text{past}} \cdot \tanh(\mathbf{W}_P \mathbf{X}_{\text{past}} + \mathbf{b}_P)$
-   Các hệ số $\alpha_{\text{trend}}, \alpha_{\text{fut}}, \alpha_{\text{past}}$ là **tham số học được qua lan truyền ngược (trainable parameters)**, được khởi tạo từ phân tích phương sai thực nghiệm (ANOVA prior trên tập train: $35\%$ biến động xu thế do regime, $25\%$ do lịch lễ, $20\%$ do lạm phát/chính sách) và chặn biên bởi hàm $\tanh$.
+   Với định nghĩa $\delta_{\text{trend}}$ trên, dạng Factor và dạng phụ gia là đẳng thức; mã tính trực tiếp dạng phụ gia để hạn chế sai số triệt tiêu số học. Không dùng mẫu số `S_base + 1`, vì nó làm mất đẳng thức với dự báo DLinear. Các hệ số $\alpha$ là tham số học được; các giá trị khởi tạo không phải tỷ lệ đóng góp phương sai đã được xác nhận.
 
 4. **Chuẩn hóa quy mô thực thể trong dữ liệu bảng (Instance / Baseline Normalization):**
    Để mô hình hóa đồng thời nhiều thực thể có quy mô chênh lệch lớn (ví dụ: Pháp, Đức so với Malta, Iceland), quy mô thực thể được tách biệt thông qua hệ số baseline $\mathbf{S}_{\text{base}}$:
@@ -111,7 +110,9 @@ Trong đó:
    Đây là ràng buộc định nghĩa kế toán nghiệp vụ (accounting/domain consistency constraint), không phải quy luật kinh tế học tuyệt đối. Để đảm bảo tính khả thi thực tế, đầu ra được hiệu chỉnh bằng phép chiếu:
    $$\hat{Y}_{\text{nights}} = \max\Big(\hat{Y}_{\text{nights}}^{\text{raw}}, \; \hat{Y}_{\text{arrivals}} \cdot 1.0\Big)$$
    đồng thời kết hợp hàm phạt chuẩn hóa quy mô trong quá trình huấn luyện:
-   $$\mathcal{L}_{\text{cons}} = \lambda_{\text{cons}} \cdot \mathbb{E}\left[ \left( \frac{\text{ReLU}(\hat{Y}_{\text{arrivals}} - \hat{Y}_{\text{nights}})}{\mathbf{S}_{\text{base}, a} + 1} \right)^2 \right]$$
+   $$\mathcal{L}_{\text{total}}=\sum_{k\in\{a,n\}}\mathbb{E}\left[\left(\frac{\hat Y_k-Y_k}{S_{\text{base},k}}\right)^2\right]+\lambda_{\text{cons}}\cdot\mathbb{E}\left[\left(\frac{\operatorname{ReLU}(\hat Y_a-\hat Y_n)}{S_{\text{base},a}}\right)^2\right].$$
+
+   Loss nhận đầu ra **chưa chiếu**; phép `max(nights, arrivals)` chỉ áp dụng sau khi hòa trộn thời gian–không gian. Cận tỷ lệ lưu trú lịch sử không được dùng để sửa dự báo trong đường chạy của bài báo. Tỷ lệ vi phạm, WAPE và các số đã lưu phải được đo lại sau thay đổi phương trình; không được suy diễn rằng kết quả cũ vẫn giữ nguyên.
 
 ---
 
@@ -129,7 +130,7 @@ Khung **RA-HE-DLinear** (*Regime-Aware Hierarchical Ensemble DLinear*) đóng va
 ### 2.2. Khả năng thích ứng đa tần suất (Multi-Frequency Adaptability)
 Khung hệ thống được thiết kế để tương thích với hai cấu trúc tần suất khác biệt mà không cần thay đổi kiến trúc cốt lõi:
 - **Tần suất Tháng (Eurostat):** $L=24, H=12$, kernel phân rã $k=13$, trễ không gian TRMF với $\text{AR lags} = (1, 2, 12)$, 14 biến lịch lễ tháng.
-- **Tần suất Năm (World Bank / OECD):** $L=4, H=1$, kernel phân rã $k=3$, trễ không gian TRMF với $\text{AR lags} = (1, 2)$, biến sự kiện lớn và các chỉ báo vĩ mô năm.
+- **Tần suất Năm (World Bank / OECD):** $L=4, H=1$, trễ không gian TRMF với $\text{AR lags} = (1, 2)$, biến sự kiện lớn và các chỉ báo vĩ mô năm. Pipeline hiện vẫn kế thừa kernel mặc định $k=13$; cửa sổ ngắn hơn như $k=3$ là phương án cần đánh giá riêng, chưa phải cấu hình đã được xác nhận bởi benchmark hiện có.
 
 ---
 

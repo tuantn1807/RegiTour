@@ -31,9 +31,10 @@ Evaluated on the out-of-sample test partition (**2024–2026**, 4,712 observatio
 | **Standard LightGBM** | Machine Learning | 30.37% | 34.28% | 0.19% | 49.2% | Bị phân mảnh dải tỷ lệ kinh tế (49.2%) |
 | **Standard XGBoost** | Machine Learning | 34.13% | 42.36% | 0.34% | 37.7% | Sai số cao & lệch dải kinh tế |
 | **Vanilla DLinear (AAAI 2023)** | Modern Linear LTSF | 45.38% | 25.61% | 0.05% | 28.8% | Mù biến ngoại sinh & cú sốc thị trường |
-| **Vanilla NLinear (AAAI 2023)** | Modern Linear LTSF | 32.10% | 49.38% | 0.69% | 29.2% | Khử trôi tốt nhưng không có liên kết kinh tế |
-| **Classical LSTM (1997)** | Classical Deep Learning | 108.53% | 113.16% | 0.05% | 99.4% | Quá khớp & bão hòa trạng thái sau Covid |
 | **Vanilla BiLSTM (2013)** | Classical Deep Learning | 108.53% | 113.16% | 0.05% | 99.4% | Quá khớp & bão hòa trạng thái sau Covid |
+| PatchTST | Transformer LTSF | Not evaluated | Not evaluated | Not evaluated | Not evaluated | Implemented; run benchmark before reporting metrics |
+| iTransformer | Transformer LTSF | Not evaluated | Not evaluated | Not evaluated | Not evaluated | Implemented; run benchmark before reporting metrics |
+| TimesNet | Transformer LTSF | Not evaluated | Not evaluated | Not evaluated | Not evaluated | Implemented; run benchmark before reporting metrics |
 | **CatBoost-Regime (Ablation)** | Machine Learning | 40.27% | 44.86% | 0.82% | 44.9% | Vi phạm logic kinh tế và dải lưu trú |
 | **RA-Exo-DLinear (Proposed Linear ⭐)** | Linear LTSF (Proposed ⭐) | **18.29%** | **25.87%** | 0.21% | 21.5% | Lõi Linear độc lập siêu nhẹ |
 | **RA-HE-DLinear (Proposed Linear Framework ⭐)** | **Linear Framework (Proposed ⭐)** | **`14.59%`** | **`25.00%`** | **0.00%*** | **`16.0%`** | **🏆 Khung phân rã tuyến tính tối ưu toàn diện** |
@@ -73,10 +74,18 @@ python run_linear_pipeline.py --dataset eurostat
 python run_linear_pipeline.py --dataset worldbank
 ```
 
+Với chuỗi có ít hơn `L` quan sát quá khứ, dự báo đệm bên trái bằng quan sát quá khứ đầu tiên và phát cảnh báo. CSV kết quả lưu `history_observations_min` và `history_padding_max` để nhận diện những dòng này. Đây là quy ước xử lý biên, không bổ sung thông tin lịch sử mới; chuỗi hoàn toàn chưa có lịch sử vẫn báo lỗi. Có thể chọn `short_history_policy="error"` khi khởi tạo `RAExoDLinearForecaster` để yêu cầu đủ lịch sử thực.
+
 ### 4. Run Baseline Benchmark Evaluation
+Sau khi đồng bộ phương trình DLinear, loss trên đầu ra chưa chiếu và phép chiếu cuối, cần chạy lại benchmark để xác nhận các chỉ số. Các số liệu đã lưu từ phiên bản trước chưa phải kết quả kiểm chứng của đường tính mới.
+
 So sánh đối đầu giữa các mô hình qua các thế hệ y văn:
 ```bash
 python benchmark_models.py
+# Chạy riêng DLinear và RA-Exo-DLinear để đánh giá phương trình vừa sửa
+python benchmark_models.py --models dlinear ra_exo_dlinear
+# Chỉ chạy PatchTST, iTransformer và TimesNet (kèm Seasonal Naive làm mốc)
+python benchmark_models.py --models patchtst itransformer timesnet
 ```
 
 ### 5. Run XAI and Policy Simulation
