@@ -95,13 +95,13 @@ def generate_architecture_figure():
     # 4. SPATIAL FACTORIZATION: TRMF (BOTTOM)
     draw_card(0.33, 0.02, 0.32, 0.13, "Lan Tỏa Không Gian Đa Quốc Gia (TRMF)", "Phân rã ma trận thấp chiều $R=4$ (4 tiểu vùng UN M49)\nĐiều chuẩn chuỗi thời gian AR $\\mathcal{L}=\\{1, 2, 12\\}$", c_spatial_bg, c_spatial_bd)
 
-    # 5. DYNAMIC ARBITRATION & FUSION
-    draw_card(0.73, 0.45, 0.25, 0.16, "Hòa Trộn Lồi Không - Thời Gian", "Trọng số tối ưu hóa trên Validation:\n$\\hat{\\mathbf{Y}}_{\\mathrm{fused}} = w_{\\mathrm{time}}^* \\hat{\\mathbf{Y}}_{\\mathrm{temporal}} + (1 - w_{\\mathrm{time}}^*) \\hat{\\mathbf{Y}}_{\\mathrm{spatial}}$\n($w^* = 0,70$ thỏa mãn tiên nghiệm $w \\geq 0,70$)", "#FFFFFF", "#4F46E5")
+    # 5. DYNAMIC ARBITRATION & FUSION (TOP-RIGHT)
+    draw_card(0.73, 0.68, 0.25, 0.24, "Hòa Trộn Lồi Không - Thời Gian", "Trọng số tối ưu hóa trên Validation:\n$\\hat{\\mathbf{Y}}_{\\mathrm{fused}} = w_{\\mathrm{time}} \\hat{\\mathbf{Y}}_{\\mathrm{temporal}} + (1 - w_{\\mathrm{time}}) \\hat{\\mathbf{Y}}_{\\mathrm{spatial}}$\n($w_{\\mathrm{time}} \\in [0,70; 0,95]$ thỏa mãn tiên nghiệm)", "#FFFFFF", "#4F46E5")
 
-    # 6. CONSISTENCY PROJECTION & CONFORMAL UNCERTAINTY
-    draw_card(0.73, 0.71, 0.25, 0.24, "Ràng Buộc Nhất Quán Nghiệp Vụ ($\\Pi_{\\mathcal{C}}$)", "Phạt liên kết $\\mathcal{L}_{\\mathrm{cons}}$ trong huấn luyện\nToán tử chiếu mốc neo bất đối xứng:\n$\\Pi_{\\mathcal{C}}(\\hat{Y}_{\\mathrm{arr}}, \\hat{Y}_{\\mathrm{nig}}) = (\\hat{Y}_{\\mathrm{arr}}, \\max(\\hat{Y}_{\\mathrm{nig}}, \\hat{Y}_{\\mathrm{arr}} \\cdot 1,0))$\n(Triệt tiêu vi phạm cận vật lý về 0,00%)", c_cons_bg, c_cons_bd)
+    # 6. CONSISTENCY PROJECTION & CONFORMAL UNCERTAINTY (SEQUENTIAL PIPELINE)
+    draw_card(0.73, 0.36, 0.25, 0.24, "Ràng Buộc Nhất Quán Nghiệp Vụ ($\\Pi_{\\mathcal{C}}$)", "Phạt liên kết $\\mathcal{L}_{\\mathrm{cons}}$ trong huấn luyện\nToán tử chiếu mốc neo bất đối xứng:\n$\\Pi_{\\mathcal{C}}(\\hat{Y}^{\\mathrm{arr}}, \\hat{Y}^{\\mathrm{nig}}) = (\\hat{Y}^{\\mathrm{arr}}, \\max(\\hat{Y}^{\\mathrm{nig}}, \\hat{Y}^{\\mathrm{arr}} \\cdot 1,0))$\n(Triệt tiêu vi phạm cận vật lý về đúng 0,00%)", c_cons_bg, c_cons_bd)
 
-    draw_card(0.73, 0.10, 0.25, 0.24, "Lượng Hóa Rủi Ro Conformal (DCQF)", "Bảo chứng độ bao phủ không phụ thuộc phân phối:\n$\\mathrm{P}(Y \\in [P_{10}, P_{90}]) \\geq 90\\%$\nHiệu chuẩn trên mẫu hữu hạn", c_conf_bg, c_conf_bd)
+    draw_card(0.73, 0.04, 0.25, 0.24, "Khoảng Tin Cậy Conformal (DCQF)", "Bảo chứng độ bao phủ không phụ thuộc phân phối:\n$\\hat{\\mathcal{C}}_{1-\\alpha}(\\hat{\\mathbf{Y}}^*) = [\\max(0, \\hat{\\mathbf{Y}}^* - \\hat{q}), \\hat{\\mathbf{Y}}^* + \\hat{q}]$\nHiệu chuẩn phần dư sau chiếu (độ bao phủ $\\geq 93\\%$)", c_conf_bg, c_conf_bd)
 
     # Flow arrows
     draw_flow_arrow(0.25, 0.81, 0.33, 0.88, "$\\mathbf{Y}_t$")
@@ -111,11 +111,11 @@ def generate_architecture_figure():
     draw_flow_arrow(0.25, 0.70, 0.33, 0.08, "Bảng $\\mathbf{Y}$")
 
     draw_flow_arrow(0.49, 0.81, 0.49, 0.52, "Nhúng $\\mathbf{e}_r$", "#DB2777")
-    draw_flow_arrow(0.65, 0.47, 0.73, 0.53, "$\\hat{\\mathbf{Y}}_{\\mathrm{temporal}}$")
-    draw_flow_arrow(0.65, 0.09, 0.73, 0.49, "$\\hat{\\mathbf{Y}}_{\\mathrm{spatial}}$")
+    draw_flow_arrow(0.67, 0.49, 0.73, 0.80, "$\\hat{\\mathbf{Y}}_{\\mathrm{temporal}}$")
+    draw_flow_arrow(0.65, 0.09, 0.73, 0.72, "$\\hat{\\mathbf{Y}}_{\\mathrm{spatial}}$")
 
-    draw_flow_arrow(0.855, 0.61, 0.855, 0.71, "$\\hat{\\mathbf{Y}}_{\\mathrm{raw}}$")
-    draw_flow_arrow(0.855, 0.45, 0.855, 0.34, "$\\hat{\\mathbf{Y}}^*$")
+    draw_flow_arrow(0.855, 0.68, 0.855, 0.60, "$\\hat{\\mathbf{Y}}_{\\mathrm{raw}}$")
+    draw_flow_arrow(0.855, 0.36, 0.855, 0.28, "$\\hat{\\mathbf{Y}}^*$")
 
     out_path = FIGURES_DIR / "ra_he_dlinear_architecture.png"
     plt.savefig(out_path, dpi=300, bbox_inches="tight")

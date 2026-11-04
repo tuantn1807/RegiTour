@@ -103,13 +103,13 @@ def generate_architecture_figure():
     # 4. SPATIAL FACTORIZATION: TRMF (BOTTOM)
     draw_card(0.33, 0.02, 0.32, 0.13, "Cross-Country Spatial Engine (TRMF)", "Low-rank factor decomposition $R=4$ (UN M49 / Schengen)\nAutoregressive temporal regularizer $\\mathcal{L}=\\{1, 2, 12\\}$", c_spatial_bg, c_spatial_bd)
 
-    # 5. DYNAMIC ARBITRATION & FUSION
-    draw_card(0.73, 0.45, 0.25, 0.16, "Spatio-Temporal Convex Fusion", "Validation constrained optimization:\n$\\hat{\\mathbf{Y}}_{\\mathrm{fused}} = w_{\\mathrm{time}}^* \\hat{\\mathbf{Y}}_{\\mathrm{temporal}} + (1 - w_{\\mathrm{time}}^*) \\hat{\\mathbf{Y}}_{\\mathrm{spatial}}$\n($w^* = 0.70$ satisfies domain prior $w \\geq 0.70$)", "#FFFFFF", "#4F46E5")
+    # 5. DYNAMIC ARBITRATION & FUSION (TOP-RIGHT)
+    draw_card(0.73, 0.68, 0.25, 0.24, "Spatio-Temporal Convex Fusion", "Validation constrained optimization:\n$\\hat{\\mathbf{Y}}_{\\mathrm{fused}} = w_{\\mathrm{time}} \\hat{\\mathbf{Y}}_{\\mathrm{temporal}} + (1 - w_{\\mathrm{time}}) \\hat{\\mathbf{Y}}_{\\mathrm{spatial}}$\n($w_{\\mathrm{time}} \\in [0.70, 0.95]$ satisfies domain prior)", "#FFFFFF", "#4F46E5")
 
-    # 6. CONSISTENCY PROJECTION & CONFORMAL UNCERTAINTY
-    draw_card(0.73, 0.71, 0.25, 0.24, "Asymmetric Anchor Projector ($\\Pi_{\\mathcal{C}}$)", "Coupled loss $\\mathcal{L}_{\\mathrm{cons}}$ during training\nAsymmetric physical projection:\n$\\Pi_{\\mathcal{C}}(\\hat{Y}_{\\mathrm{arr}}, \\hat{Y}_{\\mathrm{nig}}) = (\\hat{Y}_{\\mathrm{arr}}, \\max(\\hat{Y}_{\\mathrm{nig}}, \\hat{Y}_{\\mathrm{arr}} \\cdot 1.0))$\n(Eliminates physical violations to strictly 0.00%)", c_cons_bg, c_cons_bd)
+    # 6. CONSISTENCY PROJECTION & CONFORMAL UNCERTAINTY (SEQUENTIAL PIPELINE)
+    draw_card(0.73, 0.36, 0.25, 0.24, "Asymmetric Anchor Projector ($\\Pi_{\\mathcal{C}}$)", "Coupled loss $\\mathcal{L}_{\\mathrm{cons}}$ during training\nAsymmetric physical projection:\n$\\Pi_{\\mathcal{C}}(\\hat{Y}^{\\mathrm{arr}}, \\hat{Y}^{\\mathrm{nig}}) = (\\hat{Y}^{\\mathrm{arr}}, \\max(\\hat{Y}^{\\mathrm{nig}}, \\hat{Y}^{\\mathrm{arr}} \\cdot 1.0))$\n(Eliminates physical violations to strictly 0.00%)", c_cons_bg, c_cons_bd)
 
-    draw_card(0.73, 0.10, 0.25, 0.24, "Residual Conformal Intervals", "Target coverage: 90%\nCalibrated from held-out\nmain-model residuals", c_conf_bg, c_conf_bd)
+    draw_card(0.73, 0.04, 0.25, 0.24, "Residual Conformal Intervals (DCQF)", "Target coverage: 90% (empirical $\\geq 93\\%$)\n$\\hat{\\mathcal{C}}_{1-\\alpha}(\\hat{\\mathbf{Y}}^*) = [\\max(0, \\hat{\\mathbf{Y}}^* - \\hat{q}), \\hat{\\mathbf{Y}}^* + \\hat{q}]$\nCalibrated on held-out post-projection errors", c_conf_bg, c_conf_bd)
 
     # Flow arrows
     draw_flow_arrow(0.25, 0.81, 0.33, 0.88, "$\\mathbf{Y}_t$")
@@ -119,11 +119,11 @@ def generate_architecture_figure():
     draw_flow_arrow(0.25, 0.70, 0.33, 0.08, "Panel $\\mathbf{Y}$")
 
     draw_flow_arrow(0.49, 0.81, 0.49, 0.52, "Embed $\\mathbf{e}_r$", "#DB2777")
-    draw_flow_arrow(0.65, 0.47, 0.73, 0.53, "$\\hat{\\mathbf{Y}}_{\\mathrm{temporal}}$")
-    draw_flow_arrow(0.65, 0.09, 0.73, 0.49, "$\\hat{\\mathbf{Y}}_{\\mathrm{spatial}}$")
+    draw_flow_arrow(0.67, 0.49, 0.73, 0.80, "$\\hat{\\mathbf{Y}}_{\\mathrm{temporal}}$")
+    draw_flow_arrow(0.65, 0.09, 0.73, 0.72, "$\\hat{\\mathbf{Y}}_{\\mathrm{spatial}}$")
 
-    draw_flow_arrow(0.855, 0.61, 0.855, 0.71, "$\\hat{\\mathbf{Y}}_{\\mathrm{raw}}$")
-    draw_flow_arrow(0.855, 0.45, 0.855, 0.34, "$\\hat{\\mathbf{Y}}^*$")
+    draw_flow_arrow(0.855, 0.68, 0.855, 0.60, "$\\hat{\\mathbf{Y}}_{\\mathrm{raw}}$")
+    draw_flow_arrow(0.855, 0.36, 0.855, 0.28, "$\\hat{\\mathbf{Y}}^*$")
 
     out_en = FIGURES_DIR / "ra_he_dlinear_architecture_en.png"
     out_base = FIGURES_DIR / "ra_he_dlinear_architecture.png"

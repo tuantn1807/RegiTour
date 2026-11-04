@@ -64,3 +64,11 @@ Thumbs.db
 
 # Raw prediction result files (keep summary tables and reports)
 results/*.csv
+
+# LaTeX Intermediate Files
+*.aux
+*.out
+*.synctex*
+*.fls
+*.fdb_latexmk
+

@@ -68,11 +68,13 @@ class WorldBankLinearForecastingPipeline:
         forecast_horizon: int = 1,
         epochs: int = 30,
         learning_rate: float = 0.005,
+        kernel_size: int = 13,
     ):
         self.train_end_year = train_end_year
         self.val_end_year = val_end_year
         self.lookback_len = lookback_len
         self.forecast_horizon = forecast_horizon
+        self.kernel_size = kernel_size
 
         self.hmm_navigator = RegimeHMMNavigator(n_regimes=3)
         self.linear_engine = RAExoDLinearForecaster(
@@ -80,6 +82,7 @@ class WorldBankLinearForecastingPipeline:
             forecast_horizon=forecast_horizon,
             epochs=epochs,
             learning_rate=learning_rate,
+            kernel_size=kernel_size,
             future_cols=self.FUTURE_COLS,
             past_exo_cols=self.PAST_EXO_COLS,
         )
