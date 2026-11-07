@@ -126,6 +126,7 @@ if HAS_TORCH:
             kernel_size: int = 13,
             use_film: bool = True,
             use_exo: bool = True,
+            use_regime_bias: bool = False,
         ):
             super().__init__()
             self.L = lookback_len
@@ -133,6 +134,7 @@ if HAS_TORCH:
             self.target_dim = target_dim
             self.use_film = use_film
             self.use_exo = use_exo
+            self.use_regime_bias = use_regime_bias
             if target_dim != 2:
                 raise ValueError("RAExoDLinearNet expects arrivals and nights (target_dim=2).")
 
@@ -213,6 +215,11 @@ if HAS_TORCH:
             if self.use_film:
                 film_gain_a = self.alpha_trend_a * torch.tanh(self.film_trend_a(e_r).squeeze(-1))
                 film_gain_n = self.alpha_trend_n * torch.tanh(self.film_trend_n(e_r).squeeze(-1))
+                beta_a = self.film_bias_a(e_r).squeeze(-1)
+                beta_n = self.film_bias_n(e_r).squeeze(-1)
+            elif self.use_regime_bias:
+                film_gain_a = x_target_history.new_zeros(x_target_history.shape[0])
+                film_gain_n = torch.zeros_like(film_gain_a)
                 beta_a = self.film_bias_a(e_r).squeeze(-1)
                 beta_n = self.film_bias_n(e_r).squeeze(-1)
             else:
@@ -409,6 +416,8 @@ class RAExoDLinearForecaster:
         self.random_state = int(random_state)
         self.use_film = kwargs.get("use_film", True)
         self.use_exo = kwargs.get("use_exo", True)
+        self.use_regime_bias = kwargs.get("use_regime_bias", False)
+        self.observed_target_col = kwargs.get("observed_target_col")
         self.use_consistency = kwargs.get("use_consistency", True)
         self.lambda_cons = float(lambda_cons) if self.use_consistency else 0.0
         if short_history_policy not in {"edge", "error"}:
@@ -497,6 +506,8 @@ class RAExoDLinearForecaster:
         missing = [col for col in required if col not in train_df.columns]
         if missing:
             raise ValueError(f"Training data is missing required columns: {missing}")
+        if self.observed_target_col is not None and self.observed_target_col not in train_df:
+            raise ValueError(f"Missing observation flag: {self.observed_target_col}")
 
         frame = train_df.copy()
         if "accommodation_type" not in frame.columns:
@@ -571,6 +582,8 @@ class RAExoDLinearForecaster:
             for target_start in range(first_target, last_target_start + 1):
                 origin = target_start - 1
                 future_rows = group.iloc[target_start:target_start + self.forecast_horizon]
+                if self.observed_target_col is not None and not future_rows[self.observed_target_col].all():
+                    continue
                 base_a, base_n = self._baseline_sequence(
                     str(geo), str(accom), future_rows,
                 )
@@ -617,6 +630,7 @@ class RAExoDLinearForecaster:
             kernel_size=self.kernel_size,
             use_film=self.use_film,
             use_exo=self.use_exo,
+            use_regime_bias=self.use_regime_bias,
         ).to(self.device)
 
         optimizer = torch.optim.AdamW(

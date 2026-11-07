@@ -1,0 +1,41 @@
+{
+  "fold": "recent",
+  "train_end": 2021,
+  "validation_year": 2022,
+  "calibration_year": 2023,
+  "test_start": "2024-01-01 00:00:00",
+  "test_end": "2026-07-01 00:00:00",
+  "test_grid_rows": 4712,
+  "test_observed_pairs": 4522,
+  "seed": 42,
+  "epochs": 25,
+  "lookback": 24,
+  "horizon": 12,
+  "data_sha256": "a2f70a0c96672d50cb6c6873940d09940a13a00d7d82082ae4103ee70bfe18ea",
+  "source_hashes": {
+    "scripts\\reviewer_experiments.py": "ad5ddd2f951abac3dc5d28454786b770064d410e94fe77ee8ab8e1675b84a43f",
+    "src\\models\\ra_exo_dlinear.py": "a73d083e1dd6c876fe70d35a565606076369a9e17f404ad0a1500c915fd85041",
+    "src\\models\\trmf_spatial.py": "9aa5225785fa87891eae3f4e1a720a226af73e88bbf98e2839d0bda0b87d52e7"
+  },
+  "torch_version": "2.15.0+cpu",
+  "protocol": "Retrospective January-origin blocks, training-fitted parameters, prefix-only state updates",
+  "runtime_seconds": 26.890304900007322,
+  "components": {
+    "use_exo": false,
+    "use_film": true,
+    "hmm": false
+  },
+  "model": "film_static",
+  "test_metrics": {
+    "arrivals_total": {
+      "n": 4522,
+      "mae": 832974.3952469022,
+      "wape": 60.08051173643872
+    },
+    "nights_total": {
+      "n": 4522,
+      "mae": 3230491.845913782,
+      "wape": 83.32881125254484
+    }
+  }
+}

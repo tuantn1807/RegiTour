@@ -1,0 +1,28 @@
+\begin{table}[!htbp]
+\centering
+\caption{Component ablation performance on the matched Eurostat test set, including count errors and physical consistency.}
+\label{tab:reviewer_ablation}
+\footnotesize
+\setlength{\tabcolsep}{3pt}
+\renewcommand{\arraystretch}{1.08}
+\begin{tabular}{>{\raggedright\arraybackslash}p{2.2cm}>{\centering\arraybackslash}p{2.1cm}>{\centering\arraybackslash}p{2.1cm}>{\centering\arraybackslash}p{1.4cm}}
+\toprule
+\textbf{Ablation Configuration} & \textbf{\shortstack{Tourist Arrivals\\WAPE (\%)\\MAE (arrivals)}} & \textbf{\shortstack{Overnight Stays\\WAPE (\%)\\MAE (nights)}} & \textbf{\shortstack{Physical\\Violation\\Rate (\%)}} \\
+\midrule
+DLinear & \shortstack{89.85\%\\{\scriptsize 1,245,658}} & \shortstack{83.67\%\\{\scriptsize 3,243,704}} & 3.183 \\
+DLinear + Exogenous & \shortstack{87.59\%\\{\scriptsize 1,214,329}} & \shortstack{78.25\%\\{\scriptsize 3,033,626}} & 4.393 \\
+DLinear + HMM bias & \shortstack{89.84\%\\{\scriptsize 1,245,591}} & \shortstack{83.66\%\\{\scriptsize 3,243,410}} & 3.183 \\
+DLinear + static FiLM & \shortstack{60.08\%\\{\scriptsize 832,974}} & \shortstack{83.33\%\\{\scriptsize 3,230,492}} & 35.484 \\
+DLinear + HMM + FiLM & \shortstack{57.51\%\\{\scriptsize 797,363}} & \shortstack{86.48\%\\{\scriptsize 3,352,514}} & 46.583 \\
+DLinear + HMM + FiLM + TRMF & \shortstack{36.06\%\\{\scriptsize 499,980}} & \shortstack{41.72\%\\{\scriptsize 1,617,286}} & 0.000 \\
+DLinear + Exogenous + HMM + FiLM & \shortstack{78.01\%\\{\scriptsize 1,081,569}} & \shortstack{85.30\%\\{\scriptsize 3,306,999}} & 41.787 \\
+Full without coupled loss & \shortstack{36.06\%\\{\scriptsize 499,980}} & \shortstack{41.72\%\\{\scriptsize 1,617,286}} & 0.000 \\
+Full before projection & \shortstack{36.06\%\\{\scriptsize 499,980}} & \shortstack{41.72\%\\{\scriptsize 1,617,286}} & 0.000 \\
+Full RA-HE-DLinear & \shortstack{36.06\%\\{\scriptsize 499,980}} & \shortstack{41.72\%\\{\scriptsize 1,617,286}} & 0.000 \\
+\bottomrule
+\end{tabular}
+\par\vspace{3pt}
+\begin{minipage}{\columnwidth}
+\scriptsize\raggedright WAPE is weighted absolute percentage error; MAE is mean absolute error. Each target cell reports WAPE (\%) on its first line and MAE on its second line. MAE is measured in accommodation arrivals for Tourist Arrivals and nights for Overnight Stays. Physical violation rate is the percentage of all 4,712 forecast pairs with $\hat{Y}^{\mathrm{nig}}<\hat{Y}^{\mathrm{arr}}$. All configurations use the same 4,522 observed scoring pairs.
+\end{minipage}
+\end{table}

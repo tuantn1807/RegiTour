@@ -1,0 +1,27 @@
+\begin{table*}[!htbp]
+\centering
+\caption{Destination-group forecasting performance on aggregate accommodation series in the recent Eurostat test period.}
+\label{tab:reviewer_groups}
+\small
+\setlength{\tabcolsep}{3pt}
+\renewcommand{\arraystretch}{1.08}
+\begin{tabular}{>{\raggedright\arraybackslash}p{3.4cm}>{\centering\arraybackslash}p{2.0cm}*{4}{>{\centering\arraybackslash}p{2.6cm}}}
+\toprule
+\textbf{Destination Group} & \textbf{\shortstack{Destinations\\(n)}} & \textbf{\shortstack{DLinear\\Tourist Arrivals\\WAPE (\%)}} & \textbf{\shortstack{DLinear\\Overnight Stays\\WAPE (\%)}} & \textbf{\shortstack{RA-HE-DLinear\\Tourist Arrivals\\WAPE (\%)}} & \textbf{\shortstack{RA-HE-DLinear\\Overnight Stays\\WAPE (\%)}} \\
+\midrule
+Tourism demand scale, low & 13 & 86.98 & 84.33 & 46.23 & 47.59 \\
+Tourism demand scale, middle & 12 & 87.50 & 79.27 & 35.93 & 45.20 \\
+Tourism demand scale, high & 13 & 91.04 & 84.94 & 33.89 & 39.32 \\
+Seasonality strength, low & 13 & 94.56 & 92.24 & 28.52 & 31.31 \\
+Seasonality strength, middle & 12 & 91.21 & 85.10 & 33.78 & 37.95 \\
+Seasonality strength, high & 13 & 83.87 & 74.58 & 43.49 & 52.95 \\
+Pre-test recovery index, low & 11 & 92.26 & 87.07 & 29.97 & 35.91 \\
+Pre-test recovery index, middle & 10 & 88.02 & 80.60 & 38.95 & 44.18 \\
+Pre-test recovery index, high & 10 & 92.75 & 88.69 & 38.12 & 39.70 \\
+\bottomrule
+\end{tabular}
+\par\vspace{3pt}
+\begin{minipage}{\textwidth}
+\scriptsize\raggedright Low, middle, and high groups are terciles. Demand scale and seasonality use 2010--2021 training data. The pre-test recovery index is the ratio of 2023 to 2019 annual arrivals, requiring 12 observed months in both years. Destination counts vary with data eligibility. Every error column reports WAPE in percent, with the forecast target and benchmark model identified explicitly.
+\end{minipage}
+\end{table*}

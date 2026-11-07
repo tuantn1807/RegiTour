@@ -1,0 +1,460 @@
+{
+  "recent": {
+    "snaive": {
+      "rows": 4712,
+      "observed_pairs": 4522,
+      "arrivals_total_n": 4522,
+      "arrivals_total_mae": 83753.22379478106,
+      "arrivals_total_wape": 6.040925836232224,
+      "nights_total_n": 4522,
+      "nights_total_mae": 220024.07231313578,
+      "nights_total_wape": 5.67540339592205,
+      "physical_violation_pct": 0.08488964346349745
+    },
+    "ets": {
+      "rows": 4712,
+      "observed_pairs": 4522,
+      "arrivals_total_n": 4522,
+      "arrivals_total_mae": 175870.75677244618,
+      "arrivals_total_wape": 12.685149899753307,
+      "nights_total_n": 4522,
+      "nights_total_mae": 522786.7296320775,
+      "nights_total_wape": 13.485004388402729,
+      "physical_violation_pct": 2.504244482173175
+    },
+    "sarima": {
+      "rows": 4712,
+      "observed_pairs": 4522,
+      "arrivals_total_n": 4522,
+      "arrivals_total_mae": 390812.5504151638,
+      "arrivals_total_wape": 28.188403096119202,
+      "nights_total_n": 4522,
+      "nights_total_mae": 1022215.2685741913,
+      "nights_total_wape": 26.367496727234137,
+      "physical_violation_pct": 0.8913412563667233
+    },
+    "sarimax": {
+      "rows": 4712,
+      "observed_pairs": 4522,
+      "arrivals_total_n": 4522,
+      "arrivals_total_mae": 2226628.7683233307,
+      "arrivals_total_wape": 160.6015702418909,
+      "nights_total_n": 4522,
+      "nights_total_mae": 686058.5162923554,
+      "nights_total_wape": 17.69651289621376,
+      "physical_violation_pct": 8.786078098471986
+    },
+    "lightgbm": {
+      "rows": 4712,
+      "observed_pairs": 4522,
+      "arrivals_total_n": 4522,
+      "arrivals_total_mae": 589307.6272588165,
+      "arrivals_total_wape": 42.50539274427698,
+      "nights_total_n": 4522,
+      "nights_total_mae": 1779792.540747395,
+      "nights_total_wape": 45.90879772200021,
+      "physical_violation_pct": 2.4193548387096775
+    },
+    "dlinear": {
+      "rows": 4712,
+      "observed_pairs": 4522,
+      "arrivals_total_n": 4522,
+      "arrivals_total_mae": 1245658.0428617275,
+      "arrivals_total_wape": 89.84642636171313,
+      "nights_total_n": 4522,
+      "nights_total_mae": 3243704.433555417,
+      "nights_total_wape": 83.66962289184373,
+      "physical_violation_pct": 3.183361629881155
+    },
+    "exo": {
+      "rows": 4712,
+      "observed_pairs": 4522,
+      "arrivals_total_n": 4522,
+      "arrivals_total_mae": 1214329.2007153346,
+      "arrivals_total_wape": 87.58674961893942,
+      "nights_total_n": 4522,
+      "nights_total_mae": 3033626.0109804873,
+      "nights_total_wape": 78.25076221738595,
+      "physical_violation_pct": 4.393039049235993
+    },
+    "hmm": {
+      "rows": 4712,
+      "observed_pairs": 4522,
+      "arrivals_total_n": 4522,
+      "arrivals_total_mae": 1245591.0630412973,
+      "arrivals_total_wape": 89.84159526256958,
+      "nights_total_n": 4522,
+      "nights_total_mae": 3243410.3918446302,
+      "nights_total_wape": 83.6620382430078,
+      "physical_violation_pct": 3.183361629881155
+    },
+    "film_static": {
+      "rows": 4712,
+      "observed_pairs": 4522,
+      "arrivals_total_n": 4522,
+      "arrivals_total_mae": 832974.3952469022,
+      "arrivals_total_wape": 60.08051173643872,
+      "nights_total_n": 4522,
+      "nights_total_mae": 3230491.845913782,
+      "nights_total_wape": 83.32881125254484,
+      "physical_violation_pct": 35.483870967741936
+    },
+    "hmm_film": {
+      "rows": 4712,
+      "observed_pairs": 4522,
+      "arrivals_total_n": 4522,
+      "arrivals_total_mae": 797362.8719848153,
+      "arrivals_total_wape": 57.51193513491416,
+      "nights_total_n": 4522,
+      "nights_total_mae": 3352513.6824007197,
+      "nights_total_wape": 86.47629933370817,
+      "physical_violation_pct": 46.58319185059423
+    },
+    "hmm_film_trmf": {
+      "rows": 4712,
+      "observed_pairs": 4522,
+      "arrivals_total_n": 4522,
+      "arrivals_total_mae": 499979.8813364581,
+      "arrivals_total_wape": 36.062389552459685,
+      "nights_total_n": 4522,
+      "nights_total_mae": 1617286.0130792896,
+      "nights_total_wape": 41.717028661047316,
+      "physical_violation_pct": 0.0
+    },
+    "exo_hmm_film": {
+      "rows": 4712,
+      "observed_pairs": 4522,
+      "arrivals_total_n": 4522,
+      "arrivals_total_mae": 1081568.5755470216,
+      "arrivals_total_wape": 78.01103355362447,
+      "nights_total_n": 4522,
+      "nights_total_mae": 3306998.5030587665,
+      "nights_total_wape": 85.3022595993845,
+      "physical_violation_pct": 41.78692699490662
+    },
+    "full_no_consistency": {
+      "rows": 4712,
+      "observed_pairs": 4522,
+      "arrivals_total_n": 4522,
+      "arrivals_total_mae": 499979.8813364581,
+      "arrivals_total_wape": 36.062389552459685,
+      "nights_total_n": 4522,
+      "nights_total_mae": 1617286.0130792896,
+      "nights_total_wape": 41.717028661047316,
+      "physical_violation_pct": 0.0
+    },
+    "full_core": {
+      "rows": 4712,
+      "observed_pairs": 4522,
+      "arrivals_total_n": 4522,
+      "arrivals_total_mae": 962319.8863049063,
+      "arrivals_total_wape": 69.40990209694603,
+      "nights_total_n": 4522,
+      "nights_total_mae": 3348661.308348381,
+      "nights_total_wape": 86.3769294031858,
+      "physical_violation_pct": 34.8471986417657
+    },
+    "full_raw": {
+      "rows": 4712,
+      "observed_pairs": 4522,
+      "arrivals_total_n": 4522,
+      "arrivals_total_mae": 499979.8813364581,
+      "arrivals_total_wape": 36.062389552459685,
+      "nights_total_n": 4522,
+      "nights_total_mae": 1617286.0130792896,
+      "nights_total_wape": 41.717028661047316,
+      "physical_violation_pct": 0.0
+    },
+    "full": {
+      "rows": 4712,
+      "observed_pairs": 4522,
+      "arrivals_total_n": 4522,
+      "arrivals_total_mae": 499979.8810572136,
+      "arrivals_total_wape": 36.06238953231843,
+      "nights_total_n": 4522,
+      "nights_total_mae": 1617286.0151746902,
+      "nights_total_wape": 41.71702871509706,
+      "physical_violation_pct": 0.0
+    }
+  },
+  "cases": [
+    {
+      "geo": "CY",
+      "country": "Cyprus",
+      "recovery_ratio": 0.9761267115948263,
+      "dlinear_arrivals_wape": 82.51095846391833,
+      "full_arrivals_wape": 50.89529510960518,
+      "dlinear_nights_wape": 75.65890359246524,
+      "full_nights_wape": 59.71210387142884,
+      "full_los_mae": 1.1561133130741976
+    },
+    {
+      "geo": "SE",
+      "country": "Sweden",
+      "recovery_ratio": 1.027089851174859,
+      "dlinear_arrivals_wape": 87.9017250643012,
+      "full_arrivals_wape": 31.147422164502377,
+      "dlinear_nights_wape": 84.82121355799815,
+      "full_nights_wape": 34.396871636618286,
+      "full_los_mae": 0.16711710819560563
+    },
+    {
+      "geo": "DK",
+      "country": "Denmark",
+      "recovery_ratio": 1.1434387650182334,
+      "dlinear_arrivals_wape": 90.82323947828388,
+      "full_arrivals_wape": 33.80169590169584,
+      "dlinear_nights_wape": 84.7950221014553,
+      "full_nights_wape": 39.530831499223076,
+      "full_los_mae": 0.6882016339261811
+    }
+  ],
+  "dynamics": [
+    {
+      "phase": "tranquil",
+      "arrivals_log_growth_sd": 0.24396701561007852,
+      "nights_log_growth_sd": 0.3233748944565625,
+      "growth_correlation": 0.9334821103959334
+    },
+    {
+      "phase": "shock",
+      "arrivals_log_growth_sd": 1.3712184821154616,
+      "nights_log_growth_sd": 1.2040439023793308,
+      "growth_correlation": 0.9619628168766475
+    },
+    {
+      "phase": "recovery",
+      "arrivals_log_growth_sd": 0.27585672721927296,
+      "nights_log_growth_sd": 0.3426318630296386,
+      "growth_correlation": 0.9421394303197611
+    },
+    {
+      "phase": "recent",
+      "arrivals_log_growth_sd": 0.2474120295760266,
+      "nights_log_growth_sd": 0.3061631768020584,
+      "growth_correlation": 0.9405668241829492
+    }
+  ],
+  "coverage": [
+    {
+      "target": "arrivals_total",
+      "n": 4522,
+      "coverage_pct": 89.03140203449802,
+      "mean_width": 1554193.5523186643
+    },
+    {
+      "target": "nights_total",
+      "n": 4522,
+      "coverage_pct": 88.67757629367536,
+      "mean_width": 4736945.4970035385
+    }
+  ],
+  "los": [
+    {
+      "fold": "tranquil",
+      "model": "dlinear",
+      "n": 343,
+      "undefined_predictions": 553,
+      "los_mae": 1.5930066536589058,
+      "los_rmse": 4.263150314110689,
+      "observed_los_mean": 2.974120115282464,
+      "predicted_los_mean": 4.099580623391602
+    },
+    {
+      "fold": "tranquil",
+      "model": "full",
+      "n": 896,
+      "undefined_predictions": 0,
+      "los_mae": 0.6139085438806805,
+      "los_rmse": 1.0617326662860902,
+      "observed_los_mean": 2.6565269502283106,
+      "predicted_los_mean": 3.1211565810450757
+    },
+    {
+      "fold": "shock",
+      "model": "dlinear",
+      "n": 270,
+      "undefined_predictions": 570,
+      "los_mae": 1.8249016910644325,
+      "los_rmse": 3.5539436711866137,
+      "observed_los_mean": 2.970864734495447,
+      "predicted_los_mean": 3.932691254074984
+    },
+    {
+      "fold": "shock",
+      "model": "full",
+      "n": 840,
+      "undefined_predictions": 0,
+      "los_mae": 0.8127748886275163,
+      "los_rmse": 1.507748622229753,
+      "observed_los_mean": 2.960445307280686,
+      "predicted_los_mean": 3.050277957174556
+    },
+    {
+      "fold": "recovery",
+      "model": "dlinear",
+      "n": 388,
+      "undefined_predictions": 472,
+      "los_mae": 0.7142697862186206,
+      "los_rmse": 1.2749317908979705,
+      "observed_los_mean": 2.8580780054878545,
+      "predicted_los_mean": 3.02738278818164
+    },
+    {
+      "fold": "recovery",
+      "model": "full",
+      "n": 860,
+      "undefined_predictions": 0,
+      "los_mae": 0.875001963289944,
+      "los_rmse": 1.4238882080720763,
+      "observed_los_mean": 2.677456231219521,
+      "predicted_los_mean": 3.039615280846036
+    },
+    {
+      "fold": "recent",
+      "model": "dlinear",
+      "n": 347,
+      "undefined_predictions": 782,
+      "los_mae": 1.4941055108116954,
+      "los_rmse": 2.8623233241342656,
+      "observed_los_mean": 2.7899483444276236,
+      "predicted_los_mean": 3.579529866608213
+    },
+    {
+      "fold": "recent",
+      "model": "full",
+      "n": 1129,
+      "undefined_predictions": 0,
+      "los_mae": 0.5316741735524649,
+      "los_rmse": 0.9151374866689108,
+      "observed_los_mean": 2.5879927780018246,
+      "predicted_los_mean": 2.9374378735096283
+    },
+    {
+      "fold": "recent",
+      "model": "full_raw",
+      "n": 1129,
+      "undefined_predictions": 0,
+      "los_mae": 0.5316741698715695,
+      "los_rmse": 0.9151374801954959,
+      "observed_los_mean": 2.5879927780018246,
+      "predicted_los_mean": 2.93743787132911
+    }
+  ],
+  "transitions": [
+    {
+      "fold": "shock",
+      "year": 2020,
+      "model": "dlinear",
+      "rows": 114,
+      "observed_pairs": 109,
+      "arrivals_total_n": 109,
+      "arrivals_total_mae": 413659.54544151376,
+      "arrivals_total_wape": 100.56343776068462,
+      "nights_total_n": 109,
+      "nights_total_mae": 1149953.5745412845,
+      "nights_total_wape": 101.97062102924424,
+      "physical_violation_pct": 0.0
+    },
+    {
+      "fold": "shock",
+      "year": 2021,
+      "model": "dlinear",
+      "rows": 114,
+      "observed_pairs": 104,
+      "arrivals_total_n": 104,
+      "arrivals_total_mae": 763887.1057692308,
+      "arrivals_total_wape": 100.0,
+      "nights_total_n": 104,
+      "nights_total_mae": 1983972.6538461538,
+      "nights_total_wape": 100.0,
+      "physical_violation_pct": 0.0
+    },
+    {
+      "fold": "shock",
+      "year": 2020,
+      "model": "full",
+      "rows": 114,
+      "observed_pairs": 109,
+      "arrivals_total_n": 109,
+      "arrivals_total_mae": 1828461.4670642202,
+      "arrivals_total_wape": 444.51136923400355,
+      "nights_total_n": 109,
+      "nights_total_mae": 5367309.2718165135,
+      "nights_total_wape": 475.93909164678354,
+      "physical_violation_pct": 0.0
+    },
+    {
+      "fold": "shock",
+      "year": 2021,
+      "model": "full",
+      "rows": 114,
+      "observed_pairs": 104,
+      "arrivals_total_n": 104,
+      "arrivals_total_mae": 1470537.1297971155,
+      "arrivals_total_wape": 192.50712817259708,
+      "nights_total_n": 104,
+      "nights_total_mae": 4454244.299461538,
+      "nights_total_wape": 224.51137574030997,
+      "physical_violation_pct": 0.0
+    },
+    {
+      "fold": "recovery",
+      "year": 2022,
+      "model": "dlinear",
+      "rows": 114,
+      "observed_pairs": 104,
+      "arrivals_total_n": 104,
+      "arrivals_total_mae": 1402132.9807692308,
+      "arrivals_total_wape": 100.0,
+      "nights_total_n": 104,
+      "nights_total_mae": 3706042.9903846155,
+      "nights_total_wape": 100.0,
+      "physical_violation_pct": 0.0
+    },
+    {
+      "fold": "recovery",
+      "year": 2023,
+      "model": "dlinear",
+      "rows": 114,
+      "observed_pairs": 104,
+      "arrivals_total_n": 104,
+      "arrivals_total_mae": 1781512.4830181415,
+      "arrivals_total_wape": 99.99949763870353,
+      "nights_total_n": 104,
+      "nights_total_mae": 4564468.48028095,
+      "nights_total_wape": 99.99827557864063,
+      "physical_violation_pct": 0.0
+    },
+    {
+      "fold": "recovery",
+      "year": 2022,
+      "model": "full",
+      "rows": 114,
+      "observed_pairs": 104,
+      "arrivals_total_n": 104,
+      "arrivals_total_mae": 389317.2916490385,
+      "arrivals_total_wape": 27.766074758148353,
+      "nights_total_n": 104,
+      "nights_total_mae": 1086390.875566346,
+      "nights_total_wape": 29.31403867642668,
+      "physical_violation_pct": 0.0
+    },
+    {
+      "fold": "recovery",
+      "year": 2023,
+      "model": "full",
+      "rows": 114,
+      "observed_pairs": 104,
+      "arrivals_total_n": 104,
+      "arrivals_total_mae": 668871.190625,
+      "arrivals_total_wape": 37.54494211243783,
+      "nights_total_n": 104,
+      "nights_total_mae": 1616113.8599451925,
+      "nights_total_wape": 35.405787077165385,
+      "physical_violation_pct": 0.0
+    }
+  ],
+  "best_arrivals_model": "snaive",
+  "best_nights_model": "snaive"
+}

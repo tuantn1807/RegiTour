@@ -1,0 +1,25 @@
+\begin{table}[!htbp]
+\centering
+\caption{Eurostat benchmark performance for January 2024--July 2026 with common January forecast origins and a maximum 12-month horizon.}
+\label{tab:reviewer_benchmark}
+\footnotesize
+\setlength{\tabcolsep}{3pt}
+\renewcommand{\arraystretch}{1.08}
+\begin{tabular}{>{\raggedright\arraybackslash}p{2.2cm}>{\centering\arraybackslash}p{2.1cm}>{\centering\arraybackslash}p{2.1cm}>{\centering\arraybackslash}p{1.4cm}}
+\toprule
+\textbf{Benchmark Model} & \textbf{\shortstack{Tourist Arrivals\\WAPE (\%)\\MAE (arrivals)}} & \textbf{\shortstack{Overnight Stays\\WAPE (\%)\\MAE (nights)}} & \textbf{\shortstack{Physical\\Violation\\Rate (\%)}} \\
+\midrule
+Seasonal naive & \shortstack{6.04\%\\{\scriptsize 83,753}} & \shortstack{5.68\%\\{\scriptsize 220,024}} & 0.085 \\
+ETS / Holt--Winters & \shortstack{12.69\%\\{\scriptsize 175,871}} & \shortstack{13.49\%\\{\scriptsize 522,787}} & 2.504 \\
+SARIMA & \shortstack{28.19\%\\{\scriptsize 390,813}} & \shortstack{26.37\%\\{\scriptsize 1,022,215}} & 0.891 \\
+SARIMAX & \shortstack{160.60\%\\{\scriptsize 2,226,629}} & \shortstack{17.70\%\\{\scriptsize 686,059}} & 8.786 \\
+LightGBM & \shortstack{42.51\%\\{\scriptsize 589,308}} & \shortstack{45.91\%\\{\scriptsize 1,779,793}} & 2.419 \\
+DLinear & \shortstack{89.85\%\\{\scriptsize 1,245,658}} & \shortstack{83.67\%\\{\scriptsize 3,243,704}} & 3.183 \\
+Full RA-HE-DLinear & \shortstack{36.06\%\\{\scriptsize 499,980}} & \shortstack{41.72\%\\{\scriptsize 1,617,286}} & 0.000 \\
+\bottomrule
+\end{tabular}
+\par\vspace{3pt}
+\begin{minipage}{\columnwidth}
+\scriptsize\raggedright WAPE is weighted absolute percentage error; MAE is mean absolute error. Each target cell reports WAPE (\%) on its first line and MAE on its second line. MAE is measured in accommodation arrivals for Tourist Arrivals and nights for Overnight Stays. Physical violation rate is the percentage of all 4,712 forecast pairs with $\hat{Y}^{\mathrm{nig}}<\hat{Y}^{\mathrm{arr}}$. Error metrics use 4,522 originally observed target pairs.
+\end{minipage}
+\end{table}

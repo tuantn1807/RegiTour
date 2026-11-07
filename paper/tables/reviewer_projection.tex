@@ -1,0 +1,20 @@
+\begin{table}[!htbp]
+\centering
+\caption{Effect of physical-consistency projection on count errors and the rate of physically inconsistent forecast pairs.}
+\label{tab:reviewer_projection}
+\footnotesize
+\setlength{\tabcolsep}{3pt}
+\renewcommand{\arraystretch}{1.08}
+\begin{tabular}{>{\raggedright\arraybackslash}p{2.2cm}>{\centering\arraybackslash}p{2.1cm}>{\centering\arraybackslash}p{2.1cm}>{\centering\arraybackslash}p{1.4cm}}
+\toprule
+\textbf{Projection Stage} & \textbf{\shortstack{Tourist Arrivals\\WAPE (\%)\\MAE (arrivals)}} & \textbf{\shortstack{Overnight Stays\\WAPE (\%)\\MAE (nights)}} & \textbf{\shortstack{Physical\\Violation\\Rate (\%)}} \\
+\midrule
+Before & \shortstack{36.06\%\\{\scriptsize 499,980}} & \shortstack{41.72\%\\{\scriptsize 1,617,286}} & 0.000 \\
+After & \shortstack{36.06\%\\{\scriptsize 499,980}} & \shortstack{41.72\%\\{\scriptsize 1,617,286}} & 0.000 \\
+\bottomrule
+\end{tabular}
+\par\vspace{3pt}
+\begin{minipage}{\columnwidth}
+\scriptsize\raggedright WAPE is weighted absolute percentage error; MAE is mean absolute error. Each target cell reports WAPE (\%) on its first line and MAE on its second line. MAE is measured in accommodation arrivals for Tourist Arrivals and nights for Overnight Stays. Physical violation rate is the percentage of all 4,712 forecast pairs with $\hat{Y}^{\mathrm{nig}}<\hat{Y}^{\mathrm{arr}}$. Before denotes the raw fused forecast. After denotes application of $\Pi_{\mathcal{C}}$ to the same forecast pairs.
+\end{minipage}
+\end{table}
