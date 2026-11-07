@@ -63,7 +63,7 @@
 
 \IEEEtitleabstractindextext{%
 \begin{abstract}
-Forecasting international tourism demand across multiple destinations involves substantial challenges driven by strong seasonality, structural market transitions, and cross-country heterogeneity. While linear time-series decomposition models provide significant computational efficiency, they lack mechanisms to ingest exogenous covariates, identify macroeconomic market regimes, and enforce multi-target domain constraints. This study proposes \textbf{RA-HE-DLinear} (\textit{Regime-Aware Hierarchical-Economic DLinear}), a unified spatial-temporal forecasting framework integrating causal market regime identification, exogenous calendar and price streams, cross-country dependency modeling, and domain economic constraints into a single coherent pipeline. Deep Conformal Quantile Forecasting (DCQF) provides finite-sample calibrated prediction intervals under exchangeability approximations, while SHAP explains feature attributions. Evaluated on the Eurostat monthly panel (38 countries, 2010--2026) and World Bank annual panel (203 economies, 1995--2020) under strict chronological protocols, RA-HE-DLinear achieves an out-of-sample arrivals WAPE of \textbf{14.59\% $\pm$ 0.46\%} and overnight stays WAPE of \textbf{25.00\% $\pm$ 0.54\%} across 1,000 block bootstrap iterations, yielding relative error reductions of 47.2\% and 23.8\% over Seasonal Naive. On the World Bank panel, it records \textbf{9.45\% $\pm$ 0.38\%} arrivals WAPE and \textbf{28.27\% $\pm$ 0.82\%} stays WAPE. The post-hoc asymmetric anchor projection operator $\Pi_{\mathcal{C}}$ algebraically enforces the physical lower-bound constraint ($\text{Nights} \ge \text{Arrivals}$), reducing raw violations from 0.15\% to strictly 0.00\%. Component ablations and stress tests confirm that regime conditioning, exogenous streams, and spatial dependencies each contribute meaningfully to predictive accuracy.
+Forecasting international tourism demand across multiple destinations involves substantial challenges driven by strong seasonality, structural market transitions, and cross-country heterogeneity. While linear time-series decomposition models provide significant computational efficiency, they lack mechanisms to ingest exogenous covariates, identify macroeconomic market regimes, and enforce multi-target domain constraints. This study proposes \textbf{RA-HE-DLinear} (\textit{Regime-Aware Hierarchical-Economic DLinear}), a spatial-temporal forecasting framework integrating market regime identification, exogenous calendar and price streams, cross-country dependency modeling, and domain economic constraints. Deep Conformal Quantile Forecasting (DCQF) provides calibrated prediction intervals under exchangeability approximations, while SHAP explains feature attributions. Retrospective benchmark results on the Eurostat monthly panel (38 countries, 2010--2026) report arrivals WAPE of \textbf{14.59\% $\pm$ 0.46\%} and overnight stays WAPE of \textbf{25.00\% $\pm$ 0.54\%} across 1,000 block bootstrap iterations, yielding relative error reductions of 47.2\% and 23.8\% over Seasonal Naive. On the World Bank annual panel (203 economies, 1995--2020), the reported values are \textbf{9.45\% $\pm$ 0.38\%} arrivals WAPE and \textbf{28.27\% $\pm$ 0.82\%} stays WAPE. The post-hoc asymmetric anchor projection operator $\Pi_{\mathcal{C}}$ enforces $\text{Nights} \ge \text{Arrivals}$, reducing reported raw violations from 0.15\% to 0.00\%. An implementation audit identifies full-sample regime estimation, future-assisted imputation, and missing release-vintage records. We specify a point-in-time evaluation protocol to address these issues. Empirical validation under that protocol remains outstanding, which limits operational interpretation of the reported accuracy.
 \end{abstract}
 
 \begin{IEEEkeywords}
@@ -90,17 +90,17 @@ However, standard DLinear was not designed for macroeconomic forecasting panels,
 
 To overcome these challenges, this study proposes \textbf{RA-HE-DLinear} (\textit{Regime-Aware Hierarchical-Economic DLinear}). The principal contributions of this work are:
 \begin{enumerate}
-    \item \textbf{Regime-Aware Temporal Engine (RA-Exo-DLinear):} Formulating a Generalized Additive Model (GAM) architecture where trend representations are dynamically conditioned on causal Hidden Markov Model (HMM) macroeconomic regimes via Feature-wise Linear Modulation (FiLM), integrated with orthogonal projections of future calendar schedules and past macroeconomic shocks.
+    \item \textbf{Regime-Aware Temporal Engine (RA-Exo-DLinear):} Formulating a Generalized Additive Model (GAM) architecture where trend representations are conditioned on Hidden Markov Model (HMM) regimes via Feature-wise Linear Modulation (FiLM), integrated with projections of future calendar schedules and past macroeconomic signals. Operational use requires the release-aware regime estimation specified below.
     \item \textbf{Graph-Free Spatial Factorization (TRMF):} Incorporating low-rank Temporal Regularized Matrix Factorization to capture cross-country tourism spillovers across destinations without imposing ad-hoc geographic distance matrices.
     \item \textbf{Asymmetric Anchor Consistency Solver ($\Pi_{\mathcal{C}}$):} Developing an asymmetric projection anchored on primary border registrations ($\text{WAPE} = 14.59\%$), backed by UN Tourism (UNWTO) and Eurostat IRTS 2008 definitions that overnight tourists require $\text{LOS} \ge 1.0$ nights. Coupled with a consistency loss ($\mathcal{L}_{\text{cons}}$) that curtails raw neural violations to 0.15\% (7/4,712 samples), the post-hoc projection $\Pi_{\mathcal{C}}$ algebraically enforces the physical floor ($\text{Nights} \ge \text{Arrivals}$) to strictly 0.00\% by construction, while reducing historical economic band deviations to 16.02\% (versus 49.19\% for LightGBM).
     \item \textbf{Calibrated Uncertainty Quantification (DCQF):} Implementing Deep Conformal Quantile Forecasting post-projection on an isolated calibration split, providing robust empirical coverage ($>93\%$ at nominal $90\%$) without parametric distributional assumptions, acknowledging exchangeability approximations.
-    \item \textbf{Rigorous Empirical Benchmarking:} Comprehensive multi-panel evaluation on the monthly Eurostat panel (38 destinations) and global annual World Bank panel (203 economies) under strict chronological protocols, reporting Moving Block Bootstrap statistics ($p < 0.001$), ablation breakdowns, and trend kernel sensitivity.
+    \item \textbf{Retrospective Empirical Benchmarking:} Multi-panel evaluation on the monthly Eurostat panel (38 destinations) and global annual World Bank panel (203 economies), reporting Moving Block Bootstrap statistics, ablation breakdowns, and trend kernel sensitivity. Section~\ref{sec:availability} examines the information available at forecast issuance and defines the required availability-constrained comparison.
 \end{enumerate}
 
 \section{Related Work}
 \noindent \textbf{Tourism Demand Forecasting:} Classical econometrics such as SARIMA and Error Correction Models established the baseline for tourism forecasting \cite{song2021tourism, athanasopoulos2011tourism}. Over the past decade, gradient boosting (LightGBM, CatBoost) \cite{dorogush2018catboost} and recurrent neural networks (LSTM) \cite{claveria2016tourism, silva2023tourism} improved non-linear lag modeling. However, their performance remains sensitive to hyperparameter tuning and manual lag engineering, and they frequently suffer severe degradation under unprecedented macroeconomic shifts.
 
-\noindent \textbf{LTSF Linear Architectures and Market Regimes:} Zeng et al. \cite{zeng2023dlinear} challenged complex Transformers by showing that linear decomposition models (DLinear, NLinear) achieve superior efficiency on temporal sequences. Nonetheless, pure linear architectures are blind to regime transitions. Hamilton's Markov-switching models \cite{hamilton1989regime} formulated business cycle regimes, while Feature-wise Linear Modulation (FiLM) \cite{perez2018film} enables affine transformations on intermediate representations conditioned on external context. Combining causal HMM regimes with linear decomposition allows the trend branch to adapt dynamically without heavy parameterization.
+\noindent \textbf{LTSF Linear Architectures and Market Regimes:} Zeng et al. \cite{zeng2023dlinear} challenged complex Transformers by showing that linear decomposition models (DLinear, NLinear) achieve superior efficiency on temporal sequences. Nonetheless, pure linear architectures are blind to regime transitions. Hamilton's Markov-switching models \cite{hamilton1989regime} formulated business cycle regimes, while Feature-wise Linear Modulation (FiLM) \cite{perez2018film} enables affine transformations on intermediate representations conditioned on external context. HMM regimes can condition the trend branch without heavy parameterization. Forecasting applications additionally require state estimation from observations available at the forecast origin.
 
 \noindent \textbf{Spatial Spillovers, Constraints, and Uncertainty:} Tourism flows between connected destinations (e.g., Schengen area) exhibit shared co-movements. While Spatial-Temporal Graph Neural Networks require pre-defined distance graphs, Temporal Regularized Matrix Factorization (TRMF) \cite{yu2016trmf} decomposes panels into latent low-rank temporal factors. Furthermore, multi-target forecasts frequently violate domain logic (e.g., stays lower than arrivals) \cite{cortes2024inconsistency}. Conformal prediction \cite{vovk2005algorithmic, angelopoulos2021conformal} offers finite-sample distribution-free coverage under exchangeability. Combining low-rank spatial factor modeling, domain consistency projection, and conformal inference within linear LTSF establishes the foundation of this work.
 
@@ -114,24 +114,30 @@ Consider a tourism panel of $N$ destinations observed across time $t = 1, \dots,
 \end{equation}
 where $\text{LOS}_{\min} = 1.0$ nights. Under UN Tourism (UNWTO) and Eurostat IRTS 2008 standards, overnight tourists strictly require $\text{LOS} \ge 1.0$ nights (same-day excursionists are excluded from arrivals).
 
+Here $t$ indexes a reference period. A separate timestamp $o$ identifies when a forecast is issued. An observation for period $t$ enters a point-in-time history only after its release at or before $o$. Section~\ref{sec:availability} defines this information restriction for targets, exogenous variables, and regime signals.
+
 \begin{figure*}[!t]
 \centering
 \includegraphics[width=0.88\textwidth]{figures/ra_he_dlinear_architecture_en.png}
-\caption{End-to-end architecture of the proposed RA-HE-DLinear framework.}
+\caption{End-to-end architecture of RA-HE-DLinear. Point-in-time use additionally requires the release filtering and origin-specific regime estimation in Section~\ref{sec:availability}.}
 \label{fig:architecture}
 \end{figure*}
 
 \subsection{Regime-Aware Temporal Engine (RA-Exo-DLinear)}
-\noindent \textbf{Causal Market Regime Navigation (HMM):} To model macroeconomic transitions, a continuous-emission Gaussian HMM with $K=3$ discrete states $S_t \in \{0, 1, 2\}$ is fitted on standardized monthly arrival growth rate $\Delta \log(Y_{\text{arr}})$ strictly within the training partition ($K=2$ regimes for annual data). The states capture operational regimes: $k=0$ (Normal Expansion), $k=1$ (Crisis/Disruption), and $k=2$ (Post-Crisis Recovery). To guarantee zero chronological leakage during multi-horizon forecasting, regime belief $\boldsymbol{\pi}_t = [\alpha_t(0), \alpha_t(1), \alpha_t(2)]^T \in \Delta^2$ is computed strictly using causal forward-filtered probabilities:
+\label{sec:regime}
+\noindent \textbf{Market Regime Navigation (HMM).} The available pipeline uses a Gaussian HMM with $K=3$ states and signals comprising aggregate arrival growth, COVID stringency, and a price or inflation indicator. Its semantic labels are Normal Expansion, Crisis/Disruption, and Recovery. The implementation fits and decodes this HMM on the complete panel before splitting the targets. It also estimates signal normalization on the supplied sequence. When the \texttt{hmmlearn} branch is used, \texttt{predict\_proba} computes smoothed state posteriors and \texttt{predict} decodes a sequence of states. These operations expose regime estimation to later observations. The retrospective benchmark therefore carries a regime-information advantage.
+
+For the availability-constrained evaluation, HMM parameters, signal scalers, and state-label ordering must be estimated from the admissible training data and frozen before validation and test issuance. Let $\mathcal{F}_o$ contain releases available by $o$, and let $\mathbf{u}_t^{(o)}$ denote the signal coordinates at reference time $t$ admitted by this information set. The filtered belief is $\alpha_t^{(o)}(k)=P(S_t=k\mid\mathbf{u}_{1:t}^{(o)})$. With these parameters fixed, the forward recursion is
 \begin{equation}
 \begin{aligned}
-\alpha_t(k) &= P(S_t = k \mid \mathbf{u}_{1:t}) \\
-&= \frac{p(\mathbf{u}_t \mid S_t = k) \sum_{j=0}^2 \alpha_{t-1}(j) A_{j, k}}{\sum_{m=0}^2 p(\mathbf{u}_t \mid S_t = m) \sum_{j=0}^2 \alpha_{t-1}(j) A_{j, m}}.
+\alpha_t^{(o)}(k) &\propto p(\mathbf{u}_t^{(o)} \mid S_t=k) \\
+&\quad\times\sum_{j=0}^{K-1}\alpha_{t-1}^{(o)}(j)A_{j,k},
 \end{aligned}
 \end{equation}
-Two-sided Baum-Welch smoothed posterior probabilities $\gamma_t(k) = P(S_t = k \mid \mathbf{u}_{1:T})$ conditioning on future values $t+1:T$ are strictly prohibited. To guarantee deterministic semantic alignment across runs, states are sorted by empirical mean arrival growth rate: State 1 (Disruption) exhibits lowest growth, State 0 (Normal) steady growth, and State 2 (Recovery) peak rebound. The belief vector is mapped into an 8-dimensional regime embedding $\mathbf{e}_r \in \mathbb{R}^8$:
+normalized to sum to one. A missing signal coordinate is marginalized out of the Gaussian emission density. If all coordinates are unavailable, the step uses the transition distribution alone. To cover the interval from the most recent signal to forecast issuance and all $H$ future periods, beliefs are propagated through $A$ without inserting realized future emissions. Training-state ordering uses training growth statistics only. Smoothed beliefs $P(S_t=k\mid\mathbf{u}_{1:T})$ are appropriate for retrospective labeling. For prediction, the specified evaluation uses the filtered and transition-propagated belief at $o$. To retain the existing FiLM interface, its maximum-probability state indexes the learned eight-dimensional embedding table $\mathbf{E}\in\mathbb{R}^{K\times8}$,
 \begin{equation}
-\mathbf{e}_r = \operatorname{ReLU}(\mathbf{W}_e \boldsymbol{\pi}_t + \mathbf{b}_e), \quad \mathbf{W}_e \in \mathbb{R}^{8 \times 3}.
+\mathbf{e}_r=\mathbf{E}_{\hat{s}_o,:},\qquad
+\hat{s}_o=\operatorname*{arg\,max}_{k}\pi_o(k).
 \end{equation}
 
 \noindent \textbf{Series Decomposition and FiLM Modulation:} Input series $\mathbf{X} \in \mathbb{R}^{L \times C}$ is decomposed into trend and seasonal branches via moving-average pooling:
@@ -204,33 +210,35 @@ The conformal quantile $\hat{Q}_{1-\alpha}$ is computed at the finite-sample adj
 \end{equation}
 
 \begin{algorithm}[t]
-\caption{RA-HE-DLinear Pipeline Workflow}
+\caption{Availability-constrained RA-HE-DLinear evaluation protocol}
 \label{alg:pipeline}
 \footnotesize
 \begin{algorithmic}[1]
-\REQUIRE Panel series $\mathbf{Y}$, exogenous streams $(\mathbf{X}_{\text{fut}}, \mathbf{X}_{\text{past}})$, splits $\{\mathcal{D}_{\text{train}}, \mathcal{D}_{\text{val}}, \mathcal{D}_{\text{cal}}, \mathcal{D}_{\text{test}}\}$.
-\STATE Fit Gaussian HMM on $\mathcal{D}_{\text{train}}$; sort states deterministically; extract causal forward beliefs $\boldsymbol{\pi}_t$; fit TRMF spatial factors on $\mathcal{D}_{\text{train}}$.
+\REQUIRE Reference-period splits, forecast origins $o$, and a release-vintage ledger for targets and exogenous streams.
+\STATE Build training histories using releases available at each historical issuance time. Fit scalers, fallback statistics, HMM parameters, state ordering, and TRMF on admissible training records.
 \FOR{each epoch on $\mathcal{D}_{\text{train}}$}
     \STATE Decompose series into $\mathbf{X}_{\text{trend}}$ and $\mathbf{X}_{\text{seasonal}}$ via kernel $K_{\text{ma}}$.
     \STATE Modulate trend via FiLM($\mathbf{e}_r$); project exogenous streams; compute $\hat{\mathbf{Y}}_{\text{temporal}}$.
     \STATE Update parameters via AdamW on coupled loss $\mathcal{L}_{\text{MSE}} + \lambda_{\text{cons}}\mathcal{L}_{\text{cons}}$.
 \ENDFOR
-\STATE Optimize blending weight $w_{\text{time}}^*$ on $\mathcal{D}_{\text{val}}$ (2022); calibrate $\hat{Q}_{1-\alpha}$ on $\mathcal{D}_{\text{cal}}$ (2023).
-\FOR{each test query in $\mathcal{D}_{\text{test}}$ (2024--2026)}
+\STATE Generate validation and calibration predictions as of their origins. Tune $w_{\text{time}}^*$ on validation. Use calibration residuals only after their outcomes have been released.
+\FOR{each test forecast origin $o$}
+    \STATE Select vintages released by $o$. Construct histories and calendar inputs using $\mathcal{F}_o$. Apply training-fitted preprocessing.
+    \STATE Filter HMM signals available by $o$ and propagate beliefs through any unreleased periods and the forecast horizon.
     \STATE Fuse forecasts $\hat{\mathbf{Y}}_{\text{fused}}$; apply projection $\hat{\mathbf{Y}}^* = \Pi_{\mathcal{C}}(\hat{\mathbf{Y}}_{\text{fused}})$.
-    \STATE Form conformal prediction intervals $\hat{\mathcal{I}}_{1-\alpha} = [\max(0, \hat{Y}^* - \hat{Q}_{1-\alpha}), \hat{Y}^* + \hat{Q}_{1-\alpha}]$.
+\STATE Form conformal intervals using calibration outcomes released by $o$. Log origin, target period, horizon, input vintages, and predictions before scoring outcomes.
 \ENDFOR
-\RETURN Logically consistent point forecasts $\hat{\mathbf{Y}}^*$ and prediction intervals $\hat{\mathcal{I}}_{1-\alpha}$.
+\RETURN Origin-stamped forecasts and paired Original/PIT scores. This protocol specifies the required re-evaluation.
 \end{algorithmic}
 \end{algorithm}
 
 \section{Experimental Results}
 
 \subsection{Experimental Setup}
-\noindent \textbf{Datasets and Splits:} Experiments evaluate two real-world panels under strict chronological splitting:
+\noindent \textbf{Datasets and Splits:} The reported retrospective benchmarks use the following reference-period partitions. Release-date restrictions and the implementation audit are described in Section~\ref{sec:availability}.
 \begin{itemize}
-    \item \textbf{Eurostat Monthly Panel (38 destinations, 2010--2026):} Comprises 38 European destinations across 4 accommodation categories (Hotels, Holiday/short-stay, Campsites, Total), yielding $N_{\text{series}} = 38 \times 4 = 152$ parallel monthly series forecasting dual targets $(Y^{\text{arr}}, Y^{\text{nig}})$. Partitions strictly follow: Training on 2010--2021 ($144 \text{ months} \times 152 = 21,888$ samples), Validation blend-tuning on 2022 ($12 \times 152 = 1,824$ samples), Calibration on 2023 ($12 \times 152 = 1,824$ samples), and Out-of-sample Test on Jan 2024--Jul 2026 ($31 \text{ months} \times 152 = 4,712$ samples). Missing historical values are imputed entity-wise via grouped forward-fill, backward-fill, then zero-fill (\texttt{ffill().bfill().fillna(0)}), preventing cross-series or temporal leakage. From 54 raw economic and indicator tables, 21 active predictive features are curated: 14 future calendar indicators (month-of-year dummies, public holidays, school vacations, bridge days, weekend count) and 7 past macroeconomic/epidemiological covariates (HICP inflation, Oxford stringency and containment indices).
-    \item \textbf{World Bank Annual Panel (203 economies, 1995--2020):} Lookback $L=4$ years, horizon $H=1$. Split into Training on 1995--2015 (3,802 samples), Validation on 2016 (194 samples), Calibration on 2017 (190 samples), and Test on 2018--2020 (497 samples: 186 in 2018, 179 in 2019, 132 in 2020; the reduction in 2020 reflects official publication latency during the pandemic).
+    \item \textbf{Eurostat Monthly Panel (38 destinations, 2010--2026):} Comprises 38 European destinations across 4 accommodation categories (Hotels, Holiday/short-stay, Campsites, Total), yielding $N_{\text{series}} = 38 \times 4 = 152$ parallel monthly series forecasting dual targets $(Y^{\text{arr}}, Y^{\text{nig}})$. The manuscript partitions are Training on 2010--2021 ($144 \text{ months} \times 152 = 21,888$ samples), Validation blend-tuning on 2022 ($12 \times 152 = 1,824$ samples), Calibration on 2023 ($12 \times 152 = 1,824$ samples), and Test on Jan 2024--Jul 2026 ($31 \text{ months} \times 152 = 4,712$ samples). The available loader applies entity-wise \texttt{ffill().bfill().fillna(0)} before splitting. Backward filling and source-stage two-sided interpolation can use later observations. Grouping keeps entities separate but still permits future information within an entity. From the 54-column feature store, 21 active predictive features are curated, comprising 14 calendar features and 7 past price/COVID covariates. Their admissibility at issuance is assessed separately from their reference dates.
+    \item \textbf{World Bank Annual Panel (203 economies, 1995--2020):} Lookback $L=4$ years, horizon $H=1$. Split into Training on 1995--2015 (3,802 samples), Validation on 2016 (194 samples), Calibration on 2017 (190 samples), and Test on 2018--2020 (497 available observations, comprising 186 in 2018, 179 in 2019, and 132 in 2020).
 \end{itemize}
 
 \begin{table}[!htbp]
@@ -255,8 +263,63 @@ Test Samples & 4,712 (out-of-sample) & 497 (includes 2020 shock) \\
 
 \noindent \textbf{Baselines and Hyperparameters:} Baselines span econometric (Seasonal Naive), gradient boosted trees (LightGBM, CatBoost-Regime), LTSF linear (Vanilla DLinear), and Transformers (PatchTST \cite{nie2023patchtst}, iTransformer \cite{liu2024itransformer}, TimesNet \cite{wu2023timesnet}). All neural models use AdamW ($\eta = 0.005$, cosine decay, weight decay $10^{-4}$), batch size 64 (Eurostat) and 256 (WB), 25 epochs with early stopping patience 8. Fixed seed is 42. Metrics include WAPE (\%), MAE, Physical Violations ($<1.0$), Economic Band Deviation ($[b_i \pm 1.0]$ around historical median), and Conformal Empirical Coverage (\%). Moving Block Bootstrap (MBB, block length $b=12$ months on Eurostat and $b=3$ years on WB to retain serial autocorrelation, $B=1,000$ iterations) evaluates paired differences $\Delta^{(b)} = \text{WAPE}_{\text{base}}^{(b)} - \text{WAPE}_{\text{prop}}^{(b)}$, reporting Mean $\pm$ Std and paired empirical $p = \frac{1}{B}\sum_{b=1}^B \mathbb{I}(\Delta^{(b)} \le 0) < 0.001$.
 
+\subsection{Temporal Leakage and Point in Time Availability}
+\label{sec:availability}
+
+\noindent \textbf{Reference dates and forecast origins.} The feature-store field \texttt{date} is a reference-period label. For example, \texttt{2024-01-01} identifies January 2024 in Eurostat and the year 2024 in an annual panel. The stored schema contains reference dates and values, while historical release timestamps and revision vintages are absent. For the specified point-in-time (PIT) backtest, a forecast block begins at the start of month $t+1$ for Eurostat or year $t+1$ for World Bank, with issuance $o$ set to the final second of the preceding period in UTC. Thus a block beginning January 2024 has origin 31 December 2023 at 23:59:59 UTC. Each scored prediction must retain the entity, origin $o$, target period, and horizon $h$. Predictions from overlapping origins are scored separately by horizon. Any pooled score must declare its aggregation rule.
+
+\noindent \textbf{Release and vintage selection.} For variable $j$, entity $i$, reference period $s$, and vintage $v$, let $r_{i,j,s,v}$ be the timestamp when that version became available through the data source used by the forecasting system. The admissible vintage and value are
+\begin{equation}
+\begin{aligned}
+v^*(i,j,s;o)&=\operatorname*{arg\,max}_{v:\,r_{i,j,s,v}\le o}r_{i,j,s,v},\\
+x_{i,j,s}^{(o)}&=x_{i,j,s,v^*(i,j,s;o)}.
+\end{aligned}
+\label{eq:asof_selection}
+\end{equation}
+If the eligible set is empty, the input is unavailable at $o$. This rule also applies to historical tourism targets used as predictors. The release ledger must record the variable and source identifier, reference period, release timestamp, vintage identifier, and retrieval timestamp. Retrieval time documents provenance. Admissibility depends on the release of the particular vintage. A field named \texttt{lag1} specifies a reference-period lag and still requires this release check.
+
+Eurostat currently describes country-level monthly accommodation releases as generally occurring soon after a 45-day transmission deadline, with EU aggregates usually released about 2.5 months after the reference month \cite{eurostat_tourism_release}. Full HICP breakdowns are generally released around the middle of the following month, while the earlier flash estimate covers selected aggregates \cite{eurostat_hicp_release}. The accommodation-price component must use its own release. These schedules motivate availability checks. Historical backtests require the release applicable to each country, component, and date. For annual GDP, growth, inflation, unemployment, and exchange-rate variables, release timing must likewise be obtained for the specific source series. WDI historical values can change with updates, and archived WDI editions provide a basis for reconstructing available vintages \cite{worldbank_revisions,worldbank_archives}.
+
+\begin{table}[!htbp]
+\centering
+\caption{Input availability rules for the specified PIT backtest}
+\label{tab:availability_rules}
+\footnotesize
+\setlength{\tabcolsep}{2pt}
+\renewcommand{\arraystretch}{1.08}
+\begin{tabular}{>{\raggedright\arraybackslash}p{1.65cm}>{\raggedright\arraybackslash}p{2.65cm}>{\raggedright\arraybackslash}p{3.55cm}}
+\toprule
+\textbf{Input group} & \textbf{Release evidence} & \textbf{Treatment at origin $o$} \\
+\midrule
+Tourism history & Country and series-specific target release & Use published target vintages. Treat unreleased periods as gaps in the history. \\
+HICP and annual macro variables & Component and source-specific publication and revision records & Select the latest admissible vintage. Recompute growth rates from those values. \\
+COVID indices & Contemporaneously released daily records & Aggregate only records available by $o$. A complete future-period average is unavailable. \\
+Calendar and events & Deterministic calendar or dated official announcement & Use known dates and schedules announced by $o$. Log later cancellations or changes as later vintages. \\
+Derived quantities & Availability of every contributing input & Construct lags, ratios, growth signals, and regime inputs after release filtering. \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\noindent \textbf{Unavailable inputs and preprocessing.} PIT construction starts with raw, timestamped releases before imputation. Forward filling may use the latest value already released for that entity. Initial gaps may use an entity or pooled fallback estimated from admissible training data. A delayed tourism period requires an explicit missing-history or origin-specific nowcast treatment, with its status retained in the forecast log. Only published outcomes serve as training or calibration labels. Backward filling and interpolation with later values are excluded from this protocol. Scalers, clipping thresholds, historical accommodation shares, economic ratios, and TRMF factors must be fitted on the admissible training partition. The available loader computes some historical ratios on the complete panel, which creates an additional source of future information. Unavailable covariates without an auditable release history are omitted, and the resulting feature set is disclosed. Lagged latest-vintage sensitivity runs can be reported when release records are incomplete, with their lag assumptions stated explicitly. Such runs measure delay sensitivity while leaving revision uncertainty unresolved.
+
+\noindent \textbf{Regime information at issuance.} The HMM filtering procedure in Section~\ref{sec:regime} is a requirement of the specified PIT evaluation. Each training example uses a state estimate from the information available at its historical origin. At validation and test origins, the fitted HMM and its normalization are fixed. Newly released measurements update the filtered distribution, and transitions propagate it across unobserved periods. A future COVID restriction, a realized annual stringency average, or the arrival total of a target month enters the regime calculation only after its release. Future deterministic calendars remain admissible. Future observed macroeconomic values require a separate forecast produced using the same $\mathcal{F}_o$ and logged as a forecast input.
+
+\noindent \textbf{Required paired comparison and current status.} The \emph{Original feature availability} setting retains the retrospective feature store, imputation, and regime construction underlying the original benchmark configuration. The \emph{Point-in-time constrained} setting applies the release, vintage, preprocessing, and filtering rules above. Both settings must use the same declared reference-period partitions, forecast origins, horizons, scoring targets, tuning budget, and seed policy. A common evaluation vintage and target-validity mask are fixed for scoring after outcomes are released. Each setting is refitted and tuned on its own admissible training and validation inputs. Calibration residuals become eligible only when their outcomes are released before test issuance. If delayed calibration outcomes are unavailable at the first test origin, the calibration window must end earlier or be accumulated sequentially, with the same declared rule across models.
+
+For each target, horizon, and regime, the paired experiment must report WAPE, MAE, the number of origins and scored outcomes, and differences
+\begin{equation}
+\begin{aligned}
+\Delta_{\mathrm{WAPE}}&=\mathrm{WAPE}_{\mathrm{PIT}}-\mathrm{WAPE}_{\mathrm{Original}},\\
+\Delta_{\mathrm{MAE}}&=\mathrm{MAE}_{\mathrm{PIT}}-\mathrm{MAE}_{\mathrm{Original}}.
+\end{aligned}
+\label{eq:availability_difference}
+\end{equation}
+WAPE differences are expressed in percentage points. Relative degradation for metric $M$ is $100(M_{\mathrm{PIT}}/M_{\mathrm{Original}}-1)\%$ when $M_{\mathrm{Original}}>0$. Positive differences indicate higher error under the information restriction. Paired uncertainty estimates must resample the same chronological origin blocks in both settings. All models are scored on common eligible target keys, and exclusions caused by missing release histories are counted separately.
+
+The tables in this manuscript retain the reported retrospective benchmark values. The available feature store lacks the release ledger and vintage snapshots required for this paired experiment, and the audited implementation retains the information exposures identified above. Consequently, PIT WAPE, PIT MAE, and their degradation estimates remain unmeasured. The retrospective values provide a reference for the required re-evaluation. Claims about accuracy achievable at historical issuance times require that re-evaluation and a run manifest linking splits, input vintages, preprocessing, and saved forecasts.
+
 \subsection{Overall Benchmark Results}
-Table~\ref{tab:main_benchmark} presents benchmark results on the Eurostat test set (2024--2026, 4,712 samples).
+Table~\ref{tab:main_benchmark} presents the reported retrospective benchmark results on the Eurostat test set (2024--2026, 4,712 samples), subject to the information-availability qualifications in Section~\ref{sec:availability}.
 
 \begin{table}[!htbp]
 \centering
@@ -420,7 +483,7 @@ Feature attributions are quantified via KernelExplainer SHAP \cite{lundberg2017s
 
 \subsection{Evaluation on Annual World Bank Panel}
 \label{sec:benchmark_wb}
-Table~\ref{tab:benchmark_wb} summarizes performance on the global annual World Bank panel (203 economies, 497 test samples). RA-HE-DLinear achieves arrivals WAPE of \textbf{9.45\% $\pm$ 0.38\%} (MAE 964,296) and stays WAPE of \textbf{28.27\% $\pm$ 0.82\%}. In the 2020 pandemic year, reported arrivals WAPE is $13.14\%$ (versus $43.78\%$ for Vanilla DLinear).
+Table~\ref{tab:benchmark_wb} summarizes the reported retrospective results on the global annual World Bank panel (203 economies, 497 test samples). RA-HE-DLinear records arrivals WAPE of \textbf{9.45\% $\pm$ 0.38\%} (MAE 964,296) and stays WAPE of \textbf{28.27\% $\pm$ 0.82\%}. In the 2020 pandemic year, reported arrivals WAPE is $13.14\%$ (versus $43.78\%$ for Vanilla DLinear). Interpreting this as an advance forecast of the pandemic shock requires the origin-specific regime and release restrictions in Section~\ref{sec:availability}. Realized 2020 policy-index averages become eligible only when released.
 
 \begin{table}[!htbp]
 \centering
@@ -447,14 +510,14 @@ RA-Exo-DLinear & 9.75\% $\pm$ 0.40\% & 994,780 & 40.35\% $\pm$ 0.95\% & 0.00\% \
 \noindent \textbf{Trend Kernel Ablation on Short Annual Panels:} Lookback $L=4$ with monthly default $K_{\text{ma}}=13$ requires edge endpoint replication. Ablating across $K_{\text{ma}} \in \{13, 3, 1\}$ reveals high parameter stability: overall arrivals WAPE is $30.49\%$ ($K=13$), $30.41\%$ ($K=3$), and $30.41\%$ ($K=1$, un-decomposed Linear LTSF), with test RMSE improving from $12.49\text{M}$ to $12.30\text{M}$. During the 2020 shock, removing the over-smoothed filter improves crisis adaptability, decreasing WAPE from $214.06\%$ ($K=13$) to $210.35\%$ ($K=1$). Thus, compact kernels ($K_{\text{ma}}=3$) or pure linear mappings ($K_{\text{ma}}=1$) are methodologically preferable for short annual panels.
 
 \section{Discussion and Limitations}
-\noindent \textbf{Key Empirical Findings:} (1) \textit{Extended Linear LTSF:} Equipping linear decomposition with causal regime modulation and exogenous projections outperforms heavy Transformer and recurrent models while training in under 35 seconds. (2) \textit{Consistency-Oriented Learning:} Coupled penalty $\mathcal{L}_{\text{cons}}$ trains neural representations toward compliance, suppressing raw test violations to 0.15\%, after which $\Pi_{\mathcal{C}}$ algebraically enforces 0.00\% compliance without distorting arrival registrations. (3) \textit{Calibrated Uncertainty:} Split conformal DCQF post-projection yields $>93\%$ empirical coverage under mild exchangeability approximations.
+\noindent \textbf{Key Empirical Findings.} (1) \textit{Extended Linear LTSF.} The reported retrospective comparisons favor regime modulation and exogenous projections over the evaluated Transformer and recurrent baselines. Their operational accuracy remains subject to the release-aware re-evaluation in Section~\ref{sec:availability}. (2) \textit{Consistency-Oriented Learning.} The reported raw violation rate is 0.15\%, after which $\Pi_{\mathcal{C}}$ enforces the physical floor by construction. (3) \textit{Calibrated Uncertainty.} The reported split-conformal empirical coverage exceeds 93\%. Coverage must be recalibrated and measured after changing the input-availability protocol.
 
-\noindent \textbf{Operational Deployment:} For destination management organizations (DMOs), retaining unprojected and projected forecasts enables operational health tracking. Minimal intervention ($\eta_{\text{proj}} = 0.15\%$) confirms that the model internalizes accounting logic rather than relying on artificial post-hoc patching.
+\noindent \textbf{Operational Deployment.} For destination management organizations (DMOs), retaining unprojected and projected forecasts allows the intervention rate to be monitored alongside forecast error. A deployment record should also retain issuance time, source releases, input vintages, and the most recent tourism observation available. The historical intervention rate of 0.15\% describes the retrospective benchmark configuration. Its value under real-time availability requires measurement in the constrained evaluation.
 
-\noindent \textbf{Study Limitations:} (1) \textit{Annual Data Sparsity:} Annual series contain at most 26 observations per economy; while kernel ablation confirms stability with $K_{\text{ma}} \in \{1, 3\}$, annual aggregation hides within-year seasonal turning points. (2) \textit{Exchangeability in Conformal Prediction:} Split conformal assumes residual exchangeability. Strong autocorrelation or abrupt structural shocks may cause local under-coverage; future work will explore online Adaptive Conformal Inference (ACI). (3) \textit{Publication Latency:} Macroeconomic indices (HICP) involve release delays \cite{eurostat_hicp_release}. Real-time leading demand indicators (daily Google Trends \cite{google_trends_data}, advance airline ticket bookings \cite{iata2025dds}) should be integrated under strictly synchronized publication timestamps.
+\noindent \textbf{Study Limitations.} (1) \textit{Annual Data Sparsity.} Annual series contain at most 26 observations per economy, and annual aggregation hides within-year seasonal turning points. (2) \textit{Exchangeability in Conformal Prediction.} Split conformal assumes residual exchangeability. Autocorrelation and structural shocks can affect local coverage. Online Adaptive Conformal Inference (ACI) is a possible extension. (3) \textit{Temporal Information Exposure.} The available implementation estimates HMM states and some preprocessing quantities using the full panel. Source-stage interpolation and backward filling can also introduce later information. These exposures limit interpretation of the historical comparisons. (4) \textit{Release and Revision Uncertainty.} The feature store lacks historical release-vintage records, so the PIT comparison and the resulting performance degradation remain outstanding. Additional leading indicators, such as Google Trends \cite{google_trends_data} and advance airline bookings \cite{iata2025dds}, would require the same timestamp and vintage controls.
 
 \section{Conclusion}
-This study proposed \textbf{RA-HE-DLinear}, a spatial-temporal linear decomposition framework resolving the three structural blind spots of LTSF-Linear architectures in multi-country tourism forecasting. By integrating causal HMM regime conditioning, low-rank TRMF cross-country spillovers, asymmetric anchor projection $\Pi_{\mathcal{C}}$, and conformal uncertainty calibration, RA-HE-DLinear achieves leading empirical accuracy across evaluated baselines ($14.59\%$ arrivals WAPE on Eurostat, $9.45\%$ on World Bank) and algebraically enforces 0.00\% physical violations via post-hoc projection $\Pi_{\mathcal{C}}$. Future work will investigate mixed-frequency architectures and real-time mobility streams.
+This study proposed \textbf{RA-HE-DLinear}, a spatial-temporal framework combining HMM regime conditioning, low-rank TRMF factors, asymmetric anchor projection $\Pi_{\mathcal{C}}$, and conformal calibration. The reported retrospective arrivals WAPE is $14.59\%$ on Eurostat and $9.45\%$ on World Bank. The projection enforces the physical lower bound by construction. An implementation audit identifies temporal information exposures and missing historical release records. The specified availability-constrained protocol defines the re-evaluation needed to establish accuracy at historical forecast origins, quantify its change from the original setting, and assess readiness for operational use.
 
 \bibliographystyle{IEEEtran}
 \begin{thebibliography}{10}
@@ -562,6 +625,15 @@ Google, ``FAQ about Google Trends data,'' \emph{Trends Help}. Accessed: Nov. 3, 
 
 \bibitem{iata2025dds}
 IATA, ``How Cathay Pacific uses DDS to drive strategic growth,'' \emph{IATA Knowledge Hub}, Sep. 25, 2025. [Online]. Available: \url{https://www.iata.org/en/publications/newsletters/iata-knowledge-hub/how-cathay-pacific-uses-dds-to-drive-strategic-growth/}
+
+\bibitem{eurostat_tourism_release}
+Eurostat, ``Information on data---Tourism,'' section ``Reference periods and data release.'' Accessed: Nov. 7, 2026. [Online]. Available: \url{https://ec.europa.eu/eurostat/en/web/tourism/information-data}
+
+\bibitem{worldbank_revisions}
+World Bank, ``How are revisions managed?'' \emph{Data Help Desk}. Accessed: Nov. 7, 2026. [Online]. Available: \url{https://datahelpdesk.worldbank.org/knowledgebase/articles/114939-how-are-revisions-managed}
+
+\bibitem{worldbank_archives}
+World Bank, ``WDI Archives,'' \emph{World Development Indicators}. Accessed: Nov. 7, 2026. [Online]. Available: \url{https://datatopics.worldbank.org/world-development-indicators/wdi-archives.html}
 
 \end{thebibliography}
 
