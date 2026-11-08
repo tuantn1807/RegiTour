@@ -168,17 +168,83 @@ Let $B = f_{\text{trend}}(\mathbf{X}_{\text{trend}},\mathbf{e}_r) + \mathbf{W}_S
 Here link function $g^{-1}(z) = \operatorname{ReLU}(z)$ enforces non-negativity. Each component acts as an interpretable additive economic factor. Setting FiLM and exogenous projections to zero recovers standard nonnegative DLinear exactly.
 
 \subsection{Cross-Country Dependency Modeling (TRMF)}
-Dual TRMF \cite{yu2016trmf} decomposes panel observation matrices independently for arrivals $\mathbf{Y}_{\text{arr}} \approx \mathbf{W}_{\text{arr}} \mathbf{X}_{\text{arr}}^T$ and stays $\mathbf{Y}_{\text{nig}} \approx \mathbf{W}_{\text{nig}} \mathbf{X}_{\text{nig}}^T$:
+\label{sec:trmf}
+\noindent \textbf{Construction of the input matrices.} For each chronological fold $b$, we first restrict the completed training frame to \texttt{accommodation\_type=total}. We verify unique destination--month keys, sort destinations by \texttt{geo} and reference months chronologically, and pivot \texttt{arrivals\_total} and \texttt{nights\_total} separately, with \texttt{geo} as the row index and \texttt{date} as the column index. Thus
+\begin{equation}
+\mathbf{Y}^{(b)}_k
+=\big[y_{k,i,\mathrm{total},t}\big]_{i=1,\ldots,N;\,t\in\mathcal{T}_b}
+\in\mathbb{R}_+^{N\times T_b},
+\label{eq:trmf_input}
+\end{equation}
+where $k\in\{\mathrm{arr},\mathrm{nig}\}$ identifies the target, $\mathcal{T}_b$ contains only training reference periods, and $T_b=|\mathcal{T}_b|$. For Eurostat, each cell is a monthly count of accommodation arrivals or overnight stays for one destination. A date such as \texttt{2010-01-01} labels January 2010. The two matrices use identical row and date orderings and are fitted independently. The spatial branch receives target counts; the calendar and macroeconomic variables enter the temporal branch.
+
+The Eurostat snapshot spans 199 months, January 2010--July 2026, giving a descriptive country-total grid of $38\times199$ per target. The recent TRMF fit uses its first 144 months, January 2010--December 2021, so each actual fitting input is $38\times144$. Its rows represent 38 country-total series. The temporal branch instead uses all $38\times4=152$ destination--accommodation panel series. Table~\ref{tab:trmf_dimensions} gives the training dimensions in every fold.
+
+\begin{table}[!htbp]
+\centering
+\caption{Construction dimensions of the training inputs and temporal factors for spatial matrix factorization}
+\label{tab:trmf_dimensions}
+\footnotesize
+\setlength{\tabcolsep}{2pt}
+\renewcommand{\arraystretch}{1.08}
+\begin{tabular}{>{\raggedright\arraybackslash}p{1.8cm}>{\raggedright\arraybackslash}p{2.5cm}>{\centering\arraybackslash}p{1.6cm}>{\centering\arraybackslash}p{1.9cm}}
+\toprule
+\textbf{Dataset and Evaluation Fold} & \textbf{Training Reference Period} & \textbf{\shortstack{Input\\Matrix\\$N\times T_b$}} & \textbf{\shortstack{Temporal\\Factors\\$T_b\times4$}} \\
+\midrule
+Eurostat: tranquil & Jan.\ 2010--Dec.\ 2015 & $38\times72$ & $72\times4$ \\
+Eurostat: disruption & Jan.\ 2010--Dec.\ 2017 & $38\times96$ & $96\times4$ \\
+Eurostat: recovery & Jan.\ 2010--Dec.\ 2019 & $38\times120$ & $120\times4$ \\
+Eurostat: recent & Jan.\ 2010--Dec.\ 2021 & $38\times144$ & $144\times4$ \\
+World Bank: annual reference & 1995--2015 & $203\times21$ & $21\times4$ \\
+\bottomrule
+\end{tabular}
+\par\vspace{3pt}
+\begin{minipage}{\columnwidth}
+\scriptsize\raggedright Dimensions apply separately to Tourist Arrivals and Overnight Stays. Rows are destinations/economies; columns are monthly periods for Eurostat and annual periods for World Bank. Spatial factors have dimensions $38\times4$ and $203\times4$, respectively. Annual dimensions are reconstructed from the available CSV and stated split; the matched re-estimation concerns Eurostat.
+\end{minipage}
+\end{table}
+
+\noindent \textbf{Completion and scaling.} In the reproduced Eurostat runner, each destination--category history is forward-filled before pivoting. Initial gaps use its training median, with a pooled training median and then zero as fallbacks; target counts are clipped below at zero. The resulting training matrices are finite. For each target and destination, let $\mu_{k,i}$ and $\sigma_{k,i}$ be the mean and population standard deviation over the completed training row. The factorization input is
+\begin{equation}
+\widetilde{Y}_{k,i,t}
+=\frac{Y_{k,i,t}-\mu_{k,i}}{\sigma_{k,i}+10^{-5}},
+\qquad
+\widetilde{\mathbf{Y}}_k\approx\mathbf{W}_k\mathbf{X}_k^T.
+\label{eq:trmf_scaling}
+\end{equation}
+Both scaling statistics are fitted within the fold's training partition. The recent matrices have $\mathbf{W}_k\in\mathbb{R}^{38\times4}$ and $\mathbf{X}_k\in\mathbb{R}^{144\times4}$; the two targets have their own factors. For the annual World Bank configuration, the training CSV contains 3,802 observed economy--year rows across 203 economies and 21 years. Pivoting gives $203\times21=4,263$ cells per target. The matrix builder fills the 461 absent cells with the corresponding economy's training-row mean. Annual dates such as \texttt{1995-01-01} label the year 1995.
+
+\noindent \textbf{Factorization and forecast dimensions.} The idealized dual TRMF objective \cite{yu2016trmf}, written on standardized targets, is
 \begin{equation}
 \begin{aligned}
-\min_{\mathbf{W}_k, \mathbf{X}_k, \boldsymbol{\Theta}_k} \sum_{(i, t) \in \Omega} &(Y_{k, i, t} - \mathbf{w}_{k, i}^T \mathbf{x}_{k, t})^2 \\
+\min_{\mathbf{W}_k, \mathbf{X}_k, \boldsymbol{\Theta}_k} \sum_{(i, t) \in \Omega} &(\widetilde{Y}_{k, i, t} - \mathbf{w}_{k, i}^T \mathbf{x}_{k, t})^2 \\
 &+ \lambda_w \|\mathbf{W}_k\|_F^2 + \lambda_x \mathcal{R}_{\text{AR}}(\mathbf{X}_k, \boldsymbol{\Theta}_k)
 \end{aligned}
 \end{equation}
-For the reproduced experiments, the two inputs are the arrivals and nights matrices for \texttt{accommodation\_type=total}. Each has 38 destination rows and 144 training-month columns in the recent fold. The full panel contains 152 destination--category series. Separate training shares map country-total spatial predictions back to each category. Rank is four and monthly AR lags are $\{1,2,12\}$. The available spatial implementation alternates low-rank reconstruction updates and estimates a ridge AR model for the latent factors. Its $X$ update omits the AR penalty shown in the idealized objective above, so the experiments evaluate this TRMF-inspired implementation. Reconstruction ridge coefficients are 0.01, and AR coefficients are fitted separately. Forecast factors are damped and clipped by the implementation. Latent factors are extrapolated from the end of training through validation and test, without assimilation of new target values. The reconstructed forecasts are
+Here $\Omega$ denotes observed entries in the idealized objective. The available implementation optimizes reconstruction on the completed matrix, including its imputed entries. Rank is four, and monthly AR lags are $\{1,2,12\}$, giving one coefficient matrix $\boldsymbol{\Theta}_k\in\mathbb{R}^{3\times4}$ per target. The annual configuration uses lags $\{1,2\}$ and coefficients of size $2\times4$. The spatial implementation alternates low-rank reconstruction updates and estimates a ridge AR model for the latent factors. Its $X$ update omits the AR penalty in the objective above, so the experiments evaluate this TRMF-inspired implementation. Reconstruction ridge coefficients are 0.01, and AR coefficients are fitted separately. Forecast factors are damped and clipped. Before these implementation bounds, the latent recursion and inverse scaling are
 \begin{equation}
-\mathbf{x}_{k, t+h} = \sum_{l \in \mathcal{L}} \boldsymbol{\Theta}_{k, l} \mathbf{x}_{k, t+h-l}, \quad \hat{Y}_{k, i, t+h}^{\text{spatial}} = \mathbf{w}_{k, i}^T \mathbf{x}_{k, t+h}.
+\begin{aligned}
+\mathbf{x}_{k,t+h}
+&=\sum_{l\in\mathcal{L}}\boldsymbol{\theta}_{k,l}\odot\mathbf{x}_{k,t+h-l},\\
+\hat{Y}^{\mathrm{country}}_{k,i,t+h}
+&=\mu_{k,i}+(\sigma_{k,i}+10^{-5})\mathbf{w}_{k,i}^T\mathbf{x}_{k,t+h}.
+\end{aligned}
+\label{eq:trmf_forecast}
 \end{equation}
+Here $\boldsymbol{\theta}_{k,l}\in\mathbb{R}^{4}$ is the lag-$l$ coefficient vector and $\odot$ is elementwise multiplication. Reconstructed country counts are clipped to $[0,\max(3\mu_{k,i},1000)]$. The recent runner extrapolates from December 2021 through July 2026, producing a $38\times55$ country-forecast matrix per target for January 2022--July 2026. Fitted spatial loadings and AR coefficients remain fixed; new tourism observations are not assimilated into this spatial forecast. Matching columns supply validation, calibration, and test predictions.
+
+\noindent \textbf{Mapping to the 152 panel series.} For target $k$, destination $i$, and accommodation category $c$, a fixed training share maps country-total forecasts back to category-level rows:
+\begin{equation}
+\begin{aligned}
+s_{k,i,c}
+&=\frac{\sum_{t\in\mathcal{T}_b}y_{k,i,c,t}}
+{\max\!\left(1,\sum_{t\in\mathcal{T}_b}y_{k,i,\mathrm{total},t}\right)},\\
+\hat{y}^{\mathrm{spatial}}_{k,i,c,t+h}
+&=s_{k,i,c}\hat{Y}^{\mathrm{country}}_{k,i,t+h}.
+\end{aligned}
+\label{eq:trmf_category_mapping}
+\end{equation}
+Arrivals and nights use separate shares estimated from completed training counts. This yields one spatial forecast for every destination--category--month key used by the temporal branch; the recent test grid contains $152\times31=4,712$ such keys per target.
 Spatial and temporal predictions are blended convexly:
 \begin{equation}
 \hat{\mathbf{Y}}_{\text{fused}} = w_{\text{time}}^* \hat{\mathbf{Y}}_{\text{temporal}} + (1 - w_{\text{time}}^*) \hat{\mathbf{Y}}_{\text{spatial}},
@@ -391,7 +457,7 @@ The analysis retains both raw and projected full-model ratios. This distinguishe
 
 \begin{figure*}[!t]
 \centering
-\includegraphics[width=0.93\textwidth]{figures/reviewer_country_cases.png}
+\includegraphics[width=0.89\textwidth]{figures/reviewer_country_cases.png}
 \caption{Observed and out-of-training forecast trajectories for three destinations selected by recovery terciles. Columns show arrivals and nights. Shading marks 2020--2021, and blue forecast bands show recent-fold nominal 90\% residual intervals. Each epoch uses its own chronological model fit.}
 \label{fig:tourism_cases}
 \end{figure*}
