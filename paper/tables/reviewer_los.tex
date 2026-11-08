@@ -1,0 +1,27 @@
+\begin{table}[!htbp]
+\centering
+\caption{Accuracy of the directly predicted length-of-stay ratio on common defined denominators.}
+\label{tab:reviewer_los}
+\footnotesize
+\setlength{\tabcolsep}{3pt}
+\renewcommand{\arraystretch}{1.08}
+\begin{tabular}{>{\raggedright\arraybackslash}p{2.1cm}>{\centering\arraybackslash}p{1.45cm}>{\centering\arraybackslash}p{1.45cm}>{\centering\arraybackslash}p{1.1cm}>{\centering\arraybackslash}p{1.6cm}}
+\toprule
+\textbf{Evaluation Period and Model} & \textbf{\shortstack{LOS\\MAE\\(nights per\\arrival)}} & \textbf{\shortstack{LOS\\RMSE\\(nights per\\arrival)}} & \textbf{\shortstack{Paired\\Sample\\Size\\(n)}} & \textbf{\shortstack{Undefined\\LOS\\Predictions\\(n)}} \\
+\midrule
+Tranquil 2018--2019 DLinear & 1.593 & 4.263 & 343 & 553 \\
+Tranquil 2018--2019 Full & 0.493 & 0.865 & 343 & 0 \\
+Disruption 2020--2021 DLinear & 1.825 & 3.554 & 270 & 570 \\
+Disruption 2020--2021 Full & 0.584 & 1.029 & 270 & 0 \\
+Recovery 2022--2023 DLinear & 0.714 & 1.275 & 388 & 472 \\
+Recovery 2022--2023 Full & 1.022 & 1.686 & 388 & 0 \\
+Recent 2024--2026 DLinear & 1.494 & 2.862 & 347 & 782 \\
+Recent 2024--2026 Full & 0.411 & 0.683 & 347 & 0 \\
+Recent 2024--2026 Raw & 0.411 & 0.683 & 347 & 0 \\
+\bottomrule
+\end{tabular}
+\par\vspace{3pt}
+\begin{minipage}{\columnwidth}
+\scriptsize\raggedright Length of stay (LOS) is overnight stays divided by tourist arrivals for matching destination, accommodation category, and month. Mean absolute error (MAE) and root mean squared error (RMSE) are expressed in nights per arrival. Paired sample size counts outcomes with a defined predicted LOS for both DLinear and the full model. Undefined counts refer to all eligible observed outcomes before this intersection. Full denotes RA-HE-DLinear after projection, and Raw denotes the full model before projection.
+\end{minipage}
+\end{table}
