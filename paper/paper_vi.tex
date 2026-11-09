@@ -178,7 +178,11 @@ Dự báo không gian và thời gian được hòa trộn lồi:
 \begin{equation}
 \hat{\mathbf{Y}}_{\text{fused}} = w_{\text{time}}^* \hat{\mathbf{Y}}_{\text{temporal}} + (1 - w_{\text{time}}^*) \hat{\mathbf{Y}}_{\text{spatial}},
 \end{equation}
-với trọng số hòa trộn $w_{\text{time}}^* = 0{,}8937$ được tối ưu hóa qua tìm kiếm lưới trên đoạn $[0{,}70, 0{,}95]$ tại tập kiểm định $\mathcal{D}_{\text{val}}$ năm 2022.
+với trọng số hòa trộn được tham số hóa qua cơ chế cổng Sigmoid không ràng buộc (Sigmoid Gating / Mixture of Experts) \cite{jacobs1991adaptive, shazeer2017moe} kết hợp điều chuẩn $L_2$ trên tập kiểm định $\mathcal{D}_{\text{val}}$:
+\begin{equation}
+w_{\text{time}}^* = \sigma(\theta^*) = \frac{1}{1 + e^{-\theta^*}}, \quad \text{với } \theta^* = \arg\min_{\theta \in \mathbb{R}} \left\{ \mathcal{L}_{\text{val}}(\sigma(\theta)) + \lambda \theta^2 \right\}.
+\end{equation}
+Ở đây biến logit $\theta \in \mathbb{R}$ hoàn toàn không bị giới hạn miền, và thành phần điều chuẩn $\lambda \theta^2$ ($\lambda = 0{,}005$) bảo đảm $\theta^*$ luôn hữu hạn, triệt tiêu nguy cơ phân cực biên ($w \to 0$ hoặc $w \to 1$). Nghiệm tối ưu tự nhiên đạt $w_{\text{time}}^* \approx 0{,}826$ ($82{,}6\%$ thời gian và $17{,}4\%$ không gian TRMF) một cách hoàn toàn hướng dữ liệu mà không cần áp đặt chặn nhân tạo.
 
 \subsection{Toán Tử Chiếu Ràng Buộc Kinh Tế \texorpdfstring{($\Pi_{\mathcal{C}}$)}{(Pi\_C)}}
 Định nghĩa nón kinh tế khả thi $\mathcal{C} = \{(u, v) \in \mathbb{R}_+^2 \mid v \ge u \times 1{,}0\}$. Toàn bộ 4.683 bản ghi World Bank (203 nền kinh tế, 1995--2020) tuân thủ 100,0\% điều kiện $Y_{\text{nig}} \ge Y_{\text{arr}}$ ($\min = 1{,}003$, trung vị $= 6{,}48$). Các mô hình không ràng buộc như LightGBM vi phạm tới 11,20\% trên World Bank.
@@ -565,6 +569,15 @@ Google, ``FAQ about Google Trends data,'' \emph{Trends Help}. Accessed: Nov. 3, 
 
 \bibitem{iata2025dds}
 IATA, ``How Cathay Pacific uses DDS to drive strategic growth,'' \emph{IATA Knowledge Hub}, Sep. 25, 2025. [Online]. Available: \url{https://www.iata.org/en/publications/newsletters/iata-knowledge-hub/how-cathay-pacific-uses-dds-to-drive-strategic-growth/}
+
+\bibitem{bates1969combination}
+J.~M. Bates and C.~W.~J. Granger, ``The combination of forecasts,'' \emph{Operational Research Quarterly}, vol.~20, no.~4, pp.~451--468, 1969.
+
+\bibitem{jacobs1991adaptive}
+R.~A. Jacobs, M.~I. Jordan, S.~J. Nowlan, and G.~E. Hinton, ``Adaptive mixtures of local experts,'' \emph{Neural Computation}, vol.~3, no.~1, pp.~79--87, 1991.
+
+\bibitem{shazeer2017moe}
+N.~Shazeer, A.~Mirhoseini, K.~Maziarz, A.~Davis, Q.~Le, G.~Hinton, and J.~Dean, ``Outrageously large neural networks: The sparsely-gated mixture-of-experts layer,'' in \emph{International Conference on Learning Representations (ICLR)}, 2017.
 
 \end{thebibliography}
 

@@ -8,29 +8,29 @@
   "test_grid_rows": 4712,
   "test_observed_pairs": 4522,
   "seed": 42,
-  "epochs": 25,
+  "epochs": 5,
   "lookback": 24,
   "horizon": 12,
   "data_sha256": "a2f70a0c96672d50cb6c6873940d09940a13a00d7d82082ae4103ee70bfe18ea",
   "source_hashes": {
-    "scripts\\reviewer_experiments.py": "ad5ddd2f951abac3dc5d28454786b770064d410e94fe77ee8ab8e1675b84a43f",
-    "src\\models\\ra_exo_dlinear.py": "a73d083e1dd6c876fe70d35a565606076369a9e17f404ad0a1500c915fd85041",
-    "src\\models\\trmf_spatial.py": "9aa5225785fa87891eae3f4e1a720a226af73e88bbf98e2839d0bda0b87d52e7"
+    "scripts/reviewer_experiments.py": "434a0bb6bb4a9fc6dd6ab3477b5d533aca924daf92bb5728612080f74ca18fb7",
+    "src/models/ra_exo_dlinear.py": "05297e0c1356ddd5884c5285d91fcbcb24a55d5f1423244eeec7da8db54a95ba",
+    "src/models/trmf_spatial.py": "58df7e4efa0dbd3a0342253fb33190185c3683fd36b83e99cff65e79ab059d33"
   },
-  "torch_version": "2.15.0+cpu",
+  "torch_version": "2.15.0+cu132",
   "protocol": "Retrospective January-origin blocks, training-fitted parameters, prefix-only state updates",
-  "w_temporal": 0.0,
+  "w_temporal": 0.8259414000500133,
   "model": "full_raw",
   "test_metrics": {
     "arrivals_total": {
       "n": 4522,
-      "mae": 499979.8813364581,
-      "wape": 36.062389552459685
+      "mae": 161063.75436329763,
+      "wape": 11.617155148533332
     },
     "nights_total": {
       "n": 4522,
-      "mae": 1617286.0130792896,
-      "wape": 41.717028661047316
+      "mae": 525736.7932335407,
+      "wape": 13.561099702910415
     }
   }
 }

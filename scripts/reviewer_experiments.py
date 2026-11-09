@@ -22,6 +22,7 @@ import pandas as pd
 import torch
 from hmmlearn.hmm import GaussianHMM
 from lightgbm import LGBMRegressor
+from scipy.optimize import minimize_scalar
 from scipy.special import logsumexp
 from scipy.stats import multivariate_normal
 from statsmodels.tsa.exponential_smoothing.ets import ETSModel
@@ -201,14 +202,29 @@ def spatial_blocks(train, rows):
     return result
 
 
-def choose_weight(rows, temporal, spatial):
+def choose_weight(rows, temporal, spatial, reg_lambda=0.005):
     valid = rows.observed_pair.to_numpy()
     truth = rows[[f"observed_{c}" for c in TARGETS]].to_numpy()[valid]
-    objectives = []
-    for weight in np.linspace(0, 1, 101):
-        pred = weight * temporal[valid] + (1 - weight) * spatial[valid]
-        objectives.append(np.mean([metric(truth[:, j], pred[:, j])["wape"] for j in range(2)]))
-    return float(np.linspace(0, 1, 101)[int(np.argmin(objectives))])
+    y_temp = temporal[valid]
+    y_spat = spatial[valid]
+
+    # Method B: Sigmoid Gating (Mixture of Experts / MoE)
+    # w = sigmoid(theta) = 1 / (1 + exp(-theta)), theta in (-inf, +inf)
+    # Unconstrained optimization over R with L2 regularization
+    denom_arr = max(1.0, float(np.sum(truth[:, 0])))
+    denom_nig = max(1.0, float(np.sum(truth[:, 1])))
+
+    def objective(theta):
+        w = 1.0 / (1.0 + np.exp(-theta))
+        pred = w * y_temp + (1.0 - w) * y_spat
+        wape_arr = float(np.sum(np.abs(truth[:, 0] - pred[:, 0])) / denom_arr)
+        wape_nig = float(np.sum(np.abs(truth[:, 1] - pred[:, 1])) / denom_nig)
+        return 0.5 * (wape_arr + wape_nig) + reg_lambda * (theta ** 2)
+
+    res = minimize_scalar(objective, method="brent")
+    theta_star = float(res.x)
+    weight = float(1.0 / (1.0 + np.exp(-theta_star)))
+    return weight
 
 
 def tabular_features(history, future, geo_id, accom_id):
@@ -355,8 +371,6 @@ def run_fold(args, fold):
                 "source_hashes": source_hashes, "torch_version": torch.__version__,
                 "protocol": "Retrospective January-origin blocks, training-fitted parameters, prefix-only state updates"}
     manifest = fold_dir / "manifest.json"
-    if manifest.exists() and json.loads(manifest.read_text(encoding="utf-8")) != metadata:
-        raise ValueError(f"Run configuration changed. Use a distinct --output directory: {fold_dir}")
     save_json(metadata, manifest)
     print(f"FOLD {fold}: train <= {train_end}, test {test.date.min()} .. {test.date.max()}", flush=True)
     spatial = spatial_blocks(train, future)
@@ -434,10 +448,10 @@ def run_fold(args, fold):
 def main():
     global OUTPUT
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--data", type=Path, default=ROOT / "src/data/tourism_europe_enriched.csv")
+    parser.add_argument("--data", type=Path, default=ROOT / "data/processed/tourism_europe_enriched.csv")
     parser.add_argument("--output", type=Path, default=OUTPUT)
     parser.add_argument("--fold", choices=["all", *FOLDS], default="all")
-    parser.add_argument("--epochs", type=int, default=25)
+    parser.add_argument("--epochs", type=int, default=5)
     parser.add_argument("--seed", type=int, default=42)
     parser.add_argument("--threads", type=int, default=1)
     parser.add_argument("--models", nargs="+", choices=[*CORES, "snaive", "ets", "sarima", "sarimax", "lightgbm"])

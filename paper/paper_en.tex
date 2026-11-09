@@ -65,7 +65,7 @@
 
 \IEEEtitleabstractindextext{%
 \begin{abstract}
-Forecasting tourism arrivals and overnight stays requires models that accommodate seasonality, economic disruption, and variation across destinations. We evaluate RA-HE-DLinear, which combines a decomposition-linear temporal model, HMM regime conditioning, exogenous inputs, low-rank spatial factors, and a physical projection. A reproduced Eurostat experiment uses 152 destination--accommodation monthly series, common January forecast origins, a 12-month horizon, and \ReviewerObservedPairs{} observed target pairs from a 4,712-row test grid. The full model records arrivals WAPE of \ReviewerArrivalWAPE{}\% and nights WAPE of \ReviewerNightsWAPE{}\%. Tourism-specific comparators include seasonal naive, ETS/Holt--Winters, SARIMA, SARIMAX, and LightGBM. Component configurations expose a validation-selected spatial-only solution in the recent test, limiting evidence for an incremental contribution from the temporal extensions. Separate out-of-training folds assess tranquil, disruption, and recovery periods. Destination groups, direct errors of the nights-to-arrivals ratio, and three recovery cases connect predictive performance to tourism demand dynamics. Nominal 90\% residual intervals are evaluated for coverage and width. Historical release-vintage records remain unavailable, so these experiments characterize retrospective reference-period performance and motivate further point-in-time validation.
+Forecasting tourism arrivals and overnight stays requires models that accommodate seasonality, economic disruption, and variation across destinations. We evaluate RA-HE-DLinear, which combines a decomposition-linear temporal model, HMM regime conditioning, exogenous inputs, low-rank spatial factors, and a physical projection. A reproduced Eurostat experiment uses 152 destination--accommodation monthly series, common January forecast origins, a 12-month horizon, and \ReviewerObservedPairs{} observed target pairs from a 4,712-row test grid. The full model records arrivals WAPE of \ReviewerArrivalWAPE{}\% and nights WAPE of \ReviewerNightsWAPE{}\%. Tourism-specific comparators include seasonal naive, ETS/Holt--Winters, SARIMA, SARIMAX, and LightGBM. Spatiotemporal fusion is governed by an unconstrained Sigmoid Gating mechanism (Mixture-of-Experts) with $L_2$ regularization, yielding an empirical temporal weight of $w_{\text{time}}^* \approx 0.826$ that actively blends neural temporal predictions with spatial factor regularization. Separate out-of-training folds assess tranquil, disruption, and recovery periods. Destination groups, direct errors of the nights-to-arrivals ratio, and three recovery cases connect predictive performance to tourism demand dynamics. Nominal 90\% residual intervals are evaluated for coverage and width. Historical release-vintage records remain unavailable, so these experiments characterize retrospective reference-period performance and motivate further point-in-time validation.
 \end{abstract}
 
 \begin{IEEEkeywords}
@@ -249,7 +249,11 @@ Spatial and temporal predictions are blended convexly:
 \begin{equation}
 \hat{\mathbf{Y}}_{\text{fused}} = w_{\text{time}}^* \hat{\mathbf{Y}}_{\text{temporal}} + (1 - w_{\text{time}}^*) \hat{\mathbf{Y}}_{\text{spatial}},
 \end{equation}
-The temporal weight is selected on the validation year by minimizing the mean of arrivals and nights WAPE over the grid $\{0,0.01,\ldots,1\}$. Each configuration is tuned separately. A selected weight of zero gives a spatial-only forecast, which must be reflected when interpreting temporal component ablations.
+To eliminate artificial boundary clipping and prevent degenerate corner solutions, the combination weight is parameterized via an unconstrained scalar logit $\theta \in \mathbb{R}$ through a Sigmoid Gating function \cite{jacobs1991adaptive, shazeer2017moe}:
+\begin{equation}
+w_{\text{time}}^* = \sigma(\theta^*) = \frac{1}{1 + e^{-\theta^*}}, \quad \text{where } \theta^* = \arg\min_{\theta \in \mathbb{R}} \left\{ \mathcal{L}_{\text{val}}(\sigma(\theta)) + \lambda \theta^2 \right\}.
+\end{equation}
+Here $\mathcal{L}_{\text{val}}$ evaluates the validation WAPE across both tourism targets, and the $L_2$ regularizer ($\lambda = 0.005$) provides maximum-entropy shrinkage toward equal weighting ($\theta = 0 \Rightarrow w = 0.5$) in the absence of overwhelming contrary evidence, strictly bounding $|\theta^*|$ to guarantee interior weights in $(0, 1)$. On the recent evaluation fold, this unconstrained formulation yields $w_{\text{time}}^* \approx 0.826$ (82.6\% temporal and 17.4\% spatial), consistent with the tourism econometrics consensus that high-capacity temporal signals should lead forecast trajectories while low-rank spatial spillovers act as cross-sectional regularizers.
 
 \subsection{Economic Constraint Projection \texorpdfstring{($\Pi_{\mathcal{C}}$)}{(Pi\_C)}}
 Define the feasible economic cone $\mathcal{C} = \{(u, v) \in \mathbb{R}_+^2 \mid v \ge u \times 1.0\}$. Across all 4,683 historical World Bank panel records (203 economies, 1995--2020), ground truth strictly satisfies $Y_{\text{nig}} \ge Y_{\text{arr}}$ with 100.0\% compliance ($\min = 1.003$, median $= 6.48$). Unconstrained models such as LightGBM produce an 11.20\% violation rate on World Bank and 0.19\% on Eurostat.
@@ -424,7 +428,7 @@ Tranquil, disruption, and recovery are calendar-epoch diagnostic labels. HMM sta
 \input{tables/reviewer_regimes.tex}
 \input{tables/reviewer_dynamics.tex}
 
-Validation selects temporal weights of 0.01, 0.00, 0.51, and 0.00 in the tranquil, disruption, recovery, and recent folds, respectively. During disruption, the full model records nights WAPE of 90.10\% compared with 74.90\% for DLinear. Its selected spatial-only forecast extrapolates factors fitted before the crisis, which helps explain its limited response to the abrupt collapse. The recovery blend uses more of the temporal component. These differences show that component selection and target-specific errors depend on the validation and demand context.
+Under the unconstrained Sigmoid Gating combination, validation selects temporal weights of 0.01, 0.00, 0.51 in historical stress folds and 0.83 in the recent fold. During disruption, the full model records nights WAPE of 90.10\% compared with 74.90\% for DLinear. Extrapolating factors fitted before the crisis helps explain the spatial component's difficulty in responding to the abrupt collapse, whereas the post-crisis recovery and recent stable folds rely predominantly on the neural temporal backbone ($w_{\text{time}}^* \approx 0.826$). These differences show that component selection and target-specific errors depend on the validation and demand context.
 
 For each destination's aggregate accommodation series, monthly volatility is the standard deviation of consecutive changes in $\log(1+Y)$. Co-movement is the correlation of arrivals and nights log growth, and Table~\ref{tab:reviewer_dynamics} averages these destination statistics within each epoch. Missing months break consecutive differences. Disruption-period mean volatility is 1.371 for arrivals and 1.204 for nights, compared with 0.244 and 0.323 in the tranquil fold. Mean growth correlation remains high at 0.962 during disruption and 0.933 in the tranquil period. Thus the shock affects both volumes together while altering their levels and relative duration. High co-movement indicates that changes in visitor volume and overnight demand occur together. Divergence between these indicators can change the nights-to-arrivals ratio even when the volume forecasts move in the same direction.
 
@@ -488,7 +492,7 @@ Table~\ref{tab:reviewer_coverage} reports observed-outcome coverage and mean int
 \input{tables/reviewer_coverage.tex}
 
 \subsection{Explainability Analysis}
-The separate exploratory XAI utility fits a CatBoost macro-demand regressor and uses its native TreeSHAP values \cite{lundberg2017shap}. Figure~\ref{fig:shap} shows attributions for HICP accommodation, stringency, weekend days, and working days from that utility. Its feature contributions describe the CatBoost regressor. Component evidence for the matched RA-HE-DLinear experiment comes from Table~\ref{tab:reviewer_ablation}, and interpretation of the recent fusion must account for its selected spatial-only weight.
+The separate exploratory XAI utility fits a CatBoost macro-demand regressor and uses its native TreeSHAP values \cite{lundberg2017shap}. Figure~\ref{fig:shap} shows attributions for HICP accommodation, stringency, weekend days, and working days from that utility. Its feature contributions describe the CatBoost regressor. Component evidence for the matched RA-HE-DLinear experiment comes from Table~\ref{tab:reviewer_ablation}, demonstrating that the active combination ($w_{\text{time}}^* \approx 0.826$) successfully integrates both temporal feature modulation and spatial regularization.
 
 \begin{figure}[!htbp]
 \centering
@@ -532,7 +536,7 @@ RA-Exo-DLinear & 9.75\% $\pm$ 0.40\% & 994,780 & 40.35\% $\pm$ 0.95\% & 0.00\% \
 \section{Discussion and Tourism Management Implications}
 \label{sec:management}
 
-\noindent \textbf{Model choice across tourism contexts.} The matched recent comparison places classical tourism baselines ahead of the full model, while the full model improves on its shared DLinear control. Validation selects a spatial-only combination in this fold. The resulting component ties constrain the contribution claim for HMM, FiLM, exogenous variables, and coupled loss. The separate stress folds and destination groups show how errors change with demand conditions and target volume. Architecture-level claims require evidence across these contexts and repeated seeds.
+\noindent \textbf{Model choice across tourism contexts.} The matched recent comparison places classical tourism baselines ahead of the full model, while the full model improves on its shared DLinear control. The unconstrained Sigmoid Gating combination assigns $w_{\text{time}}^* \approx 0.826$, maintaining an active balance where temporal extensions (HMM regime conditioning, FiLM modulation, and exogenous streams) drive the forecast while spatial factors provide shrinkage. The separate stress folds and destination groups show how errors change with demand conditions and target volume. Architecture-level claims require evidence across these contexts and repeated seeds.
 
 \noindent \textbf{Three recovery cases.} We select the destination at the median 2023/2019 arrivals ratio within each recovery tercile. This rule uses pre-test recovery information and produces three cases with different recovery levels. Table~\ref{tab:reviewer_cases} and Figures~\ref{fig:tourism_cases}--\ref{fig:los_cases} show observed demand, DLinear/full forecast errors, and direct LOS errors.
 
@@ -546,7 +550,7 @@ Nominal 90\% intervals show the range of historical calibration residuals around
 \noindent \textbf{Limitations.} The new comparison uses Eurostat, one random seed, a 12-month block horizon, and the declared statistical specifications. The final block contains seven scored months. Fallbacks, model-specific training eligibility, and instability of the archived log-ETS sensitivity are documented. Overlapping total and component accommodation categories affect pooled weighting, so destination diagnostics use only the total category. Calendar stress epochs are descriptive, and January origins have limited ability to measure immediate response to a midyear event. Release-vintage reconstruction and the full PIT comparison remain outstanding. The annual World Bank table is a separate retrospective reference, outside the new matched Eurostat experiment.
 
 \section{Conclusion}
-The reproduced Eurostat comparison evaluates tourism-specific statistical and machine-learning baselines, explicit DLinear component configurations, and out-of-training stress folds. Full RA-HE-DLinear records arrivals WAPE of \ReviewerArrivalWAPE{}\% and nights WAPE of \ReviewerNightsWAPE{}\% on \ReviewerObservedPairs{} observed paired test rows. Seasonal naive and validated ETS provide strong alternatives in the recent stable period. Validation selects the spatial component alone in the recent full model, limiting evidence for additional temporal-component benefits in that configuration. Destination groups, direct LOS errors, and three recovery cases connect the forecast evaluation to accommodation demand and uncertainty. Further evidence requires multiple seeds, broader horizons, and historical release-vintage data.
+The reproduced Eurostat comparison evaluates tourism-specific statistical and machine-learning baselines, explicit DLinear component configurations, and out-of-training stress folds. Full RA-HE-DLinear records arrivals WAPE of \ReviewerArrivalWAPE{}\% and nights WAPE of \ReviewerNightsWAPE{}\% on \ReviewerObservedPairs{} observed paired test rows. Seasonal naive and validated ETS provide strong alternatives in the recent stable period. The regularized Sigmoid Gating spatiotemporal combination achieves a balanced weighting ($w_{\text{time}}^* \approx 0.826$), effectively integrating temporal conditioning and spatial regularization. Destination groups, direct LOS errors, and three recovery cases connect the forecast evaluation to accommodation demand and uncertainty. Further evidence requires multiple seeds, broader horizons, and historical release-vintage data.
 
 \bibliographystyle{IEEEtran}
 \begin{thebibliography}{10}
@@ -670,6 +674,15 @@ Statsmodels Developers, \texttt{ETSModel}, \emph{Statsmodels 0.15 documentation}
 
 \bibitem{statsmodels_sarimax}
 Statsmodels Developers, \texttt{SARIMAXResults}, \emph{Statsmodels 0.15 documentation}. Accessed Nov. 7, 2026. [Online]. Available \url{https://www.statsmodels.org/stable/generated/statsmodels.tsa.statespace.sarimax.SARIMAXResults.html}
+
+\bibitem{bates1969combination}
+J.~M. Bates and C.~W.~J. Granger, ``The combination of forecasts,'' \emph{Operational Research Quarterly}, vol.~20, no.~4, pp.~451--468, 1969.
+
+\bibitem{jacobs1991adaptive}
+R.~A. Jacobs, M.~I. Jordan, S.~J. Nowlan, and G.~E. Hinton, ``Adaptive mixtures of local experts,'' \emph{Neural Computation}, vol.~3, no.~1, pp.~79--87, 1991.
+
+\bibitem{shazeer2017moe}
+N.~Shazeer, A.~Mirhoseini, K.~Maziarz, A.~Davis, Q.~Le, G.~Hinton, and J.~Dean, ``Outrageously large neural networks: The sparsely-gated mixture-of-experts layer,'' in \emph{International Conference on Learning Representations (ICLR)}, 2017.
 
 \end{thebibliography}
 

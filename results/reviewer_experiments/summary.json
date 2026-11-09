@@ -59,121 +59,121 @@
       "rows": 4712,
       "observed_pairs": 4522,
       "arrivals_total_n": 4522,
-      "arrivals_total_mae": 1245658.0428617275,
-      "arrivals_total_wape": 89.84642636171313,
+      "arrivals_total_mae": 129750.9472230897,
+      "arrivals_total_wape": 9.358634973575885,
       "nights_total_n": 4522,
-      "nights_total_mae": 3243704.433555417,
-      "nights_total_wape": 83.66962289184373,
-      "physical_violation_pct": 3.183361629881155
+      "nights_total_mae": 405781.1145689305,
+      "nights_total_wape": 10.466907058914806,
+      "physical_violation_pct": 1.931239388794567
     },
     "exo": {
       "rows": 4712,
       "observed_pairs": 4522,
       "arrivals_total_n": 4522,
-      "arrivals_total_mae": 1214329.2007153346,
-      "arrivals_total_wape": 87.58674961893942,
+      "arrivals_total_mae": 127051.48088940035,
+      "arrivals_total_wape": 9.163928726098412,
       "nights_total_n": 4522,
-      "nights_total_mae": 3033626.0109804873,
-      "nights_total_wape": 78.25076221738595,
-      "physical_violation_pct": 4.393039049235993
+      "nights_total_mae": 374957.69839605235,
+      "nights_total_wape": 9.671833506360496,
+      "physical_violation_pct": 2.2495755517826828
     },
     "hmm": {
       "rows": 4712,
       "observed_pairs": 4522,
       "arrivals_total_n": 4522,
-      "arrivals_total_mae": 1245591.0630412973,
-      "arrivals_total_wape": 89.84159526256958,
+      "arrivals_total_mae": 129750.98536016866,
+      "arrivals_total_wape": 9.358637724314965,
       "nights_total_n": 4522,
-      "nights_total_mae": 3243410.3918446302,
-      "nights_total_wape": 83.6620382430078,
-      "physical_violation_pct": 3.183361629881155
+      "nights_total_mae": 405781.1461809092,
+      "nights_total_wape": 10.466907874328907,
+      "physical_violation_pct": 1.9100169779286926
     },
     "film_static": {
       "rows": 4712,
       "observed_pairs": 4522,
       "arrivals_total_n": 4522,
-      "arrivals_total_mae": 832974.3952469022,
-      "arrivals_total_wape": 60.08051173643872,
+      "arrivals_total_mae": 159624.37501524002,
+      "arrivals_total_wape": 11.513336053603613,
       "nights_total_n": 4522,
-      "nights_total_mae": 3230491.845913782,
-      "nights_total_wape": 83.32881125254484,
-      "physical_violation_pct": 35.483870967741936
+      "nights_total_mae": 548445.4179714896,
+      "nights_total_wape": 14.14685654578465,
+      "physical_violation_pct": 2.7589134125636674
     },
     "hmm_film": {
       "rows": 4712,
       "observed_pairs": 4522,
       "arrivals_total_n": 4522,
-      "arrivals_total_mae": 797362.8719848153,
-      "arrivals_total_wape": 57.51193513491416,
+      "arrivals_total_mae": 152101.1482100258,
+      "arrivals_total_wape": 10.97070314802362,
       "nights_total_n": 4522,
-      "nights_total_mae": 3352513.6824007197,
-      "nights_total_wape": 86.47629933370817,
-      "physical_violation_pct": 46.58319185059423
+      "nights_total_mae": 514069.811857415,
+      "nights_total_wape": 13.26015615147943,
+      "physical_violation_pct": 2.67402376910017
     },
     "hmm_film_trmf": {
       "rows": 4712,
       "observed_pairs": 4522,
       "arrivals_total_n": 4522,
-      "arrivals_total_mae": 499979.8813364581,
-      "arrivals_total_wape": 36.062389552459685,
+      "arrivals_total_mae": 205419.84311626994,
+      "arrivals_total_wape": 14.816456983154017,
       "nights_total_n": 4522,
-      "nights_total_mae": 1617286.0130792896,
-      "nights_total_wape": 41.717028661047316,
-      "physical_violation_pct": 0.0
+      "nights_total_mae": 645927.936918774,
+      "nights_total_wape": 16.66136604131417,
+      "physical_violation_pct": 0.0636672325976231
     },
     "exo_hmm_film": {
       "rows": 4712,
       "observed_pairs": 4522,
       "arrivals_total_n": 4522,
-      "arrivals_total_mae": 1081568.5755470216,
-      "arrivals_total_wape": 78.01103355362447,
+      "arrivals_total_mae": 130571.39404819132,
+      "arrivals_total_wape": 9.417811900725045,
       "nights_total_n": 4522,
-      "nights_total_mae": 3306998.5030587665,
-      "nights_total_wape": 85.3022595993845,
-      "physical_violation_pct": 41.78692699490662
+      "nights_total_mae": 439517.61796269583,
+      "nights_total_wape": 11.337122139994733,
+      "physical_violation_pct": 3.777589134125637
     },
     "full_no_consistency": {
       "rows": 4712,
       "observed_pairs": 4522,
       "arrivals_total_n": 4522,
-      "arrivals_total_mae": 499979.8813364581,
-      "arrivals_total_wape": 36.062389552459685,
+      "arrivals_total_mae": 160472.50761327692,
+      "arrivals_total_wape": 11.574509891360423,
       "nights_total_n": 4522,
-      "nights_total_mae": 1617286.0130792896,
-      "nights_total_wape": 41.717028661047316,
-      "physical_violation_pct": 0.0
+      "nights_total_mae": 525245.9815668418,
+      "nights_total_wape": 13.548439478187476,
+      "physical_violation_pct": 1.1035653650254669
     },
     "full_core": {
       "rows": 4712,
       "observed_pairs": 4522,
       "arrivals_total_n": 4522,
-      "arrivals_total_mae": 962319.8863049063,
-      "arrivals_total_wape": 69.40990209694603,
+      "arrivals_total_mae": 130763.89352502387,
+      "arrivals_total_wape": 9.43169644164622,
       "nights_total_n": 4522,
-      "nights_total_mae": 3348661.308348381,
-      "nights_total_wape": 86.3769294031858,
-      "physical_violation_pct": 34.8471986417657
+      "nights_total_mae": 439153.95280232787,
+      "nights_total_wape": 11.327741591473693,
+      "physical_violation_pct": 3.756366723259762
     },
     "full_raw": {
       "rows": 4712,
       "observed_pairs": 4522,
       "arrivals_total_n": 4522,
-      "arrivals_total_mae": 499979.8813364581,
-      "arrivals_total_wape": 36.062389552459685,
+      "arrivals_total_mae": 161063.75436329763,
+      "arrivals_total_wape": 11.617155148533332,
       "nights_total_n": 4522,
-      "nights_total_mae": 1617286.0130792896,
-      "nights_total_wape": 41.717028661047316,
-      "physical_violation_pct": 0.0
+      "nights_total_mae": 525736.7932335407,
+      "nights_total_wape": 13.561099702910415,
+      "physical_violation_pct": 1.1035653650254669
     },
     "full": {
       "rows": 4712,
       "observed_pairs": 4522,
       "arrivals_total_n": 4522,
-      "arrivals_total_mae": 499979.8810572136,
-      "arrivals_total_wape": 36.06238953231843,
+      "arrivals_total_mae": 161063.75391036202,
+      "arrivals_total_wape": 11.617155115864135,
       "nights_total_n": 4522,
-      "nights_total_mae": 1617286.0151746902,
-      "nights_total_wape": 41.71702871509706,
+      "nights_total_mae": 525862.6437609688,
+      "nights_total_wape": 13.564345950028901,
       "physical_violation_pct": 0.0
     }
   },
@@ -182,31 +182,31 @@
       "geo": "CY",
       "country": "Cyprus",
       "recovery_ratio": 0.9761267115948263,
-      "dlinear_arrivals_wape": 82.51095846391833,
-      "full_arrivals_wape": 50.89529510960518,
-      "dlinear_nights_wape": 75.65890359246524,
-      "full_nights_wape": 59.71210387142884,
-      "full_los_mae": 1.1561133130741976
+      "dlinear_arrivals_wape": 17.048942797191188,
+      "full_arrivals_wape": 18.574501008988793,
+      "dlinear_nights_wape": 20.010837675113276,
+      "full_nights_wape": 20.25907435207882,
+      "full_los_mae": 0.29482214977492177
     },
     {
       "geo": "SE",
       "country": "Sweden",
       "recovery_ratio": 1.027089851174859,
-      "dlinear_arrivals_wape": 87.9017250643012,
-      "full_arrivals_wape": 31.147422164502377,
-      "dlinear_nights_wape": 84.82121355799815,
-      "full_nights_wape": 34.396871636618286,
-      "full_los_mae": 0.16711710819560563
+      "dlinear_arrivals_wape": 7.999617418584435,
+      "full_arrivals_wape": 10.472529285010904,
+      "dlinear_nights_wape": 8.190964163958553,
+      "full_nights_wape": 11.307762114474599,
+      "full_los_mae": 0.042695652875950396
     },
     {
       "geo": "DK",
       "country": "Denmark",
       "recovery_ratio": 1.1434387650182334,
-      "dlinear_arrivals_wape": 90.82323947828388,
-      "full_arrivals_wape": 33.80169590169584,
-      "dlinear_nights_wape": 84.7950221014553,
-      "full_nights_wape": 39.530831499223076,
-      "full_los_mae": 0.6882016339261811
+      "dlinear_arrivals_wape": 9.383199414209685,
+      "full_arrivals_wape": 12.33927620788018,
+      "dlinear_nights_wape": 11.249134810747394,
+      "full_nights_wape": 14.45930176123027,
+      "full_los_mae": 0.15754925094562747
     }
   ],
   "dynamics": [
@@ -230,115 +230,55 @@
     },
     {
       "phase": "recent",
-      "arrivals_log_growth_sd": 0.2474120295760266,
+      "arrivals_log_growth_sd": 0.24741202957602662,
       "nights_log_growth_sd": 0.3061631768020584,
-      "growth_correlation": 0.9405668241829492
+      "growth_correlation": 0.9405668241829488
     }
   ],
   "coverage": [
     {
       "target": "arrivals_total",
       "n": 4522,
-      "coverage_pct": 89.03140203449802,
-      "mean_width": 1554193.5523186643
+      "coverage_pct": 86.86421937195931,
+      "mean_width": 467441.8428672932
     },
     {
       "target": "nights_total",
       "n": 4522,
-      "coverage_pct": 88.67757629367536,
-      "mean_width": 4736945.4970035385
+      "coverage_pct": 87.19593100398055,
+      "mean_width": 1472058.1504812029
     }
   ],
   "los": [
     {
-      "fold": "tranquil",
-      "model": "dlinear",
-      "n": 343,
-      "undefined_predictions": 553,
-      "los_mae": 1.5930066536589058,
-      "los_rmse": 4.263150314110689,
-      "observed_los_mean": 2.974120115282464,
-      "predicted_los_mean": 4.099580623391602
-    },
-    {
-      "fold": "tranquil",
-      "model": "full",
-      "n": 896,
-      "undefined_predictions": 0,
-      "los_mae": 0.6139085438806805,
-      "los_rmse": 1.0617326662860902,
-      "observed_los_mean": 2.6565269502283106,
-      "predicted_los_mean": 3.1211565810450757
-    },
-    {
-      "fold": "shock",
-      "model": "dlinear",
-      "n": 270,
-      "undefined_predictions": 570,
-      "los_mae": 1.8249016910644325,
-      "los_rmse": 3.5539436711866137,
-      "observed_los_mean": 2.970864734495447,
-      "predicted_los_mean": 3.932691254074984
-    },
-    {
-      "fold": "shock",
-      "model": "full",
-      "n": 840,
-      "undefined_predictions": 0,
-      "los_mae": 0.8127748886275163,
-      "los_rmse": 1.507748622229753,
-      "observed_los_mean": 2.960445307280686,
-      "predicted_los_mean": 3.050277957174556
-    },
-    {
-      "fold": "recovery",
-      "model": "dlinear",
-      "n": 388,
-      "undefined_predictions": 472,
-      "los_mae": 0.7142697862186206,
-      "los_rmse": 1.2749317908979705,
-      "observed_los_mean": 2.8580780054878545,
-      "predicted_los_mean": 3.02738278818164
-    },
-    {
-      "fold": "recovery",
-      "model": "full",
-      "n": 860,
-      "undefined_predictions": 0,
-      "los_mae": 0.875001963289944,
-      "los_rmse": 1.4238882080720763,
-      "observed_los_mean": 2.677456231219521,
-      "predicted_los_mean": 3.039615280846036
-    },
-    {
       "fold": "recent",
       "model": "dlinear",
-      "n": 347,
-      "undefined_predictions": 782,
-      "los_mae": 1.4941055108116954,
-      "los_rmse": 2.8623233241342656,
-      "observed_los_mean": 2.7899483444276236,
-      "predicted_los_mean": 3.579529866608213
+      "n": 1122,
+      "undefined_predictions": 7,
+      "los_mae": 0.18241659070816654,
+      "los_rmse": 0.43515641020509616,
+      "observed_los_mean": 2.5894858682030373,
+      "predicted_los_mean": 2.505145642245031
     },
     {
       "fold": "recent",
       "model": "full",
       "n": 1129,
       "undefined_predictions": 0,
-      "los_mae": 0.5316741735524649,
-      "los_rmse": 0.9151374866689108,
+      "los_mae": 0.171580102465856,
+      "los_rmse": 0.41740213236506585,
       "observed_los_mean": 2.5879927780018246,
-      "predicted_los_mean": 2.9374378735096283
+      "predicted_los_mean": 2.600913729303566
     },
     {
       "fold": "recent",
       "model": "full_raw",
       "n": 1129,
       "undefined_predictions": 0,
-      "los_mae": 0.5316741698715695,
-      "los_rmse": 0.9151374801954959,
+      "los_mae": 0.1715801060329914,
+      "los_rmse": 0.4174021319975241,
       "observed_los_mean": 2.5879927780018246,
-      "predicted_los_mean": 2.93743787132911
+      "predicted_los_mean": 2.6009137284917117
     }
   ],
   "transitions": [

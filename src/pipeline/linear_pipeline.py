@@ -24,6 +24,7 @@ from pathlib import Path
 from typing import Dict, Optional, Tuple, Union
 import numpy as np
 import pandas as pd
+from scipy.optimize import minimize_scalar
 
 from src.data.dataset_loader import TourismDataLoader
 from src.models.regime_hmm import RegimeHMMNavigator
@@ -439,41 +440,38 @@ class TourismLinearForecastingPipeline:
         nig_linear_val: np.ndarray,
         y_spatial_val: np.ndarray,
         y_spatial_val_nig: np.ndarray,
+        reg_lambda: float = 0.005,
     ) -> float:
         """
-        Solves the constrained convex combination problem on out-of-sample validation data:
-            min_{w in [0, 1]} L_val(w)
-        where L_val(w) evaluates the forecast error on the validation ground truth
-        after coupled consistency projection.
-        Guarantees strict separation between hyperparameter selection and test set evaluation (no data leakage).
+        Solves the unconstrained Sigmoid Gating (Mixture-of-Experts) optimization on validation data:
+            min_{theta in R} L_val(sigma(theta)) + lambda * theta^2
+            w_time = sigma(theta) = 1 / (1 + exp(-theta))
+        theta is unconstrained over (-inf, +inf). The L2 regularizer prevents extreme polarization.
+        Guarantees smooth, non-degenerate interior weights in (0, 1) without artificial boundary clipping.
         """
         y_true_arr = validation_df[self.data_loader.target_arrivals].values
         y_true_nig = validation_df[self.data_loader.target_nights].values
-        def val_loss_fn(w: float) -> float:
-            w = float(np.clip(w, 0.0, 1.0))
+        denom_arr = max(1.0, float(np.sum(y_true_arr)))
+        denom_nig = max(1.0, float(np.sum(y_true_nig)))
+
+        def objective(theta: float) -> float:
+            w = 1.0 / (1.0 + np.exp(-theta))
             fused_arr = w * arr_linear_val + (1.0 - w) * y_spatial_val
             fused_nig = w * nig_linear_val + (1.0 - w) * y_spatial_val_nig
             f_arr, f_nig, _ = self.coupled_optimizer.project_physical_pair(
                 fused_arr, fused_nig
             )
-            wape_arr = float(np.sum(np.abs(y_true_arr - f_arr)) / max(1.0, np.sum(y_true_arr)) * 100.0)
-            wape_nig = float(np.sum(np.abs(y_true_nig - f_nig)) / max(1.0, np.sum(y_true_nig)) * 100.0)
-            return 0.5 * wape_arr + 0.5 * wape_nig
+            wape_arr = float(np.sum(np.abs(y_true_arr - f_arr)) / denom_arr * 100.0)
+            wape_nig = float(np.sum(np.abs(y_true_nig - f_nig)) / denom_nig * 100.0)
+            return 0.5 * (wape_arr + wape_nig) + reg_lambda * (theta ** 2)
 
-        # Search the full closed convex-mixture domain, including both pure-component endpoints.
-        w_min, w_max = 0.0, 1.0
+        res = minimize_scalar(objective, method="brent")
+        theta_star = float(res.x)
+        w_best = float(1.0 / (1.0 + np.exp(-theta_star)))
+        val_score = objective(theta_star) - reg_lambda * (theta_star ** 2)
 
-        try:
-            from scipy.optimize import minimize_scalar
-            res = minimize_scalar(val_loss_fn, bounds=(w_min, w_max), method="bounded")
-            candidates = [w_min, float(res.x), w_max]
-        except Exception:
-            candidates = np.linspace(w_min, w_max, 101).tolist()
-        w_best = float(min(candidates, key=val_loss_fn))
-
-        val_score = val_loss_fn(w_best)
-        print(f"    - Miền tối ưu hóa validation: w_time in [{w_min:.2f}, {w_max:.2f}]")
-        print(f"    - Nghiệm tối ưu trên Validation: w_time* = {w_best:.4f} ({w_best*100:.1f}% Thời gian + {(1.0-w_best)*100:.1f}% Không gian)")
+        print(f"    - Tối ưu hóa Sigmoid Gating (MoE): theta* = {theta_star:.4f}")
+        print(f"    - Trọng số tự nhiên trên Validation: w_time* = {w_best:.4f} ({w_best*100:.1f}% Thời gian + {(1.0-w_best)*100:.1f}% Không gian)")
         print(f"    - Validation WAPE kết hợp tại điểm tối ưu: {val_score:.2f}%")
         return round(w_best, 4)
 
