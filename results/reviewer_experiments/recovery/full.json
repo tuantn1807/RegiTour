@@ -8,36 +8,36 @@
   "test_grid_rows": 3648,
   "test_observed_pairs": 3475,
   "seed": 42,
-  "epochs": 25,
+  "epochs": 5,
   "lookback": 24,
   "horizon": 12,
   "data_sha256": "a2f70a0c96672d50cb6c6873940d09940a13a00d7d82082ae4103ee70bfe18ea",
   "source_hashes": {
-    "scripts\\reviewer_experiments.py": "ad5ddd2f951abac3dc5d28454786b770064d410e94fe77ee8ab8e1675b84a43f",
-    "src\\models\\ra_exo_dlinear.py": "a73d083e1dd6c876fe70d35a565606076369a9e17f404ad0a1500c915fd85041",
+    "scripts\\reviewer_experiments.py": "2b8e6c8bc4872ae36b907f2f2514f1c2a6ff4047955106851c499e27545a7c78",
+    "src\\models\\ra_exo_dlinear.py": "29a3256c9e82e4dc846e157755c56d0f9719960703a35022d952d49e80ca3e6f",
     "src\\models\\trmf_spatial.py": "9aa5225785fa87891eae3f4e1a720a226af73e88bbf98e2839d0bda0b87d52e7"
   },
   "torch_version": "2.15.0+cpu",
   "protocol": "Retrospective January-origin blocks, training-fitted parameters, prefix-only state updates",
-  "w_temporal": 0.51,
-  "runtime_seconds": 21.533423099899665,
+  "w_temporal": 0.4180710360330446,
+  "runtime_seconds": 12.016569799976423,
   "calibration_pairs": 1694,
   "calibration_quantiles": [
-    989054.9375,
-    2782911.0
+    806696.25,
+    2787396.5
   ],
-  "raw_violations": 79,
+  "raw_violations": 4,
   "model": "full",
   "test_metrics": {
     "arrivals_total": {
       "n": 3475,
-      "mae": 465725.32363307104,
-      "wape": 36.34638964075413
+      "mae": 293421.0313332359,
+      "wape": 22.899324113266697
     },
     "nights_total": {
       "n": 3475,
-      "mae": 1284409.5656488326,
-      "wape": 34.99405546139113
+      "mae": 996806.1831613296,
+      "wape": 27.158230357918608
     }
   }
 }

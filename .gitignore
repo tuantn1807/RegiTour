@@ -27,14 +27,16 @@ runs/
 .DS_Store
 Thumbs.db
 
-# Streamlit Credentials & Secrets
-.streamlit/credentials.toml
-.streamlit/secrets.toml
+# Streamlit Configuration, Credentials & Secrets
+.streamlit/
 
 # Environment Variables & Secrets
 .env
 .env.*
 *.env
+
+# Thesis / Report Directory (Do not push report files)
+/report/
 
 # Compressed Archives & Large Binaries
 *.zip
@@ -51,23 +53,24 @@ Thumbs.db
 # Jupyter Notebook Checkpoints
 .ipynb_checkpoints/
 
-# Data Directories & Raw Dumps (Do not push data)
-/data/
-/data_oced/
-*.parquet
-*.csv
-*.tsv
-*.xlsx
-*.gz
+# Documents & Duplicate Root Dumps
 *.docx
 *.pdf
+/tourism_eu27.xlsx
+/tourism_europe_expanded.csv
 
-# Raw prediction result files (keep summary tables and reports)
+# Raw prediction result files (keep summary tables in results/tables/ and results/reviewer_experiments/*.csv)
 results/*.csv
+results/reviewer_experiments/*/*.csv
 
 # LaTeX Intermediate Files
 *.aux
 *.out
+*.lof
+*.lot
+*.toc
+*.bbl
+*.blg
 *.synctex*
 *.fls
 *.fdb_latexmk

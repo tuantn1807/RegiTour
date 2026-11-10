@@ -1,0 +1,37 @@
+{
+  "analysis_date": "2026-11-10",
+  "data_sha256": "a2f70a0c96672d50cb6c6873940d09940a13a00d7d82082ae4103ee70bfe18ea",
+  "analysis_code_sha256": "aab204be1788561c4a4f62a0c0ff371dd24e58aaf0ea97f2bbf88be93378ddd7",
+  "income_classification": {
+    "fiscal_year": 2024,
+    "effective_from": "2023-07-01",
+    "official_release": "https://blogs.worldbank.org/en/opendata/new-world-bank-group-country-classifications-income-level-fy24",
+    "row_evidence_reprint": "https://othm.org.uk/doc/march-23/Current-region-classification-2023-24.pdf",
+    "accessed_on": "2026-11-08",
+    "evidence_method": "Income column transcribed for the 38 study geographies; added region classifications ignored. The historical XLSX was not downloaded.",
+    "crosswalk_sha256": "7e0689305cc9e9a6bb0a86a1788b79849a544f896baa641a8cfc1999ebcdf503",
+    "counts": {
+      "High income": 31,
+      "Upper middle income": 7
+    }
+  },
+  "recent_aggregate_observed_pairs": 1129,
+  "recent_max_los_projection_change": 5.203181849822158e-07,
+  "recent_pooled_count_bias_pct": {
+    "arrivals_total": -10.94445211444751,
+    "nights_total": -12.921666982275692
+  },
+  "forecast_input_hashes": {
+    "tranquil/dlinear.csv": "bd4a8974e92968912af65cb6857c1359e70e743c9ee85792dec7abf5f42a0b32",
+    "tranquil/full.csv": "f95d5a83f03880757b878bfd5b0a8b5bcd526155095769638b0840949dd3985f",
+    "shock/dlinear.csv": "677cc5fd2a8e20c7e41e5f8db32cf234b52f46f241a7a652592e9ba47c5a2fed",
+    "shock/full.csv": "e39c1cde0e2a9d329ae367c46a85c7c91fee86cfe2490ed69eef13fb3e627bc7",
+    "recovery/dlinear.csv": "0166ab497e6becc9c7401e8cbb3d63107381de2abd1fdaa4df3ee91fd6dbf88e",
+    "recovery/full.csv": "7ced75b493ff0ecf78976b56185d588cfc300a7b9f22143881f66ecac23c8830",
+    "recent/dlinear.csv": "d4289a0b443a3873c2765cafea13523809bedc5d03a266efacc3ded3b7ed56b2",
+    "recent/full.csv": "a5b5520a7ab8534764329bafaf8e4f936c212c4642e60d4809e9862d7ce10b1a",
+    "recent/snaive.csv": "4676dcf657b3c1a4e42fdea0ff1ec8857be1677e881f22e0e2a5770b3dd54afe",
+    "recent/full_raw.csv": "308ab56b00d2b7dcad307f08abc7fbf0b303db8a49e74debdfc3c045e0b61194"
+  },
+  "los_stability_groups_sha256": "d51ce4b040c18fa2a0eb394d1ce241868a3e134a70ae8de21e626ca506d61867"
+}

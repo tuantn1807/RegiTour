@@ -1,0 +1,24 @@
+\begin{table}[!htbp]
+\centering
+\caption{Average conditional effects of enabling each temporal component}
+\label{tab:factorial_effects}
+\footnotesize
+\setlength{\tabcolsep}{3pt}
+\renewcommand{\arraystretch}{1.08}
+\begin{tabular}{>{\raggedright\arraybackslash}p{1.5cm}>{\centering\arraybackslash}p{3.1cm}>{\centering\arraybackslash}p{3.1cm}}
+\toprule
+Control & \shortstack{Tourist Arrivals\\$\Delta$WAPE (pp) / $\Delta$MAE} & \shortstack{Overnight Stays\\$\Delta$WAPE (pp) / $\Delta$MAE} \\
+\midrule
+Temporal E & \shortstack{-0.56 $\pm$ 0.41\\{\scriptsize -7,820 $\pm$ 5,739}} & \shortstack{-1.06 $\pm$ 0.37\\{\scriptsize -40,945 $\pm$ 14,274}} \\
+Temporal H & \shortstack{-0.17 $\pm$ 0.02\\{\scriptsize -2,360 $\pm$ 346}} & \shortstack{-0.17 $\pm$ 0.18\\{\scriptsize -6,401 $\pm$ 7,013}} \\
+Temporal F & \shortstack{+3.03 $\pm$ 1.75\\{\scriptsize +41,991 $\pm$ 24,272}} & \shortstack{+5.42 $\pm$ 2.65\\{\scriptsize +210,279 $\pm$ 102,791}} \\
+Fused E & \shortstack{-1.75 $\pm$ 0.74\\{\scriptsize -24,308 $\pm$ 10,314}} & \shortstack{-2.59 $\pm$ 0.61\\{\scriptsize -100,546 $\pm$ 23,508}} \\
+Fused H & \shortstack{-0.14 $\pm$ 0.05\\{\scriptsize -1,954 $\pm$ 691}} & \shortstack{-0.12 $\pm$ 0.18\\{\scriptsize -4,841 $\pm$ 6,966}} \\
+Fused F & \shortstack{+3.37 $\pm$ 1.51\\{\scriptsize +46,709 $\pm$ 20,890}} & \shortstack{+5.69 $\pm$ 2.13\\{\scriptsize +220,777 $\pm$ 82,462}} \\
+\bottomrule
+\end{tabular}
+\par\vspace{3pt}
+\begin{minipage}{\columnwidth}
+\scriptsize\raggedright Each seed averages four on-minus-off contrasts, holding the other two flags fixed. Cells report $\Delta$WAPE in percentage points above $\Delta$MAE in arrivals or nights; negative values indicate lower error. Values are mean $\pm$ sample SD over the three seeds. E denotes exogenous projections, H denotes HMM states, and F denotes FiLM gains. The fused forecasts share the full cell's validation weight, spatial forecast, and projection within each seed. The SD describes seed variability.
+\end{minipage}
+\end{table}

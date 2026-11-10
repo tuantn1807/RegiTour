@@ -1,4 +1,4 @@
-\begin{table*}[!htbp]
+\begin{table*}[!t]
 \centering
 \caption{Destination-group forecasting performance on aggregate accommodation series in the recent Eurostat test period.}
 \label{tab:reviewer_groups}
@@ -7,7 +7,7 @@
 \renewcommand{\arraystretch}{1.08}
 \begin{tabular}{>{\raggedright\arraybackslash}p{3.4cm}>{\centering\arraybackslash}p{2.0cm}*{4}{>{\centering\arraybackslash}p{2.6cm}}}
 \toprule
-\textbf{Destination Group} & \textbf{\shortstack{Destinations\\(n)}} & \textbf{\shortstack{DLinear\\Tourist Arrivals\\WAPE (\%)}} & \textbf{\shortstack{DLinear\\Overnight Stays\\WAPE (\%)}} & \textbf{\shortstack{RA-HE-DLinear\\Tourist Arrivals\\WAPE (\%)}} & \textbf{\shortstack{RA-HE-DLinear\\Overnight Stays\\WAPE (\%)}} \\
+\textbf{Destination Group} & \textbf{\shortstack{Destinations\\(n)}} & \textbf{\shortstack{DLinear\\Tourist Arrivals\\WAPE (\%)}} & \textbf{\shortstack{DLinear\\Overnight Stays\\WAPE (\%)}} & \textbf{\shortstack{RA-HE (Static)\\Tourist Arrivals\\WAPE (\%)}} & \textbf{\shortstack{RA-HE (Static)\\Overnight Stays\\WAPE (\%)}} \\
 \midrule
 Tourism demand scale, low & 13 & 11.94 & 13.00 & 15.52 & 16.29 \\
 Tourism demand scale, middle & 12 & 8.27 & 8.49 & 10.07 & 11.37 \\
@@ -22,6 +22,6 @@ Pre-test recovery index, high & 10 & 9.58 & 11.52 & 12.53 & 14.61 \\
 \end{tabular}
 \par\vspace{3pt}
 \begin{minipage}{\textwidth}
-\scriptsize\raggedright Low, middle, and high groups are terciles. Demand scale and seasonality use 2010--2021 training data. The pre-test recovery index is the ratio of 2023 to 2019 annual arrivals, requiring 12 observed months in both years. Destination counts vary with data eligibility. Every error column reports WAPE in percent, with the forecast target and benchmark model identified explicitly.
+\scriptsize\raggedright Low, middle, and high groups are terciles. Demand scale and seasonality use 2010--2021 training data. The pre-test recovery index is the ratio of 2023 to 2019 annual arrivals, requiring 12 observed months in both years. RA-HE (Static) evaluates the static spatial-temporal blend ($w_{\text{time}}^*=0.826$) on aggregate accommodation series.
 \end{minipage}
 \end{table*}

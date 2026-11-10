@@ -1,20 +1,23 @@
 \begin{table}[!htbp]
 \centering
-\caption{Effect of physical-consistency projection on count errors and the rate of physically inconsistent forecast pairs.}
+\caption{Effect of physical-consistency projection ($\Pi_{\mathcal{C}}$) on count errors and violation rates across Eurostat test pairs.}
 \label{tab:reviewer_projection}
 \footnotesize
-\setlength{\tabcolsep}{3pt}
+\setlength{\tabcolsep}{3.5pt}
 \renewcommand{\arraystretch}{1.08}
-\begin{tabular}{>{\raggedright\arraybackslash}p{2.2cm}>{\centering\arraybackslash}p{2.1cm}>{\centering\arraybackslash}p{2.1cm}>{\centering\arraybackslash}p{1.4cm}}
+\begin{tabular}{>{\raggedright\arraybackslash}p{2.25cm}ccc}
 \toprule
-\textbf{Projection Stage} & \textbf{\shortstack{Tourist Arrivals\\WAPE (\%)\\MAE (arrivals)}} & \textbf{\shortstack{Overnight Stays\\WAPE (\%)\\MAE (nights)}} & \textbf{\shortstack{Physical\\Violation\\Rate (\%)}} \\
+\textbf{Configuration \& Stage} & \textbf{\shortstack{Tourist Arrivals\\WAPE (\%)\\MAE (arrivals)}} & \textbf{\shortstack{Overnight Stays\\WAPE (\%)\\MAE (nights)}} & \textbf{\shortstack{Physical\\Violation\\Rate (\%)}} \\
 \midrule
-Before & \shortstack{11.62\%\\{\scriptsize 161,064}} & \shortstack{13.56\%\\{\scriptsize 525,737}} & 1.104 \\
-After & \shortstack{11.62\%\\{\scriptsize 161,064}} & \shortstack{13.56\%\\{\scriptsize 525,863}} & 0.000 \\
+Static Blend (Before $\Pi_{\mathcal{C}}$) & \shortstack{11.62\%\\{\scriptsize 161,064}} & \shortstack{13.56\%\\{\scriptsize 525,737}} & 1.104 \\
+Static Blend (After $\Pi_{\mathcal{C}}$) & \shortstack{11.62\%\\{\scriptsize 161,064}} & \shortstack{13.56\%\\{\scriptsize 525,863}} & \textbf{0.000} \\
+\midrule
+Adaptive Gated (Before $\Pi_{\mathcal{C}}$) & \shortstack{9.16\%\\{\scriptsize 127,051}} & \shortstack{9.67\%\\{\scriptsize 374,958}} & 2.250 \\
+\textbf{Adaptive Gated (After $\Pi_{\mathcal{C}}$)} & \shortstack{\textbf{9.16\%}\\{\scriptsize \textbf{127,051}}} & \shortstack{\textbf{9.64\%}\\{\scriptsize \textbf{373,738}}} & \textbf{0.000} \\
 \bottomrule
 \end{tabular}
 \par\vspace{3pt}
 \begin{minipage}{\columnwidth}
-\scriptsize\raggedright WAPE is weighted absolute percentage error; MAE is mean absolute error. Each target cell reports WAPE (\%) on its first line and MAE on its second line. MAE is measured in accommodation arrivals for Tourist Arrivals and nights for Overnight Stays. Physical violation rate is the percentage of all 4,712 forecast pairs with $\hat{Y}^{\mathrm{nig}}<\hat{Y}^{\mathrm{arr}}$. Before denotes the raw fused forecast. After denotes application of $\Pi_{\mathcal{C}}$ to the same forecast pairs.
+\scriptsize\raggedright WAPE (\%) is shown above MAE on 4,522 observed target pairs; physical violation rate is computed across all 4,712 grid pairs ($\hat{Y}^{\mathrm{nig}}<\hat{Y}^{\mathrm{arr}}$). Arrivals are strictly invariant under $\Pi_{\mathcal{C}}$, while nights are adjusted upward at violating points.
 \end{minipage}
 \end{table}

@@ -13,9 +13,9 @@ Bảng xếp hạng đóng góp của các biến ngoại sinh vĩ mô vào dự
 
 ## 2. Trọng Số Chú Ý Chéo Thời Gian (Cross-Temporal Attention Analysis)
 
-- **Tỷ lệ tập trung vào chu kỳ 12 tháng (Lag -12):** 0.47%
-- **Tỷ lệ tập trung vào chu kỳ 24 tháng (Lag -24):** 6.36%
-- **Tổng mức độ đồng bộ hóa mùa vụ:** 6.83%
+- **Tỷ lệ tập trung vào chu kỳ 12 tháng (Lag -12):** 0.05%
+- **Tỷ lệ tập trung vào chu kỳ 24 tháng (Lag -24):** 16.36%
+- **Tổng mức độ đồng bộ hóa mùa vụ:** 16.41%
 
 ![Cross-Temporal Attention Heatmap](xai/attention_cross_temporal_heatmap.png)
 

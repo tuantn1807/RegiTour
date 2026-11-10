@@ -1,0 +1,9 @@
+phase,model,arrivals_total_wape,arrivals_total_mae,nights_total_wape,nights_total_mae,rows,observed_pairs,arrivals_total_n,nights_total_n,physical_violation_pct
+tranquil,dlinear,83.84,1144873.0,75.39,2943377.0,,,,,
+tranquil,full,36.3,495607.0,43.14,1684318.0,,,,,
+shock,dlinear,82.06,598875.0,74.9,1624736.0,,,,,
+shock,full,80.96,590789.0,90.1,1954459.0,,,,,
+recovery,dlinear,75.4,966165.0,69.6,2554417.0,,,,,
+recovery,full,36.35,465725.0,34.99,1284410.0,,,,,
+recent,dlinear,9.358634973575885,129750.9472230897,10.466907058914806,405781.1145689305,4712.0,4522.0,4522.0,4522.0,1.931239388794567
+recent,full,11.617155115864135,161063.75391036202,13.564345950028901,525862.6437609688,4712.0,4522.0,4522.0,4522.0,0.0

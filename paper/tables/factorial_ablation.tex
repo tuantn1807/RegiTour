@@ -1,0 +1,27 @@
+\begin{table}[!htbp]
+\centering
+\caption{Bias-controlled factorial temporal ablation with three training seeds}
+\label{tab:factorial_ablation}
+\footnotesize
+\setlength{\tabcolsep}{3pt}
+\renewcommand{\arraystretch}{1.08}
+\begin{tabular}{>{\raggedright\arraybackslash}p{1.5cm}>{\centering\arraybackslash}p{3.1cm}>{\centering\arraybackslash}p{3.1cm}}
+\toprule
+Control & \shortstack{Tourist Arrivals\\WAPE (\%) / MAE} & \shortstack{Overnight Stays\\WAPE (\%) / MAE} \\
+\midrule
+Plain DLinear & \shortstack{9.36 $\pm$ 0.00\%\\{\scriptsize 129,751 $\pm$ 0}} & \shortstack{10.47 $\pm$ 0.00\%\\{\scriptsize 405,781 $\pm$ 0}} \\
+0/0/0 & \shortstack{9.36 $\pm$ 0.00\%\\{\scriptsize 129,751 $\pm$ 0}} & \shortstack{10.47 $\pm$ 0.00\%\\{\scriptsize 405,781 $\pm$ 0}} \\
+0/0/1 & \shortstack{12.86 $\pm$ 1.30\%\\{\scriptsize 178,321 $\pm$ 18,076}} & \shortstack{16.30 $\pm$ 2.11\%\\{\scriptsize 631,898 $\pm$ 81,790}} \\
+0/1/0 & \shortstack{9.36 $\pm$ 0.00\%\\{\scriptsize 129,751 $\pm$ 0}} & \shortstack{10.47 $\pm$ 0.00\%\\{\scriptsize 405,781 $\pm$ 0}} \\
+0/1/1 & \shortstack{12.39 $\pm$ 1.36\%\\{\scriptsize 171,844 $\pm$ 18,882}} & \shortstack{15.84 $\pm$ 2.43\%\\{\scriptsize 614,214 $\pm$ 94,279}} \\
+1/0/0 & \shortstack{9.01 $\pm$ 0.25\%\\{\scriptsize 124,942 $\pm$ 3,530}} & \shortstack{9.58 $\pm$ 0.16\%\\{\scriptsize 371,319 $\pm$ 6,100}} \\
+1/0/1 & \shortstack{11.95 $\pm$ 2.12\%\\{\scriptsize 165,733 $\pm$ 29,445}} & \shortstack{14.95 $\pm$ 2.83\%\\{\scriptsize 579,587 $\pm$ 109,809}} \\
+1/1/0 & \shortstack{9.06 $\pm$ 0.20\%\\{\scriptsize 125,600 $\pm$ 2,812}} & \shortstack{9.60 $\pm$ 0.12\%\\{\scriptsize 372,345 $\pm$ 4,518}} \\
+1/1/1 & \shortstack{11.69 $\pm$ 2.16\%\\{\scriptsize 162,112 $\pm$ 30,000}} & \shortstack{14.72 $\pm$ 3.18\%\\{\scriptsize 570,642 $\pm$ 123,306}} \\
+\bottomrule
+\end{tabular}
+\par\vspace{3pt}
+\begin{minipage}{\columnwidth}
+\scriptsize\raggedright Factorial rows show E/H/F: E enables both exogenous streams; H uses a train-fitted, forward-filtered HMM state instead of constant state 0; F enables multiplicative FiLM gains. The additive state head is enabled in all eight cells, including H=0. Plain DLinear disables that head and the coupled loss and is outside the factorial. The eight factorial cells use the same coupled loss. The table scores raw temporal forecasts. Cells show WAPE (\%) above MAE (arrivals or nights), as mean $\pm$ sample SD across seeds 42, 43, 44. All runs score the same 4,522 observed pairs. SD describes seed variability, not sampling uncertainty. Inputs remain retrospective.
+\end{minipage}
+\end{table}

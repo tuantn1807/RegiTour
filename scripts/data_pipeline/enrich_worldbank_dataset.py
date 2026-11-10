@@ -240,6 +240,8 @@ def add_inbound_nights_and_los(df: pd.DataFrame) -> pd.DataFrame:
 
     nights_list = []
     los_list = []
+    nights_source_list = []
+    is_synthetic_nights_list = []
 
     for _, row in df.iterrows():
         geo = row["Country Code"]
@@ -247,7 +249,7 @@ def add_inbound_nights_and_los(df: pd.DataFrame) -> pd.DataFrame:
         arr = float(row["Tourist_Arrivals"])
         reg = str(row["Region"])
 
-        # Nếu có số liệu OECD quan sát
+        # Nếu có số liệu OECD quan sát thực tế
         if (geo, yr) in oecd_nights_map:
             obs_n = oecd_nights_map[(geo, yr)]
             # Chuẩn hóa nếu đơn vị OECD bị nhân tỷ lệ
@@ -255,9 +257,11 @@ def add_inbound_nights_and_los(df: pd.DataFrame) -> pd.DataFrame:
             if 1.0 <= calculated_los <= 30.0:
                 nights_list.append(obs_n)
                 los_list.append(calculated_los)
+                nights_source_list.append("oecd_observed")
+                is_synthetic_nights_list.append(0)
                 continue
 
-        # Áp dụng hệ số vùng của UN Tourism (UNWTO Benchmark)
+        # Áp dụng hệ số vùng của UN Tourism (UNWTO Benchmark) làm mốc chuẩn bán nhân tạo
         alos = REGIONAL_ALOS_BENCHMARK.get(reg, GLOBAL_ALOS_DEFAULT)
         # Bổ sung nhiễu nhẹ theo thu nhập: nước thu nhập cao khách thường lưu trú ngắn ngày hơn
         inc = str(row.get("Income Group", "High income"))
@@ -269,9 +273,13 @@ def add_inbound_nights_and_los(df: pd.DataFrame) -> pd.DataFrame:
         imputed_nights = arr * alos
         nights_list.append(imputed_nights)
         los_list.append(alos)
+        nights_source_list.append("unwto_imputed")
+        is_synthetic_nights_list.append(1)
 
     df["nights_total"] = nights_list
     df["length_of_stay"] = los_list
+    df["nights_source"] = nights_source_list
+    df["is_synthetic_nights"] = is_synthetic_nights_list
     # Bảo đảm 100% tuân thủ bất đẳng thức kinh tế: nights >= arrivals
     df["nights_total"] = np.maximum(df["nights_total"], df["Tourist_Arrivals"] * 1.0)
     df["nights_per_arrival_ratio"] = df["nights_total"] / np.maximum(df["Tourist_Arrivals"], 1.0)

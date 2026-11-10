@@ -58,8 +58,22 @@ flowchart TD
   * **Apache Parquet (`.parquet`):** Chuẩn nén cột (Snappy/ZSTD), giảm 80% dung lượng, tốc độ đọc nhanh gấp 10 lần CSV, giữ nguyên kiểu dữ liệu (Schema-preserved).
   * **CSV (`.csv`) & Excel (`.xlsx`):** Dùng cho báo cáo, chia sẻ và tích hợp Web Dashboard (Streamlit/Gradio).
 * **Kiểm định chất lượng dữ liệu (Data Quality Gates):**
-  * Tỷ lệ thiếu dữ liệu tối đa cho phép: `< 5%` (áp dụng nội suy Spline). Các trường hợp khuyết toàn chuỗi dài hạn (ví dụ Moldova - MD) bị loại trừ khỏi tập huấn luyện.
-  * Giới hạn logic: $0 \le \text{hotel\_occupancy\_pct} \le 100\%$; $\text{nights\_total} \ge \text{arrivals\_total}$.
+  * Tỷ lệ thiếu dữ liệu tối đa cho phép: `< 5%`.
+  * Giới hạn logic vật lý bắt buộc: $0 \le \text{hotel\_occupancy\_pct} \le 100\%$; $\text{nights\_total} \ge \text{arrivals\_total}$ ($\text{LOS} \ge 1{,}0$).
+
+### 1.2. Phân định dữ liệu đối chuẩn thực nghiệm chính thức vs. Kế hoạch mở rộng
+Nhằm bảo đảm tính minh bạch và tránh ngộ nhận khi đối soát giữa tài liệu thiết kế và mã nguồn thực thi:
+1. **Dữ liệu thực nghiệm cốt lõi (Core Benchmark Dataset):**
+   * **Eurostat Monthly Panel:** 38 quốc gia Châu Âu, 4 nhóm cơ sở lưu trú NACE Rev. 2 (152 chuỗi thời gian), 199 tháng (2010-01 đến 2026-07). Tập kiểm thử: 2024-01 đến 2026-07 (4.522 cặp quan sát hợp lệ).
+   * **World Bank Annual Panel:** 203 nền kinh tế, giai đoạn 1995--2020 (4.683 bản ghi).
+   * **Biến ngoại sinh hoạt động (Active Features):** Gồm 14 đặc trưng lịch lễ (`holidays`) và 7 đặc trưng vĩ mô/dịch bệnh (Eurostat HICP CP112/CP00, Oxford OxCGRT).
+2. **Minh bạch hóa về nguồn chỉ tiêu (Target Provenance):**
+   * Trong tập World Bank, chỉ tiêu lượt khách $Y_{\text{arr}}$ là số liệu thực tế WDI (`ST.INT.ARVL`). Chỉ tiêu số đêm $Y_{\text{nig}}$ là số liệu thực tế từ OECD khi có sẵn; với các nước ngoài OECD, số đêm là **mốc chuẩn bán nhân tạo (semi-synthetic benchmark)** tính từ tích số lượt khách và ALOS vùng của UNWTO. Dữ liệu này dùng để kiểm tra độ ổn định thuật toán vĩ mô trên diện rộng, không dùng để suy diễn kinh tế lượng độc lập về số đêm.
+3. **Các nguồn dữ liệu mở rộng trong lộ trình (Roadmap Extensions):**
+   * Thời tiết cực đoan Open-Meteo ERA5, Dữ liệu tìm kiếm Google Trends (`pytrends`), Rủi ro địa chính trị GPR và Tỷ giá Yahoo Finance nằm trong kiến trúc mở rộng luồng dữ liệu (Data Pipeline Architecture), hiện **chưa kích hoạt trong bảng đối chuẩn thực nghiệm đông kết chính thức (frozen benchmark)** của mô hình RA-HE-DLinear.
+4. **Nguyên tắc chống rò rỉ thời gian (Temporal Leakage Prevention):**
+   * Tuyệt đối không dùng `bfill()` hoặc nội suy hai phía xuyên qua các mốc tương lai.
+   * Chỉ sử dụng forward-fill (`ffill()`) và điền giá trị khuyết đầu chuỗi bằng trung vị của tập huấn luyện (pre-2022).
 
 ---
 

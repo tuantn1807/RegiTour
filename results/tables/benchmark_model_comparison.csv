@@ -1,0 +1,11 @@
+Mô hình đối sánh (Model),Lớp mô hình (Family),Arrivals WAPE (%),Arrivals MAE,Nights WAPE (%),Nights MAE,Vi phạm cận vật lý (< 1.0),"Lệch dải kinh tế ([r_min, r_max])",Cải thiện sai số vs S-Naive
+Seasonal Naive (S-Naive),Statistical,27.30%,"397,503",32.73%,"1,287,411",0.05%,28.8%,+0.0%
+Standard LightGBM,Machine Learning,30.37%,"442,199",34.28%,"1,348,103",0.19%,49.2%,-3.07%
+Standard XGBoost,Machine Learning,34.13%,"496,861",42.36%,"1,666,128",0.34%,37.7%,-6.83%
+Vanilla DLinear (AAAI 2023),Linear LTSF (Modern Baseline),45.38%,"660,721",25.61%,"1,007,190",0.05%,28.8%,-18.08%
+Vanilla NLinear (AAAI 2023),Linear LTSF (Modern Baseline),32.10%,"467,388",49.38%,"1,942,248",0.69%,29.2%,-4.8%
+"Standard LSTM (Hochreiter, 1997)",Deep Learning (Classical),108.53%,"1,580,071",113.16%,"4,450,857",0.05%,99.4%,-81.23%
+"Vanilla BiLSTM (Graves, 2013)",Deep Learning (Classical),108.53%,"1,580,071",113.16%,"4,450,857",0.05%,99.4%,-81.23%
+CatBoost-Regime (Ablation),Machine Learning (Ablation),40.27%,"586,231",44.86%,"1,764,508",0.82%,44.9%,-12.97%
+"RA-Exo-DLinear (Proposed Linear ⭐)",Linear LTSF (Proposed ⭐),18.29%,"266,307",25.87%,"1,017,349",0.21%,21.5%,+9.01%
+"RA-HE-DLinear (Proposed Linear Framework ⭐)",Linear Framework (Proposed ⭐),14.59%,"212,341",25.00%,"983,447","0.00% (sau chiếu; 0.15% cần sửa)",16.0%,+12.71%

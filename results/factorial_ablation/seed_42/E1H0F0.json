@@ -1,0 +1,82 @@
+{
+  "seed": 42,
+  "epochs": 5,
+  "batch_size": 256,
+  "learning_rate": 0.0001,
+  "freeze_backbone": true,
+  "threads": 1,
+  "lookback": 24,
+  "horizon": 12,
+  "kernel_size": 13,
+  "train_years": [
+    2010,
+    2021
+  ],
+  "validation_year": 2022,
+  "calibration_year": 2023,
+  "test_reference_periods": [
+    "2024-01",
+    "2026-07"
+  ],
+  "test_grid_rows": 4712,
+  "test_observed_pairs": 4522,
+  "data_sha256": "a2f70a0c96672d50cb6c6873940d09940a13a00d7d82082ae4103ee70bfe18ea",
+  "source_hashes": {
+    "scripts/factorial_ablation.py": "2d438dd47221c597d88e60848f9f4374d35687c11f30c907b37797b701be4b6e",
+    "scripts/reviewer_experiments.py": "2b8e6c8bc4872ae36b907f2f2514f1c2a6ff4047955106851c499e27545a7c78",
+    "src/models/ra_exo_dlinear.py": "29a3256c9e82e4dc846e157755c56d0f9719960703a35022d952d49e80ca3e6f",
+    "src/data/dataset_loader.py": "d19833a66337898467a72fde5c294e86493e0943e34ca84cc3d7d08b425267ad",
+    "src/models/trmf_spatial.py": "9aa5225785fa87891eae3f4e1a720a226af73e88bbf98e2839d0bda0b87d52e7",
+    "src/models/coupled_optimizer.py": "db422f34d42d26934e7f31cfb74992a1e49e890865de6c0b39e64f1b06a3aa07"
+  },
+  "torch_version": "2.15.0+cpu",
+  "device": "cpu",
+  "coupled_penalty_in_all_factorial_cells": true,
+  "additive_state_head_enabled_in_all_factorial_cells": true,
+  "selection": "The full cell selects its sigmoid weight on 2022 validation. The fused cells share that weight, TRMF predictions, and physical projection.",
+  "availability": "Retrospective reference-period inputs, not PIT.",
+  "hmm_origin_states": {
+    "2023-12-31 23:59:59": 1,
+    "2024-12-31 23:59:59": 1,
+    "2025-12-31 23:59:59": 1
+  },
+  "hmm_training_state_counts": {
+    "1": 120,
+    "2": 22,
+    "0": 2
+  },
+  "configuration": "E1H0F0",
+  "E": 1,
+  "H": 0,
+  "F": 0,
+  "additive_state_head": true,
+  "coupled_penalty": true,
+  "fused_temporal_weight": 0.8259414000505153,
+  "runtime_seconds": 13.970805900054984,
+  "test_metrics": {
+    "temporal": {
+      "arrivals_total": {
+        "n": 4522,
+        "mae": 123400.96337161418,
+        "wape": 8.900625361885856
+      },
+      "nights_total": {
+        "n": 4522,
+        "mae": 369434.5485305133,
+        "wape": 9.529366806360255
+      }
+    },
+    "fused": {
+      "arrivals_total": {
+        "n": 4522,
+        "mae": 131599.61431335876,
+        "wape": 9.491975044348118
+      },
+      "nights_total": {
+        "n": 4522,
+        "mae": 356322.46612532757,
+        "wape": 9.19114764593997
+      }
+    }
+  }
+}

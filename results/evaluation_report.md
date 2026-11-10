@@ -53,6 +53,8 @@
 
 ---
 
+---
+
 ### 4. BẢNG SO SÁNH ĐỐI KHÁNG TRỰC TIẾP VỚI CÁC MÔ HÌNH BASELINE (BENCHMARK COMPARISON)
 
 Bảng dưới đây tổng hợp kết quả đối sánh thực nghiệm giữa kiến trúc đề xuất **RA-HE-DLinear** và các mô hình đại diện cho các thế hệ phương pháp trong kinh tế học du lịch:
@@ -62,14 +64,14 @@ Bảng dưới đây tổng hợp kết quả đối sánh thực nghiệm giữ
 | Seasonal Naive (S-Naive) | Statistical | 27.65% | 412,599 | 32.80% | 1,337,650 | 0.04% | 28.8% | +0.0% |
 | Standard XGBoost | Machine Learning | 34.22% | 510,724 | 41.75% | 1,702,614 | 6.14% | 42.2% | -6.57% |
 | Standard LightGBM | Machine Learning | 30.34% | 452,845 | 33.90% | 1,382,140 | 7.51% | 44.5% | -2.69% |
-| Vanilla DLinear (AAAI 2023) | Linear LTSF (Modern Baseline) | 93.79% | 1,399,792 | 89.23% | 3,638,496 | 15.23% | 51.1% | -66.14% |
-| **RA-Exo-DLinear (Proposed Linear ⭐)** | Linear LTSF (Proposed ⭐) | **83.65%** | 1,248,515 | **80.99%** | 3,302,573 | **21.43%** | **67.2%** | -56.0% |
+| Vanilla DLinear (AAAI 2023) | Linear LTSF (Modern Baseline) | 6.52% | 97,284 | 7.30% | 297,668 | 0.37% | 20.6% | +21.13% |
+| **RA-Exo-DLinear (Proposed Linear ⭐)** | Linear LTSF (Proposed ⭐) | **56.38%** | 841,464 | **41.81%** | 1,704,851 | **5.04%** | **85.0%** | -28.73% |
 | Vanilla BiLSTM (Graves, 2013) | Deep Learning (Classical) | 107.70% | 1,607,337 | 112.04% | 4,568,701 | 0.00% | 28.9% | -80.05% |
-| CatBoost-Regime (Ablation) | Machine Learning (Ablation) | 37.98% | 566,768 | 43.39% | 1,769,277 | 6.96% | 40.6% | -10.33% |
+| CatBoost-Regime (Ablation) | Machine Learning (Ablation) | 40.64% | 606,507 | 44.99% | 1,834,703 | 17.41% | 52.9% | -12.99% |
 | PatchTST | Transformer LTSF | 28.14% | 419,919 | 31.76% | 1,294,905 | 1.88% | 36.6% | -0.49% |
 | iTransformer | Transformer LTSF | 30.26% | 451,678 | 34.90% | 1,423,113 | 0.04% | 29.8% | -2.61% |
 | TimesNet | Transformer LTSF | 34.53% | 515,341 | 47.00% | 1,916,403 | 0.36% | 30.6% | -6.88% |
-| **RA-HE-DLinear (Proposed Linear Framework ⭐)** | Linear Framework (Proposed ⭐) | **36.57%** | 545,863 | **47.00%** | 1,916,579 | **0.00%** | **25.1%** | -8.92% |
+| **RA-HE-DLinear (Proposed Linear Framework ⭐)** | Linear Framework (Proposed ⭐) | **36.58%** | 545,968 | **46.96%** | 1,915,005 | **0.00%** | **25.1%** | -8.93% |
 
 #### 💡 Phân Tích Khoa Học & Bàn Luận (Scientific Discussion):
 1. **Sự vượt trội của Framework Tuyến tính Đề xuất (RA-HE-DLinear):**
