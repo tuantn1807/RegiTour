@@ -1,21 +1,21 @@
-\begin{table*}[!t]
+\begin{table}[!htbp]
 \centering
-\caption{Country-case forecast accuracy and pre-test tourism recovery, with cases selected by the median recovery ratio within each tercile.}
+\caption{Country-case forecast accuracy and LOS diagnostics across median destinations of each pre-test recovery tercile.}
 \label{tab:reviewer_cases}
-\small
-\setlength{\tabcolsep}{3pt}
-\renewcommand{\arraystretch}{1.08}
-\begin{tabular}{>{\raggedright\arraybackslash}p{2.1cm}>{\centering\arraybackslash}p{2.8cm}*{4}{>{\centering\arraybackslash}p{2.6cm}}}
+\footnotesize
+\setlength{\tabcolsep}{2pt}
+\renewcommand{\arraystretch}{1.06}
+\begin{tabular}{>{\raggedright\arraybackslash}p{1.25cm}>{\centering\arraybackslash}p{0.9cm}>{\centering\arraybackslash}p{1.55cm}>{\centering\arraybackslash}p{1.55cm}>{\centering\arraybackslash}p{1.55cm}>{\centering\arraybackslash}p{1.05cm}}
 \toprule
-\textbf{Destination} & \textbf{\shortstack{Tourist Arrivals\\Recovery Index\\2023 / 2019\\(unitless)}} & \textbf{\shortstack{DLinear\\Tourist Arrivals\\WAPE (\%)}} & \textbf{\shortstack{DLinear\\Overnight Stays\\WAPE (\%)}} & \textbf{\shortstack{RA-HE (Static)\\Tourist Arrivals\\WAPE (\%)}} & \textbf{\shortstack{RA-HE (Static)\\Overnight Stays\\WAPE (\%)}} \\
+\textbf{Country} & \textbf{\shortstack{2023/\\2019\\Ratio}} & \textbf{\shortstack{DLinear\\Arr.\ / Nig.\\WAPE (\%)}} & \textbf{\shortstack{RA-HE (Static)\\Arr.\ / Nig.\\WAPE (\%)}} & \textbf{\shortstack{RA-HE (Adapt.)\\Arr.\ / Nig.\\WAPE (\%)}} & \textbf{\shortstack{Static\\LOS\\MAE}} \\
 \midrule
-Cyprus & 0.98 & 17.05 & 20.01 & 18.57 & 20.26 \\
-Sweden & 1.03 & 8.00 & 8.19 & 10.47 & 11.31 \\
-Denmark & 1.14 & 9.38 & 11.25 & 12.34 & 14.46 \\
+Cyprus & 0.98 & 17.05 / 20.01 & 18.57 / 20.26 & \textbf{13.31} / \textbf{13.93} & 0.295 \\
+Sweden & 1.03 & 8.00 / 8.19 & 10.47 / 11.31 & \textbf{6.13} / \textbf{5.89} & 0.043 \\
+Denmark & 1.14 & 9.38 / 11.25 & 12.34 / 14.46 & \textbf{7.63} / \textbf{9.13} & 0.158 \\
 \bottomrule
 \end{tabular}
 \par\vspace{3pt}
-\begin{minipage}{\textwidth}
-\scriptsize\raggedright The recovery index is annual tourist arrivals in 2023 divided by annual arrivals in 2019. Forecast errors cover January 2024--July 2026 on aggregate accommodation series with originally observed target pairs.
+\begin{minipage}{\columnwidth}
+\scriptsize\raggedright The recovery ratio is 2023 annual arrivals divided by 2019 annual arrivals. Errors cover Jan.\ 2024--Jul.\ 2026 on aggregate accommodation series (\texttt{total}). LOS MAE is measured in nights per arrival.
 \end{minipage}
-\end{table*}
+\end{table}

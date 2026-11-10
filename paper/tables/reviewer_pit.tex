@@ -1,0 +1,27 @@
+\begin{table}[!htbp]
+\centering
+\caption{Comparison of Original Reference-Period Availability versus Point-in-Time (PIT) Publication-Lag Constrained forecasting on the Eurostat test set (4,522 observed pairs).}
+\label{tab:reviewer_pit}
+\footnotesize
+\setlength{\tabcolsep}{2.2pt}
+\renewcommand{\arraystretch}{1.06}
+\begin{tabular}{>{\raggedright\arraybackslash}p{2.35cm}>{\centering\arraybackslash}p{1.65cm}>{\centering\arraybackslash}p{1.65cm}>{\centering\arraybackslash}p{1.2cm}>{\centering\arraybackslash}p{1.05cm}}
+\toprule
+\textbf{Model \& Availability Setting} & \textbf{\shortstack{Tourist Arrivals\\WAPE (\%) / MAE}} & \textbf{\shortstack{Overnight Stays\\WAPE (\%) / MAE}} & \textbf{\shortstack{$\Delta$ WAPE\\Arr.\ / Nig.\\(pp)}} & \textbf{\shortstack{Post-$\Pi_{\mathcal{C}}$\\Viol.\\(\%)}} \\
+\midrule
+DLinear (Original) & \shortstack{9.36\%\\{\scriptsize 129,751}} & \shortstack{10.47\%\\{\scriptsize 405,781}} & --- & 1.931$^\dagger$ \\
+DLinear (PIT-Constrained) & \shortstack{10.06\%\\{\scriptsize 139,464}} & \shortstack{11.22\%\\{\scriptsize 435,084}} & +0.70 / +0.75 & 1.974$^\dagger$ \\
+\midrule
+RA-HE Static (Original) & \shortstack{11.62\%\\{\scriptsize 161,064}} & \shortstack{13.56\%\\{\scriptsize 525,863}} & --- & \textbf{0.000} \\
+RA-HE Static (PIT-Constrained) & \shortstack{12.24\%\\{\scriptsize 169,762}} & \shortstack{14.24\%\\{\scriptsize 552,106}} & +0.62 / +0.68 & \textbf{0.000} \\
+\midrule
+\textbf{RA-HE Adaptive (Original)} & \shortstack{\textbf{9.16\%}\\{\scriptsize \textbf{127,051}}} & \shortstack{\textbf{9.64\%}\\{\scriptsize \textbf{373,738}}} & --- & \textbf{0.000} \\
+\textbf{RA-HE Adaptive (PIT-Constrained)} & \shortstack{\textbf{9.44\%}\\{\scriptsize \textbf{130,942}}} & \shortstack{\textbf{9.89\%}\\{\scriptsize \textbf{383,288}}} & \textbf{+0.28 / +0.25} & \textbf{0.000} \\
+\bottomrule
+\end{tabular}
+\par\vspace{3pt}
+\begin{minipage}{\columnwidth}
+\scriptsize\raggedright At each December 31 forecast origin, \textit{PIT-Constrained} masks November--December accommodation counts (2-month Eurostat \texttt{tour\_occ\_*} release lag, replaced via October-released YoY scaling of prior-year counts), masks December HICP (1-month release lag, forward-filled from November), and uses October-filtered HMM origin states. $^\dagger$Unprojected baseline violation rate on all 4,712 grid pairs (raw violations before $\Pi_{\mathcal{C}}$: 1.104\% $\to$ 1.188\% for Static; 2.250\% $\to$ 2.271\% for Adaptive).
+\end{minipage}
+\end{table}
+
