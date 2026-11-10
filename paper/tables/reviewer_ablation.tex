@@ -1,6 +1,6 @@
 \begin{table}[!htbp]
 \centering
-\caption{Component ablation performance on the matched Eurostat test set, including count errors and physical consistency.}
+\caption{Single-seed component configuration ladder on the matched Eurostat test set.}
 \label{tab:reviewer_ablation}
 \footnotesize
 \setlength{\tabcolsep}{3pt}
@@ -23,6 +23,6 @@ Full RA-HE-DLinear & \shortstack{11.62\%\\{\scriptsize 161,064}} & \shortstack{1
 \end{tabular}
 \par\vspace{3pt}
 \begin{minipage}{\columnwidth}
-\scriptsize\raggedright WAPE is weighted absolute percentage error; MAE is mean absolute error. Each target cell reports WAPE (\%) on its first line and MAE on its second line. MAE is measured in accommodation arrivals for Tourist Arrivals and nights for Overnight Stays. Physical violation rate is the percentage of all 4,712 forecast pairs with $\hat{Y}^{\mathrm{nig}}<\hat{Y}^{\mathrm{arr}}$. All configurations use the same 4,522 observed scoring pairs.
+\scriptsize\raggedright WAPE is weighted absolute percentage error; MAE is mean absolute error. Each target cell reports WAPE (\%) on its first line and MAE on its second line. MAE is measured in accommodation arrivals for Tourist Arrivals and nights for Overnight Stays. Physical violation rate is the percentage of all 4,712 forecast pairs with $\hat{Y}^{\mathrm{nig}}<\hat{Y}^{\mathrm{arr}}$. All configurations use the same 4,522 observed scoring pairs and seed 42. Fusion weights are tuned separately; all TRMF-equipped rows select zero temporal weight. This ladder does not isolate individual temporal contributions to the fused forecast.
 \end{minipage}
 \end{table}

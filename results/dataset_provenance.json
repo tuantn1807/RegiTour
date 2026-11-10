@@ -1,0 +1,193 @@
+{
+  "audit_date": "2026-11-08",
+  "scope": "Panel-row counts, unique observation keys, snapshot identities and retained source-date evidence; forecast scores were not recomputed.",
+  "world_bank": {
+    "benchmark_file": "src/data/tourism_worldbank_enriched.csv",
+    "sha256": "edc5060c2f91507f74bfdd3f16f593d41fa912ad4a89bc9be180166c5cb007c7",
+    "columns": 35,
+    "observation_key": [
+      "Country Code",
+      "Year"
+    ],
+    "rows": 4683,
+    "economies": 203,
+    "reference_years": [
+      1995,
+      2020
+    ],
+    "distinct_years": 26,
+    "duplicate_keys": 0,
+    "balanced_grid_maximum": 5278,
+    "partitions": {
+      "training": {
+        "years": [
+          1995,
+          2015
+        ],
+        "rows": 3802
+      },
+      "validation": {
+        "years": [
+          2016,
+          2016
+        ],
+        "rows": 194
+      },
+      "calibration": {
+        "years": [
+          2017,
+          2017
+        ],
+        "rows": 190
+      },
+      "test": {
+        "years": [
+          2018,
+          2020
+        ],
+        "rows": 497,
+        "distinct_economies": 186,
+        "rows_by_year": {
+          "2018": 186,
+          "2019": 179,
+          "2020": 132
+        },
+        "balanced_grid_maximum_using_full_panel_economies": 609,
+        "absent_economy_years": 112
+      }
+    },
+    "forecast_file": "results/forecast_results_ra_he_dlinear_worldbank.csv",
+    "forecast_sha256": "18ba328c61262865d9f03d5b17cd700eb69ca74e195d1b687e5b3103fff4adbc",
+    "forecast_key": [
+      "geo",
+      "date"
+    ],
+    "forecast_duplicate_keys": 0,
+    "forecast_keys_equal_test_keys": true,
+    "forecast_target_pairs_equal_source_pairs": true,
+    "upstream_wdi_archive": {
+      "filename": "WDI_CSV_2026_10_01.zip",
+      "url": "https://datacatalogfiles.worldbank.org/ddh-published/0037712/DR0095335/WDI_CSV_2026_10_01.zip",
+      "sha256": "adb1776ac4ef13de68d1af56572f99fa083b7d08c5174f259a2ff46fa6c1e2b5",
+      "catalog_publication_date_recorded_in_source_summary": "2026-10-02",
+      "downloaded_on": "2026-10-06",
+      "retained_evidence": [
+        "worldbank_tourism_dataset/source_manifest.json",
+        "worldbank_tourism_dataset/dataset_summary.json"
+      ],
+      "evidence_status": "Dates transcribed from the retained source package; archive not downloaded again for this audit."
+    },
+    "upstream_eight_indicator_extraction": {
+      "file": "tourism_economics_all_observed_years.csv",
+      "rows": 14292,
+      "economies": 217,
+      "reference_years": [
+        1960,
+        2025
+      ]
+    },
+    "arrivals_model_extraction": {
+      "file": "tourist_arrivals_model_rows.csv",
+      "rows": 4683,
+      "economies": 203,
+      "keys_equal_benchmark_keys": true
+    },
+    "enriched_csv_creation_timestamp": null,
+    "historical_release_vintages_retained": false
+  },
+  "eurostat": {
+    "benchmark_file": "src/data/tourism_europe_enriched.csv",
+    "sha256": "a2f70a0c96672d50cb6c6873940d09940a13a00d7d82082ae4103ee70bfe18ea",
+    "columns": 54,
+    "observation_key": [
+      "geo",
+      "accommodation_type",
+      "date"
+    ],
+    "date_semantics": "First day of the reference month, not a release or retrieval timestamp.",
+    "rows": 30248,
+    "destinations": 38,
+    "accommodation_categories": 4,
+    "panel_series": 152,
+    "months": 199,
+    "reference_period_start": "2010-01-01",
+    "reference_period_end": "2026-07-01",
+    "latest_originally_observed_pair_period": "2026-07-01",
+    "duplicate_keys": 0,
+    "partitions": {
+      "training": {
+        "years": [
+          2010,
+          2021
+        ],
+        "grid_rows": 21888
+      },
+      "validation": {
+        "years": [
+          2022,
+          2022
+        ],
+        "grid_rows": 1824
+      },
+      "calibration": {
+        "years": [
+          2023,
+          2023
+        ],
+        "grid_rows": 1824
+      },
+      "test": {
+        "reference_periods": [
+          "2024-01",
+          "2026-07"
+        ],
+        "months": 31,
+        "grid_rows": 4712,
+        "originally_observed_nonnegative_target_pairs": 4522,
+        "excluded_from_paired_scoring": 190
+      }
+    },
+    "experiment_manifest": "results/reviewer_experiments/recent/manifest.json",
+    "sha256_matches_experiment_manifest": true,
+    "tourism_source_tables": [
+      "tour_occ_arm",
+      "tour_occ_nim",
+      "tour_occ_mnor"
+    ],
+    "benchmark_original_retrieved_at": null,
+    "benchmark_original_retrieval_status": "Not retained; historical timestamp unverified.",
+    "benchmark_upstream_last_updated": {
+      "tour_occ_arm": null,
+      "tour_occ_nim": null,
+      "tour_occ_mnor": null
+    },
+    "benchmark_upstream_last_updated_status": "Per-table response metadata were not retained for this snapshot; later live metadata cannot establish its historical source update times.",
+    "separate_august_ending_export": {
+      "file": "tourism_europe_expanded.xlsx",
+      "sha256": "6a1dcb035f0dbc708b22740353b9ddc9ae27fee4ce80d587d2f5151c84092c77",
+      "extraction_timestamp_as_recorded": "2026-11-03 00:18:05",
+      "timezone_recorded": null,
+      "reference_coverage_as_recorded": "2010-01 đến 2026-08 (200 tháng liên tục); Tổng cộng 30,400 bản ghi.",
+      "reference_periods": [
+        "2010-01",
+        "2026-08"
+      ],
+      "months": 200,
+      "grid_rows": 30400,
+      "same_as_benchmark_snapshot": false,
+      "timestamp_evidence": "Readme sheet, row headed Thời điểm trích xuất; generated by pd.Timestamp.now() in scripts/data_pipeline/build_expanded_dataset.py."
+    }
+  },
+  "official_documentation": [
+    {
+      "url": "https://ec.europa.eu/eurostat/web/user-guides/data-browser/api-data-access/api-getting-started/api",
+      "accessed_on": "2026-11-08",
+      "relevance": "JSON-stat updated metadata is a source dataset last-update timestamp."
+    },
+    {
+      "url": "https://ec.europa.eu/eurostat/en/web/tourism/information-data",
+      "accessed_on": "2026-11-08",
+      "relevance": "Tourism reference periods and general release schedule; not observation-specific release evidence."
+    }
+  ]
+}
