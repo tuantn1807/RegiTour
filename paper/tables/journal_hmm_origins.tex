@@ -1,0 +1,22 @@
+\begin{table}[!htbp]
+\centering
+\caption{Calendar evaluation periods and actual HMM conditioning states at January forecast origins.}
+\label{tab:hmm_calendar}
+\footnotesize
+\setlength{\tabcolsep}{3pt}
+\renewcommand{\arraystretch}{1.08}
+\begin{tabular}{>{\raggedright\arraybackslash}p{3.2cm}>{\centering\arraybackslash}p{2.6cm}>{\centering\arraybackslash}p{1.8cm}}
+\toprule
+\textbf{Calendar Test Period} & \textbf{\shortstack{HMM State IDs\\at January Origins}} & \textbf{\shortstack{Temporal\\Fusion\\Weight}} \\
+\midrule
+Pre-pandemic 2018--2019 & 2, 2 & 0.01 \\
+Pandemic 2020--2021 & 0, 2 & 0.00 \\
+Recovery 2022--2023 & 0, 0 & 0.51 \\
+Recent 2024--July 2026 & 1, 1, 1 & 0.00 \\
+\bottomrule
+\end{tabular}
+\par\vspace{3pt}
+\begin{minipage}{\columnwidth}
+\scriptsize\raggedright IDs are ordered by fitted training growth centroids: 1 low, 0 middle, 2 high. They are statistical states, not calendar event labels, and each fold fits its own HMM. States are listed in chronological origin order, one per January forecast block. A zero temporal weight bypasses HMM conditioning in the fused forecast. This remains a reference-period audit, not PIT validation.
+\end{minipage}
+\end{table}

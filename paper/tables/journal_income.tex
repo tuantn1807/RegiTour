@@ -1,0 +1,24 @@
+\begin{table}[!htbp]
+\centering
+\caption{Tourism forecast accuracy by fixed World Bank FY2024 income group, January 2024--July 2026.}
+\label{tab:income_groups}
+\footnotesize
+\setlength{\tabcolsep}{3pt}
+\renewcommand{\arraystretch}{1.08}
+\begin{tabular}{>{\raggedright\arraybackslash}p{2.2cm}>{\centering\arraybackslash}p{0.8cm}>{\centering\arraybackslash}p{2.3cm}>{\centering\arraybackslash}p{2.3cm}}
+\toprule
+\textbf{Income Group and Model} & \textbf{\shortstack{Pairs\\(n)}} & \textbf{\shortstack{Tourist Arrivals\\WAPE (\%) / MAE}} & \textbf{\shortstack{Overnight Stays\\WAPE (\%) / MAE}} \\
+\midrule
+High: S. naive & 921 & \shortstack{5.17\%\\{\scriptsize 162,591}} & \shortstack{4.99\%\\{\scriptsize 441,268}} \\
+High: DLinear & 921 & \shortstack{90.59\%\\{\scriptsize 2,850,690}} & \shortstack{84.30\%\\{\scriptsize 7,455,369}} \\
+High: Full & 921 & \shortstack{33.93\%\\{\scriptsize 1,067,667}} & \shortstack{39.53\%\\{\scriptsize 3,495,563}} \\
+Upper-middle: S. naive & 208 & \shortstack{12.79\%\\{\scriptsize 144,286}} & \shortstack{11.34\%\\{\scriptsize 336,364}} \\
+Upper-middle: DLinear & 208 & \shortstack{88.47\%\\{\scriptsize 998,307}} & \shortstack{82.09\%\\{\scriptsize 2,435,476}} \\
+Upper-middle: Full & 208 & \shortstack{42.18\%\\{\scriptsize 475,958}} & \shortstack{51.28\%\\{\scriptsize 1,521,352}} \\
+\bottomrule
+\end{tabular}
+\par\vspace{3pt}
+\begin{minipage}{\columnwidth}
+\scriptsize\raggedright High and Upper-middle denote high-income (31 destinations) and upper-middle-income (7) economies in FY2024. S. naive is seasonal naive; Full is RA-HE-DLinear. Each target cell gives WAPE above MAE (arrivals or nights). All models use matching observed pairs from the total accommodation category. Groups contain no low- or lower-middle-income destinations. This is descriptive stratification, not an income-effect estimate.
+\end{minipage}
+\end{table}

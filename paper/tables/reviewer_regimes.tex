@@ -7,12 +7,12 @@
 \renewcommand{\arraystretch}{1.08}
 \begin{tabular}{>{\raggedright\arraybackslash}p{1.8cm}>{\raggedright\arraybackslash}p{1.7cm}>{\centering\arraybackslash}p{2.2cm}>{\centering\arraybackslash}p{2.2cm}}
 \toprule
-\textbf{Economic Regime and Test Period} & \textbf{Benchmark Model} & \textbf{\shortstack{Tourist Arrivals\\WAPE (\%)\\MAE (arrivals)}} & \textbf{\shortstack{Overnight Stays\\WAPE (\%)\\MAE (nights)}} \\
+\textbf{Calendar Test Period} & \textbf{Benchmark Model} & \textbf{\shortstack{Tourist Arrivals\\WAPE (\%)\\MAE (arrivals)}} & \textbf{\shortstack{Overnight Stays\\WAPE (\%)\\MAE (nights)}} \\
 \midrule
-Tranquil 2018--2019 & DLinear & \shortstack{83.84\%\\{\scriptsize 1,144,873}} & \shortstack{75.39\%\\{\scriptsize 2,943,377}} \\
-Tranquil 2018--2019 & RA-HE-DLinear & \shortstack{36.30\%\\{\scriptsize 495,607}} & \shortstack{43.14\%\\{\scriptsize 1,684,318}} \\
-Disruption 2020--2021 & DLinear & \shortstack{82.06\%\\{\scriptsize 598,875}} & \shortstack{74.90\%\\{\scriptsize 1,624,736}} \\
-Disruption 2020--2021 & RA-HE-DLinear & \shortstack{80.96\%\\{\scriptsize 590,789}} & \shortstack{90.10\%\\{\scriptsize 1,954,459}} \\
+Pre-pandemic 2018--2019 & DLinear & \shortstack{83.84\%\\{\scriptsize 1,144,873}} & \shortstack{75.39\%\\{\scriptsize 2,943,377}} \\
+Pre-pandemic 2018--2019 & RA-HE-DLinear & \shortstack{36.30\%\\{\scriptsize 495,607}} & \shortstack{43.14\%\\{\scriptsize 1,684,318}} \\
+Pandemic 2020--2021 & DLinear & \shortstack{82.06\%\\{\scriptsize 598,875}} & \shortstack{74.90\%\\{\scriptsize 1,624,736}} \\
+Pandemic 2020--2021 & RA-HE-DLinear & \shortstack{80.96\%\\{\scriptsize 590,789}} & \shortstack{90.10\%\\{\scriptsize 1,954,459}} \\
 Recovery 2022--2023 & DLinear & \shortstack{75.40\%\\{\scriptsize 966,165}} & \shortstack{69.60\%\\{\scriptsize 2,554,417}} \\
 Recovery 2022--2023 & RA-HE-DLinear & \shortstack{36.35\%\\{\scriptsize 465,725}} & \shortstack{34.99\%\\{\scriptsize 1,284,410}} \\
 Recent 2024--2026 & DLinear & \shortstack{89.85\%\\{\scriptsize 1,245,658}} & \shortstack{83.67\%\\{\scriptsize 3,243,704}} \\
@@ -21,6 +21,6 @@ Recent 2024--2026 & RA-HE-DLinear & \shortstack{36.06\%\\{\scriptsize 499,980}} 
 \end{tabular}
 \par\vspace{3pt}
 \begin{minipage}{\columnwidth}
-\scriptsize\raggedright Each target cell reports weighted absolute percentage error (WAPE, \%) above mean absolute error (MAE). MAE units are arrivals and nights, respectively. The recent period ends in July 2026. Regime names denote calendar epochs. Scores use originally observed target pairs in each fold.
+\scriptsize\raggedright Each target cell reports weighted absolute percentage error (WAPE, \%) above mean absolute error (MAE). MAE units are arrivals and nights, respectively. The recent period ends in July 2026. Period names are calendar labels, not decoded HMM states. Scores use originally observed target pairs in each fold.
 \end{minipage}
 \end{table}

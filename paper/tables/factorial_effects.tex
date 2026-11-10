@@ -1,0 +1,21 @@
+\begin{table}[!htbp]
+\centering
+\caption{Average conditional effects of enabling each temporal component}
+\label{tab:factorial_effects}
+\footnotesize
+\setlength{\tabcolsep}{3pt}
+\renewcommand{\arraystretch}{1.08}
+\begin{tabular}{>{\raggedright\arraybackslash}p{1.5cm}>{\centering\arraybackslash}p{3.1cm}>{\centering\arraybackslash}p{3.1cm}}
+\toprule
+Control & \shortstack{Tourist Arrivals\\$\Delta$WAPE (pp) / $\Delta$MAE} & \shortstack{Overnight Stays\\$\Delta$WAPE (pp) / $\Delta$MAE} \\
+\midrule
+Exogenous & \shortstack{+6.99 $\pm$ 4.25\\{\scriptsize +96,920 $\pm$ 58,941}} & \shortstack{-0.46 $\pm$ 2.30\\{\scriptsize -18,026 $\pm$ 89,085}} \\
+HMM state & \shortstack{+0.35 $\pm$ 0.46\\{\scriptsize +4,907 $\pm$ 6,341}} & \shortstack{+0.07 $\pm$ 0.62\\{\scriptsize +2,620 $\pm$ 23,869}} \\
+FiLM gain & \shortstack{-11.75 $\pm$ 8.42\\{\scriptsize -162,930 $\pm$ 116,768}} & \shortstack{+0.04 $\pm$ 3.62\\{\scriptsize +1,443 $\pm$ 140,377}} \\
+\bottomrule
+\end{tabular}
+\par\vspace{3pt}
+\begin{minipage}{\columnwidth}
+\scriptsize\raggedright Each seed averages four on-minus-off contrasts, holding the other two flags fixed. Cells report $\Delta$WAPE in percentage points above $\Delta$MAE in arrivals or nights; negative values indicate lower error. Values are mean $\pm$ sample SD over the three seeds. These descriptive averages can conceal interactions; all conditional contrasts are archived. They do not estimate the component's contribution when spatial fusion selects zero temporal weight.
+\end{minipage}
+\end{table}

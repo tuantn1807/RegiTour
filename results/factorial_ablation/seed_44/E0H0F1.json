@@ -1,0 +1,65 @@
+{
+  "seed": 44,
+  "epochs": 25,
+  "batch_size": 256,
+  "learning_rate": 0.005,
+  "lookback": 24,
+  "horizon": 12,
+  "kernel_size": 13,
+  "train_years": [
+    2010,
+    2021
+  ],
+  "validation_year": 2022,
+  "calibration_year": 2023,
+  "test_reference_periods": [
+    "2024-01",
+    "2026-07"
+  ],
+  "test_grid_rows": 4712,
+  "test_observed_pairs": 4522,
+  "data_sha256": "a2f70a0c96672d50cb6c6873940d09940a13a00d7d82082ae4103ee70bfe18ea",
+  "source_hashes": {
+    "scripts/factorial_ablation.py": "6eaa8daee895309e9ded4a50b3134032fd92ed8b82ff59fc11cdbddff78d2158",
+    "scripts/reviewer_experiments.py": "ad5ddd2f951abac3dc5d28454786b770064d410e94fe77ee8ab8e1675b84a43f",
+    "src/models/ra_exo_dlinear.py": "a73d083e1dd6c876fe70d35a565606076369a9e17f404ad0a1500c915fd85041",
+    "src/data/dataset_loader.py": "d19833a66337898467a72fde5c294e86493e0943e34ca84cc3d7d08b425267ad"
+  },
+  "torch_version": "2.15.0+cpu",
+  "temporal_weight": 1.0,
+  "spatial_fusion": false,
+  "coupled_penalty": false,
+  "physical_projection": false,
+  "additive_state_head_enabled_in_all_factorial_cells": true,
+  "selection": "Fixed settings inherited from the reference run; no new validation/test selection.",
+  "availability": "Retrospective reference-period inputs, not PIT.",
+  "hmm_origin_states": {
+    "2023-12-31 23:59:59": 0,
+    "2024-12-31 23:59:59": 0,
+    "2025-12-31 23:59:59": 0
+  },
+  "hmm_training_state_counts": {
+    "0": 121,
+    "1": 14,
+    "2": 9
+  },
+  "configuration": "E0H0F1",
+  "E": 0,
+  "H": 0,
+  "F": 1,
+  "additive_state_head": true,
+  "allocated_network_parameters": 4752,
+  "runtime_seconds": 25.02496049995534,
+  "test_metrics": {
+    "arrivals_total": {
+      "n": 4522,
+      "mae": 996090.5493284623,
+      "wape": 71.84570171781273
+    },
+    "nights_total": {
+      "n": 4522,
+      "mae": 2865780.925930963,
+      "wape": 73.92128792094087
+    }
+  }
+}

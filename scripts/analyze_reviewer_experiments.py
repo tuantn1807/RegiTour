@@ -155,15 +155,17 @@ def main():
         "Per-fit diagnostics are retained so the contribution of fallback forecasts can be examined.\n", encoding="utf-8")
     ablations = ["dlinear", "exo", "hmm", "film_static", "hmm_film", "hmm_film_trmf",
                  "exo_hmm_film", "full_no_consistency", "full_raw", "full"]
-    table(TABLES / "reviewer_ablation.tex", "Component ablation performance on the matched Eurostat test set, including count errors and physical consistency.",
+    table(TABLES / "reviewer_ablation.tex", "Single-seed component configuration ladder on the matched Eurostat test set.",
           "tab:reviewer_ablation", ["Ablation Configuration", ARRIVALS_ERROR_HEADER, NIGHTS_ERROR_HEADER, PHYSICAL_HEADER],
           [[MODEL_NAMES[n], error_cell(by_model.loc[n], TARGETS[0]), error_cell(by_model.loc[n], TARGETS[1]),
             f"{by_model.loc[n, 'physical_violation_pct']:.3f}"] for n in ablations],
           r">{\raggedright\arraybackslash}p{2.2cm}>{\centering\arraybackslash}p{2.1cm}>{\centering\arraybackslash}p{2.1cm}>{\centering\arraybackslash}p{1.4cm}",
-          notes=COUNT_ERROR_NOTE + " All configurations use the same 4,522 observed scoring pairs.")
+          notes=COUNT_ERROR_NOTE + " All configurations use the same 4,522 observed scoring pairs and seed 42. "
+          "Fusion weights are tuned separately; all TRMF-equipped rows select zero temporal weight. "
+          "This ladder does not isolate individual temporal contributions to the fused forecast.")
 
     stress_rows, dynamics, fold_frames = [], [], {}
-    phase_labels = {"tranquil": "Tranquil 2018--2019", "shock": "Disruption 2020--2021",
+    phase_labels = {"tranquil": "Pre-pandemic 2018--2019", "shock": "Pandemic 2020--2021",
                     "recovery": "Recovery 2022--2023", "recent": "Recent 2024--2026"}
     for fold in ["tranquil", "shock", "recovery", "recent"]:
         fold_frames[fold] = {model: read_model(fold, model) for model in ["dlinear", "full"]}
@@ -184,13 +186,13 @@ def main():
     save_csv(stress, RESULTS / "regime_metrics.csv")
     save_csv(pd.DataFrame(dynamics), RESULTS / "demand_dynamics.csv")
     table(TABLES / "reviewer_regimes.tex", "Forecast accuracy across chronological tourism stress-test periods. Each test period follows its own training, validation, and calibration partitions.",
-          "tab:reviewer_regimes", ["Economic Regime and Test Period", "Benchmark Model", ARRIVALS_ERROR_HEADER, NIGHTS_ERROR_HEADER],
+          "tab:reviewer_regimes", ["Calendar Test Period", "Benchmark Model", ARRIVALS_ERROR_HEADER, NIGHTS_ERROR_HEADER],
           [[phase_labels[r.phase], "DLinear" if r.model == "dlinear" else "RA-HE-DLinear",
             error_cell(r, TARGETS[0]), error_cell(r, TARGETS[1])] for _, r in stress.iterrows()],
           r">{\raggedright\arraybackslash}p{1.8cm}>{\raggedright\arraybackslash}p{1.7cm}>{\centering\arraybackslash}p{2.2cm}>{\centering\arraybackslash}p{2.2cm}",
-          notes=r"Each target cell reports weighted absolute percentage error (WAPE, \%) above mean absolute error (MAE). MAE units are arrivals and nights, respectively. The recent period ends in July 2026. Regime names denote calendar epochs. Scores use originally observed target pairs in each fold.")
+          notes=r"Each target cell reports weighted absolute percentage error (WAPE, \%) above mean absolute error (MAE). MAE units are arrivals and nights, respectively. The recent period ends in July 2026. Period names are calendar labels, not decoded HMM states. Scores use originally observed target pairs in each fold.")
     table(TABLES / "reviewer_dynamics.tex", "Monthly tourism-demand volatility and co-movement of tourist arrivals and overnight stays, averaged across destinations.",
-          "tab:reviewer_dynamics", ["Economic Regime and Period", r"\shortstack{Tourist Arrivals\\Log-growth SD\\(unitless)}",
+          "tab:reviewer_dynamics", ["Calendar Period", r"\shortstack{Tourist Arrivals\\Log-growth SD\\(unitless)}",
                                     r"\shortstack{Overnight Stays\\Log-growth SD\\(unitless)}", r"\shortstack{Growth\\Correlation\\(Pearson $r$)}"],
           [[phase_labels[r["phase"]], f"{r['arrivals_log_growth_sd']:.3f}",
             f"{r['nights_log_growth_sd']:.3f}", f"{r['growth_correlation']:.3f}"] for r in dynamics],
