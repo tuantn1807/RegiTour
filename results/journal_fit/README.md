@@ -32,16 +32,11 @@ windows. No equality between a calendar phase and an inferred state is assumed.
 LOS is the monthly ratio of matching nights to accommodation arrivals. It does
 not measure individual trip duration. `los_samples.csv` distinguishes the
 common defined-denominator comparison from each model's complete valid sample.
-The recent common comparison uses 347 of 1,129 eligible pairs because DLinear
-predicts zero arrivals in 782 rows. Zero denominators are counted as undefined,
-not repaired with an arbitrary epsilon. The full model defines LOS in all
-1,129 rows. `los_stability_metrics.csv` uses training-defined LOS-variation
-terciles. The leave-one-out analysis retains every country in the primary
-reported result and supplies sensitivity diagnostics only.
-Seasonal naive is also evaluated on all 1,129 recent aggregate pairs, without
-undefined denominators, and retained as a separate LOS baseline in the sample
-diagnostics. Its all-sample LOS MAE/RMSE is 0.095/0.245 nights per arrival,
-compared with 0.532/0.915 for the full model.
+Zero predicted arrivals give an undefined ratio. The paired comparison uses
+the intersection of defined denominators, and the complete-sample results
+report coverage for each model. Seasonal naive is also evaluated on the
+complete recent aggregate sample. The CSVs record country results and the
+leave-one-destination-out sensitivity checks.
 
 All forecasts remain retrospective reference-period experiments. These
 diagnostics do not resolve the missing Original Availability versus PIT test.

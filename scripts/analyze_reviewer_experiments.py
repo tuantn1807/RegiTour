@@ -14,12 +14,13 @@ import matplotlib.dates as mdates
 import numpy as np
 import pandas as pd
 
-from scripts.reviewer_experiments import metric, save_csv, save_json, TARGETS
+from scripts.reviewer_experiments import KEYS, TARGETS, metric, save_csv, save_json
 
 
 RESULTS = ROOT / "results/reviewer_experiments"
 TABLES = ROOT / "paper/tables"
 FIGURES = ROOT / "paper/figures"
+DATA = ROOT / "src/data/tourism_europe_enriched.csv"
 PREDICTIONS = ["pred_arrivals", "pred_nights"]
 ARRIVALS_ERROR_HEADER = r"\shortstack{Tourist Arrivals\\WAPE (\%)\\MAE (arrivals)}"
 NIGHTS_ERROR_HEADER = r"\shortstack{Overnight Stays\\WAPE (\%)\\MAE (nights)}"
@@ -64,20 +65,32 @@ def table(path, caption, label, headers, rows, columns, notes=None, wide=False):
     path.write_text("\n".join(lines) + "\n", encoding="utf-8")
 
 
-BACKUP_SUMMARY_PATH = ROOT / "results" / "reviewer_experiments_backup" / "summary.json"
-BACKUP_SUMMARY = json.loads(BACKUP_SUMMARY_PATH.read_text(encoding="utf-8")) if BACKUP_SUMMARY_PATH.exists() else {}
-
-
-def read_model(fold, model):
-    p = RESULTS / fold / f"{model}.csv"
-    if not p.exists():
-        return None
-    frame = pd.read_csv(p, parse_dates=["date", "origin"])
-    if frame.duplicated(["geo", "accommodation_type", "date"]).any():
+def read_model(fold: str, model: str) -> pd.DataFrame:
+    """Load keyed forecasts and verify their metrics against the run record."""
+    run_dir = RESULTS / fold
+    frame = pd.read_csv(run_dir / f"{model}.csv", parse_dates=["date", "origin"])
+    if frame.duplicated(KEYS).any():
         raise ValueError(f"Duplicate evaluation keys: {fold}/{model}")
     if not np.isfinite(frame[PREDICTIONS]).all().all():
         raise ValueError(f"Nonfinite evaluation predictions: {fold}/{model}")
+    record = json.loads((run_dir / f"{model}.json").read_text(encoding="utf-8"))
+    for target, pred in zip(TARGETS, PREDICTIONS):
+        valid = frame.observed_pair
+        actual = metric(frame.loc[valid, f"observed_{target}"], frame.loc[valid, pred])
+        expected = record["test_metrics"][target]
+        if actual["n"] != expected["n"] or not all(
+            np.isclose(actual[key], expected[key]) for key in ("wape", "mae")
+        ):
+            raise ValueError(f"Forecast CSV and JSON disagree: {fold}/{model}/{target}")
     return frame
+
+
+def check_alignment(frames: dict[str, pd.DataFrame]) -> None:
+    """Require matched forecast origins, evaluation keys, outcomes, and masks."""
+    fields = KEYS + ["origin", "horizon", "observed_pair"] + [f"observed_{target}" for target in TARGETS]
+    reference = next(iter(frames.values()))[fields]
+    for frame in frames.values():
+        pd.testing.assert_frame_equal(reference, frame[fields])
 
 
 def scores(frame):
@@ -129,26 +142,19 @@ def ratio_errors(frame):
             "predicted_los_mean": float(predicted.mean()) if len(errors) else None}
 
 
-def main():
-    TABLES.mkdir(exist_ok=True)
-    raw = pd.read_csv(ROOT / "data/processed/tourism_europe_enriched.csv", parse_dates=["date"])
+def main() -> None:
+    """Rebuild manuscript tables and figures from a complete benchmark run."""
+    TABLES.mkdir(parents=True, exist_ok=True)
+    FIGURES.mkdir(parents=True, exist_ok=True)
+    raw = pd.read_csv(DATA, parse_dates=["date"])
     labels = country_labels(raw)
     save_csv(labels.reset_index(names="geo"), RESULTS / "country_groups.csv")
     models = ["snaive", "ets", "sarima", "sarimax", "lightgbm", *[
         "dlinear", "exo", "hmm", "film_static", "hmm_film", "hmm_film_trmf",
         "exo_hmm_film", "full_no_consistency", "full_core", "full_raw", "full"]]
     frames = {name: read_model("recent", name) for name in models}
-    reference_keys = frames["full"][["geo", "accommodation_type", "date"]]
-    for name, frame in frames.items():
-        if frame is not None and not reference_keys.equals(frame[["geo", "accommodation_type", "date"]]):
-            raise ValueError(f"Evaluation keys differ for {name}")
-    benchmark_rows = []
-    for name in models:
-        frame = frames[name]
-        if frame is not None:
-            benchmark_rows.append({"model": name, **scores(frame)})
-        elif name in BACKUP_SUMMARY.get("recent", {}):
-            benchmark_rows.append({"model": name, **BACKUP_SUMMARY["recent"][name]})
+    check_alignment(frames)
+    benchmark_rows = [{"model": model, **scores(frame)} for model, frame in frames.items()]
     benchmark = pd.DataFrame(benchmark_rows)
     save_csv(benchmark, RESULTS / "benchmark.csv")
     by_model = benchmark.set_index("model")
@@ -175,42 +181,29 @@ def main():
             f"{by_model.loc[n, 'physical_violation_pct']:.3f}"] for n in ablations],
           r">{\raggedright\arraybackslash}p{2.2cm}>{\centering\arraybackslash}p{2.1cm}>{\centering\arraybackslash}p{2.1cm}>{\centering\arraybackslash}p{1.4cm}",
           notes=COUNT_ERROR_NOTE + " All configurations use the same 4,522 observed scoring pairs and seed 42. "
-          "Fusion weights are tuned separately; all TRMF-equipped rows select zero temporal weight. "
-          "This ladder does not isolate individual temporal contributions to the fused forecast.")
+          "TRMF-equipped configurations tune separate sigmoid weights on validation. "
+          "The factorial comparison uses a shared gate to isolate the temporal switches.")
 
     stress_rows, dynamics, fold_frames = [], [], {}
     phase_labels = {"tranquil": "Pre-pandemic 2018--2019", "shock": "Pandemic 2020--2021",
                     "recovery": "Recovery 2022--2023", "recent": "Recent 2024--2026"}
-    for fold in ["tranquil", "shock", "recovery", "recent"]:
-        if fold == "recent":
-            fold_frames[fold] = {model: frames[model] for model in ["dlinear", "full"]}
-            for model, frame in fold_frames[fold].items():
-                stress_rows.append({"phase": fold, "model": model, **scores(frame)})
-            frame = fold_frames[fold]["full"]
-            country_total = frame.loc[frame.accommodation_type.eq("total")].copy()
-            country_total.loc[~country_total.observed_pair, [f"observed_{c}" for c in TARGETS]] = np.nan
-            growth = []
-            for geo, country in country_total.groupby("geo"):
-                country = country.sort_values("date")
-                delta = np.log1p(country[[f"observed_{c}" for c in TARGETS]]).diff().dropna()
-                growth.append([delta.iloc[:, 0].std(), delta.iloc[:, 1].std(), delta.iloc[:, 0].corr(delta.iloc[:, 1])])
-            values = np.nanmean(growth, axis=0)
-            dynamics.append({"phase": fold, "arrivals_log_growth_sd": values[0],
-                             "nights_log_growth_sd": values[1], "growth_correlation": values[2]})
-        else:
-            established_scores = {
-                ("tranquil", "dlinear"): {"arrivals_total_wape": 83.84, "arrivals_total_mae": 1144873, "nights_total_wape": 75.39, "nights_total_mae": 2943377},
-                ("tranquil", "full"): {"arrivals_total_wape": 36.30, "arrivals_total_mae": 495607, "nights_total_wape": 43.14, "nights_total_mae": 1684318},
-                ("shock", "dlinear"): {"arrivals_total_wape": 82.06, "arrivals_total_mae": 598875, "nights_total_wape": 74.90, "nights_total_mae": 1624736},
-                ("shock", "full"): {"arrivals_total_wape": 80.96, "arrivals_total_mae": 590789, "nights_total_wape": 90.10, "nights_total_mae": 1954459},
-                ("recovery", "dlinear"): {"arrivals_total_wape": 75.40, "arrivals_total_mae": 966165, "nights_total_wape": 69.60, "nights_total_mae": 2554417},
-                ("recovery", "full"): {"arrivals_total_wape": 36.35, "arrivals_total_mae": 465725, "nights_total_wape": 34.99, "nights_total_mae": 1284410},
-            }
-            for model in ["dlinear", "full"]:
-                stress_rows.append({"phase": fold, "model": model, **established_scores.get((fold, model), {})})
-            hist_dyn = [d for d in BACKUP_SUMMARY.get("dynamics", []) if d.get("phase") == fold]
-            if hist_dyn:
-                dynamics.append(hist_dyn[0])
+    for fold in phase_labels:
+        pair = {model: frames[model] if fold == "recent" else read_model(fold, model)
+                for model in ("dlinear", "full")}
+        check_alignment(pair)
+        fold_frames[fold] = pair
+        for model, frame in pair.items():
+            stress_rows.append({"phase": fold, "model": model, **scores(frame)})
+        country_total = pair["full"].loc[pair["full"].accommodation_type.eq("total")].copy()
+        target_cols = [f"observed_{target}" for target in TARGETS]
+        country_total.loc[~country_total.observed_pair, target_cols] = np.nan
+        growth = []
+        for _, country in country_total.groupby("geo"):
+            delta = np.log1p(country.sort_values("date")[target_cols]).diff().dropna()
+            growth.append([delta.iloc[:, 0].std(), delta.iloc[:, 1].std(), delta.iloc[:, 0].corr(delta.iloc[:, 1])])
+        values = np.nanmean(growth, axis=0)
+        dynamics.append({"phase": fold, "arrivals_log_growth_sd": values[0],
+                         "nights_log_growth_sd": values[1], "growth_correlation": values[2]})
     stress = pd.DataFrame(stress_rows)
     save_csv(stress, RESULTS / "regime_metrics.csv")
     save_csv(pd.DataFrame(dynamics), RESULTS / "demand_dynamics.csv")
@@ -237,8 +230,6 @@ def main():
                     subset = frame.loc[frame.accommodation_type.eq("total") & frame.date.dt.year.eq(year)
                                        & frame.date.dt.month.isin(months)]
                     transitions.append({"fold": fold, "year": year, "model": model, **scores(subset)})
-    if not transitions and "transitions" in BACKUP_SUMMARY:
-        transitions = BACKUP_SUMMARY["transitions"]
     save_csv(pd.DataFrame(transitions), RESULTS / "transition_metrics.csv")
 
     group_metrics = []
@@ -311,7 +302,7 @@ def main():
     save_csv(pd.DataFrame(los_rows), RESULTS / "los_metrics.csv")
     save_csv(pd.DataFrame(paired_los), RESULTS / "los_paired_metrics.csv")
     save_csv(pd.DataFrame(country_los), RESULTS / "country_los.csv")
-    table(TABLES / "reviewer_los.tex", "Accuracy of the directly predicted length-of-stay ratio on common defined denominators.",
+    table(TABLES / "reviewer_los.tex", "Accuracy of length-of-stay ratios derived from forecasts on common defined denominators.",
           "tab:reviewer_los", ["Evaluation Period and Model", r"\shortstack{LOS\\MAE\\(nights per\\arrival)}",
                                r"\shortstack{LOS\\RMSE\\(nights per\\arrival)}", r"\shortstack{Paired\\Sample\\Size\\(n)}",
                                r"\shortstack{Undefined\\LOS\\Predictions\\(n)}"],
@@ -331,6 +322,8 @@ def main():
           notes=COUNT_ERROR_NOTE + r" Before denotes the raw fused forecast. After denotes application of $\Pi_{\mathcal{C}}$ to the same forecast pairs.")
 
     intervals = pd.read_csv(RESULTS / "recent/intervals.csv", parse_dates=["date", "origin"])
+    check_alignment({"full": frames["full"], "intervals": intervals})
+    pd.testing.assert_frame_equal(frames["full"][PREDICTIONS], intervals[PREDICTIONS])
     coverage = []
     for target, suffix in zip(TARGETS, ["arrivals", "nights"]):
         valid = intervals.observed_pair

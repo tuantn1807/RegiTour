@@ -58,6 +58,7 @@
     },
     "forecast_file": "results/forecast_results_ra_he_dlinear_worldbank.csv",
     "forecast_sha256": "18ba328c61262865d9f03d5b17cd700eb69ca74e195d1b687e5b3103fff4adbc",
+    "forecast_sha256_status": "Hash of the file audited on 2026-11-08. The same path contained a different file at the workspace recheck.",
     "forecast_key": [
       "geo",
       "date"
@@ -65,6 +66,15 @@
     "forecast_duplicate_keys": 0,
     "forecast_keys_equal_test_keys": true,
     "forecast_target_pairs_equal_source_pairs": true,
+    "workspace_forecast_recheck": {
+      "audit_date": "2026-11-10",
+      "sha256": "b4f2121f3d0d7a3bf47abb851e9763a367101967ce5583f29793f4fd958cc7c7",
+      "rows": 497,
+      "duplicate_keys": 0,
+      "keys_equal_test_keys": true,
+      "target_pairs_equal_source_pairs": true,
+      "scope": "Checked coverage and target agreement. The recheck does not validate the previously reported scores."
+    },
     "upstream_wdi_archive": {
       "filename": "WDI_CSV_2026_10_01.zip",
       "url": "https://datacatalogfiles.worldbank.org/ddh-published/0037712/DR0095335/WDI_CSV_2026_10_01.zip",
@@ -91,6 +101,11 @@
       "rows": 4683,
       "economies": 203,
       "keys_equal_benchmark_keys": true
+    },
+    "target_provenance": {
+      "arrivals": "Observed World Development Indicators tourist arrivals (ST.INT.ARVL).",
+      "overnight_stays": "Eligible OECD accommodation nights where available. Other values are estimated from arrivals and regional LOS assumptions adjusted for income group. The enrichment enforces a minimum LOS of one night.",
+      "enrichment_script": "scripts/data_pipeline/enrich_worldbank_dataset.py"
     },
     "enriched_csv_creation_timestamp": null,
     "historical_release_vintages_retained": false

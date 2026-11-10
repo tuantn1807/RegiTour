@@ -1,7 +1,7 @@
 {
-  "analysis_date": "2026-11-08",
+  "analysis_date": "2026-11-10",
   "data_sha256": "a2f70a0c96672d50cb6c6873940d09940a13a00d7d82082ae4103ee70bfe18ea",
-  "analysis_code_sha256": "eebce197cb1024dffdc3b7e8345731ebe521a3065ff036e9fcff1618d52e034b",
+  "analysis_code_sha256": "aab204be1788561c4a4f62a0c0ff371dd24e58aaf0ea97f2bbf88be93378ddd7",
   "income_classification": {
     "fiscal_year": 2024,
     "effective_from": "2023-07-01",
@@ -16,22 +16,22 @@
     }
   },
   "recent_aggregate_observed_pairs": 1129,
-  "recent_max_los_projection_change": 8.836088571939626e-07,
+  "recent_max_los_projection_change": 5.203181849822158e-07,
   "recent_pooled_count_bias_pct": {
-    "arrivals_total": -27.778057939300023,
-    "nights_total": -25.4892897222314
+    "arrivals_total": -10.94445211444751,
+    "nights_total": -12.921666982275692
   },
   "forecast_input_hashes": {
-    "tranquil/dlinear.csv": "3ba23a842fc360670c2cfe9ce15cf76aff9e21a1fa586b5364aa5a52de5e8bdd",
-    "tranquil/full.csv": "d6c8850f2a5c250dc88cd6d9d2f40180a9c6af772c7f72605379f9c43629739c",
-    "shock/dlinear.csv": "387c13422cf74afeb02c974bf96dd02da1ec82716a350c0bf4b9469ee9470c7a",
-    "shock/full.csv": "c4f8a5e653ab2fdb8bf68e0873f38bf017cac6e9bc907d8220e95c097facbca5",
-    "recovery/dlinear.csv": "fe1fd4d6b8b0a9237633e6453cd370d547d5925758a6518b4e46826757673b5a",
-    "recovery/full.csv": "01ef0ab2129789675a8aa08326015723416abc365284679629df36b1b48e46c5",
-    "recent/dlinear.csv": "3b5c926d4b5a9d745d83dc9fb034ad587774f22f992224717622a8864f746714",
-    "recent/full.csv": "a5282f9fa48088e2d69fb80865118bd3ea6d06a77198994d0e08f359cd9ddbb1",
+    "tranquil/dlinear.csv": "bd4a8974e92968912af65cb6857c1359e70e743c9ee85792dec7abf5f42a0b32",
+    "tranquil/full.csv": "f95d5a83f03880757b878bfd5b0a8b5bcd526155095769638b0840949dd3985f",
+    "shock/dlinear.csv": "677cc5fd2a8e20c7e41e5f8db32cf234b52f46f241a7a652592e9ba47c5a2fed",
+    "shock/full.csv": "e39c1cde0e2a9d329ae367c46a85c7c91fee86cfe2490ed69eef13fb3e627bc7",
+    "recovery/dlinear.csv": "0166ab497e6becc9c7401e8cbb3d63107381de2abd1fdaa4df3ee91fd6dbf88e",
+    "recovery/full.csv": "7ced75b493ff0ecf78976b56185d588cfc300a7b9f22143881f66ecac23c8830",
+    "recent/dlinear.csv": "d4289a0b443a3873c2765cafea13523809bedc5d03a266efacc3ded3b7ed56b2",
+    "recent/full.csv": "a5b5520a7ab8534764329bafaf8e4f936c212c4642e60d4809e9862d7ce10b1a",
     "recent/snaive.csv": "4676dcf657b3c1a4e42fdea0ff1ec8857be1677e881f22e0e2a5770b3dd54afe",
-    "recent/full_raw.csv": "d4061e4521123f21c1100071031e4f052483f46a6b2140703771e9bed3ed549c"
+    "recent/full_raw.csv": "308ab56b00d2b7dcad307f08abc7fbf0b303db8a49e74debdfc3c045e0b61194"
   },
   "los_stability_groups_sha256": "d51ce4b040c18fa2a0eb394d1ce241868a3e134a70ae8de21e626ca506d61867"
 }

@@ -387,9 +387,9 @@ class RAExoDLinearForecaster:
         self,
         lookback_len: int = 24,
         forecast_horizon: int = 12,
-        epochs: int = 25,
+        epochs: int = 5,
         batch_size: int = 256,
-        learning_rate: float = 0.005,
+        learning_rate: float = 0.0001,
         kernel_size: int = 13,
         random_state: int = 42,
         history_len: Optional[int] = None,
@@ -398,6 +398,7 @@ class RAExoDLinearForecaster:
         past_exo_cols: Optional[List[str]] = None,
         lambda_cons: float = 0.2,
         short_history_policy: str = "edge",
+        freeze_backbone: bool = True,
         **kwargs,
     ):
         if history_len is not None:
@@ -423,6 +424,7 @@ class RAExoDLinearForecaster:
         if short_history_policy not in {"edge", "error"}:
             raise ValueError("short_history_policy must be 'edge' or 'error'.")
         self.short_history_policy = short_history_policy
+        self.freeze_backbone = bool(freeze_backbone)
         self.last_prediction_diagnostics = pd.DataFrame()
 
         self.net: Optional[RAExoDLinearNet] = None
@@ -633,11 +635,30 @@ class RAExoDLinearForecaster:
             use_regime_bias=self.use_regime_bias,
         ).to(self.device)
 
-        optimizer = torch.optim.AdamW(
-            self.net.parameters(), lr=self.learning_rate, weight_decay=1e-4
-        )
+        backbone_params = list(self.net.linear_trend.parameters()) + list(self.net.linear_seas.parameters())
+        modulation_params = [
+            p for p in self.net.parameters()
+            if not any(p is bp for bp in backbone_params)
+        ]
+
+        if self.freeze_backbone:
+            for p in backbone_params:
+                p.requires_grad = False
+            optimizer = torch.optim.AdamW(
+                modulation_params, lr=self.learning_rate, weight_decay=1e-4
+            )
+        else:
+            optimizer = torch.optim.AdamW([
+                {"params": backbone_params, "lr": self.learning_rate * 0.01},
+                {"params": modulation_params, "lr": self.learning_rate},
+            ], weight_decay=1e-4)
+
         criterion = CoupledConsistencyLinearLoss(lambda_cons=self.lambda_cons)
         self.net.train()
+
+        trainable_params = [p for p in self.net.parameters() if p.requires_grad]
+        if not trainable_params:
+            return self
 
         for _ in range(self.epochs):
             for batch in loader:
@@ -653,7 +674,11 @@ class RAExoDLinearForecaster:
                 loss = criterion(
                     pred_a, b_target_a, pred_n, b_target_n, b_base_a, b_base_n
                 )
+                if not loss.requires_grad:
+                    break
                 loss.backward()
+                if trainable_params:
+                    torch.nn.utils.clip_grad_norm_(trainable_params, max_norm=1.0)
                 optimizer.step()
 
         return self

@@ -9,14 +9,14 @@
 \toprule
 \textbf{Calendar Test Period} & \textbf{\shortstack{HMM State IDs\\at January Origins}} & \textbf{\shortstack{Temporal\\Fusion\\Weight}} \\
 \midrule
-Pre-pandemic 2018--2019 & 2, 2 & 0.01 \\
-Pandemic 2020--2021 & 0, 2 & 0.00 \\
-Recovery 2022--2023 & 0, 0 & 0.51 \\
-Recent 2024--July 2026 & 1, 1, 1 & 0.00 \\
+Pre-pandemic 2018--2019 & 2, 2 & 0.73 \\
+Pandemic 2020--2021 & 0, 2 & 0.74 \\
+Recovery 2022--2023 & 0, 0 & 0.42 \\
+Recent 2024--July 2026 & 1, 1, 1 & 0.83 \\
 \bottomrule
 \end{tabular}
 \par\vspace{3pt}
 \begin{minipage}{\columnwidth}
-\scriptsize\raggedright IDs are ordered by fitted training growth centroids: 1 low, 0 middle, 2 high. They are statistical states, not calendar event labels, and each fold fits its own HMM. States are listed in chronological origin order, one per January forecast block. A zero temporal weight bypasses HMM conditioning in the fused forecast. This remains a reference-period audit, not PIT validation.
+\scriptsize\raggedright IDs are ordered by fitted training growth centroids: 1 low, 0 middle, 2 high. They are statistical states, not calendar event labels, and each fold fits its own HMM. States are listed in chronological origin order, one per January forecast block. The weight measures the share of the HMM-conditioned temporal branch in the blend. This is a retrospective reference-period audit.
 \end{minipage}
 \end{table}

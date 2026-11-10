@@ -70,11 +70,11 @@
       "rows": 4712,
       "observed_pairs": 4522,
       "arrivals_total_n": 4522,
-      "arrivals_total_mae": 127051.48088940035,
-      "arrivals_total_wape": 9.163928726098412,
+      "arrivals_total_mae": 127051.4738342777,
+      "arrivals_total_wape": 9.163928217228772,
       "nights_total_n": 4522,
-      "nights_total_mae": 374957.69839605235,
-      "nights_total_wape": 9.671833506360496,
+      "nights_total_mae": 374957.6915848063,
+      "nights_total_wape": 9.671833330668044,
       "physical_violation_pct": 2.2495755517826828
     },
     "hmm": {
@@ -114,66 +114,66 @@
       "rows": 4712,
       "observed_pairs": 4522,
       "arrivals_total_n": 4522,
-      "arrivals_total_mae": 205419.84311626994,
-      "arrivals_total_wape": 14.816456983154017,
+      "arrivals_total_mae": 205419.84087799746,
+      "arrivals_total_wape": 14.816456821712613,
       "nights_total_n": 4522,
-      "nights_total_mae": 645927.936918774,
-      "nights_total_wape": 16.66136604131417,
+      "nights_total_mae": 645927.9305722424,
+      "nights_total_wape": 16.661365877608777,
       "physical_violation_pct": 0.0636672325976231
     },
     "exo_hmm_film": {
       "rows": 4712,
       "observed_pairs": 4522,
       "arrivals_total_n": 4522,
-      "arrivals_total_mae": 130571.39404819132,
-      "arrivals_total_wape": 9.417811900725045,
+      "arrivals_total_mae": 130571.42893100418,
+      "arrivals_total_wape": 9.417814416741457,
       "nights_total_n": 4522,
-      "nights_total_mae": 439517.61796269583,
-      "nights_total_wape": 11.337122139994733,
+      "nights_total_mae": 439517.61420089344,
+      "nights_total_wape": 11.33712204296105,
       "physical_violation_pct": 3.777589134125637
     },
     "full_no_consistency": {
       "rows": 4712,
       "observed_pairs": 4522,
       "arrivals_total_n": 4522,
-      "arrivals_total_mae": 160472.50761327692,
-      "arrivals_total_wape": 11.574509891360423,
+      "arrivals_total_mae": 160472.53479885613,
+      "arrivals_total_wape": 11.574511852193218,
       "nights_total_n": 4522,
-      "nights_total_mae": 525245.9815668418,
-      "nights_total_wape": 13.548439478187476,
+      "nights_total_mae": 525245.9132510058,
+      "nights_total_wape": 13.548437716016982,
       "physical_violation_pct": 1.1035653650254669
     },
     "full_core": {
       "rows": 4712,
       "observed_pairs": 4522,
       "arrivals_total_n": 4522,
-      "arrivals_total_mae": 130763.89352502387,
-      "arrivals_total_wape": 9.43169644164622,
+      "arrivals_total_mae": 130763.8961020078,
+      "arrivals_total_wape": 9.431696627518097,
       "nights_total_n": 4522,
-      "nights_total_mae": 439153.95280232787,
-      "nights_total_wape": 11.327741591473693,
+      "nights_total_mae": 439153.9578820518,
+      "nights_total_wape": 11.327741722502456,
       "physical_violation_pct": 3.756366723259762
     },
     "full_raw": {
       "rows": 4712,
       "observed_pairs": 4522,
       "arrivals_total_n": 4522,
-      "arrivals_total_mae": 161063.75436329763,
-      "arrivals_total_wape": 11.617155148533332,
+      "arrivals_total_mae": 161063.757048344,
+      "arrivals_total_wape": 11.617155342199501,
       "nights_total_n": 4522,
-      "nights_total_mae": 525736.7932335407,
-      "nights_total_wape": 13.561099702910415,
+      "nights_total_mae": 525736.7967621802,
+      "nights_total_wape": 13.561099793929785,
       "physical_violation_pct": 1.1035653650254669
     },
     "full": {
       "rows": 4712,
       "observed_pairs": 4522,
       "arrivals_total_n": 4522,
-      "arrivals_total_mae": 161063.75391036202,
-      "arrivals_total_wape": 11.617155115864135,
+      "arrivals_total_mae": 161063.75701037236,
+      "arrivals_total_wape": 11.617155339460693,
       "nights_total_n": 4522,
-      "nights_total_mae": 525862.6437609688,
-      "nights_total_wape": 13.564345950028901,
+      "nights_total_mae": 525862.6480775035,
+      "nights_total_wape": 13.564346061371609,
       "physical_violation_pct": 0.0
     }
   },
@@ -183,30 +183,30 @@
       "country": "Cyprus",
       "recovery_ratio": 0.9761267115948263,
       "dlinear_arrivals_wape": 17.048942797191188,
-      "full_arrivals_wape": 18.574501008988793,
+      "full_arrivals_wape": 18.57450121549489,
       "dlinear_nights_wape": 20.010837675113276,
-      "full_nights_wape": 20.25907435207882,
-      "full_los_mae": 0.29482214977492177
+      "full_nights_wape": 20.259074483717164,
+      "full_los_mae": 0.2948221542836634
     },
     {
       "geo": "SE",
       "country": "Sweden",
       "recovery_ratio": 1.027089851174859,
       "dlinear_arrivals_wape": 7.999617418584435,
-      "full_arrivals_wape": 10.472529285010904,
+      "full_arrivals_wape": 10.472528615401355,
       "dlinear_nights_wape": 8.190964163958553,
-      "full_nights_wape": 11.307762114474599,
-      "full_los_mae": 0.042695652875950396
+      "full_nights_wape": 11.307762406566347,
+      "full_los_mae": 0.0426956660600795
     },
     {
       "geo": "DK",
       "country": "Denmark",
       "recovery_ratio": 1.1434387650182334,
       "dlinear_arrivals_wape": 9.383199414209685,
-      "full_arrivals_wape": 12.33927620788018,
+      "full_arrivals_wape": 12.33927562483849,
       "dlinear_nights_wape": 11.249134810747394,
-      "full_nights_wape": 14.45930176123027,
-      "full_los_mae": 0.15754925094562747
+      "full_nights_wape": 14.459301659031498,
+      "full_los_mae": 0.15754922808980062
     }
   ],
   "dynamics": [
@@ -230,9 +230,9 @@
     },
     {
       "phase": "recent",
-      "arrivals_log_growth_sd": 0.24741202957602662,
+      "arrivals_log_growth_sd": 0.2474120295760266,
       "nights_log_growth_sd": 0.3061631768020584,
-      "growth_correlation": 0.9405668241829488
+      "growth_correlation": 0.9405668241829492
     }
   ],
   "coverage": [
@@ -240,16 +240,76 @@
       "target": "arrivals_total",
       "n": 4522,
       "coverage_pct": 86.86421937195931,
-      "mean_width": 467441.8428672932
+      "mean_width": 467441.8431694825
     },
     {
       "target": "nights_total",
       "n": 4522,
       "coverage_pct": 87.19593100398055,
-      "mean_width": 1472058.1504812029
+      "mean_width": 1472058.1509770013
     }
   ],
   "los": [
+    {
+      "fold": "tranquil",
+      "model": "dlinear",
+      "n": 886,
+      "undefined_predictions": 10,
+      "los_mae": 0.218327807529989,
+      "los_rmse": 0.521927453730318,
+      "observed_los_mean": 2.6648593943567764,
+      "predicted_los_mean": 2.5962804253987
+    },
+    {
+      "fold": "tranquil",
+      "model": "full",
+      "n": 896,
+      "undefined_predictions": 0,
+      "los_mae": 0.24706851169399208,
+      "los_rmse": 0.5297427379314187,
+      "observed_los_mean": 2.6565269502283106,
+      "predicted_los_mean": 2.8137897608640694
+    },
+    {
+      "fold": "shock",
+      "model": "dlinear",
+      "n": 758,
+      "undefined_predictions": 82,
+      "los_mae": 0.9993247634731226,
+      "los_rmse": 9.393689513420748,
+      "observed_los_mean": 2.96643717962412,
+      "predicted_los_mean": 3.0480479845242647
+    },
+    {
+      "fold": "shock",
+      "model": "full",
+      "n": 840,
+      "undefined_predictions": 0,
+      "los_mae": 0.6265263112679277,
+      "los_rmse": 1.3222362769641842,
+      "observed_los_mean": 2.960445307280686,
+      "predicted_los_mean": 2.8733798575621123
+    },
+    {
+      "fold": "recovery",
+      "model": "dlinear",
+      "n": 858,
+      "undefined_predictions": 2,
+      "los_mae": 0.2216280270744838,
+      "los_rmse": 0.43616184260369617,
+      "observed_los_mean": 2.6778471979243332,
+      "predicted_los_mean": 2.6371452302201432
+    },
+    {
+      "fold": "recovery",
+      "model": "full",
+      "n": 860,
+      "undefined_predictions": 0,
+      "los_mae": 0.35707101847044564,
+      "los_rmse": 0.6986408409743373,
+      "observed_los_mean": 2.677456231219521,
+      "predicted_los_mean": 2.865848086558999
+    },
     {
       "fold": "recent",
       "model": "dlinear",
@@ -265,20 +325,20 @@
       "model": "full",
       "n": 1129,
       "undefined_predictions": 0,
-      "los_mae": 0.171580102465856,
-      "los_rmse": 0.41740213236506585,
+      "los_mae": 0.17158010251128802,
+      "los_rmse": 0.4174021315454661,
       "observed_los_mean": 2.5879927780018246,
-      "predicted_los_mean": 2.600913729303566
+      "predicted_los_mean": 2.6009137284202417
     },
     {
       "fold": "recent",
       "model": "full_raw",
       "n": 1129,
       "undefined_predictions": 0,
-      "los_mae": 0.1715801060329914,
-      "los_rmse": 0.4174021319975241,
+      "los_mae": 0.1715801027695071,
+      "los_rmse": 0.41740212877533767,
       "observed_los_mean": 2.5879927780018246,
-      "predicted_los_mean": 2.6009137284917117
+      "predicted_los_mean": 2.6009137295127154
     }
   ],
   "transitions": [
@@ -289,12 +349,12 @@
       "rows": 114,
       "observed_pairs": 109,
       "arrivals_total_n": 109,
-      "arrivals_total_mae": 413659.54544151376,
-      "arrivals_total_wape": 100.56343776068462,
+      "arrivals_total_mae": 2108662.833899262,
+      "arrivals_total_wape": 512.6302196864912,
       "nights_total_n": 109,
-      "nights_total_mae": 1149953.5745412845,
-      "nights_total_wape": 101.97062102924424,
-      "physical_violation_pct": 0.0
+      "nights_total_mae": 5177506.792010106,
+      "nights_total_wape": 459.1086063409133,
+      "physical_violation_pct": 2.631578947368421
     },
     {
       "fold": "shock",
@@ -303,12 +363,12 @@
       "rows": 114,
       "observed_pairs": 104,
       "arrivals_total_n": 104,
-      "arrivals_total_mae": 763887.1057692308,
-      "arrivals_total_wape": 100.0,
+      "arrivals_total_mae": 707775.9033907377,
+      "arrivals_total_wape": 92.65451636050469,
       "nights_total_n": 104,
-      "nights_total_mae": 1983972.6538461538,
-      "nights_total_wape": 100.0,
-      "physical_violation_pct": 0.0
+      "nights_total_mae": 1775412.7471360427,
+      "nights_total_wape": 89.48776303414292,
+      "physical_violation_pct": 4.385964912280701
     },
     {
       "fold": "shock",
@@ -317,11 +377,11 @@
       "rows": 114,
       "observed_pairs": 109,
       "arrivals_total_n": 109,
-      "arrivals_total_mae": 1828461.4670642202,
-      "arrivals_total_wape": 444.51136923400355,
+      "arrivals_total_mae": 1998539.637901835,
+      "arrivals_total_wape": 485.85852472928946,
       "nights_total_n": 109,
-      "nights_total_mae": 5367309.2718165135,
-      "nights_total_wape": 475.93909164678354,
+      "nights_total_mae": 5080801.26380734,
+      "nights_total_wape": 450.5333707956603,
       "physical_violation_pct": 0.0
     },
     {
@@ -331,11 +391,11 @@
       "rows": 114,
       "observed_pairs": 104,
       "arrivals_total_n": 104,
-      "arrivals_total_mae": 1470537.1297971155,
-      "arrivals_total_wape": 192.50712817259708,
+      "arrivals_total_mae": 378385.4732855769,
+      "arrivals_total_wape": 49.53421394703926,
       "nights_total_n": 104,
-      "nights_total_mae": 4454244.299461538,
-      "nights_total_wape": 224.51137574030997,
+      "nights_total_mae": 989554.472201923,
+      "nights_total_wape": 49.87742498786768,
       "physical_violation_pct": 0.0
     },
     {
@@ -345,12 +405,12 @@
       "rows": 114,
       "observed_pairs": 104,
       "arrivals_total_n": 104,
-      "arrivals_total_mae": 1402132.9807692308,
-      "arrivals_total_wape": 100.0,
+      "arrivals_total_mae": 459081.19233116735,
+      "arrivals_total_wape": 32.74162997573231,
       "nights_total_n": 104,
-      "nights_total_mae": 3706042.9903846155,
-      "nights_total_wape": 100.0,
-      "physical_violation_pct": 0.0
+      "nights_total_mae": 1460886.9017803485,
+      "nights_total_wape": 39.41904898487799,
+      "physical_violation_pct": 0.8771929824561403
     },
     {
       "fold": "recovery",
@@ -359,12 +419,12 @@
       "rows": 114,
       "observed_pairs": 104,
       "arrivals_total_n": 104,
-      "arrivals_total_mae": 1781512.4830181415,
-      "arrivals_total_wape": 99.99949763870353,
+      "arrivals_total_mae": 394712.7735783504,
+      "arrivals_total_wape": 22.155937410297913,
       "nights_total_n": 104,
-      "nights_total_mae": 4564468.48028095,
-      "nights_total_wape": 99.99827557864063,
-      "physical_violation_pct": 0.0
+      "nights_total_mae": 1242767.7219332182,
+      "nights_total_wape": 27.22652805578539,
+      "physical_violation_pct": 7.017543859649122
     },
     {
       "fold": "recovery",
@@ -373,11 +433,11 @@
       "rows": 114,
       "observed_pairs": 104,
       "arrivals_total_n": 104,
-      "arrivals_total_mae": 389317.2916490385,
-      "arrivals_total_wape": 27.766074758148353,
+      "arrivals_total_mae": 389477.7431557693,
+      "arrivals_total_wape": 27.77751814539703,
       "nights_total_n": 104,
-      "nights_total_mae": 1086390.875566346,
-      "nights_total_wape": 29.31403867642668,
+      "nights_total_mae": 1334444.4661153844,
+      "nights_total_wape": 36.007258134285564,
       "physical_violation_pct": 0.0
     },
     {
@@ -387,11 +447,11 @@
       "rows": 114,
       "observed_pairs": 104,
       "arrivals_total_n": 104,
-      "arrivals_total_mae": 668871.190625,
-      "arrivals_total_wape": 37.54494211243783,
+      "arrivals_total_mae": 227343.1843625,
+      "arrivals_total_wape": 12.761181549128473,
       "nights_total_n": 104,
-      "nights_total_mae": 1616113.8599451925,
-      "nights_total_wape": 35.405787077165385,
+      "nights_total_mae": 918458.2302307693,
+      "nights_total_wape": 20.121562808652342,
       "physical_violation_pct": 0.0
     }
   ],

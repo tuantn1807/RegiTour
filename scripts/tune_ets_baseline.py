@@ -24,8 +24,8 @@ def fit_ets(values, trend):
                     damped_trend=trend, seasonal="add", seasonal_periods=12)
 
 
-def main():
-    directory = ROOT / "results/reviewer_experiments/recent"
+def main(directory: Path = ROOT / "results/reviewer_experiments/recent") -> None:
+    """Select the primary ETS baseline for an existing matched run."""
     metadata = json.loads((directory / "manifest.json").read_text(encoding="utf-8"))
     data = ROOT / "src/data/tourism_europe_enriched.csv"
     if hashlib.sha256(data.read_bytes()).hexdigest() != metadata["data_sha256"]:

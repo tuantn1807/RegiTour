@@ -5,6 +5,7 @@ training-only filter and seed as the reference experiment, for an issuance-state
 audit. Income groups use a frozen FY2024 crosswalk and never enter the models.
 """
 
+from datetime import date
 import hashlib
 import json
 from pathlib import Path
@@ -18,7 +19,7 @@ import pandas as pd
 import torch
 
 from scripts.reviewer_experiments import FOLDS, KEYS, TARGETS, filtered_regimes, load_panel, metric
-from scripts.analyze_reviewer_experiments import table
+from scripts.analyze_reviewer_experiments import check_alignment, table
 
 OUT = ROOT / "results/journal_fit"
 RUNS = ROOT / "results/reviewer_experiments"
@@ -53,11 +54,14 @@ def read(fold, name):
     return frame
 
 
-def count_scores(frame):
+def count_scores(frame: pd.DataFrame) -> dict[str, int | float | None]:
+    """Score observed count pairs and leave empty samples unscored."""
     valid = frame.observed_pair
     out = {"grid_rows": len(frame), "observed_pairs": int(valid.sum())}
     for target, pred in zip(TARGETS, ["pred_arrivals", "pred_nights"]):
         result = metric(frame.loc[valid, f"observed_{target}"], frame.loc[valid, pred])
+        if result["n"] == 0:
+            result["wape"] = None
         out.update({f"{target}_{key}": value for key, value in result.items()})
     return out
 
@@ -73,13 +77,6 @@ def los_scores(frame):
             "los_mae": float(error.abs().mean()), "los_rmse": float(np.sqrt(error.pow(2).mean())),
             "los_bias": float(error.mean()), "actual_los_mean": float(truth.mean()),
             "predicted_los_mean": float(pred.mean())}
-
-
-def check_alignment(frames):
-    fields = KEYS + ["origin", "horizon", "observed_pair", "observed_arrivals_total", "observed_nights_total"]
-    reference = next(iter(frames.values()))[fields]
-    for frame in frames.values():
-        pd.testing.assert_frame_equal(reference, frame[fields])
 
 
 def main():
@@ -113,9 +110,18 @@ def main():
         for geo, subset in total.groupby("geo"):
             country_metrics.append({"geo": geo, "income_group": groups.loc[geo], "model": name,
                                     **count_scores(subset), **los_scores(subset)})
-    income = pd.DataFrame(income)
+    country_metrics = pd.DataFrame(country_metrics)
+    country_metrics.to_csv(OUT / "income_country_metrics.csv", index=False)
+    group_keys = ["income_group", "model"]
+    scored = country_metrics.loc[country_metrics.observed_pairs.gt(0)]
+    country_summary = scored.groupby(group_keys, as_index=False).agg(
+        scored_destinations=("geo", "nunique"),
+        country_mean_arrivals_wape=("arrivals_total_wape", "mean"),
+        country_mean_nights_wape=("nights_total_wape", "mean"),
+    )
+    income = pd.DataFrame(income).merge(country_summary, on=group_keys, how="left", validate="one_to_one")
+    income["scored_destinations"] = income["scored_destinations"].fillna(0).astype(int)
     income.to_csv(OUT / "income_metrics.csv", index=False)
-    pd.DataFrame(country_metrics).to_csv(OUT / "income_country_metrics.csv", index=False)
     leave_one_out = []
     full_total = frames["full"].loc[frames["full"].accommodation_type.eq("total")].copy()
     full_total["income_group"] = full_total.geo.map(groups)
@@ -130,7 +136,10 @@ def main():
                                   "omitted_abs_los_error_share_pct": 100 * country_scores["los_mae"] * country_scores["defined_pairs"] / group_abs_error,
                                   **{f"remaining_{k}": v for k, v in remainder.items()}})
     pd.DataFrame(leave_one_out).to_csv(OUT / "income_los_leave_one_out.csv", index=False)
-    assert income.loc[income.model.eq("full"), "observed_pairs"].sum() == 1129
+    full_income = income.loc[income.model.eq("full")].set_index("income_group")
+    assert full_income["observed_pairs"].sum() == 1129
+    high_scored = full_income.loc["High income", "scored_destinations"]
+    upper_scored = full_income.loc["Upper middle income", "scored_destinations"]
     rows = []
     for group, short in [("High income", "High"), ("Upper middle income", "Upper-middle")]:
         for name, label in [("snaive", "S. naive"), ("dlinear", "DLinear"), ("full", "Full")]:
@@ -144,10 +153,10 @@ def main():
                                  r"\shortstack{Overnight Stays\\WAPE (\%) / MAE}"], rows,
           r">{\raggedright\arraybackslash}p{2.2cm}>{\centering\arraybackslash}p{0.8cm}"
           r">{\centering\arraybackslash}p{2.3cm}>{\centering\arraybackslash}p{2.3cm}",
-          notes=r"High and Upper-middle denote high-income (31 destinations) and upper-middle-income (7) economies in FY2024. "
-          r"S. naive is seasonal naive; Full is RA-HE-DLinear. Each target cell gives WAPE above MAE "
-          r"(arrivals or nights). All models use matching observed pairs from the total accommodation category. "
-          r"Groups contain no low- or lower-middle-income destinations. This is descriptive stratification, not an income-effect estimate.")
+          notes=r"The FY2024 panel contains 31 high-income and seven upper-middle-income destinations. "
+          f"The scores cover {high_scored} and {upper_scored} destinations, respectively. "
+          r"All models use the same observed country-month pairs in the aggregate accommodation category. "
+          r"Each target cell gives pooled WAPE above MAE. S. naive denotes seasonal naive. Full denotes RA-HE-DLinear.")
 
     # Common-denominator and model-complete LOS diagnostics, kept separate.
     los = []
@@ -185,7 +194,8 @@ def main():
     for fold, train_end in FOLDS.items():
         run_manifest = json.loads((RUNS / fold / "manifest.json").read_text("utf-8"))
         assert run_manifest["data_sha256"] == sha(source)
-        assert run_manifest["source_hashes"]["scripts\\reviewer_experiments.py"] == sha(ROOT / "scripts/reviewer_experiments.py")
+        hashes = {key.replace("\\", "/"): value for key, value in run_manifest["source_hashes"].items()}
+        assert hashes["scripts/reviewer_experiments.py"] == sha(ROOT / "scripts/reviewer_experiments.py")
         frame = load_panel(source, train_end)
         states = filtered_regimes(frame, train_end, 42)
         full = read(fold, "full")
@@ -219,8 +229,8 @@ def main():
           notes=r"IDs are ordered by fitted training growth centroids: 1 low, 0 middle, 2 high. "
           r"They are statistical states, not calendar event labels, and each fold fits its own HMM. "
           r"States are listed in chronological origin order, one per January forecast block. "
-          r"A zero temporal weight bypasses HMM conditioning in the fused forecast. This remains a reference-period audit, not PIT validation.")
-    metadata = {"analysis_date": "2026-11-08", "data_sha256": sha(source), "analysis_code_sha256": sha(Path(__file__)),
+          r"The weight measures the share of the HMM-conditioned temporal branch in the blend. This is a retrospective reference-period audit.")
+    metadata = {"analysis_date": date.today().isoformat(), "data_sha256": sha(source), "analysis_code_sha256": sha(Path(__file__)),
                 "income_classification": {"fiscal_year": 2024, "effective_from": "2023-07-01",
                     "official_release": OFFICIAL, "row_evidence_reprint": REPRINT,
                     "accessed_on": "2026-11-08", "evidence_method": "Income column transcribed for the 38 study geographies; added region classifications ignored. The historical XLSX was not downloaded.",
