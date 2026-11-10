@@ -268,13 +268,27 @@ def main():
     print("[*] Đang tính toán tỷ lệ tăng giá dịch vụ lưu trú (MoM & YoY Inflation)...")
     df_merged = df_merged.sort_values(by=["geo", "accommodation_type", "date"]).reset_index(drop=True)
     
-    # Nội suy nhẹ tuyến tính cho HICP bị khuyết cục bộ trước khi tính %
-    df_merged["hicp_accommodation"] = df_merged.groupby(["geo", "accommodation_type"])["hicp_accommodation"].transform(
-        lambda s: s.interpolate(method="linear", limit=6).bfill().ffill()
-    )
-    df_merged["hicp_overall"] = df_merged.groupby(["geo", "accommodation_type"])["hicp_overall"].transform(
-        lambda s: s.interpolate(method="linear", limit=6).bfill().ffill()
-    )
+    # Chống rò rỉ thời gian (Temporal Leakage Prevention):
+    # Tuyệt đối KHÔNG dùng .bfill() hoặc nội suy tuyến tính 2 phía từ tương lai về quá khứ.
+    # Chỉ sử dụng forward-fill (.ffill()) từ các quan sát quá khứ đã được công bố.
+    # Với các giá trị khuyết ở đầu chuỗi (leading NaNs), sử dụng trung vị lịch sử tính trên tập huấn luyện (pre-2022).
+    print("[*] Xử lý khuyết HICP theo nguyên tắc nhân quả thời gian (chỉ ffill và fallback training median)...")
+    for col in ["hicp_accommodation", "hicp_overall"]:
+        df_merged[col] = df_merged.groupby(["geo", "accommodation_type"])[col].transform(lambda s: s.ffill())
+        
+        # Điền các giá trị đầu chuỗi bằng trung vị tập huấn luyện (trước 2022-01-01)
+        train_mask = df_merged["date"] < "2022-01-01"
+        train_medians = df_merged[train_mask].groupby(["geo", "accommodation_type"])[col].median()
+        global_median = df_merged.loc[train_mask, col].median()
+        if pd.isna(global_median):
+            global_median = 100.0  # Giá trị cơ sở chỉ số HICP mặc định
+            
+        def fill_leading_nan(group):
+            geo_acc_key = group.name
+            fb = train_medians.get(geo_acc_key, global_median)
+            return group.fillna(fb)
+            
+        df_merged[col] = df_merged.groupby(["geo", "accommodation_type"])[col].transform(fill_leading_nan)
     
     df_merged["hicp_acc_mom_pct"] = df_merged.groupby(["geo", "accommodation_type"])["hicp_accommodation"].pct_change(1) * 100
     df_merged["hicp_acc_yoy_pct"] = df_merged.groupby(["geo", "accommodation_type"])["hicp_accommodation"].pct_change(12) * 100

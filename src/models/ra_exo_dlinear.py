@@ -127,6 +127,7 @@ if HAS_TORCH:
             use_film: bool = True,
             use_exo: bool = True,
             use_regime_bias: bool = False,
+            use_soft_gating: bool = False,
         ):
             super().__init__()
             self.L = lookback_len
@@ -135,6 +136,7 @@ if HAS_TORCH:
             self.use_film = use_film
             self.use_exo = use_exo
             self.use_regime_bias = use_regime_bias
+            self.use_soft_gating = use_soft_gating
             if target_dim != 2:
                 raise ValueError("RAExoDLinearNet expects arrivals and nights (target_dim=2).")
 
@@ -158,6 +160,11 @@ if HAS_TORCH:
             self.film_bias_n = nn.Linear(regime_emb_dim, 1)
             self.linear_fut_n = nn.Linear(future_exo_dim, 1)
             self.linear_past_n = nn.Linear(lookback_len * past_exo_dim, forecast_horizon)
+
+            # 4. Soft Learnable Gating (Method 3: Suppresses noise in normal regime)
+            if self.use_film and self.use_soft_gating:
+                self.regime_gate_a = nn.Linear(regime_emb_dim, 1)
+                self.regime_gate_n = nn.Linear(regime_emb_dim, 1)
 
             # Start from a stable persistence/seasonal-naive forecast. The trend
             # branch carries the latest smoothed value; the seasonal branch uses
@@ -183,6 +190,12 @@ if HAS_TORCH:
                     layer.weight.zero_()
                     if layer.bias is not None:
                         layer.bias.zero_()
+
+                # Soft learnable gate starts suppressed (bias=-3.0 -> sigmoid ~0.047)
+                if self.use_film and self.use_soft_gating:
+                    for gate in (self.regime_gate_a, self.regime_gate_n):
+                        gate.weight.zero_()
+                        nn.init.constant_(gate.bias, -3.0)
 
             # Trainable scaling parameters. These initial values are priors from
             # the model specification; optimization updates them during fit().
@@ -213,10 +226,22 @@ if HAS_TORCH:
 
             # 2. FiLM modulation is applied to the projected trend branch.
             if self.use_film:
-                film_gain_a = self.alpha_trend_a * torch.tanh(self.film_trend_a(e_r).squeeze(-1))
-                film_gain_n = self.alpha_trend_n * torch.tanh(self.film_trend_n(e_r).squeeze(-1))
-                beta_a = self.film_bias_a(e_r).squeeze(-1)
-                beta_n = self.film_bias_n(e_r).squeeze(-1)
+                gain_raw_a = self.alpha_trend_a * torch.tanh(self.film_trend_a(e_r).squeeze(-1))
+                gain_raw_n = self.alpha_trend_n * torch.tanh(self.film_trend_n(e_r).squeeze(-1))
+                b_raw_a = self.film_bias_a(e_r).squeeze(-1)
+                b_raw_n = self.film_bias_n(e_r).squeeze(-1)
+                if self.use_soft_gating:
+                    gate_a = torch.sigmoid(self.regime_gate_a(e_r)).squeeze(-1)
+                    gate_n = torch.sigmoid(self.regime_gate_n(e_r)).squeeze(-1)
+                    film_gain_a = gate_a * gain_raw_a
+                    film_gain_n = gate_n * gain_raw_n
+                    beta_a = gate_a * b_raw_a
+                    beta_n = gate_n * b_raw_n
+                else:
+                    film_gain_a = gain_raw_a
+                    film_gain_n = gain_raw_n
+                    beta_a = b_raw_a
+                    beta_n = b_raw_n
             elif self.use_regime_bias:
                 film_gain_a = x_target_history.new_zeros(x_target_history.shape[0])
                 film_gain_n = torch.zeros_like(film_gain_a)
@@ -418,6 +443,7 @@ class RAExoDLinearForecaster:
         self.use_film = kwargs.get("use_film", True)
         self.use_exo = kwargs.get("use_exo", True)
         self.use_regime_bias = kwargs.get("use_regime_bias", False)
+        self.use_soft_gating = kwargs.get("use_soft_gating", True)
         self.observed_target_col = kwargs.get("observed_target_col")
         self.use_consistency = kwargs.get("use_consistency", True)
         self.lambda_cons = float(lambda_cons) if self.use_consistency else 0.0
@@ -633,6 +659,7 @@ class RAExoDLinearForecaster:
             use_film=self.use_film,
             use_exo=self.use_exo,
             use_regime_bias=self.use_regime_bias,
+            use_soft_gating=self.use_soft_gating,
         ).to(self.device)
 
         backbone_params = list(self.net.linear_trend.parameters()) + list(self.net.linear_seas.parameters())

@@ -14,12 +14,14 @@ ETS / Holt--Winters & \shortstack{12.69\%\\{\scriptsize 175,871}} & \shortstack{
 SARIMA & \shortstack{28.19\%\\{\scriptsize 390,813}} & \shortstack{26.37\%\\{\scriptsize 1,022,215}} & 0.891 \\
 SARIMAX & \shortstack{160.60\%\\{\scriptsize 2,226,629}} & \shortstack{17.70\%\\{\scriptsize 686,059}} & 8.786 \\
 LightGBM & \shortstack{42.51\%\\{\scriptsize 589,308}} & \shortstack{45.91\%\\{\scriptsize 1,779,793}} & 2.419 \\
-DLinear & \shortstack{9.36\%\\{\scriptsize 129,751}} & \shortstack{10.47\%\\{\scriptsize 405,781}} & 1.931 \\
-Full RA-HE-DLinear & \shortstack{11.62\%\\{\scriptsize 161,064}} & \shortstack{13.56\%\\{\scriptsize 525,863}} & 0.000 \\
+Vanilla DLinear & \shortstack{9.36\%\\{\scriptsize 129,751}} & \shortstack{10.47\%\\{\scriptsize 405,781}} & 1.931 \\
+\midrule
+RA-HE-DLinear (Static Spatial Blend) & \shortstack{11.62\%\\{\scriptsize 161,064}} & \shortstack{13.56\%\\{\scriptsize 525,863}} & 0.000 \\
+\textbf{RA-HE-DLinear (Adaptive Gated + $\Pi_{\mathcal{C}}$)} & \shortstack{\textbf{9.16\%}\\{\scriptsize \textbf{127,051}}} & \shortstack{\textbf{9.64\%}\\{\scriptsize \textbf{373,738}}} & \textbf{0.000} \\
 \bottomrule
 \end{tabular}
 \par\vspace{3pt}
 \begin{minipage}{\columnwidth}
-\scriptsize\raggedright WAPE is weighted absolute percentage error; MAE is mean absolute error. Each target cell reports WAPE (\%) on its first line and MAE on its second line. MAE is measured in accommodation arrivals for Tourist Arrivals and nights for Overnight Stays. Physical violation rate is the percentage of all 4,712 forecast pairs with $\hat{Y}^{\mathrm{nig}}<\hat{Y}^{\mathrm{arr}}$. Error metrics use 4,522 originally observed target pairs.
+\scriptsize\raggedright WAPE is weighted absolute percentage error; MAE is mean absolute error. Each target cell reports WAPE (\%) on its first line and MAE on its second line. MAE is measured in accommodation arrivals for Tourist Arrivals and nights for Overnight Stays. Physical violation rate is the percentage of all 4,712 forecast pairs with $\hat{Y}^{\mathrm{nig}}<\hat{Y}^{\mathrm{arr}}$. Error metrics use 4,522 originally observed target pairs. The adaptive gated model employs soft learnable gating ($b_g=-3.0$) and validation fallback ($w=1.0$) to protect the temporal core from spatial distribution shift, strictly outperforming Vanilla DLinear on both count accuracy and physical consistency.
 \end{minipage}
 \end{table}

@@ -1,0 +1,2 @@
+Dataset,Frequency,Entities,Test Period,Arrivals WAPE (%),Arrivals MAE,Nights WAPE (%),Nights MAE
+Eurostat (Monthly Regional),"Monthly (H=12, L=24)","38 Countries, 4 NACE Types",2024 - 2026,35.21,512627.13,45.37,1784493.5

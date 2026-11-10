@@ -1,0 +1,5 @@
+Loại hình lưu trú (NACE),Số bản ghi,Arrivals WAPE (%),Arrivals MAE,Nights WAPE (%),Nights MAE
+camping,1178,27.28%,"75,832",34.01%,"377,617"
+hotel,1178,16.41%,"340,341",23.51%,"1,145,751"
+short_stay,1178,36.02%,"174,189",38.93%,"684,910"
+total,1178,19.10%,"530,847",23.98%,"1,808,388"

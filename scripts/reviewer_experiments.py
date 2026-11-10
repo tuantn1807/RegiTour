@@ -48,7 +48,7 @@ CORES = {
     "film_static": dict(use_exo=False, use_film=True, hmm=False),
     "hmm_film": dict(use_exo=False, use_film=True, hmm=True),
     "exo_hmm_film": dict(use_exo=True, use_film=True, hmm=True),
-    "full_core": dict(use_exo=True, use_film=True, hmm=True),
+    "full_core": dict(use_exo=True, use_film=True, hmm=True, use_soft_gating=True),
 }
 FUSIONS = {
     "hmm_film": "hmm_film_trmf",
@@ -202,29 +202,37 @@ def spatial_blocks(train, rows):
     return result
 
 
-def choose_weight(rows, temporal, spatial, reg_lambda=0.005):
+def choose_weight(rows, temporal, spatial, reg_lambda=0.0):
     valid = rows.observed_pair.to_numpy()
     truth = rows[[f"observed_{c}" for c in TARGETS]].to_numpy()[valid]
     y_temp = temporal[valid]
     y_spat = spatial[valid]
 
-    # Method B: Sigmoid Gating (Mixture of Experts / MoE)
-    # w = sigmoid(theta) = 1 / (1 + exp(-theta)), theta in (-inf, +inf)
-    # Unconstrained optimization over R with L2 regularization
+    # Mixture of Experts: Bounded scalar optimization over w in [0.0, 1.0]
     denom_arr = max(1.0, float(np.sum(truth[:, 0])))
     denom_nig = max(1.0, float(np.sum(truth[:, 1])))
 
-    def objective(theta):
-        w = 1.0 / (1.0 + np.exp(-theta))
+    # Compute validation WAPE of pure temporal core as baseline
+    wape_temp = 0.5 * (
+        float(np.sum(np.abs(truth[:, 0] - y_temp[:, 0])) / denom_arr)
+        + float(np.sum(np.abs(truth[:, 1] - y_temp[:, 1])) / denom_nig)
+    )
+
+    def objective(w):
         pred = w * y_temp + (1.0 - w) * y_spat
         wape_arr = float(np.sum(np.abs(truth[:, 0] - pred[:, 0])) / denom_arr)
         wape_nig = float(np.sum(np.abs(truth[:, 1] - pred[:, 1])) / denom_nig)
-        return 0.5 * (wape_arr + wape_nig) + reg_lambda * (theta ** 2)
+        return 0.5 * (wape_arr + wape_nig)
 
-    res = minimize_scalar(objective, method="brent")
-    theta_star = float(res.x)
-    weight = float(1.0 / (1.0 + np.exp(-theta_star)))
-    return weight
+    res = minimize_scalar(objective, bounds=(0.0, 1.0), method="bounded")
+    best_w = float(res.x)
+    best_val = float(res.fun)
+
+    # Protective fallback: if spatial blending does not strictly improve validation performance,
+    # default to pure temporal core (w = 1.0) to prevent spatial distribution shift degradation.
+    if best_val >= wape_temp - 1e-5:
+        return 1.0
+    return best_w
 
 
 def tabular_features(history, future, geo_id, accom_id):
