@@ -4,18 +4,18 @@
 \label{tab:reviewer_cases}
 \footnotesize
 \setlength{\tabcolsep}{2pt}
-\renewcommand{\arraystretch}{1.06}
+\renewcommand{\arraystretch}{1.15}
 \begin{tabular}{>{\raggedright\arraybackslash}p{1.25cm}>{\centering\arraybackslash}p{0.9cm}>{\centering\arraybackslash}p{1.55cm}>{\centering\arraybackslash}p{1.55cm}>{\centering\arraybackslash}p{1.55cm}>{\centering\arraybackslash}p{1.05cm}}
 \toprule
-\textbf{Country} & \textbf{\shortstack{2023/\\2019\\Ratio}} & \textbf{\shortstack{DLinear\\Arr.\ / Nig.\\WAPE (\%)}} & \textbf{\shortstack{RA-HE (Static)\\Arr.\ / Nig.\\WAPE (\%)}} & \textbf{\shortstack{RA-HE (Adapt.)\\Arr.\ / Nig.\\WAPE (\%)}} & \textbf{\shortstack{Static\\LOS\\MAE}} \\
+\textbf{Country} & \textbf{\shortstack{2023/\\2019\\Ratio}} & \textbf{\shortstack{DLinear\\WAPE (\%)\\A / N}} & \textbf{\shortstack{RA-HE\\Static\\WAPE (\%)\\A / N}} & \textbf{\shortstack{RA-HE\\Adaptive\\WAPE (\%)\\A / N}} & \textbf{\shortstack{Static\\LOS\\MAE}} \\
 \midrule
-Cyprus & 0.98 & 17.05 / 20.01 & 18.57 / 20.26 & \textbf{13.31} / \textbf{13.93} & 0.295 \\
-Sweden & 1.03 & 8.00 / 8.19 & 10.47 / 11.31 & \textbf{6.13} / \textbf{5.89} & 0.043 \\
-Denmark & 1.14 & 9.38 / 11.25 & 12.34 / 14.46 & \textbf{7.63} / \textbf{9.13} & 0.158 \\
+Cyprus & 0.98 & \shortstack{17.05\\20.01} & \shortstack{18.57\\20.26} & \shortstack{\textbf{13.31}\\\textbf{13.93}} & 0.295 \\
+Sweden & 1.03 & \shortstack{8.00\\8.19} & \shortstack{10.47\\11.31} & \shortstack{\textbf{6.13}\\\textbf{5.89}} & 0.043 \\
+Denmark & 1.14 & \shortstack{9.38\\11.25} & \shortstack{12.34\\14.46} & \shortstack{\textbf{7.63}\\\textbf{9.13}} & 0.158 \\
 \bottomrule
 \end{tabular}
 \par\vspace{3pt}
 \begin{minipage}{\columnwidth}
-\scriptsize\raggedright The recovery ratio is 2023 annual arrivals divided by 2019 annual arrivals. Errors cover Jan.\ 2024--Jul.\ 2026 on aggregate accommodation series (\texttt{total}). LOS MAE is measured in nights per arrival.
+\scriptsize\raggedright WAPE cells list arrivals (A) above nights (N). The recovery ratio is 2023 annual arrivals divided by 2019 annual arrivals. Errors cover Jan.\ 2024--Jul.\ 2026 on aggregate accommodation series (\texttt{total}). LOS MAE is measured in nights per arrival.
 \end{minipage}
 \end{table}

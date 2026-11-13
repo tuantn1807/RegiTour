@@ -1,0 +1,10 @@
+fold,calendar_period,train_end,origin,hmm_state,state_rank,grid_rows,scored_pairs,temporal_weight
+tranquil,Pre-pandemic 2018--2019,2015,2017-12-31T23:59:59,2,high-growth centroid,1824,1821,0.7300851551312745
+tranquil,Pre-pandemic 2018--2019,2015,2018-12-31T23:59:59,2,high-growth centroid,1824,1769,0.7300851551312745
+shock,Pandemic 2020--2021,2017,2019-12-31T23:59:59,0,middle-growth centroid,1824,1728,0.7380328366068772
+shock,Pandemic 2020--2021,2017,2020-12-31T23:59:59,2,high-growth centroid,1824,1694,0.7380328366068772
+recovery,Recovery 2022--2023,2019,2021-12-31T23:59:59,0,middle-growth centroid,1824,1740,0.4180710360330446
+recovery,Recovery 2022--2023,2019,2022-12-31T23:59:59,0,middle-growth centroid,1824,1735,0.4180710360330446
+recent,Recent 2024--July 2026,2021,2023-12-31T23:59:59,1,low-growth centroid,1824,1776,0.8259414000505153
+recent,Recent 2024--July 2026,2021,2024-12-31T23:59:59,1,low-growth centroid,1824,1768,0.8259414000505153
+recent,Recent 2024--July 2026,2021,2025-12-31T23:59:59,1,low-growth centroid,1064,978,0.8259414000505153
