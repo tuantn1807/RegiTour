@@ -1,59 +1,62 @@
 """
-🏛️ RegiTour Interactive Tourism Forecasting & Policy Intelligence Dashboard
-Built with Streamlit and Plotly for the NCKH 2027 Research Project.
-
-Demonstrates:
-  1. Multi-Horizon Tourism Demand Forecasting with DCQF Conformal Bands
-  2. Dual TRMF Spatial Spillovers (Visitor Volume vs Length-of-Stay Duration)
-  3. Two-Tier Domain Consistency & Anchor Projection (Pi_C)
-  4. Explainable AI (XAI) & Counterfactual What-If Policy Simulation
+🏛️ RegiTour — Operational Decision Support System for Destination Management & Smart Tourism Governance
+Built with Streamlit and Plotly, implementing Section VI of paper_en.tex:
+  1. Coordinated Arrival Throughput & Stay Demand Planning (Arrivals, Nights, LOS + Pi_C)
+  2. Accommodation Capacity & Seasonal Staffing Allocation (NACE I551, I552, I553)
+  3. Crisis Regime Detection & Macro Stress Testing (Causal HMM + Shock Fold Diagnostics)
+  4. Benchmarking Post-Shock Recovery Trajectories & 90% Conformal Risk Bands (I_0.90)
 """
 
 import sys
 from pathlib import Path
 import numpy as np
 import pandas as pd
+import plotly.express as px
+import plotly.graph_objects as go
 import streamlit as st
 
-# Configure root directory
 ROOT_DIR = Path(__file__).resolve().parents[1]
-sys.path.insert(0, str(ROOT_DIR))
+if str(ROOT_DIR) not in sys.path:
+    sys.path.insert(0, str(ROOT_DIR))
 
-# Page configuration
+from src.decision_support.dmo_engine import (
+    NACE_LABELS,
+    PAPER_CASE_STUDIES,
+    compute_coordinated_throughput_plan,
+    compute_crisis_regime_diagnostics,
+    compute_hmm_regime_timeline,
+    compute_nace_capacity_staffing,
+    compute_recovery_benchmarking,
+    load_dss_bundle,
+    simulate_macro_stress,
+)
+
 st.set_page_config(
-    page_title="RegiTour | AI Tourism Econometrics Dashboard",
+    page_title="RegiTour DSS | Smart Tourism Governance & Destination Management",
     page_icon="🏛️",
     layout="wide",
     initial_sidebar_state="expanded",
 )
 
-# Custom Styling
 st.markdown(
     """
     <style>
     .main-header {
-        font-size: 2.2rem;
+        font-size: 1.95rem;
         font-weight: 700;
         color: #1E3A8A;
         margin-bottom: 0.2rem;
     }
     .sub-header {
-        font-size: 1.05rem;
+        font-size: 1.0rem;
         color: #4B5563;
-        margin-bottom: 1.5rem;
-    }
-    .metric-card {
-        background-color: #F8FAFC;
-        border-radius: 8px;
-        padding: 16px;
-        border-left: 5px solid #2563EB;
-        box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+        margin-bottom: 1.25rem;
     }
     .status-badge {
         display: inline-block;
-        padding: 4px 10px;
-        border-radius: 12px;
-        font-size: 0.82rem;
+        padding: 4px 12px;
+        border-radius: 14px;
+        font-size: 0.84rem;
         font-weight: 600;
     }
     .badge-normal { background-color: #DCFCE7; color: #166534; }
@@ -65,385 +68,720 @@ st.markdown(
 )
 
 
-@st.cache_data
-def load_forecast_results():
-    """Loads Eurostat forecast results table."""
-    csv_path = ROOT_DIR / "results" / "forecast_results_ra_he_dlinear_eurostat.csv"
-    if csv_path.exists():
-        df = pd.read_csv(csv_path)
-        df["date"] = pd.to_datetime(df["date"])
-        return df
-    return None
+@st.cache_resource
+def get_dss_bundle():
+    return load_dss_bundle(ROOT_DIR)
 
 
 @st.cache_data
-def load_benchmark_table():
-    """Loads benchmark model comparison table."""
-    csv_path = ROOT_DIR / "results" / "tables" / "benchmark_model_comparison.csv"
-    if csv_path.exists():
-        return pd.read_csv(csv_path)
-    return None
+def get_hmm_timeline(_history_df: pd.DataFrame) -> pd.DataFrame:
+    return compute_hmm_regime_timeline(_history_df)
 
 
-@st.cache_data
-def load_xai_data():
-    """Loads XAI elasticity and scenario tables."""
-    tables_dir = ROOT_DIR / "results" / "tables"
-    elast_csv = tables_dir / "xai_price_elasticity.csv"
-    whatif_csv = tables_dir / "xai_what_if_scenarios.csv"
-    df_elast = pd.read_csv(elast_csv) if elast_csv.exists() else None
-    df_whatif = pd.read_csv(whatif_csv) if whatif_csv.exists() else None
-    return df_elast, df_whatif
+def _format_origin_label(origin_str: str) -> str:
+    year_map = {
+        "2023-12-31": "Origin 2023-12 (Dự báo năm 2024 — 12 tháng)",
+        "2024-12-31": "Origin 2024-12 (Dự báo năm 2025 — 12 tháng)",
+        "2025-12-31": "Origin 2025-12 (Dự báo năm 2026 — T1–T7)",
+    }
+    return year_map.get(origin_str, origin_str)
 
 
-def main():
-    # Sidebar Navigation
-    st.sidebar.markdown("# ✈️ RegiTour")
-    st.sidebar.title("🏛️ RegiTour Navigation")
-    st.sidebar.markdown("**Modern Linear Framework (RA-HE-DLinear)**")
+def _render_sidebar(bundle):
+    st.sidebar.markdown("# 🏛️ RegiTour DSS")
+    st.sidebar.caption("Smart Tourism Governance & Operational Decision Support (RA-HE-DLinear)")
 
-    demo_mode = st.sidebar.radio(
-        "Chọn phân hệ tương tác:",
+    stakeholder_lens = st.sidebar.selectbox(
+        "👤 Vai trò khai thác (Stakeholder):",
         [
-            "1. 📈 Dự báo Đa chân trời & Dải tin cậy DCQF",
-            "2. 🌐 Lan tỏa Không gian (Dual TRMF Matrix)",
-            "3. ⚖️ Ràng buộc Kinh tế & Phép chiếu Neo (Π_C)",
-            "4. 🔬 Giải thích Mô hình XAI & Mô phỏng Chính sách",
-            "5. 🏆 Bảng Xếp hạng Đối sánh Mô hình (Benchmark)",
+            "DMO — Quản trị Điểm đến Tổng hợp",
+            "Cơ quan Du lịch / Hàng không / Cửa khẩu",
+            "Hiệp hội & Cơ sở Lưu trú (NACE I551–I553)",
         ],
     )
 
-    df_results = load_forecast_results()
+    nav_section = st.sidebar.radio(
+        "🧭 Phân hệ Hỗ trợ Ra quyết định:",
+        [
+            "🏠 Tổng quan Điều hành DMO",
+            "1️⃣ Lưu lượng & Lưu trú Đồng bộ (Arrivals–Nights–LOS)",
+            "2️⃣ Công suất NACE & Nhân sự Thời vụ (I551–I553)",
+            "3️⃣ Giám sát Khủng hoảng & Stress Testing (HMM)",
+            "4️⃣ Quỹ đạo Phục hồi & Biên Rủi ro Conformal",
+            "🔬 Đối sánh Mô hình & XAI (Benchmark)",
+        ],
+    )
 
-    # =========================================================================
-    # TAB 1: MULTI-HORIZON FORECAST TRAJECTORIES & CONFORMAL BANDS
-    # =========================================================================
-    if demo_mode.startswith("1."):
-        st.markdown('<div class="main-header">📈 Dự Báo Nhu Cầu Du Lịch Đa Chân Trời (2024–2026)</div>', unsafe_allow_html=True)
-        st.markdown('<div class="sub-header">Mô hình phân rã chuỗi thời gian tuyến tính kết hợp ngoại sinh (RA-Exo-DLinear) và bảo chứng khoảng tin cậy phi phân phối DCQF.</div>', unsafe_allow_html=True)
+    st.sidebar.markdown("---")
+    st.sidebar.markdown("### ⚙️ Ngữ cảnh Điểm đến & Chân trời")
 
-        if df_results is None:
-            st.warning("⚠️ Chưa tìm thấy tệp `results/forecast_results_ra_he_dlinear_eurostat.csv`. Vui lòng chạy `python run_linear_pipeline.py` trước.")
-            return
+    geo_options = sorted(bundle.forecasts_df["geo"].unique())
+    default_geo = "FR" if "FR" in geo_options else geo_options[0]
+    selected_geo = st.sidebar.selectbox(
+        "🌍 Điểm đến (38 quốc gia Eurostat):",
+        geo_options,
+        index=geo_options.index(default_geo),
+        format_func=lambda g: f"{g} — {bundle.country_names.get(g, g)}",
+    )
 
-        col_ctrl1, col_ctrl2, col_ctrl3 = st.columns([2, 2, 2])
-        with col_ctrl1:
-            countries = sorted(df_results["geo"].unique())
-            default_geo = "FR" if "FR" in countries else countries[0]
-            selected_geo = st.selectbox("🌍 Quốc gia điểm đến (Destination):", countries, index=countries.index(default_geo))
+    accom_options = ["total", "hotel", "short_stay", "camping"]
+    available_accom = [a for a in accom_options if a in bundle.forecasts_df["accommodation_type"].unique()]
+    selected_accom = st.sidebar.selectbox(
+        "🏨 Loại hình lưu trú (NACE Rev. 2):",
+        available_accom,
+        format_func=lambda a: NACE_LABELS.get(a, (a, a))[1],
+    )
 
-        with col_ctrl2:
-            accom_types = sorted(df_results["accommodation_type"].unique())
-            default_acc = "total" if "total" in accom_types else accom_types[0]
-            selected_acc = st.selectbox("🏨 Loại hình lưu trú (NACE Type):", accom_types, index=accom_types.index(default_acc))
+    origin_options = sorted(bundle.forecasts_df["origin_label"].unique())
+    selected_origin = st.sidebar.selectbox(
+        "📅 Mốc khởi tạo dự báo (Forecast Origin):",
+        origin_options,
+        index=len(origin_options) - 1 if len(origin_options) > 1 else 0,
+        format_func=_format_origin_label,
+    )
 
-        with col_ctrl3:
-            target_metric = st.selectbox("🎯 Biến mục tiêu hiển thị:", ["Lượt khách (Arrivals)", "Số đêm lưu trú (Nights)"])
+    horizon_months = st.sidebar.select_slider(
+        "🔭 Chân trời vận hành (Horizon H):",
+        options=[3, 6, 12],
+        value=12,
+        format_func=lambda h: f"H = {h} tháng",
+    )
 
-        # Filter series
-        sub_df = df_results[(df_results["geo"] == selected_geo) & (df_results["accommodation_type"] == selected_acc)].sort_values("date")
+    return {
+        "stakeholder": stakeholder_lens,
+        "nav": nav_section,
+        "geo": selected_geo,
+        "country": bundle.country_names.get(selected_geo, selected_geo),
+        "accom": selected_accom,
+        "nace_code": NACE_LABELS.get(selected_accom, (selected_accom, selected_accom))[0],
+        "origin": selected_origin,
+        "horizon": horizon_months,
+    }
 
-        if len(sub_df) == 0:
-            st.info("Không có dữ liệu cho cấu hình được chọn.")
-            return
 
-        is_arr = "Arrivals" in target_metric
-        col_true = "arrivals_total" if is_arr else "nights_total"
-        col_pred = "pred_arrivals_point" if is_arr else "pred_nights_point"
-        col_p10 = "pred_arrivals_p10" if is_arr else "pred_nights_p10"
-        col_p90 = "pred_arrivals_p90" if is_arr else "pred_nights_p90"
+def _render_executive_briefing(bundle, ctx):
+    st.markdown(
+        f'<div class="main-header">🏠 Tổng Quan Điều Hành DMO — {ctx["country"]} ({ctx["geo"]})</div>',
+        unsafe_allow_html=True,
+    )
+    st.markdown(
+        f'<div class="sub-header">Vai trò: <b>{ctx["stakeholder"]}</b> | Phân khúc: <b>{NACE_LABELS[ctx["accom"]][1]}</b> | Chân trời: <b>H = {ctx["horizon"]} tháng</b></div>',
+        unsafe_allow_html=True,
+    )
 
-        # Compute metrics for this selection
-        y_true = sub_df[col_true].values
-        y_pred = sub_df[col_pred].values
-        wape = np.sum(np.abs(y_true - y_pred)) / max(1.0, np.sum(y_true)) * 100.0
-        mae = np.mean(np.abs(y_true - y_pred))
-        rmse = np.sqrt(np.mean((y_true - y_pred) ** 2))
-        coverage = np.mean((y_true >= sub_df[col_p10].values) & (y_true <= sub_df[col_p90].values)) * 100.0
+    plan_df, summary = compute_coordinated_throughput_plan(
+        bundle.forecasts_df, ctx["geo"], ctx["accom"], ctx["horizon"], ctx["origin"]
+    )
+    traj_df, cross_df = compute_recovery_benchmarking(
+        bundle.forecasts_df, bundle.history_df, ctx["geo"], ctx["accom"], ctx["horizon"], ctx["origin"]
+    )
 
-        m1, m2, m3, m4 = st.columns(4)
-        m1.metric("WAPE (Sai số tỷ lệ)", f"{wape:.2f}%")
-        m2.metric("MAE (Sai số tuyệt đối)", f"{mae:,.0f}")
-        m3.metric("RMSE", f"{rmse:,.0f}")
-        m4.metric("DCQF Conformal Coverage", f"{coverage:.1f}%", help="Mục tiêu bảo chứng: >= 90%")
+    if plan_df.empty:
+        st.warning("Không có dữ liệu dự báo cho cấu hình đang chọn.")
+        return
 
-        # Interactive Plotly Chart
-        try:
-            import plotly.graph_objects as go
+    hmm_df = get_hmm_timeline(bundle.history_df)
+    latest_regime = "Normal (Bình thường)"
+    badge_cls = "badge-normal"
+    if not hmm_df.empty:
+        latest_row = hmm_df.iloc[-1]
+        latest_regime = str(latest_row["regime_name"])
+        if int(latest_row["regime_state"]) == 1:
+            badge_cls = "badge-shock"
+        elif int(latest_row["regime_state"]) == 2:
+            badge_cls = "badge-recovery"
 
-            fig = go.Figure()
-            # Conformal Band
-            fig.add_trace(go.Scatter(
-                x=pd.concat([sub_df["date"], sub_df["date"][::-1]]),
-                y=pd.concat([sub_df[col_p90], sub_df[col_p10][::-1]]),
+    rec_val = traj_df["recovery_index_arr_pct"].mean() if not traj_df.empty else np.nan
+    rec_str = f"{rec_val:.1f}%" if pd.notna(rec_val) else "N/A"
+
+    st.markdown(
+        f'<span class="status-badge {badge_cls}">🧭 Trạng thái Thị trường HMM hiện hành: {latest_regime}</span>',
+        unsafe_allow_html=True,
+    )
+    st.write("")
+
+    c1, c2, c3, c4, c5 = st.columns(5)
+    c1.metric("Tổng Lượt khách (Arrivals)", f"{summary['total_arrivals']:,.0f}")
+    c2.metric("Tổng Số đêm (Room-Nights)", f"{summary['total_nights']:,.0f}")
+    c3.metric("Thời gian Lưu trú (LOS)", f"{summary['avg_los']:.2f} đêm/khách")
+    c4.metric("Phục hồi vs 2019", rec_str)
+    c5.metric(
+        "Vi phạm Vật lý sau Π_C",
+        f"{summary['post_violations']} / {len(plan_df)}",
+        delta=f"Đã chặn {summary['raw_violations']} lỗi thô" if summary["raw_violations"] > 0 else "0 lỗi (Đạt chuẩn)",
+    )
+
+    col_left, col_right = st.columns([3, 2])
+    with col_left:
+        fig = go.Figure()
+        fig.add_trace(
+            go.Scatter(
+                x=pd.concat([plan_df["date"], plan_df["date"][::-1]]),
+                y=pd.concat([plan_df["upper_arrivals"], plan_df["lower_arrivals"][::-1]]),
                 fill="toself",
-                fillcolor="rgba(37, 99, 235, 0.15)",
+                fillcolor="rgba(37, 99, 235, 0.14)",
                 line=dict(color="rgba(255,255,255,0)"),
-                hoverinfo="skip",
-                name="Dải tin cậy DCQF [P10, P90] (90% Coverage)",
-            ))
-            # Ground truth
-            fig.add_trace(go.Scatter(
-                x=sub_df["date"], y=sub_df[col_true],
+                name="Khoảng Conformal 90% (I_0.90)",
+            )
+        )
+        fig.add_trace(
+            go.Scatter(
+                x=plan_df["date"],
+                y=plan_df["pred_arrivals_safe"],
                 mode="lines+markers",
-                line=dict(color="#111827", width=2.5),
-                marker=dict(size=6),
-                name="Thực tế (Ground Truth)",
-            ))
-            # Proposed model
-            fig.add_trace(go.Scatter(
-                x=sub_df["date"], y=sub_df[col_pred],
-                mode="lines+markers",
-                line=dict(color="#2563EB", width=2.5, dash="solid"),
-                marker=dict(size=6),
-                name="RA-HE-DLinear (Dự báo)",
-            ))
+                line=dict(color="#2563EB", width=2.5),
+                name="Dự báo Lượt khách (RA-HE-DLinear)",
+            )
+        )
+        if plan_df["actual_arrivals"].notna().any():
+            fig.add_trace(
+                go.Scatter(
+                    x=plan_df["date"],
+                    y=plan_df["actual_arrivals"],
+                    mode="lines+markers",
+                    line=dict(color="#111827", width=2, dash="dot"),
+                    name="Thực tế Eurostat",
+                )
+            )
+        fig.update_layout(
+            title=f"Quỹ đạo Lượt khách & Biên Rủi ro Conformal tại {ctx['country']}",
+            template="plotly_white",
+            height=380,
+            hovermode="x unified",
+            legend=dict(orientation="h", y=1.12),
+        )
+        st.plotly_chart(fig, width='stretch')
 
-            fig.update_layout(
-                title=f"Quỹ đạo dự báo chuỗi thời gian tại {selected_geo} ({selected_acc.upper()})",
-                xaxis_title="Thời gian (Tháng/Năm)",
-                yaxis_title="Số lượng khách / đêm",
+    with col_right:
+        cap_df, _ = compute_nace_capacity_staffing(
+            bundle.forecasts_df, ctx["geo"], ctx["horizon"], origin_label=ctx["origin"]
+        )
+        if not cap_df.empty:
+            nace_mix = cap_df.groupby("nace_code", as_index=False)[["pred_arrivals", "pred_nights"]].sum()
+            fig_pie = px.bar(
+                nace_mix,
+                x="nace_code",
+                y="pred_nights",
+                color="nace_code",
+                title="Phân bổ Đêm lưu trú theo Nhóm NACE (I551/I552/I553)",
+                labels={"nace_code": "Nhóm NACE", "pred_nights": "Số đêm lưu trú dự báo"},
                 template="plotly_white",
-                height=480,
-                legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1),
-                hovermode="x unified",
+                height=380,
             )
-            st.plotly_chart(fig, use_container_width=True)
+            fig_pie.update_layout(showlegend=False)
+            st.plotly_chart(fig_pie, width='stretch')
 
-        except ImportError:
-            st.line_chart(sub_df.set_index("date")[[col_true, col_pred]])
-
-        st.dataframe(
-            sub_df[["date", "geo", "accommodation_type", col_true, col_pred, col_p10, col_p90]].head(12),
-            use_container_width=True,
-        )
-
-    # =========================================================================
-    # TAB 2: SPATIAL SPILLOVERS (DUAL TRMF MATRIX FACTORIZATION)
-    # =========================================================================
-    elif demo_mode.startswith("2."):
-        st.markdown('<div class="main-header">🌐 Động Cơ Lan Tỏa Không Gian: Dual TRMF Matrix Factorization</div>', unsafe_allow_html=True)
-        st.markdown('<div class="sub-header">Mô hình hóa độc lập cấu trúc lan tỏa không gian cho cả Lượt khách (Yarr) và Số đêm lưu trú (Ynig), học riêng động thái thời gian lưu trú (Length of Stay - LoS).</div>', unsafe_allow_html=True)
-
+    # Role-based operational briefing
+    st.markdown("#### 📋 Khuyến nghị Hành động theo Vai trò Khai thác")
+    if "Cửa khẩu" in ctx["stakeholder"]:
         st.info(
-            "💡 **Cơ chế Độc lập Toán học:** Khác với các phương pháp cũ nhân tuyến tính scalar ratio, "
-            "Dual TRMF phân rã song song 2 ma trận:\\n"
-            "- $\\mathbf{Y}_{\\mathrm{arr}} \\approx \\mathbf{W}_{\\mathrm{arr}} \\mathbf{X}_{\\mathrm{arr}}^T$: Nắm bắt dòng luân chuyển khách du lịch xuyên biên giới Schengen.\\n"
-            "- $\\mathbf{Y}_{\\mathrm{nig}} \\approx \\mathbf{W}_{\\mathrm{nig}} \\mathbf{X}_{\\mathrm{nig}}^T$: Nắm bắt cấu trúc lan tỏa thời gian lưu trú (vùng ven biển Địa Trung Hải lưu trú dài ngày vs đô thị quá cảnh ngắn ngày)."
+            f"**Cơ quan Du lịch / Hàng không / Cửa khẩu:** Đỉnh lưu lượng nhập cảnh dự kiến đạt "
+            f"**{summary['peak_daily_arrivals']:,.0f} lượt/ngày** (tổng **{summary['total_arrivals']:,.0f}** lượt trong {len(plan_df)} tháng). "
+            f"Cần bố trí luồng thông quan, hạ tầng vận tải mặt đất sân bay và quầy check-in theo các tháng đỉnh mùa vụ."
+        )
+    elif "Lưu trú" in ctx["stakeholder"]:
+        st.info(
+            f"**Hiệp hội & Cơ sở Lưu trú (NACE I551–I553):** Tổng cầu phòng đạt **{summary['total_nights']:,.0f} đêm lưu trú** "
+            f"(đỉnh **{summary['peak_daily_nights']:,.0f} đêm/ngày**), thời gian lưu trú trung bình **{summary['avg_los']:.2f} đêm/khách**. "
+            f"Mở phân hệ **2️⃣ Công suất NACE & Nhân sự Thời vụ** để xem lịch tuyển dụng FTE và cửa sổ đóng cửa bảo trì."
+        )
+    else:
+        st.info(
+            f"**DMO — Quản trị Điểm đến:** Toàn bộ {len(plan_df)} kỳ dự báo đều thỏa mãn nghiêm ngặt chuẩn thống kê UNWTO/Eurostat "
+            f"($\\hat{{Y}}^{{\\text{{nig}}}} \\ge \\hat{{Y}}^{{\\text{{arr}}}}$). Với chỉ số phục hồi bình quân **{rec_str}** so với cùng kỳ 2019, "
+            f"DMO có thể đối chiếu cận trên/dưới của $\\hat{{\\mathcal{{I}}}}_{{0.90}}$ tại phân hệ **4️⃣** để phân bổ ngân sách xúc tiến."
         )
 
-        col_s1, col_s2 = st.columns(2)
-        with col_s1:
-            st.markdown("#### 🏛️ 4 Cụm Không Gian Du Lịch Châu Âu")
-            cluster_data = {
-                "Cụm Không Gian": ["Cụm 1: Nam Âu / Địa Trung Hải", "Cụm 2: Tây Âu Đô Thị", "Cụm 3: Bắc Âu Sinh Thái", "Cụm 4: Đông Âu Mới Nổi"],
-                "Đại diện quốc gia tiêu biểu": ["ES, IT, EL, PT, HR", "FR, DE, NL, BE, AT", "SE, NO, DK, FI, IS", "PL, CZ, HU, RO, BG"],
-                "Hành vi Lưu trú (LoS)": ["Dài ngày (4.0 – 6.5 đêm/lượt)", "Trung bình (2.0 – 3.2 đêm/lượt)", "Trung bình (2.2 – 3.5 đêm/lượt)", "Ngắn ngày (1.8 – 2.8 đêm/lượt)"],
-                "Tính chất Mùa vụ": ["Đỉnh nhọn cực hạn mùa hè (Tháng 7-8)", "Ổn định quanh năm & du lịch công vụ", "Đỉnh kép: Trượt tuyết mùa đông & Hè", "Mùa lễ hội & văn hóa mùa thu"],
-            }
-            st.table(pd.DataFrame(cluster_data))
+    export_cols = [
+        "date",
+        "geo",
+        "country",
+        "accommodation_type",
+        "pred_arrivals_safe",
+        "pred_nights_safe",
+        "pred_los",
+        "daily_arrivals_throughput",
+        "daily_nights_demand",
+        "lower_arrivals",
+        "upper_arrivals",
+        "lower_nights",
+        "upper_nights",
+    ]
+    avail_export = [c for c in export_cols if c in plan_df.columns]
+    st.download_button(
+        label="⬇️ Tải Kế hoạch Vận hành Đa chân trời (CSV)",
+        data=plan_df[avail_export].to_csv(index=False).encode("utf-8"),
+        file_name=f"regitour_dmo_plan_{ctx['geo']}_{ctx['accom']}_{ctx['origin']}.csv",
+        mime="text/csv",
+    )
 
-        with col_s2:
-            st.markdown("#### ⚖️ Trọng Số Hòa Trộn Không - Thời Gian (Validation Constrained Optimization)")
-            st.write("Trọng số hòa trộn $w_{\\mathrm{time}}$ được tối ưu hóa lồi trên tập Validation (2023) độc lập:")
-            st.latex(r"w_{\mathrm{time}}^* = \arg\min_{w \in [0.70, 1.00]} \mathcal{L}_{\mathrm{val}}\left(\mathbf{Y}, \Pi_{\mathcal{C}}\left(w \hat{\mathbf{Y}}_{\mathrm{lin}} + (1-w) \hat{\mathbf{Y}}_{\mathrm{spatial}}\right)\right)")
-            st.metric("Trọng số Lõi Thời gian (RA-Exo-DLinear)", "70.0% - 85.0%")
-            st.metric("Trọng số Động cơ Không gian (Dual TRMF)", "15.0% - 30.0%")
 
-        if df_results is not None:
-            st.markdown("#### 📊 So sánh Tỷ lệ Lưu trú Thực tế vs Mô hình Hóa Không gian")
-            sample_df = df_results[df_results["accommodation_type"] == "total"].copy()
-            sample_df["actual_los"] = sample_df["nights_total"] / np.maximum(sample_df["arrivals_total"], 1.0)
-            sample_df["pred_los"] = sample_df["pred_nights_point"] / np.maximum(sample_df["pred_arrivals_point"], 1.0)
-            los_by_geo = sample_df.groupby("geo")[["actual_los", "pred_los"]].mean().reset_index()
+def _render_layer1_coordinated_throughput(bundle, ctx):
+    st.markdown(
+        f'<div class="main-header">1️⃣ Hoạch định Đồng bộ Lưu lượng Khách đến & Nhu cầu Lưu trú</div>',
+        unsafe_allow_html=True,
+    )
+    st.markdown(
+        '<div class="sub-header">Lớp bài toán 1 (Section VI): Liên kết lưu lượng cửa khẩu/sân bay/check-in (Arrivals) với nhu cầu phòng/điện nước/catering (Nights) dưới bảo chứng bất biến Π_C.</div>',
+        unsafe_allow_html=True,
+    )
 
-            try:
-                import plotly.express as px
-                fig_los = px.bar(
-                    los_by_geo.head(20),
-                    x="geo",
-                    y=["actual_los", "pred_los"],
-                    barmode="group",
-                    title="Thời gian lưu trú bình quân (Length of Stay - LoS = Nights / Arrivals) theo quốc gia",
-                    labels={"value": "Số đêm bình quân / lượt khách", "geo": "Quốc gia", "variable": "Chỉ số"},
-                    template="plotly_white",
-                    height=380,
-                )
-                st.plotly_chart(fig_los, use_container_width=True)
-            except Exception:
-                st.dataframe(los_by_geo.head(15))
+    plan_df, summary = compute_coordinated_throughput_plan(
+        bundle.forecasts_df, ctx["geo"], ctx["accom"], ctx["horizon"], ctx["origin"]
+    )
+    if plan_df.empty:
+        st.warning("Không có dữ liệu cho lựa chọn này.")
+        return
 
-    # =========================================================================
-    # TAB 3: COUPLED CONSISTENCY & ANCHOR PROJECTION (PI_C)
-    # =========================================================================
-    elif demo_mode.startswith("3."):
-        st.markdown('<div class="main-header">⚖️ Ràng Buộc Nghiệp Vụ Kinh Tế & Phép Chiếu Neo (Π_C)</div>', unsafe_allow_html=True)
-        st.markdown('<div class="sub-header">Bảo chứng triệt tiêu 100% mâu thuẫn phi lý (Nights >= Arrivals) và duy trì tỷ lệ lưu trú trong dải lịch sử.</div>', unsafe_allow_html=True)
+    c1, c2, c3, c4 = st.columns(4)
+    c1.metric("Đỉnh Thông quan / Check-in", f"{summary['peak_daily_arrivals']:,.0f} lượt/ngày")
+    c2.metric("Đỉnh Công suất Đêm phòng", f"{summary['peak_daily_nights']:,.0f} đêm/ngày")
+    c3.metric("Thời gian Lưu trú (LOS)", f"{summary['avg_los']:.2f} đêm/khách")
+    c4.metric(
+        "Kiểm soát Mâu thuẫn (Π_C)",
+        f"{summary['post_violations']} vi phạm",
+        delta=f"Chặn {summary['raw_violations']} lỗi Raw / {summary['dlinear_violations']} lỗi DLinear",
+    )
 
-        col_c1, col_c2 = st.columns([1, 1])
-
-        with col_c1:
-            st.markdown("#### 🧪 Thử nghiệm Trực quan Phép Chiếu Neo (Live Simulation)")
-            st.write("Điều chỉnh giả lập một dự báo thô có nguy cơ vi phạm cận vật lý:")
-            sim_arr = st.slider("Dự báo Lượt khách thô (Arrivals):", min_value=100, max_value=5000, value=1000, step=50)
-            sim_nig_raw = st.slider("Dự báo Số đêm thô (Nights - thử kéo nhỏ hơn Arrivals):", min_value=50, max_value=8000, value=850, step=50)
-            base_r = st.slider("Tỷ lệ lưu trú chuẩn của quốc gia (Historical Base Ratio):", min_value=1.5, max_value=5.0, value=2.5, step=0.1)
-
-            # Perform Anchor Projection
-            is_violation = sim_nig_raw < sim_arr
-            ratio_raw = sim_nig_raw / max(1, sim_arr)
-            r_min = max(1.05, base_r - 1.0)
-            r_max = base_r + 1.0
-
-            if ratio_raw < r_min:
-                sim_nig_proj = int(round(sim_arr * r_min))
-                status_text = "🔴 VI PHẠM CẬN VẬT LÝ / DẢI KINH TẾ (Đã được sửa bởi Π_C)"
-                badge_class = "badge-shock"
-            elif ratio_raw > r_max:
-                sim_nig_proj = int(round(sim_arr * r_max))
-                status_text = "🟠 VƯỢT DẢI KINH TẾ TỐI ĐA (Đã nắn chỉnh về biên trên)"
-                badge_class = "badge-recovery"
-            else:
-                sim_nig_proj = sim_nig_raw
-                status_text = "🟢 HỢP LỆ VẬT LÝ & KINH TẾ"
-                badge_class = "badge-normal"
-
-            st.markdown(f'<span class="status-badge {badge_class}">{status_text}</span>', unsafe_allow_html=True)
-            st.write("")
-            res_col1, res_col2 = st.columns(2)
-            res_col1.metric("Lượt khách sau chiếu", f"{sim_arr:,} (Neo bất biến)")
-            res_col2.metric("Số đêm sau chiếu", f"{sim_nig_proj:,}", delta=f"{sim_nig_proj - sim_nig_raw:+,} đêm")
-
-        with col_c2:
-            st.markdown("#### 📐 Cơ Sở Toán Học Phép Chiếu Neo Asymmetric Anchor")
-            st.latex(r"\Pi_{\mathcal{C}}\left(\hat{Y}_{\mathrm{arr}}, \hat{Y}_{\mathrm{nig}}\right) = \left(\hat{Y}_{\mathrm{arr}}, \, \max\left(\hat{Y}_{\mathrm{nig}}, \, \hat{Y}_{\mathrm{arr}} \times 1.05\right)\right)")
-            st.markdown(
-                """
-                - **Lượt khách là Neo bất biến (Anchor):** Số liệu khai báo nhập cảnh được ghi nhận có độ tin cậy cao nhất.
-                - **Số đêm là biến phụ thuộc:** Chiếu nắn chỉnh số đêm đảm bảo luôn $\\text{Nights} \\ge \\text{Arrivals} \\times 1.05$.
-                - **Tỷ lệ vi phạm trên tập kiểm thử:** Chỉ **0.15% (7/4,712 mẫu)** trước chiếu, và chính xác **0.00% vi phạm** sau chiếu.
-                """
+    col_a, col_b = st.columns(2)
+    with col_a:
+        fig_tp = go.Figure()
+        fig_tp.add_trace(
+            go.Bar(
+                x=plan_df["date"],
+                y=plan_df["daily_arrivals_throughput"],
+                name="Lưu lượng đến bình quân/ngày (Cửa khẩu / Check-in)",
+                marker_color="#2563EB",
             )
+        )
+        fig_tp.add_trace(
+            go.Bar(
+                x=plan_df["date"],
+                y=plan_df["daily_nights_demand"],
+                name="Nhu cầu đêm phòng/ngày (Room-Nights / Utilities)",
+                marker_color="#10B981",
+            )
+        )
+        fig_tp.update_layout(
+            barmode="group",
+            title=f"Tải Vận hành Bình quân Ngày — {ctx['country']} ({ctx['nace_code']})",
+            template="plotly_white",
+            height=400,
+            legend=dict(orientation="h", y=1.12),
+        )
+        st.plotly_chart(fig_tp, width='stretch')
 
-        if df_results is not None:
-            # Scatter plot
-            arr_vals = df_results["pred_arrivals_point"].values[:1000] / 1000.0
-            nig_vals = df_results["pred_nights_point"].values[:1000] / 1000.0
-            try:
-                import plotly.graph_objects as go
-                fig_sc = go.Figure()
-                max_v = 1500
-                fig_sc.add_trace(go.Scatter(
-                    x=[0, max_v], y=[0, max_v],
-                    mode="lines",
-                    line=dict(color="#DC2626", width=2, dash="dash"),
-                    name="Cận vật lý tối thiểu (Nights = Arrivals, LOS = 1.0)",
-                ))
-                fig_sc.add_trace(go.Scatter(
-                    x=arr_vals, y=nig_vals,
-                    mode="markers",
-                    marker=dict(color="#2563EB", size=5, opacity=0.5),
-                    name="Kết quả dự báo sau chiếu Π_C (0.00% vi phạm)",
-                ))
-                fig_sc.update_layout(
-                    title="Không gian phân bổ Dự báo sau Phép chiếu Neo (Arrivals vs Nights)",
-                    xaxis_title="Lượt khách dự báo (Nghìn lượt)",
-                    yaxis_title="Số đêm dự báo (Nghìn đêm)",
-                    template="plotly_white",
-                    height=400,
+    with col_b:
+        fig_los = go.Figure()
+        fig_los.add_trace(
+            go.Scatter(
+                x=plan_df["date"],
+                y=plan_df["pred_los"],
+                mode="lines+markers",
+                name="LOS Dự báo (Nights / Arrivals)",
+                line=dict(color="#1E3A8A", width=2.5),
+            )
+        )
+        if plan_df["actual_arrivals"].notna().any() and plan_df["actual_nights"].notna().any():
+            actual_los = np.where(
+                plan_df["actual_arrivals"] > 0,
+                plan_df["actual_nights"] / np.maximum(plan_df["actual_arrivals"], 1.0),
+                np.nan,
+            )
+            fig_los.add_trace(
+                go.Scatter(
+                    x=plan_df["date"],
+                    y=actual_los,
+                    mode="lines+markers",
+                    name="LOS Thực tế Eurostat",
+                    line=dict(color="#6B7280", width=2, dash="dash"),
                 )
-                st.plotly_chart(fig_sc, use_container_width=True)
-            except Exception:
-                pass
+            )
+        fig_los.add_hline(y=1.0, line_dash="dot", line_color="#DC2626", annotation_text="Cận vật lý UNWTO (LOS = 1.0)")
+        fig_los.update_layout(
+            title="Ổn định Chỉ số Thời gian Lưu trú (LOS >= 1.0)",
+            yaxis_title="Số đêm / Lượt khách",
+            template="plotly_white",
+            height=400,
+            legend=dict(orientation="h", y=1.12),
+        )
+        st.plotly_chart(fig_los, width='stretch')
 
-    # =========================================================================
-    # TAB 4: XAI & POLICY SIMULATION
-    # =========================================================================
-    elif demo_mode.startswith("4."):
-        st.markdown('<div class="main-header">🔬 Trí Tuệ Nhân Tạo Giải Thích (XAI) & Mô Phỏng Chính Sách</div>', unsafe_allow_html=True)
-        st.markdown('<div class="sub-header">Trọng số chú ý chéo thực tế (M-RA-BiLSTM Attention), Đóng góp đặc trưng vĩ mô TreeSHAP và mô phỏng cú sốc giá phòng HICP.</div>', unsafe_allow_html=True)
-
-        tab_xai1, tab_xai2 = st.tabs(["🎯 Mô phỏng Cú sốc Lạm phát / Giá phòng (What-If)", "🧠 Trọng số Chú ý Mùa vụ (Cross-Temporal Attention)"])
-
-        with tab_xai1:
-            col_w1, col_w2 = st.columns([1, 1])
-            with col_w1:
-                st.markdown("#### ⚡ Thử nghiệm Can thiệp Chỉ số Giá phòng Khách sạn (HICP)")
-                hicp_shock = st.slider("Mức độ biến động giá phòng khách sạn (%):", min_value=-20, max_value=20, value=10, step=5)
-                sim_country = st.selectbox("Chọn quốc gia mô phỏng:", ["FR (Pháp)", "ES (Tây Ban Nha)", "IT (Ý)", "DE (Đức)"])
-
-                # Standard empirical price elasticity of tourism demand in Southern/Western Europe: ~ -0.45 to -0.65
-                elasticity = -0.58 if "ES" in sim_country or "IT" in sim_country else -0.48
-                arr_delta = hicp_shock * elasticity
-                nig_delta = hicp_shock * (elasticity * 1.15)  # Nights drops more than arrivals due to shortened trips
-
-                st.write("")
-                st.metric("Tác động tới Lượt khách (Arrivals)", f"{arr_delta:+.2f}%", delta=f"{arr_delta:+.2f}%", delta_color="inverse")
-                st.metric("Tác động tới Số đêm lưu trú (Nights)", f"{nig_delta:+.2f}%", delta=f"{nig_delta:+.2f}%", delta_color="inverse")
-                st.caption(f"Hệ số co giãn giá (Price Elasticity): {elasticity:.2f}. Khách có xu hướng rút ngắn số đêm lưu trú trước khi hủy hẳn chuyến đi.")
-
-            with col_w2:
-                df_elast, df_whatif = load_xai_data()
-                if df_whatif is not None:
-                    st.markdown("#### 📋 Bảng Kịch bản Giả định Đối thực nghiệm Đã Tính toán")
-                    st.dataframe(df_whatif[["country", "scenario", "arrivals_delta_pct", "nights_delta_pct"]].head(12), use_container_width=True)
-                elif df_elast is not None:
-                    st.dataframe(df_elast.head(10), use_container_width=True)
-
-        with tab_xai2:
-            st.markdown("#### 🧠 Bản đồ Nhiệt Chú ý Chéo Thời Gian Học từ Mô Hình Thật")
-            attn_img_path = ROOT_DIR / "results" / "xai" / "attention_cross_temporal_heatmap.png"
-            if attn_img_path.exists():
-                st.image(str(attn_img_path), caption="Cross-Temporal Attention Heatmap: Query (Lịch lễ tương lai) attend Key/Value (Lags lịch sử)", use_column_width=True)
-            else:
-                st.info("Chạy `python run_xai_analysis.py` để trích xuất và hiển thị heatmap chú ý chéo thực tế.")
-
-    # =========================================================================
-    # TAB 5: BENCHMARK LEADERBOARD
-    # =========================================================================
-    elif demo_mode.startswith("5."):
-        st.markdown('<div class="main-header">🏆 Bảng Xếp Hạng Đối Sánh Khoa Học Toàn Diện</div>', unsafe_allow_html=True)
-        st.markdown('<div class="sub-header">Đánh giá đối đầu trực tiếp trên tập kiểm thử độc lập (2024–2026, 4,712 quan sát) qua 3 làn sóng y văn thế giới.</div>', unsafe_allow_html=True)
-
-        df_bench = load_benchmark_table()
-        if df_bench is not None:
-            st.dataframe(df_bench, use_container_width=True)
-        else:
-            # Fallback display of verified scientific metrics from README
-            leaderboard_data = {
-                "Mô hình đối sánh": [
-                    "RA-HE-DLinear (Proposed Linear ⭐)",
-                    "RA-Exo-DLinear (Proposed Core)",
-                    "Seasonal Naive (S-Naive)",
-                    "Standard LightGBM",
-                    "Vanilla DLinear (AAAI 2023)",
-                    "Vanilla NLinear (AAAI 2023)",
-                    "Standard XGBoost",
-                    "CatBoost-Regime (Ablation)",
-                    "Classical LSTM (1997)",
-                    "Vanilla BiLSTM (2013)",
-                ],
-                "Lớp mô hình": [
-                    "Linear Framework (Proposed ⭐)",
-                    "Linear LTSF (Proposed)",
-                    "Thống kê cổ điển",
-                    "Machine Learning",
-                    "Modern Linear LTSF",
-                    "Modern Linear LTSF",
-                    "Machine Learning",
-                    "Machine Learning",
-                    "Classical Deep Learning",
-                    "Classical Deep Learning",
-                ],
-                "Arrivals WAPE": ["14.59%", "18.29%", "27.30%", "30.37%", "45.38%", "32.10%", "34.13%", "40.27%", "108.53%", "108.53%"],
-                "Nights WAPE": ["25.00%", "25.87%", "32.73%", "34.28%", "25.61%", "49.38%", "42.36%", "44.86%", "113.16%", "113.16%"],
-                "Vi phạm Cận vật lý": ["0.00%*", "0.21%", "0.05%", "0.19%", "0.05%", "0.69%", "0.34%", "0.82%", "0.05%", "0.05%"],
-                "Lệch dải Kinh tế": ["16.0%", "21.5%", "28.8%", "49.2%", "28.8%", "29.2%", "37.7%", "44.9%", "99.4%", "99.4%"],
+    # Cross-NACE consistency audit table
+    st.markdown("#### 🧾 Kiểm toán Nhất quán Ngân sách qua Các Nhóm NACE (I551 / I552 / I553 / Total)")
+    audit_rows = []
+    for accom_key in ("hotel", "short_stay", "camping", "total"):
+        _, s = compute_coordinated_throughput_plan(
+            bundle.forecasts_df, ctx["geo"], accom_key, ctx["horizon"], ctx["origin"]
+        )
+        code, desc = NACE_LABELS[accom_key]
+        audit_rows.append(
+            {
+                "Mã NACE": code,
+                "Phân khúc": desc,
+                "Tổng Lượt khách": round(s["total_arrivals"]),
+                "Tổng Đêm lưu trú": round(s["total_nights"]),
+                "LOS Bình quân": round(s["avg_los"], 2),
+                "Lỗi Thô trước Π_C": s["raw_violations"],
+                "Lỗi DLinear Baseline": s["dlinear_violations"],
+                "Lỗi sau Π_C": s["post_violations"],
+                "Đêm hiệu chỉnh Π_C": round(s["total_nights_corrected"], 1),
             }
-            st.table(pd.DataFrame(leaderboard_data))
-            st.caption("* Sau phép chiếu neo Π_C, vi phạm cận vật lý đạt 0.00% (0/4,712 mẫu). Tỷ lệ cần can thiệp của mô hình thô là 0.15% (7/4,712 mẫu).")
+        )
+    st.dataframe(pd.DataFrame(audit_rows), width='stretch')
+
+
+def _render_layer2_nace_capacity_staffing(bundle, ctx):
+    st.markdown(
+        f'<div class="main-header">2️⃣ Phân bổ Công suất Lưu trú NACE & Nhân sự Thời vụ</div>',
+        unsafe_allow_html=True,
+    )
+    st.markdown(
+        '<div class="sub-header">Lớp bài toán 2 (Section VI): Phân tách cầu tới H=12 tháng theo Hotels (I551), Short-Stay (I552), Camping (I553) để lập lịch tuyển dụng thời vụ, ca buồng phòng & cửa sổ bảo trì.</div>',
+        unsafe_allow_html=True,
+    )
+
+    with st.expander("⚙️ Cấu hình Tham số Vận hành Cơ sở Lưu trú (Facility-Level Inputs)", expanded=False):
+        p1, p2, p3, p4 = st.columns(4)
+        hours_arr = p1.number_input("Giờ công check-in / turnover mỗi lượt khách:", 0.1, 3.0, 0.50, 0.05)
+        hours_nig = p2.number_input("Giờ công buồng phòng / phục vụ mỗi đêm:", 0.1, 3.0, 0.35, 0.05)
+        hours_fte = p3.number_input("Định mức giờ công / nhân sự (giờ/tháng):", 80.0, 240.0, 160.0, 10.0)
+        maint_thresh = p4.slider("Ngưỡng công suất đề xuất Bảo trì (%):", 15.0, 60.0, 35.0, 5.0)
+
+        g1, g2, g3 = st.columns(3)
+        g_hotel = g1.number_input("Khách/phòng bình quân (I551 Hotels):", 1.0, 5.0, 1.8, 0.1)
+        g_short = g2.number_input("Khách/đơn vị bình quân (I552 Short-Stay):", 1.0, 8.0, 2.6, 0.1)
+        g_camp = g3.number_input("Khách/lô bình quân (I553 Camping):", 1.0, 8.0, 2.8, 0.1)
+
+    cap_df, cap_summary = compute_nace_capacity_staffing(
+        bundle.forecasts_df,
+        ctx["geo"],
+        horizon_months=ctx["horizon"],
+        guests_per_unit={"hotel": g_hotel, "short_stay": g_short, "camping": g_camp},
+        hours_per_arrival=hours_arr,
+        hours_per_night=hours_nig,
+        hours_per_fte_month=hours_fte,
+        maintenance_occ_threshold_pct=maint_thresh,
+        origin_label=ctx["origin"],
+    )
+
+    if cap_df.empty:
+        st.warning("Không có dữ liệu chi tiết theo NACE cho quốc gia này.")
+        return
+
+    m1, m2, m3 = st.columns(3)
+    m1.metric("Tổng Nhân sự Đỉnh mùa (Peak FTE)", f"{cap_summary['total_peak_fte']:,.0f} FTE")
+    m2.metric("Nhân sự Cố định Nền (Baseline FTE)", f"{cap_summary['total_baseline_fte']:,.0f} FTE")
+    m3.metric("Biên độ Tuyển dụng Thời vụ", f"+{cap_summary['total_seasonal_hiring_need']:,.0f} FTE")
+
+    col_left, col_right = st.columns(2)
+    with col_left:
+        fig_fte = px.area(
+            cap_df,
+            x="date",
+            y="required_fte",
+            color="nace_code",
+            title=f"Nhu cầu Nhân sự Thời vụ (FTE) theo Nhóm NACE — {ctx['country']}",
+            labels={"date": "Tháng", "required_fte": "Nhân sự yêu cầu (FTE)", "nace_code": "Nhóm NACE"},
+            template="plotly_white",
+            height=400,
+        )
+        st.plotly_chart(fig_fte, width='stretch')
+
+    with col_right:
+        fig_occ = px.line(
+            cap_df,
+            x="date",
+            y="occupancy_pct",
+            color="nace_code",
+            markers=True,
+            title="Tỷ lệ Lấp đầy Ước tính (%) & Cửa sổ Bảo trì / Quá tải",
+            labels={"date": "Tháng", "occupancy_pct": "Công suất ước tính (%)", "nace_code": "Nhóm NACE"},
+            template="plotly_white",
+            height=400,
+        )
+        fig_occ.add_hline(y=85.0, line_dash="dash", line_color="#DC2626", annotation_text="Cảnh báo Quá tải (85%)")
+        fig_occ.add_hline(
+            y=maint_thresh,
+            line_dash="dot",
+            line_color="#F59E0B",
+            annotation_text=f"Cửa sổ Bảo trì (<{maint_thresh:.0f}%)",
+        )
+        st.plotly_chart(fig_occ, width='stretch')
+
+    st.markdown("#### 🗓️ Tổng hợp Lịch Điều độ Nhân sự & Cửa sổ Bảo trì theo Phân khúc NACE")
+    summary_rows = []
+    for accom, info in cap_summary["categories"].items():
+        summary_rows.append(
+            {
+                "Mã NACE": info["nace_code"],
+                "Phân khúc": info["nace_name"],
+                "Tháng Đỉnh": info["peak_month"],
+                "FTE Đỉnh": round(info["peak_fte"], 1),
+                "Tháng Thấp điểm": info["trough_month"],
+                "FTE Nền": round(info["trough_fte"], 1),
+                "Tuyển Thời vụ (+/- FTE)": round(info["seasonal_fte_swing"], 1),
+                "Các tháng Cửa sổ Bảo trì": ", ".join(info["maintenance_window_months"]) or "Không có",
+                "Các tháng Quá tải (>=85%)": ", ".join(info["peak_strain_months"]) or "Không có",
+            }
+        )
+    st.dataframe(pd.DataFrame(summary_rows), width='stretch')
+
+    st.download_button(
+        label="⬇️ Tải Lịch Công suất & Nhân sự NACE (CSV)",
+        data=cap_df.to_csv(index=False).encode("utf-8"),
+        file_name=f"regitour_nace_staffing_{ctx['geo']}_{ctx['origin']}.csv",
+        mime="text/csv",
+    )
+
+
+def _render_layer3_crisis_stress(bundle, ctx):
+    st.markdown(
+        f'<div class="main-header">3️⃣ Giám sát Trạng thái Khủng hoảng & Stress Testing Vĩ mô</div>',
+        unsafe_allow_html=True,
+    )
+    st.markdown(
+        '<div class="sub-header">Lớp bài toán 3 (Section VI): Định danh chuyển dịch chế độ bằng HMM nhân quả, đánh giá sức chống chịu qua cú sốc 2020–2021 và mô phỏng cú sốc giá/biên giới.</div>',
+        unsafe_allow_html=True,
+    )
+
+    diag = compute_crisis_regime_diagnostics(bundle, ctx["geo"])
+    hmm_df = get_hmm_timeline(bundle.history_df)
+
+    # A. HMM Timeline
+    if not hmm_df.empty:
+        fig_hmm = go.Figure()
+        fig_hmm.add_trace(
+            go.Scatter(
+                x=hmm_df["date"], y=hmm_df["p_normal"] * 100, stackgroup="one", name="Normal (Bình thường)", line=dict(color="#10B981")
+            )
+        )
+        fig_hmm.add_trace(
+            go.Scatter(
+                x=hmm_df["date"],
+                y=hmm_df["p_disruption"] * 100,
+                stackgroup="one",
+                name="Disruption Shock (Khủng hoảng)",
+                line=dict(color="#EF4444"),
+            )
+        )
+        fig_hmm.add_trace(
+            go.Scatter(
+                x=hmm_df["date"],
+                y=hmm_df["p_recovery"] * 100,
+                stackgroup="one",
+                name="Recovery (Phục hồi)",
+                line=dict(color="#F59E0B"),
+            )
+        )
+        fig_hmm.update_layout(
+            title="Diễn biến Xác suất Trạng thái Thị trường Du lịch Châu Âu (Gaussian HMM, 2010–2026)",
+            yaxis_title="Xác suất Trạng thái (%)",
+            template="plotly_white",
+            height=340,
+            legend=dict(orientation="h", y=1.14),
+        )
+        st.plotly_chart(fig_hmm, width='stretch')
+
+    # B. Shock Fold Comparison & Undefined LOS safeguard
+    col_l, col_r = st.columns([3, 2])
+    fold_df = diag["fold_comparison_df"]
+    with col_l:
+        if not fold_df.empty:
+            fig_fold = px.bar(
+                fold_df,
+                x="regime_phase",
+                y=["dlinear_arr_wape", "ra_he_arr_wape"],
+                barmode="group",
+                title="Sai số Arrivals WAPE (%) qua 4 Chế độ Thị trường: DLinear vs RA-HE-DLinear",
+                labels={"value": "Arrivals WAPE (%)", "regime_phase": "Giai đoạn / Fold", "variable": "Mô hình"},
+                template="plotly_white",
+                height=360,
+            )
+            st.plotly_chart(fig_fold, width='stretch')
+    with col_r:
+        st.markdown("#### 🛡️ Bảo toàn Tỷ lệ LOS trong Khủng hoảng")
+        if not diag["geo_los_df"].empty:
+            st.dataframe(
+                diag["geo_los_df"][["model", "los_mae", "undefined_predictions", "observed_los_mean", "predicted_los_mean"]],
+                width='stretch',
+            )
+        st.caption(
+            "Trong pha khủng hoảng 2020–2021, các mô hình không có ràng buộc tạo ra 82 dự báo zero-arrival làm mất xác định tỷ lệ LOS, "
+            "trong khi RA-HE-DLinear duy trì LOS xác định trên toàn bộ 38 quốc gia."
+        )
+
+    # C. Interactive Stress Testing
+    st.markdown("---")
+    st.markdown(f"#### ⚡ Stress Test Kịch bản Cú sốc Vĩ mô tại {ctx['country']} ({ctx['nace_code']})")
+    plan_df, _ = compute_coordinated_throughput_plan(
+        bundle.forecasts_df, ctx["geo"], ctx["accom"], ctx["horizon"], ctx["origin"]
+    )
+    if not plan_df.empty:
+        s1, s2, s3 = st.columns(3)
+        hicp_shock = s1.slider("Cú sốc Lạm phát giá phòng HICP (%):", -20, 40, 15, 5)
+        str_delta = s2.slider("Cú sốc Hạn chế biên giới (Oxford Stringency +điểm):", 0, 80, 20, 5)
+        s3.metric("Độ co giãn giá thực nghiệm (Elasticity)", f"{diag['price_elasticity']:.2f}")
+
+        stressed_df = simulate_macro_stress(plan_df, diag["price_elasticity"], hicp_shock, str_delta)
+        base_arr = stressed_df["pred_arrivals"].sum()
+        st_arr = stressed_df["stressed_arrivals"].sum()
+        base_nig = stressed_df["pred_nights"].sum()
+        st_nig = stressed_df["stressed_nights"].sum()
+
+        k1, k2, k3 = st.columns(3)
+        k1.metric("Lượt khách sau Stress Test", f"{st_arr:,.0f}", delta=f"{(st_arr - base_arr) / max(base_arr, 1) * 100:+.1f}%")
+        k2.metric("Đêm lưu trú sau Stress Test", f"{st_nig:,.0f}", delta=f"{(st_nig - base_nig) / max(base_nig, 1) * 100:+.1f}%")
+        k3.metric(
+            "Vi phạm LOS sau Stress + Π_C",
+            f"{int((stressed_df['stressed_nights'] < stressed_df['stressed_arrivals']).sum())} mẫu",
+            delta=f"{int(stressed_df['stress_corrected_pi_c'].sum())} kỳ được Π_C bảo vệ",
+        )
+
+        fig_st = go.Figure()
+        fig_st.add_trace(
+            go.Scatter(x=stressed_df["date"], y=stressed_df["pred_arrivals"], mode="lines+markers", name="Kịch bản Cơ sở (Baseline)")
+        )
+        fig_st.add_trace(
+            go.Scatter(
+                x=stressed_df["date"],
+                y=stressed_df["stressed_arrivals"],
+                mode="lines+markers",
+                name="Kịch bản Stress Test",
+                line=dict(color="#DC2626", dash="dash"),
+            )
+        )
+        fig_st.update_layout(title="Tác động Stress Test lên Lượt khách", template="plotly_white", height=340)
+        st.plotly_chart(fig_st, width='stretch')
+
+
+def _render_layer4_recovery_conformal(bundle, ctx):
+    st.markdown(
+        f'<div class="main-header">4️⃣ Đối sánh Quỹ đạo Phục hồi & Quản trị Rủi ro Conformal (I_0.90)</div>',
+        unsafe_allow_html=True,
+    )
+    st.markdown(
+        '<div class="sub-header">Lớp bài toán 4 (Section VI): Dùng dự báo điểm cùng dải conformal 90% để đối chiếu Biên Quá tải Hạ tầng (Upper Capacity-Strain) và Biên Rủi ro Doanh thu (Lower Revenue-at-Risk) cho DMOs.</div>',
+        unsafe_allow_html=True,
+    )
+
+    traj_df, cross_df = compute_recovery_benchmarking(
+        bundle.forecasts_df, bundle.history_df, ctx["geo"], ctx["accom"], ctx["horizon"], ctx["origin"]
+    )
+    if traj_df.empty:
+        st.warning("Không có dữ liệu phục hồi cho lựa chọn này.")
+        return
+
+    if ctx["geo"] in PAPER_CASE_STUDIES:
+        st.success(f"📌 **Paper Case Study ({ctx['country']}):** {PAPER_CASE_STUDIES[ctx['geo']]}")
+
+    mean_rec = traj_df["recovery_index_arr_pct"].mean()
+    mean_upper = traj_df["capacity_strain_index_pct"].mean()
+    mean_lower = traj_df["revenue_risk_index_pct"].mean()
+
+    r1, r2, r3 = st.columns(3)
+    r1.metric("Chỉ số Phục hồi Điểm vs 2019", f"{mean_rec:.1f}%" if pd.notna(mean_rec) else "N/A")
+    r2.metric("Biên Quá tải Công suất (Upper 90%)", f"{mean_upper:.1f}%" if pd.notna(mean_upper) else "N/A")
+    r3.metric("Biên Rủi ro Doanh thu (Lower 90%)", f"{mean_lower:.1f}%" if pd.notna(mean_lower) else "N/A")
+
+    fig_rec = go.Figure()
+    fig_rec.add_trace(
+        go.Scatter(
+            x=pd.concat([traj_df["date"], traj_df["date"][::-1]]),
+            y=pd.concat([traj_df["capacity_strain_index_pct"], traj_df["revenue_risk_index_pct"][::-1]]),
+            fill="toself",
+            fillcolor="rgba(37, 99, 235, 0.15)",
+            line=dict(color="rgba(255,255,255,0)"),
+            name="Dải Rủi ro Conformal 90% (% so với 2019)",
+        )
+    )
+    fig_rec.add_trace(
+        go.Scatter(
+            x=traj_df["date"],
+            y=traj_df["recovery_index_arr_pct"],
+            mode="lines+markers",
+            name="Dự báo Phục hồi Điểm (% vs 2019)",
+            line=dict(color="#2563EB", width=2.5),
+        )
+    )
+    fig_rec.add_hline(y=100.0, line_dash="dash", line_color="#10B981", annotation_text="Mốc Trước dịch 2019 (100%)")
+    fig_rec.update_layout(
+        title=f"Quỹ đạo Phục hồi & Biên Rủi ro DMO tại {ctx['country']} (Mốc 2019 = 100%)",
+        yaxis_title="Chỉ số so với cùng kỳ 2019 (%)",
+        template="plotly_white",
+        height=390,
+        legend=dict(orientation="h", y=1.12),
+    )
+    st.plotly_chart(fig_rec, width='stretch')
+
+    if not cross_df.empty:
+        st.markdown("#### 🌍 Bảng Đối sánh 38 Điểm đến Châu Âu (Phân tầng Phục hồi & Ngân sách Xúc tiến)")
+        valid_cross = cross_df.dropna(subset=["recovery_pct"]).copy()
+        fig_bar = px.bar(
+            valid_cross,
+            x="geo",
+            y="recovery_pct",
+            color="recovery_tier",
+            hover_data=["country", "pred_los", "paper_case_study"],
+            title="Xếp hạng Phục hồi 38 Quốc gia (% so với cùng kỳ 2019)",
+            labels={"geo": "Quốc gia", "recovery_pct": "Tỷ lệ phục hồi (%)", "recovery_tier": "Nhóm phục hồi"},
+            template="plotly_white",
+            height=380,
+        )
+        fig_bar.add_hline(y=100.0, line_dash="dash", line_color="#111827")
+        st.plotly_chart(fig_bar, width='stretch')
+
+        if bundle.cases_df is not None:
+            st.markdown("##### 📖 Đối chiếu 3 Case Studies Tiêu biểu trong Bài báo (Cyprus, Sweden, Denmark)")
+            st.dataframe(bundle.cases_df, width='stretch')
+
+
+def _render_scientific_benchmark(bundle):
+    st.markdown(
+        '<div class="main-header">🔬 Đối sánh Mô hình Khoa học & Giải thích XAI</div>',
+        unsafe_allow_html=True,
+    )
+    st.markdown(
+        '<div class="sub-header">Minh bạch thực nghiệm từ results/reviewer_experiments/ và phân tích TreeSHAP / Cross-Temporal Attention.</div>',
+        unsafe_allow_html=True,
+    )
+
+    if bundle.benchmark_df is not None:
+        st.markdown("#### 🏆 Bảng Đối sánh Mô hình (Recent Eurostat Fold 2024–2026)")
+        st.dataframe(bundle.benchmark_df, width='stretch')
+
+    if bundle.coverage_df is not None:
+        st.markdown("#### 🛡️ Độ bao phủ Khoảng tin cậy Conformal (Target 90%)")
+        st.dataframe(bundle.coverage_df, width='stretch')
+
+    col1, col2 = st.columns(2)
+    shap_path = ROOT_DIR / "results" / "xai" / "shap_feature_importance.png"
+    attn_path = ROOT_DIR / "results" / "xai" / "attention_cross_temporal_heatmap.png"
+    with col1:
+        if shap_path.exists():
+            st.image(str(shap_path), caption="TreeSHAP Feature Importance (HICP, Stringency, Calendar)", width='stretch')
+    with col2:
+        if attn_path.exists():
+            st.image(str(attn_path), caption="Cross-Temporal Attention Heatmap", width='stretch')
+
+
+def main():
+    bundle = get_dss_bundle()
+    ctx = _render_sidebar(bundle)
+
+    if ctx["nav"].startswith("🏠"):
+        _render_executive_briefing(bundle, ctx)
+    elif ctx["nav"].startswith("1️⃣"):
+        _render_layer1_coordinated_throughput(bundle, ctx)
+    elif ctx["nav"].startswith("2️⃣"):
+        _render_layer2_nace_capacity_staffing(bundle, ctx)
+    elif ctx["nav"].startswith("3️⃣"):
+        _render_layer3_crisis_stress(bundle, ctx)
+    elif ctx["nav"].startswith("4️⃣"):
+        _render_layer4_recovery_conformal(bundle, ctx)
+    else:
+        _render_scientific_benchmark(bundle)
 
 
 if __name__ == "__main__":
     main()
-

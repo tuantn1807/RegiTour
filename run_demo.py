@@ -25,18 +25,32 @@ def check_package(pkg_name: str) -> bool:
     except ImportError:
         return False
 
+def find_streamlit_python() -> str | None:
+    if check_package("streamlit"):
+        return sys.executable
+    venv_py = ROOT_DIR / ".venv" / "bin" / "python"
+    if venv_py.exists():
+        res = subprocess.run(
+            [str(venv_py), "-c", "import streamlit"],
+            stdout=subprocess.DEVNULL,
+            stderr=subprocess.DEVNULL,
+        )
+        if res.returncode == 0:
+            return str(venv_py)
+    return None
+
 def main():
     if "--cli" in sys.argv:
         cli_script = ROOT_DIR / "demo.py"
         subprocess.run([sys.executable, str(cli_script)], check=True)
         return
 
-    has_streamlit = check_package("streamlit")
+    streamlit_python = find_streamlit_python()
 
-    if has_streamlit:
+    if streamlit_python is not None:
         dashboard_script = ROOT_DIR / "dashboard" / "app.py"
         cmd = [
-            sys.executable,
+            streamlit_python,
             "-m",
             "streamlit",
             "run",
