@@ -59,11 +59,11 @@
 
 % Unify section, subsection, subsubsection, and paragraph fonts with the main document (rmfamily)
 \def\section{\@startsection{section}{1}{\z@}{-2.2ex plus -0.8ex minus -0.4ex}%
-{0.6ex plus 0.4ex minus 0ex}{\normalfont\sublargesize\rmfamily\bfseries}}
+{0.6ex plus 0.4ex minus 0ex}{\normalfont\sublargesize\rmfamily\bfseries\raggedright}}
 \def\subsection{\@startsection{subsection}{2}{\z@}{-1.8ex plus -0.6ex minus -0.3ex}%
-{0.5ex plus .3ex minus 0ex}{\normalfont\normalsize\rmfamily\bfseries}}
+{0.5ex plus .3ex minus 0ex}{\normalfont\normalsize\rmfamily\bfseries\raggedright}}
 \def\subsubsection{\@startsection{subsubsection}{3}{\z@}{-1.5ex plus -0.5ex minus -0.2ex}%
-{0.4ex plus 0.2ex minus 0ex}{\normalfont\normalsize\rmfamily\bfseries\itshape}}
+{0.4ex plus 0.2ex minus 0ex}{\normalfont\normalsize\rmfamily\bfseries\itshape\raggedright}}
 \def\paragraph{\@startsection{paragraph}{4}{2\parindent}{-0ex plus -0.1ex minus -0.1ex}%
 {0ex}{\normalfont\normalsize\rmfamily\bfseries}}
 \makeatother
@@ -88,7 +88,8 @@
 \title{Regime-Aware Multi-Country Tourism Demand Forecasting: Integrating Economic Signals and Cross-Country Dependencies}
 
 \author{Nguyen-Tuan~Tran,
-        Hoai-Bao~Phan}
+        Hoai-Bao~Phan,
+        Thi-Thu-Nga~Le}
 
 \IEEEtitleabstractindextext{%
 \begin{abstract}
@@ -142,7 +143,7 @@ Deep learning approaches have further expanded tourism forecasting capabilities.
 
 Despite these developments, Zeng et al. \cite{zeng2023dlinear} showed that simple linear models, particularly DLinear, can outperform more complex Transformer architectures on several long-term forecasting benchmarks. DLinear decomposes a time series into trend and seasonal components before applying linear projections to generate forecasts. Its simplicity and computational efficiency make it a relevant baseline for long-term forecasting. However, DLinear does not explicitly model regime changes or cross-series relationships, nor does it enforce consistency between related forecasting variables.
 
-\subsection{Regime Shifts and Markov-Switching in Tourism Demand}
+\subsection{Regime Shifts and Markov-Switching in Tourism}
 
 International tourism demand is sensitive to economic fluctuations and external shocks, which can lead to changes in travel patterns and demand dynamics \cite{gossling2020pandemics}. Hamilton \cite{hamilton1989regime} introduced Markov-switching autoregressive models to identify latent economic states and transitions between different phases of the business cycle.
 
@@ -150,7 +151,7 @@ Several studies have applied regime-switching approaches to tourism demand analy
 
 These studies demonstrate the application of regime-switching methods in tourism forecasting, including econometric and neural network-based approaches. Although the LTSF-Linear framework \cite{zeng2023dlinear} demonstrated the effectiveness of lightweight decomposition for long-term forecasting, it does not explicitly model spatial correlations between variates or incorporate latent economic regimes as conditioning information. Feature-wise Linear Modulation (FiLM) \cite{perez2018film} provides a general mechanism for conditioning neural representations on external information through affine transformations. However, the integration of probabilistic economic regime information into linear forecasting architectures, particularly for joint multi-destination tourism demand forecasting, remains insufficiently investigated.
 
-\subsection[Cross-Country Dependencies and Latent Factor Modeling]{Cross-Country Dependencies and\\Latent Factor Modeling}
+\subsection{Cross-Country Dependencies and Latent Factors}
 
 Tourism demand across destinations is often spatially interdependent. Previous studies have identified spillover effects in tourism flows, reflecting interactions between neighboring destinations and multi-destination travel behavior \cite{yang2012spatial}. Yang and Zhang \cite{yang2019spatiotemporal} further demonstrated the value of spatial-temporal models for tourism demand forecasting across 29 Chinese provincial regions, examining different spatial weighting matrices, including geographic and flow-based specifications. Jiao et al. \cite{jiao2020local} extended this direction by incorporating spatial dependence and spatial heterogeneity into tourism forecasting across 37 European countries. These studies highlight the importance of accounting for relationships between destinations rather than modeling each tourism market in isolation.
 
@@ -248,7 +249,7 @@ The future projection acts at each horizon, while $\mathbf{W}_{P,k}$ maps the fl
 \end{equation}
 Disabling FiLM and exogenous projections recovers the nonnegative DLinear control.
 
-\subsection{Cross-Country Dependency Modeling (TRMF) and Adaptive Fusion}
+\subsection{Cross-Country Factor Modeling and Adaptive Fusion}
 \label{sec:trmf}
 TRMF uses aggregate accommodation training matrices for arrivals and nights. Eurostat fold dimensions are $38\times72$, $38\times96$, $38\times120$, and $38\times144$, with $203\times21$ for World Bank. After filling training gaps with training-only fallbacks, rows are standardized by their means and standard deviations:
 \begin{equation}
@@ -339,7 +340,7 @@ Algorithm~\ref{alg:pipeline} summarizes fitting and inference.
 \end{algorithmic}
 \end{algorithm}
 
-\section[Empirical Results and Tourism Economic Analysis]{Empirical Results and\\Tourism Economic Analysis}
+\section{Experimental Results}
 \label{sec:results}
 
 \subsection{Data Sources, Coverage, and Forecasting Design}
@@ -375,7 +376,7 @@ Scored Target Pairs & \ReviewerObservedPairs{} observed pairs & 497 reported pai
 
 Chronological splits preserve strict temporal order without lookahead. Benchmark models share identical training, validation, and calibration windows, scoring masks, and initial history fallbacks. Benchmark models include classical statistical models (ETS with validation-selected trend and seasonality \cite{statsmodels_ets}, SARIMA $(1,0,0)(1,0,0)_{12}$ on log counts, and SARIMAX incorporating calendar, HICP, and stringency inputs \cite{statsmodels_sarimax}), gradient boosted trees (LightGBM with 200 trees and 31 leaves \cite{ke2017lightgbm}), and linear sequence baselines (Vanilla DLinear \cite{zeng2023dlinear}). Neural modulation in RA-HE-DLinear uses AdamW optimization (learning rate $10^{-4}$, batch size 256, five epochs, seed 42). Forecast accuracy is evaluated via Weighted Absolute Percentage Error ($\text{WAPE} = 100\sum|\hat{y}-y|/\sum y$) and Mean Absolute Error (MAE), retaining original count units.
 
-\subsection{Comparative Performance for Arrivals and Overnight Stays}
+\subsection{Comparative Performance for Arrivals and Nights}
 \label{sec:matched_benchmarks}
 Table~\ref{tab:reviewer_benchmark} presents comparative forecasting accuracy and operational consistency across benchmark architectures on the recent Eurostat test window (January 2024--July 2026). Accuracy is evaluated via Weighted Absolute Percentage Error ($\text{WAPE}$, \%) and Mean Absolute Error (MAE, reported in original integer counts of arrivals and nights), scored across 4,522 observed target pairs out of 4,712 test grid instances.
 
@@ -398,7 +399,7 @@ Instead, the core scientific contributions and empirical value of \textbf{RA-HE-
 
 The anomalous failure of \textbf{SARIMAX} on tourist arrivals (WAPE 160.60\%, MAE 2,226,629) warrants specific examination. Fitted on 2010--2021 with unscaled macroeconomic inputs (HICP inflation indices and stringency), 233 out of 304 SARIMAX fits failed numerical convergence entirely, reverting to the pre-declared seasonal fallback. Among the 71 converged series, the sharp post-COVID European inflation surge (HICP rising 30--40\% above historical levels) interacted with unregularized positive coefficients under the inverse logarithmic transform $\exp(\cdot)-1$. In 23 destination-category series, this caused exponential prediction divergence (e.g., Belgian hotel arrivals forecasted above 4.8 million vs.\ actual 1.1 million), inflating aggregate WAPE ($100\sum|\hat{y}-y|/\sum y$). For overnight stays, where unregularized coefficients did not trigger runaway exponentials, SARIMAX recorded 17.70\% WAPE. This stark disparity illustrates the severe fragility of classical unregularized log-linear estimators under out-of-distribution macroeconomic shocks, contrasting sharply with the stable bounded behavior of RA-HE-DLinear. Furthermore, point-in-time publication-lag sensitivity evaluations confirm that under simulated two-month accommodation and one-month HICP reporting delays, RA-HE-DLinear maintains robust stability, with WAPE increasing by only 0.28 percentage points for arrivals and 0.25 points for nights.
 
-\subsection[Tourism Demand Volatility and Market Phase Dynamics]{Tourism Demand Volatility and\\Market Phase Dynamics}
+\subsection{Demand Volatility and Market Phase Dynamics}
 \label{sec:tourism_dynamics}
 International tourism demand is characterized by structural breaks and regime shifts across different macroeconomic phases. To investigate how predictive performance evolves between stable growth, severe disruption, and post-crisis normalization, we evaluate model dynamics across four chronological folds: pre-pandemic (2018--2019), pandemic crisis (2020--2021), recovery (2022--2023), and recent (2024--July 2026).
 
@@ -411,7 +412,7 @@ Table~\ref{tab:reviewer_regimes} demonstrates the critical economic role of cros
 
 Conversely, during stable non-crisis periods (pre-pandemic and recent folds), destination-specific temporal dynamics dominate, causing the unconstrained static spatial blend to over-smooth local variations. This trade-off validates the economic design of our \textbf{adaptive validation gate}: by evaluating blending gain on held-out validation data, the adaptive model falls back to the pure temporal core ($w_{\text{time}}^* \to 1.0$) during stable periods, securing optimal precision (\ReviewerArrivalWAPE{}\% arrivals, \ReviewerNightsWAPE{}\% nights in the recent test) while retaining crisis resilience. Detailed factorial component ablation ($E, H, F$) across multiple seeds is presented in Section~\ref{sec:component_contributions} and Table~\ref{tab:factorial_effects}, confirming that exogenous macro/calendar inputs consistently lower error, whereas multiplicative FiLM requires careful soft-gating.
 
-\subsection{Tourism Demand Heterogeneity by Destination Income Group}
+\subsection{Demand Heterogeneity by Destination Income Group}
 \label{sec:income_heterogeneity}
 Destination economies differ markedly in institutional capacity, tourism infrastructure, and demand stability. Following the World Bank FY2024 classification \cite{worldbank_income_fy24,income_fy24_table}, the 38 European destinations in our aggregate accommodation panel separate into 31 high-income economies (30 with observed recent test outcomes) and seven upper-middle-income economies (Bulgaria, Türkiye, Serbia, Albania, Bosnia and Herzegovina, North Macedonia, and Montenegro). Table~\ref{tab:income_groups} reports forecast accuracy disaggregated by income group.
 
@@ -424,7 +425,7 @@ The empirical results reveal pronounced structural differences between income ti
 \end{itemize}
 We emphasize that this panel contains only two World Bank income tiers within Europe, so these findings illustrate regional developmental heterogeneity rather than global exhaustive income classification.
 
-\subsection[Length-of-Stay (LOS) Dynamics and Operational Consistency]{Length-of-Stay (LOS) Dynamics and\\Operational Consistency}
+\subsection{Length-of-Stay (LOS) and Operational Consistency}
 \label{sec:los_analysis}
 The ratio of overnight stays to arrivals defines the destination's aggregate Length of Stay ($\operatorname{LOS} = Y^{\text{nig}} / Y^{\text{arr}}$). From an operational standpoint, predicting LOS is essential for hotel room inventory, housekeeping scheduling, and municipal tax revenue projections. For count errors $\epsilon_A = \hat{Y}^{\text{arr}} - Y^{\text{arr}}$ and $\epsilon_N = \hat{Y}^{\text{nig}} - Y^{\text{nig}}$, the derived LOS prediction error decomposes into:
 \begin{equation}
@@ -440,7 +441,7 @@ Table~\ref{tab:reviewer_los} summarizes LOS MAE and RMSE across evaluation folds
 
 In the recent test period (1,122 common destination-months), adaptive RA-HE-DLinear achieves an LOS MAE of 0.167 nights per arrival and RMSE of 0.342 after applying the consistency projection $\Pi_{\mathcal{C}}$, outperforming Vanilla DLinear (MAE 0.182, RMSE 0.435). While individual visitor length of stay requires micro-level survey data, enforcing $\text{LOS}_{\min} = 1.0$ at the macro aggregate level serves as a robust operational guardrail that prevents physically contradictory forecasts. Across the recent test panel, the projection operator $\Pi_{\mathcal{C}}$ resolves 106 physical violations, reducing nights WAPE from 9.67\% to \ReviewerNightsWAPE{}\% with arrivals held invariant as an anchor, while split-conformal calibration on observed 2023 pairs achieves nominal 90\% coverage (\ReviewerArrivalCoverage{}\% for arrivals and \ReviewerNightsCoverage{}\% for overnight stays).
 
-\subsection[Architectural Component Contributions and Ablation Analysis]{Architectural Component Contributions\\and Ablation Analysis}
+\subsection{Component Contributions and Ablation Analysis}
 \label{sec:component_contributions}
 To systematically isolate the individual predictive contributions, marginal sensitivities, and architectural interactions of the proposed RA-HE-DLinear framework, we evaluate two complementary ablation protocols: a single-seed progressive component ladder (Table~\ref{tab:reviewer_ablation}) and a multi-seed $2^3$ factorial interaction experiment (Table~\ref{tab:factorial_effects}). The factorial design explicitly toggles three core modular components: direct exogenous calendar and macroeconomic projections ($E$), hidden Markov model macroeconomic regime states ($H$), and multiplicative feature-wise linear modulation ($F$).
 
@@ -456,7 +457,7 @@ As documented in Table~\ref{tab:reviewer_ablation}, each architectural innovatio
 \end{enumerate}
 Together, these ablation benchmarks demonstrate that the predictive performance of RA-HE-DLinear stems not from arbitrary model complexity, but from the deliberate, synergistic combination of linear parsimony, exogenous conditioning, soft-gated regime modulation, and physical consistency enforcement.
 
-\subsection[Annual Tourism Demand Forecasting across Global Economies]{Annual Tourism Demand Forecasting\\across Global Economies}
+\subsection{Annual Forecasting across Global Economies}
 \label{sec:benchmark_wb}
 To evaluate model scalability beyond Europe, Table~\ref{tab:benchmark_wb} reports annual forecasting benchmarks across 203 global economies from the World Bank dataset (497 economy--year test observations in 2018--2020).
 
@@ -490,7 +491,7 @@ On this annual global panel, RA-HE-DLinear achieves an arrivals WAPE of $9.45\%\
 
 Importantly, econometric transparency requires emphasizing the distinction between target indicators in this panel: while international tourist arrivals are officially reported WDI data across all 203 economies, overnight stays for non-OECD countries are partially reconstructed using regional UNWTO average length-of-stay coefficients. Consequently, the overnight stays WAPE of 28.27\% reflects model fidelity against a semi-synthetic administrative target and must not be interpreted as equivalent to the fully observed Eurostat accommodation statistics.
 
-\section[Tourism Management Implications and Destination Cases]{Tourism Management Implications\\and Destination Cases}
+\section{Managerial Implications and Destination Cases}
 \label{sec:management}
 Jointly forecasting tourist arrivals and overnight stays provides distinct operational intelligence for Destination Management Organizations (DMOs), hotel operators, and transport authorities. While arrivals govern border control, airport terminal throughput, and tourist information centers, overnight stays directly dictate hotel room occupancy, laundry and utility demands, and municipal bed-tax revenue.
 
