@@ -1,0 +1,96 @@
+\chapter{GIỚI THIỆU}
+\label{ch:introduction}
+
+\section{Lý Do Chọn Đề Tài (Motivation)}
+\label{sec:motivation}
+
+\subsection{Bối Cảnh Thực Tiễn Của Ngành Du Lịch Toàn Cầu}
+Ngành du lịch và khách sạn đóng vai trò là một trong những trụ cột kinh tế trọng yếu, đóng góp hơn 10\% vào Tổng sản phẩm quốc nội (GDP) toàn cầu và tạo ra hàng trăm triệu việc làm trên khắp thế giới trước năm 2020 \cite{unwto2010recommendations, song2021tourism}. Tại nhiều quốc gia đang phát triển và khu vực Châu Âu, nguồn thu từ du lịch quốc tế không chỉ là động lực tăng trưởng kinh tế, cân bằng cán cân thanh toán mà còn thúc đẩy quá trình bảo tồn văn hóa, phát triển hạ tầng giao thông và dịch vụ xã hội.
+
+Trong công tác quản trị điểm đến (Destination Management) và điều hành chuỗi cung ứng du lịch, hai đại lượng quan trắc cơ bản và quan trọng nhất là:
+\begin{enumerate}
+    \item \textbf{Số lượt khách du lịch đến điểm đến ($Y_{\text{arr}}$):} Đại diện cho lưu lượng dòng người di chuyển, áp lực lên hệ thống cửa khẩu, sân bay, phương tiện vận tải công cộng và sức chứa danh lam thắng cảnh.
+    \item \textbf{Số đêm lưu trú tại các cơ sở lưu trú ($Y_{\text{nig}}$):} Đại diện trực tiếp cho tổng thời gian tiêu dùng dịch vụ tại chỗ, tỷ lệ lấp đầy buồng phòng (occupancy rate), doanh thu khách sạn và tổng mức chi tiêu của du khách.
+\end{enumerate}
+
+Mối quan hệ tương hỗ giữa hai chỉ tiêu này tạo nên chỉ số Thời gian lưu trú trung bình (\textit{Length of Stay} -- $\text{LOS}$), được định nghĩa bằng tỷ số $\text{LOS} = Y_{\text{nig}} / Y_{\text{arr}}$. Trong thực tế vận hành kinh tế và dịch tễ học du lịch, việc dự báo chính xác theo đa chân trời thời gian ($H \in \{3, 6, 12\}$ tháng) mang ý nghĩa sống còn đối với các nhà quản lý chính sách và doanh nghiệp lữ hành. Dự báo trước 3 tháng hỗ trợ tối ưu hóa lịch phân ca nhân sự, quản trị nguyên vật liệu và điều tiết giá phòng động. Dự báo trước 6 đến 12 tháng hỗ trợ đàm phán hợp đồng cung ứng tour trọn gói, điều phối tần suất bay quốc tế và lên kế hoạch đầu tư bảo trì hạ tầng công cộng.
+
+\subsection{Những Thách Thức Lớn Hiện Nay Trong Dự Báo Chuỗi Thời Gian Du Lịch}
+Mặc dù nhu cầu dự báo là rất cấp thiết, việc xây dựng mô hình dự báo định lượng chính xác đối với nhu cầu du lịch đa quốc gia lại vấp phải những rào cản kỹ thuật và kinh tế lượng sâu sắc:
+\begin{enumerate}
+    \item \textbf{Tính chất phi dừng mạnh và sự chuyển dịch chế độ đột ngột (Structural Breaks \& Regime Shifts):} Chuỗi thời gian du lịch không tuân theo một quy luật dừng tĩnh. Các biến cố cực đoan bất khả kháng như khủng hoảng tài chính toàn cầu 2008, đại dịch COVID-19 với các lệnh phong tỏa xuyên biên giới nghiêm ngặt \cite{gossling2020pandemics, hale2021oxford}, hay sự bùng phát của xung đột địa chính trị và lạm phát năng lượng đã làm thay đổi hoàn toàn hành vi du lịch. Một mô hình chỉ học trên dữ liệu quá khứ tĩnh sẽ thất bại nặng nề khi nền kinh tế chuyển dịch giữa các trạng thái: \textit{bình thường} (normal), \textit{suy thoái/khủng hoảng} (crisis), và \textit{phục hồi nhanh} (rebound/recovery).
+    \item \textbf{Sự phụ thuộc lan tỏa đa chiều xuyên quốc gia (Transnational Spillovers):} Trong các thị trường du lịch liên kết chặt chẽ như khối Schengen Châu Âu hay khối ASEAN, dòng khách quốc tế thường có hành vi du lịch liên tuyến (\textit{multi-destination trips}). Khi một quốc gia áp dụng chính sách nới lỏng visa hoặc tổ chức sự kiện thể thao lớn, các quốc gia láng giềng cũng đón nhận làn sóng lan tỏa tích cực. Ngược lại, cú sốc đình trệ kinh tế tại một thị trường nguồn sẽ kéo theo sự sụt giảm đồng loạt ở các điểm đến lân cận. Các mô hình đơn biến cổ điển hoàn toàn bỏ qua tương quan không gian -- thời gian này.
+    \item \textbf{Nghịch lý vi phạm các ràng buộc nghiệp vụ vật lý:} Theo Tổ chức Du lịch Thế giới (UNWTO) \cite{unwto2010recommendations}, một du khách quốc tế khi lưu trú tại cơ sở lưu trú phải ở ít nhất 1 đêm, tức là $\text{LOS} \ge 1{,}0$ hay tương đương $Y_{\text{nig}} \ge Y_{\text{arr}}$. Tuy nhiên, khi các mô hình học máy và học sâu hiện đại tiến hành huấn luyện song song hai bài toán hồi quy độc lập cho $Y_{\text{arr}}$ và $Y_{\text{nig}}$, việc không có cơ chế ràng buộc liên kết thường xuyên dẫn đến các kết quả dự báo phi lý: số đêm lưu trú lại nhỏ hơn số lượt khách ($\hat{Y}_{\text{nig}} < \hat{Y}_{\text{arr}}$), làm mất đi tính khả thi và độ tin cậy để đưa vào hệ thống hỗ trợ ra quyết định thực tế.
+    \item \textbf{Sự phức tạp hóa không cần thiết của các kiến trúc học sâu hộp đen:} Những năm gần đây, xu hướng áp dụng các mô hình Transformer phức tạp vào chuỗi thời gian ngày càng nở rộ. Tuy nhiên, công trình đột phá của Zeng et al. (AAAI 2023) \cite{zeng2023dlinear} đã chỉ ra rằng mạng Transformer thường có xu hướng học quá mức (overfitting) trên thứ tự thời gian và tiêu tốn tài nguyên tính toán khổng lồ, trong khi các kiến trúc phân rã tuyến tính đơn giản (như DLinear) lại vượt trội hơn ở nhiều bài toán dự báo dài hạn. Thách thức đặt ra là làm thế nào để tận dụng sức mạnh tính toán tối ưu của mô hình tuyến tính nhưng vẫn giải quyết triệt để tính phi tuyến của chế độ thị trường và các ràng buộc nghiệp vụ kinh tế.
+\end{enumerate}
+
+\section{Phát Biểu Bài Toán (Problem Statement)}
+\label{sec:problem_statement}
+
+Xét một hệ thống gồm $N$ quốc gia hoặc nền kinh tế quan sát, với tần suất quan trắc định kỳ (hàng tháng đối với dữ liệu Eurostat, hàng năm đối với dữ liệu World Bank). Tại mỗi mốc thời gian $t \in \{1, 2, \dots, T\}$, đối với mỗi quốc gia $i \in \{1, 2, \dots, N\}$, ta có:
+\begin{itemize}
+    \item Hai chuỗi mục tiêu song hành quan sát được: lượt khách đến $Y_{\text{arr}, i, t} \in \mathbb{R}^+$ và số đêm lưu trú $Y_{\text{nig}, i, t} \in \mathbb{R}^+$.
+    \item Vector biến ngoại sinh đã biết trước trong tương lai (lịch nghỉ lễ quốc gia, số ngày cuối tuần trong tháng, mùa vụ lễ hội): $\mathbf{X}_{\text{cal}, i, t} \in \mathbb{R}^{d_{\text{cal}}}$.
+    \item Vector biến kinh tế vĩ mô quá khứ trễ (tỷ lệ lạm phát CPI, tỷ giá hối đoái, chỉ số độ nghiêm ngặt chính sách COVID-19): $\mathbf{X}_{\text{macro}, i, t} \in \mathbb{R}^{d_{\text{macro}}}$.
+\end{itemize}
+
+Cho trước chiều dài cửa sổ quan sát lịch sử $L$ (lookback window), mục tiêu của bài toán là dự báo đồng thời vector quỹ đạo tương lai của cả hai biến mục tiêu trong chân trời dự báo $H$ bước tiếp theo:
+\begin{equation}
+    \hat{\mathbf{Y}}_{i, t+1:t+H} = \left[ \hat{\mathbf{Y}}_{\text{arr}, i, t+1:t+H}, \; \hat{\mathbf{Y}}_{\text{nig}, i, t+1:t+H} \right] \in \mathbb{R}^{H \times 2}
+\end{equation}
+sao cho:
+\begin{enumerate}
+    \item \textbf{Tối thiểu hóa sai số dự báo định lượng:} Sai số giữa giá trị dự báo $\hat{\mathbf{Y}}$ và giá trị thực tế $\mathbf{Y}$ đạt mức thấp nhất theo các thước đo chuẩn hóa Weighted Absolute Percentage Error (WAPE) và Root Mean Squared Error (RMSE).
+    \item \textbf{Bảo đảm tính khả thi nghiệp vụ (Physical \& Economic Consistency):} Vector dự báo tại mọi thời điểm tương lai $t+h$ ($h = 1, \dots, H$) phải thỏa mãn nghiêm ngặt ràng buộc vật lý miền:
+    \begin{equation}
+        \hat{Y}_{\text{nig}, i, t+h} \ge \hat{Y}_{\text{arr}, i, t+h} \quad \Longleftrightarrow \quad \widehat{\text{LOS}}_{i, t+h} = \frac{\hat{Y}_{\text{nig}, i, t+h}}{\hat{Y}_{\text{arr}, i, t+h}} \ge 1{,}0
+    \end{equation}
+    đồng thời duy trì tỷ lệ $\widehat{\text{LOS}}$ nằm trong dải phân vị kinh tế lịch sử hợp lý của từng quốc gia $[r_{\min, i}, r_{\max, i}]$.
+    \item \textbf{Lượng hóa độ bất định (Uncertainty Quantification):} Cung cấp dải dự báo phân vị tin cậy $[\hat{\mathbf{Y}}^{P_{10}}, \hat{\mathbf{Y}}^{P_{90}}]$ bảo đảm độ bao phủ thực nghiệm không dưới 90\% trên mẫu hữu hạn mà không cần đặt giả định áp đặt về phân phối Gaussian chuẩn.
+\end{enumerate}
+
+\section{Mục Tiêu Nghiên Cứu và Đóng Góp Của Đề Tài (Objectives \& Contributions)}
+\label{sec:objectives}
+
+\subsection{Mục Tiêu Nghiên Cứu}
+Mục tiêu bao trùm của đồ án là thiết kế, hiện thực hóa và đánh giá thực nghiệm một khung dự báo nhu cầu du lịch đa quốc gia toàn diện, có khả năng dung hòa tối ưu giữa: tốc độ tính toán nhanh của mô hình tuyến tính, khả năng thích ứng linh hoạt trước sự thay đổi chế độ thị trường, năng lực nắm bắt tương quan lan tỏa xuyên biên giới, và sự tuân thủ tuyệt đối các ràng buộc vật lý nghiệp vụ.
+
+\subsection{Các Đóng Góp Khoa Học và Thực Tiễn Cốt Lõi}
+Đồ án mang lại 5 đóng góp chính cho cả lĩnh vực khoa học dữ liệu chuỗi thời gian và kinh tế du lịch ứng dụng:
+\begin{enumerate}
+    \item \textbf{Đề xuất động cơ chuỗi thời gian thích ứng chế độ RA-Exo-DLinear:} Khắc phục điểm yếu cố hữu của mô hình DLinear gốc bằng cách tích hợp mô hình Markov ẩn (HMM) để phân loại trạng thái kinh tế tiềm ẩn (\textit{Bình thường, Khủng hoảng, Phục hồi}), sau đó sử dụng cơ chế Điều biến Tuyến tính theo Đặc trưng (FiLM) để điều chỉnh động các trọng số nhánh xu thế. Đồng thời, cấu trúc các nhánh ánh xạ tuyến tính tham số hóa học được cho biến lịch lễ tương lai và biến kinh tế trễ.
+    \item \textbf{Mô hình hóa phụ thuộc đa quốc gia bằng TRMF (Temporal Regularized Matrix Factorization):} Bóc tách chuỗi thời gian đa quốc gia thành tích của ma trận hệ số tiềm ẩn theo thời gian và ma trận trọng số không gian, cho phép nắm bắt trọn vẹn các mẫu biến động chung và hiệu ứng lan tỏa kinh tế khu vực mà không cần phụ thuộc vào giả định ma trận khoảng cách địa lý cứng nhắc.
+    \item \textbf{Xây dựng toán tử chiếu mốc neo bảo đảm ràng buộc kinh tế $\Pi_{\mathcal{C}}$:} Phát triển giải thuật chiếu lồi dạng đóng kết hợp hàm mất mát phạt liên kết $\mathcal{L}_{\text{cons}}$, bảo đảm loại bỏ triệt để $100\%$ các trường hợp vi phạm cận vật lý $\hat{Y}_{\text{nig}} < \hat{Y}_{\text{arr}}$ (đưa tỷ lệ vi phạm về chính xác $0{,}00\%$).
+    \item \textbf{Lượng hóa độ bất định phi phân phối với Conformal Prediction:} Ứng dụng kỹ thuật Conformalized Quantile Forecasting để thiết lập khoảng dự báo danh định 90\% có bảo đảm lý thuyết vững chắc về độ bao phủ trên mẫu hữu hạn, cung cấp công cụ đắc lực cho công tác quản trị rủi ro tại các cơ quan quản lý điểm đến.
+    \item \textbf{Đánh giá thực nghiệm toàn diện và phân tích tính giải thích (XAI):} Triển khai thực nghiệm trên bảng dữ liệu tháng Eurostat (38 quốc gia Châu Âu, 152 chuỗi cơ sở lưu trú, 2010--2026) và bảng dữ liệu năm World Bank (203 nền kinh tế toàn cầu, 1995--2020) theo giao thức kiểm định nghiêm ngặt. Ứng dụng SHAP và ma trận chú ý chéo thời gian để tường minh hóa sự đóng góp của các biến ngoại sinh đối với quyết định dự báo.
+\end{enumerate}
+
+\section{Đối Tượng và Phạm Vi Nghiên Cứu (Scopes)}
+\label{sec:scope}
+
+\subsection{Đối Tượng Nghiên Cứu}
+\begin{itemize}
+    \item Các phương pháp và mô hình dự báo chuỗi thời gian: từ kinh tế lượng cổ điển (Seasonal Naive, ETS, SARIMA, SARIMAX), học máy tăng cường gradient (LightGBM) đến học sâu chuỗi thời gian tuyến tính (DLinear, RA-Exo-DLinear, RA-HE-DLinear).
+    \item Các kỹ thuật điều biến đặc trưng thích ứng trạng thái: Hidden Markov Models (HMM), Feature-wise Linear Modulation (FiLM).
+    \item Kỹ thuật phân rã ma trận điều chuẩn theo thời gian (TRMF) và lý thuyết tối ưu hóa có ràng buộc (Constrained Optimization).
+    \item Phương pháp lượng hóa độ bất định phi tham số Conformal Prediction và giải thích mô hình SHAP.
+\end{itemize}
+
+\subsection{Phạm Vi Nghiên Cứu}
+\begin{itemize}
+    \item \textbf{Dữ liệu tháng Eurostat:} Bao gồm 38 quốc gia thuộc Liên minh Châu Âu (EU-27), khối Schengen và các nước đối tác lân cận phân rã theo 4 nhóm loại hình cơ sở lưu trú NACE Rev. 2 (152 chuỗi thời gian) trong giai đoạn từ tháng 01/2010 đến tháng 07/2026 (199 tháng liên tục, bao trọn đại dịch COVID-19 và giai đoạn phục hồi hậu dịch).
+    \item \textbf{Dữ liệu năm World Bank:} Bao gồm 203 nền kinh tế trên toàn cầu từ năm 1995 đến năm 2020 nhằm kiểm chứng năng lực tổng quát hóa của mô hình trên dữ liệu vĩ mô tần suất thấp và đo lường độ chống chịu trước cú sốc đại dịch 2020.
+    \item \textbf{Chân trời dự báo thực nghiệm:} Đánh giá trên các mốc đa chân thời gian tiêu chuẩn ngành du lịch: $H=3$ tháng (ngắn hạn), $H=6$ tháng (trung hạn) và $H=12$ tháng (dài hạn trọn vẹn một chu kỳ mùa vụ).
+\end{itemize}
+
+\section{Cấu Trúc Của Đồ Án (Thesis Structure)}
+\label{sec:structure}
+
+Nội dung đồ án được tổ chức thành 5 chương chính, kèm theo Danh mục tài liệu tham khảo, các Phụ lục toán học và Tóm tắt dạng bài báo khoa học chuẩn IEEE:
+\begin{itemize}
+    \item \textbf{Chương 1 -- Giới thiệu:} Trình bày lý do chọn đề tài, bối cảnh thực tiễn của ngành du lịch, các thách thức kỹ thuật lớn trong dự báo chuỗi thời gian, phát biểu hình thức bài toán, mục tiêu nghiên cứu, các đóng góp cốt lõi, đối tượng và phạm vi nghiên cứu.
+    \item \textbf{Chương 2 -- Tổng quan tài liệu và Cơ sở lý thuyết:} Tổng hợp có hệ thống các kiến thức nền tảng về mô hình chuỗi thời gian tuyến tính DLinear, HMM, FiLM, TRMF, Conformal Prediction, XAI SHAP; đồng thời đánh giá ưu nhược điểm của các nghiên cứu liên quan và chỉ rõ khoảng trống nghiên cứu.
+    \item \textbf{Chương 3 -- Phương pháp nghiên cứu đề xuất:} Đặc tả chi tiết kiến trúc tổng quát của khung RA-HE-DLinear, cấu trúc toán học của động cơ RA-Exo-DLinear, cơ chế bóc tách tương quan liên quốc gia TRMF, thuật toán chiếu mốc neo bảo đảm ràng buộc kinh tế $\Pi_{\mathcal{C}}$, quy trình lượng hóa độ bất định DCQF và thuật toán tối ưu hóa liên hợp.
+    \item \textbf{Chương 4 -- Kết quả thực nghiệm:} Mô tả môi trường phần cứng, phần mềm, bộ dữ liệu và giao thức kiểm thử; định nghĩa các chỉ số đánh giá; trình bày chi tiết kết quả đối sánh với các mô hình baseline, phân tích quỹ đạo dự báo, phân tích hiệu quả phép chiếu ràng buộc, nghiên cứu bóc tách thành phần (ablation study), phân tích độ nhạy siêu tham số và diễn giải mô hình bằng SHAP.
+    \item \textbf{Chương 5 -- Kết luận và Hướng phát triển:} Tổng kết các kết quả đạt được, thảo luận sâu sắc về các hàm ý thực tiễn đối với quản trị điểm đến, chỉ ra các giới hạn nghiên cứu còn tồn tại và đề xuất định hướng phát triển trong tương lai.
+\end{itemize}

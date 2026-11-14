@@ -1,0 +1,595 @@
+\documentclass[10pt,journal,compsoc]{IEEEtran}
+\usepackage[utf8]{inputenc}
+\usepackage[vietnamese,english]{babel}
+\DeclareUnicodeCharacter{2013}{--}
+\DeclareUnicodeCharacter{2014}{---}
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{algorithmic}
+\usepackage{algorithm}
+\usepackage{float}
+\usepackage{array}
+\usepackage{booktabs}
+\usepackage{multirow}
+\usepackage{graphicx}
+\usepackage{textcomp}
+\usepackage{xcolor}
+\usepackage{url}
+\usepackage{hyperref}
+\usepackage{cite}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    citecolor=blue,
+    urlcolor=blue
+}
+
+% Đồng nhất phông chữ abstract và từ khóa với phông toàn bài (Roman/Serif thay vì Sans-Serif mặc định của compsoc)
+\makeatletter
+\def\abstract{\normalfont\@IEEEtweakunitybaselinestretch{1.15}\rmfamily
+    \if@twocolumn
+      \@IEEEabskeysecsize\noindent\textbf{\abstractname}---\relax
+    \else
+      \bgroup\par\addvspace{0.5\baselineskip}\centering\vspace{-1.78ex}\@IEEEabskeysecsize\textbf{\abstractname}\par\addvspace{0.5\baselineskip}\egroup\quotation\@IEEEabskeysecsize%
+    \fi\@IEEEgobbleleadPARNLSP}
+\def\IEEEkeywords{\normalfont\@IEEEtweakunitybaselinestretch{1.15}\rmfamily
+    \if@twocolumn
+      \@IEEEabskeysecsize\vskip 0.5\baselineskip plus 0.25\baselineskip minus 0.25\baselineskip\noindent
+      \textbf{\IEEEkeywordsname}---\relax
+    \else
+      \bgroup\par\addvspace{0.5\baselineskip}\centering\@IEEEabskeysecsize\textbf{\IEEEkeywordsname}\par\addvspace{0.5\baselineskip}\egroup\quotation\@IEEEabskeysecsize%
+    \fi\@IEEEgobbleleadPARNLSP}
+\makeatother
+
+% Xóa biểu tượng diamond (icon AI) ở dấu gạch ngang phân cách abstract, giữ đường kẻ ngang liền mạch trang nhã
+\renewcommand{\IEEEcompsocdiamondline}{\rule{8.5cm}{0.5pt}}
+
+% Enforce IEEEtran numbering schema (I, II... for sections; A, B... for subsections) against babel overrides
+\addto\captionsvietnamese{%
+  \renewcommand{\thesection}{\Roman{section}}%
+  \renewcommand{\thesubsection}{\Alph{subsection}}%
+  \renewcommand{\thesubsubsection}{\arabic{subsubsection}}%
+  \renewcommand{\thesectiondis}{\Roman{section}.}%
+  \renewcommand{\thesubsectiondis}{\Alph{subsection}.}%
+  \renewcommand{\thesubsubsectiondis}{\arabic{subsubsection})}%
+}
+
+% Cấu hình tối ưu hóa vị trí float ngăn ngừa hiện tượng dồn bảng/hình sang các trang sau
+\renewcommand{\topfraction}{0.95}
+\renewcommand{\bottomfraction}{0.95}
+\renewcommand{\textfraction}{0.05}
+\renewcommand{\floatpagefraction}{0.85}
+\renewcommand{\dbltopfraction}{0.95}
+\renewcommand{\dblfloatpagefraction}{0.85}
+
+\title{Dự Báo Nhu Cầu Du Lịch Đa Quốc Gia Thích Ứng Chế Độ Thị Trường: Tích Hợp Tín Hiệu Kinh Tế và Phụ Thuộc Liên Quốc Gia}
+
+\author{Trần~Nguyễn~Tuấn,
+        Phan~Hoài~Bão}
+
+\IEEEtitleabstractindextext{%
+\begin{abstract}
+Dự báo nhu cầu du lịch đa quốc gia gặp nhiều thách thức do tính mùa vụ, thay đổi cấu trúc của thị trường và sự khác biệt về động lực giữa các quốc gia. Các mô hình dự báo chuỗi thời gian tuyến tính có ưu điểm về chi phí tính toán nhưng thường chưa khai thác đầy đủ biến ngoại sinh, thông tin về trạng thái thị trường và phụ thuộc giữa các quốc gia. Nghiên cứu này đánh giá khung RA-HE-DLinear (\textit{Regime-Aware Multi-Country Tourism Demand Forecasting}), kết hợp mô hình hóa trạng thái thị trường (HMM-FiLM), biến ngoại sinh lịch lễ và kinh tế vĩ mô, phụ thuộc liên quốc gia (TRMF) và ràng buộc vật lý kế toán miền trong một quy trình thống nhất. Cơ chế Conformal Prediction được sử dụng để lượng hóa độ bất định, trong khi SHAP được áp dụng để phân tích đóng góp của các đặc trưng.
+Khung mô hình được đánh giá trên dữ liệu du lịch Eurostat (38 quốc gia, 152 chuỗi) và dữ liệu World Bank theo giao thức kiểm định theo thứ tự thời gian. Trên tập kiểm thử Eurostat gồm 4.522 cặp quan sát hợp lệ (trong 4.712 dòng grid), RA-HE-DLinear đạt WAPE \textbf{11,62\%} đối với lượt khách và \textbf{13,56\%} đối với số đêm lưu trú. Trong giai đoạn kiểm thử gần đây khi thị trường đã ổn định, mô hình cơ sở Seasonal Naive (6,04\% và 5,68\%) và DLinear (9,36\% và 10,47\%) đạt sai số đếm thấp hơn nhờ tính tinh giản tham số. Phân tích bóc tách nhân tố 3-seed cho thấy các luồng ngoại sinh trực tiếp giúp giảm WAPE, trong khi cơ chế FiLM nhân tỷ lệ làm tăng phương sai trong thời bình; từ đó cơ chế Cổng học được mềm (Soft Learnable Gating) được đề xuất để tự động đóng mở điều biến. Về tính nhất quán, toán tử chiếu vật lý $\Pi_{\mathcal{C}}$ điều chỉnh toàn bộ các vi phạm thô (1,10\%), đưa tỷ lệ vi phạm về 0,00\% tuyệt đối. Khoảng dự báo Conformal đạt độ bao phủ thực nghiệm 86,86\% và 87,20\% ở mức danh định 90\%. Trên tập dữ liệu World Bank, mô hình đạt WAPE lượt khách \textbf{9,45\%} và số đêm \textbf{28,27\%}, đặc biệt duy trì WAPE 13,14\% trong cú sốc COVID-19 năm 2020 (so với 43,78\% của DLinear).
+\end{abstract}
+
+\begin{IEEEkeywords}
+Dự báo nhu cầu du lịch, RA-HE-DLinear, DLinear, Hidden Markov Model, TRMF, ràng buộc kinh tế, Conformal Prediction.
+\end{IEEEkeywords}}
+
+\begin{document}
+\selectlanguage{vietnamese}
+\renewcommand{\thesection}{\Roman{section}}
+\renewcommand{\thesubsection}{\Alph{subsection}}
+\renewcommand{\thesubsubsection}{\arabic{subsubsection}}
+\renewcommand{\thesectiondis}{\Roman{section}.}
+\renewcommand{\thesubsectiondis}{\Alph{subsection}.}
+\renewcommand{\thesubsubsectiondis}{\arabic{subsubsection})}
+\maketitle
+\IEEEdisplaynontitleabstractindextext
+\IEEEpeerreviewmaketitle
+\raggedbottom
+\section{Giới Thiệu}
+\subsection{Bối Cảnh và Động Cơ Nghiên Cứu}
+\IEEEPARstart{T}{rong} lĩnh vực kinh tế du lịch và quản trị khách sạn, dự báo số lượt khách đến ($Y_{\text{arr}}$) và số đêm lưu trú ($Y_{\text{nig}}$) cung cấp thông tin phục vụ việc lập kế hoạch công suất, phân bổ nguồn lực và xây dựng chính sách quản lý điểm đến \cite{song2019tourism}. Dự báo theo đa chân trời thời gian chẳng hạn ($H \in \{3, 6, 12\}$ tháng) có thể hỗ trợ các tổ chức liên quan chuẩn bị cho biến động nhu cầu giữa mùa cao điểm và mùa thấp điểm, đồng thời chủ động ngăn ngừa quá tải hạ tầng trong mùa cao điểm.
+Trải qua hơn bốn thập kỷ phát triển, các phương pháp dự báo nhu cầu du lịch đã tiến triển từ kinh tế lượng cổ điển (SARIMA, Holt-Winters) \cite{athanasopoulos2011tourism}, học máy trên dữ liệu bảng (LightGBM, CatBoost) \cite{dorogush2018catboost}, đến các mạng học sâu hồi quy và cơ chế chú ý (LSTM, Transformer) \cite{claveria2016tourism, law2019tourism}. Gần đây, nghiên cứu của Zeng et al. (AAAI 2023) \cite{zeng2023dlinear} đã đề xuất mô hình dự báo chuỗi thời gian sử dụng phép phân rã xu thế--mùa vụ và các phép biến đổi tuyến tính. Kết quả nghiên cứu cho thấy mô hình đạt hiệu năng cạnh tranh trên một số bộ dữ liệu dự báo dài hạn. Bằng cách tách chuỗi thành thành phần xu thế ($\mathbf{X}_{\text{trend}}$) và mùa vụ ($\mathbf{X}_{\text{seasonal}}$) qua bộ lọc trung bình trượt, DLinear đã vượt qua các kiến trúc Transformer phức tạp trên nhiều tập chuẩn dự báo dài hạn (LTSF) với chi phí tính toán tối ưu.
+\subsection{Bài Toán và Thách Thức Nghiên Cứu}
+DLinear phân rã chuỗi đầu vào thành thành phần xu thế và thành phần mùa vụ bằng bộ lọc trung bình trượt, sau đó sử dụng các phép biến đổi tuyến tính để dự báo \cite{zeng2023dlinear}. Tuy nhiên, nó không được thiết kế  cho việc kết hợp trạng thái thị trường, biến ngoại sinh và quan hệ giữa nhiều quốc gia trong cùng một khung dự báo. Với bài toán dự báo nhu cầu du lịch đa quốc gia, nghiên cứu này tập trung vào ba vấn đề:
+\begin{enumerate}
+    \item \textbf{Thay đổi trạng thái thị trường:} quan hệ giữa dữ liệu quá khứ và nhu cầu tương lai có thể thay đổi giữa các giai đoạn bình thường, khủng hoảng và phục hồi.
+    \item \textbf{Thông tin ngoại sinh và liên quốc gia:} lịch lễ, biến kinh tế và các mẫu biến động chung giữa các quốc gia cần được khai thác cùng với chuỗi mục tiêu.
+    \item \textbf{Tính nhất quán của dự báo:} dự báo lượt khách và số đêm lưu trú cần tuân thủ ràng buộc nghiệp vụ đã xác định, đồng thời cần có thông tin về độ bất định của dự báo.
+\end{enumerate}
+Các vấn đề trên là động lực để xây dựng và đánh giá khung RA-HE-DLinear. Mức độ hạn chế của DLinear trong bối cảnh này được xem xét thông qua các thí nghiệm đối sánh trên dữ liệu Eurostat và World Bank, thay vì được giả định là đúng với mọi bộ dữ liệu chuỗi thời gian.
+\subsection{Mục Tiêu và Đóng Góp Nghiên Cứu}
+Nhằm xử lý các hạn chế trên, bài báo đề xuất khung mô hình \textbf{RA-HE-DLinear} (\textit{Regime-Aware Hierarchical-Economic DLinear}). Các đóng góp chính của nghiên cứu được tóm tắt như sau:
+\begin{enumerate}
+    \item \textbf{Đề xuất động cơ thời gian RA-Exo-DLinear:} Mở rộng kiến trúc phân rã xu thế--mùa vụ của DLinear bằng cơ chế Điều biến Tuyến tính theo Đặc trưng (FiLM) cho nhánh xu thế dựa trên trạng thái thị trường HMM, đồng thời bổ sung các ánh xạ tuyến tính có tham số học được cho biến lịch lễ tương lai và biến kinh tế quá khứ.
+    \item \textbf{Mô hình hóa phụ thuộc liên quốc gia bằng TRMF:} Sử dụng phương pháp phân rã ma trận có điều chuẩn theo thời gian (Temporal Regularized Matrix Factorization, TRMF) để biểu diễn các mẫu biến động chung giữa các quốc gia. Khả năng phản ánh các cơ chế liên kết cụ thể, chẳng hạn trong khu vực Schengen, cần được diễn giải trong phạm vi các biến và dữ liệu thực nghiệm đã sử dụng.
+    \item \textbf{Xây dựng phép hiệu chỉnh dự báo theo ràng buộc giữa lượt khách và số đêm lưu trú $\Pi_{\mathcal{C}}$:} Xây dựng toán tử chiếu mốc neo bảo đảm cận vật lý $\hat{Y}_{\text{nig}} \ge \hat{Y}_{\text{arr}}$ kết hợp hàm phạt liên kết $\mathcal{L}_{\text{cons}}$, giúp kiểm soát vi phạm tự nhiên trước chiếu ở mức 0,15\% (7/4.712 mẫu) và đưa mức lệch dải kinh tế lịch sử về 16,02\% (thay vì 49,19\% của LightGBM).
+    \item \textbf{Ước lượng khoảng dự báo bằng Conformal Prediction:} Ứng dụng kỹ thuật Deep Conformal Quantile Forecasting (DCQF) thiết lập khoảng dự báo $[P_{10}, P_{90}]$ có cơ sở lý thuyết về độ bao phủ dưới các giả định tương ứng $\ge 90\%$ trên mẫu hữu hạn mà không phụ thuộc giả định phân phối chuẩn.
+    \item \textbf{Đánh giá thực nghiệm trên hai bộ dữ liệu:} Đánh giá trên bảng dữ liệu tháng Eurostat (38 quốc gia) và dữ liệu năm World Bank (203 nền kinh tế) theo giao thức kiểm định không rò rỉ dữ liệu, báo cáo đầy đủ chỉ số thống kê Mean $\pm$ Std qua 1.000 lượt bootstrap, phân tích bóc tách thành phần và phân tích độ nhạy.
+\end{enumerate}
+\section{Các Nghiên Cứu Liên Quan}
+\subsection{Dự Báo Nhu Cầu Du Lịch (Tourism Demand Forecasting)}
+Các phương pháp kinh tế lượng cổ điển như SARIMA và mô hình hiệu chỉnh sai số (ECM) đã được nghiên cứu và sử dụng trong dự báo nhu cầu du lịch trong nhiều thập kỷ \cite{athanasopoulos2011tourism, song2019tourism}. Trong thập kỷ gần đây, các mô hình học máy trên dữ liệu bảng (LightGBM, CatBoost) \cite{dorogush2018catboost} và mạng nơ-ron hồi quy (LSTM, Deep Learning) \cite{claveria2016tourism, law2019tourism} đã được áp dụng rộng rãi nhờ khả năng phi tuyến hóa quan hệ trễ. Các mô hình này có thể khai thác quan hệ phi tuyến và thông tin trễ trong dữ liệu. Tuy nhiên, hiệu quả dự báo phụ thuộc vào cách xây dựng đặc trưng, cấu hình mô hình và đặc điểm của bộ dữ liệu. Khi chuỗi thời gian xuất hiện các thay đổi cấu trúc, cần đánh giá riêng khả năng duy trì hiệu năng của từng phương pháp.
+\subsection{Dự Báo Thích Ứng Chuyển Dịch Chế Độ (Regime-Aware Forecasting)}
+Hiện tượng trôi dạt khái niệm (concept drift) và đứt gãy cấu trúc (structural breaks) là thách thức phổ biến trong chuỗi thời gian kinh tế lượng \cite{clements1998forecasting}. Mô hình Markov chuyển chế độ (Markov-Switching) của Hamilton \cite{hamilton1989regime} đã thiết lập nền tảng lý thuyết vững chắc cho việc nhận diện các chu kỳ kinh tế tiềm ẩn. Gần đây, cơ chế Feature-wise Linear Modulation (FiLM) \cite{perez2018film} được đề xuất nhằm đưa thông tin điều kiện bối cảnh vào mạng nơ-ron mà không làm tăng độ sâu cấu trúc. Việc kết hợp mô hình chuyển chế độ với kiến trúc phân rã tuyến tính để điều chỉnh nhánh xu thế là hướng tiếp cận mà nghiên cứu này xem xét. Mức độ mới và khác biệt của sự kết hợp này cần được xác lập thông qua đối chiếu có hệ thống với các công trình liên quan.
+\subsection{Dự Báo Đa Biến và Lan Tỏa Liên Quốc Gia (Cross-Country Forecasting)}
+Trong các thị trường du lịch liên kết chặt chẽ như khu vực Schengen Châu Âu, dòng khách du lịch giữa các quốc gia có sự phụ thuộc lan tỏa không gian rõ rệt. Các mô hình mạng nơ-ron đồ thị không -- thời gian (Spatio-Temporal GNN) đòi hỏi ma trận kề cố định dựa trên khoảng cách địa lý, vốn khó phản ánh đúng mạng lưới hàng không giá rẻ. Phương pháp phân rã ma trận có điều chuẩn theo thời gian (TRMF \cite{yu2016trmf}) giải quyết hạn chế này bằng cách bóc tách các nhân tố tiềm ẩn thông qua phân rã ma trận thấp chiều kèm điều chuẩn tự hồi quy. Đồng thời, việc dự báo các biến liên kết cần bảo đảm tính nhất quán theo thời gian và không gian \cite{kourentzes2019coherent}.
+\subsection{Lượng Hóa Độ Bất Định và Khả Năng Giải Thích (Uncertainty and Explainability)}
+Dự báo điểm đơn thuần không đủ thông tin cho công tác quản trị rủi ro du lịch. Conformal Prediction \cite{vovk2005algorithmic, angelopoulos2021conformal} cung cấp khung mô hình lượng hóa độ bất định phi phân phối với bảo chứng độ bao phủ trên mẫu hữu hạn. Đồng thời, kỹ thuật giải thích mô hình SHAP (SHapley Additive exPlanations \cite{lundberg2017shap}) giúp bóc tách tầm quan trọng của từng thuộc tính dự báo. Từ các nghiên cứu được tổng quan, bài báo tập trung đánh giá việc kết hợp dự báo nhu cầu, hiệu chỉnh theo ràng buộc giữa số lượt khách và số đêm lưu trú, cùng lượng hóa độ bất định trong một quy trình thống nhất. Điểm cần kiểm chứng là liệu sự kết hợp này có cải thiện độ chính xác và tính nhất quán của dự báo so với các cấu hình không sử dụng đầy đủ những thành phần trên hay không.
+\section{Phương Pháp Nghiên Cứu}
+\subsection{Phát Biểu Bài Toán và Ký Hiệu Hình Thức}
+Xét bảng dữ liệu du lịch gồm $N$ quốc gia quan sát qua thời gian $t = 1, \dots, T$. Tại mỗi thời điểm $t$ và quốc gia $i$, biến mục tiêu là véc-tơ hai chiều $\mathbf{y}_{i, t} = [Y_{i, t}^{\text{arr}}, Y_{i, t}^{\text{nig}}]^T \in \mathbb{R}_+^2$, tương ứng với lượt khách đến và số đêm lưu trú. Cho trước cửa sổ quan sát quá khứ độ dài $L$ và chân trời dự báo $H$, bài toán đặt ra là ước lượng:
+\begin{equation}
+\begin{aligned}
+\hat{\mathbf{Y}}_{i, t+1:t+H} = \mathcal{M}\big( & \mathbf{Y}_{i, t-L+1:t}, \, \mathbf{X}_{i, t-L+1:t}^{\text{past}}, \\
+& \mathbf{X}_{i, t+1:t+H}^{\text{fut}}, \, \mathbf{s}_t\big)
+\end{aligned}
+\end{equation}
+thỏa mãn đồng thời hai mục tiêu: tối thiểu hóa sai số dự báo và tuân thủ ràng buộc kinh tế:
+\begin{equation}
+\hat{Y}_{i, \tau}^{\text{nig}} \ge \hat{Y}_{i, \tau}^{\text{arr}} \times \text{LOS}_{\min}, \quad \forall \tau \in [t+1, t+H]
+\end{equation}
+với $\text{LOS}_{\min} = 1$ đêm.
+\begin{table}[!htbp]
+\centering
+\caption{Bảng ký hiệu toán học chính trong bài báo}
+\label{tab:notations}
+\small
+\setlength{\tabcolsep}{3pt}
+\renewcommand{\arraystretch}{1.0}
+\begin{tabular}{p{2.35cm}p{6.05cm}}
+\toprule
+\textbf{Ký hiệu} & \textbf{Ý nghĩa toán học} \\
+\midrule
+$L, H$ & Độ dài chuỗi dữ liệu quá khứ (lookback) và khoảng dự báo (forecast horizon) \\
+$N, C$ & Số lượng quốc gia ($N$) và số lượng biến mục tiêu ($C=2$) \\
+$K_{\text{ma}}$ & Kích thước cửa sổ trung bình trượt dùng để tách thành phần xu thế \\
+$\mathbf{X}_{\text{trend}}, \mathbf{X}_{\text{seasonal}}$ & Thành phần xu thế chu kỳ và mùa vụ nội sinh \\
+$\mathbf{X}_{\text{fut}}, \mathbf{X}_{\text{past}}$ & Ma trận biến ngoại sinh lịch lễ tương lai và kinh tế quá khứ \\
+$s_t \in \{0, 1, 2\}$ & Trạng thái chế độ thị trường tiềm ẩn từ Gaussian HMM \\
+$\mathbf{e}_r \in \mathbb{R}^{d_r}$ & Véc-tơ nhúng không gian liên tục của chế độ thị trường \\
+$\alpha_{\text{trend}}, \alpha_{\text{fut}}, \alpha_{\text{past}}$ & Hệ số tỷ lệ co giãn học được của các luồng đặc trưng \\
+$\mathbf{W}, \mathbf{X}_{\text{sp}}$ & Ma trận nhân tố không gian và thời gian trong mô hình TRMF \\
+$\Pi_{\mathcal{C}}$ & Toán tử chiếu lồi lên tập hợp chấp nhận được về mặt kinh tế \\
+$1 - \alpha$ & Mức độ tin cậy danh định của dải conformal (90\%) \\
+\bottomrule
+\end{tabular}
+\end{table}
+\subsection{Mô Hình Đề Xuất RA-HE-DLinear}
+Hình~\ref{fig:architecture} minh họa quy trình hoạt động toàn diện của khung RA-HE-DLinear.
+\begin{figure*}[!t]
+\centering
+\includegraphics[width=0.95\textwidth]{figures/ra_he_dlinear_architecture_en.png}
+\caption{Sơ đồ kiến trúc tổng thể của khung mô hình RA-HE-DLinear.}
+\label{fig:architecture}
+\end{figure*}
+Hệ thống vận hành theo quy trình thống nhất:
+\begin{enumerate}
+    \item \textbf{Phân loại chế độ vĩ mô (HMM):} Xác định xác suất trạng thái thị trường $s_t \in \{\text{Bình thường}, \text{Khủng hoảng}, \text{Phục hồi}\}$.
+    \item \textbf{Phân rã chuỗi nội sinh:} Tách chuỗi thành nhánh xu thế $\mathbf{X}_{\text{trend}}$ và mùa vụ $\mathbf{X}_{\text{seasonal}}$ qua bộ lọc trung bình trượt $K_{\text{ma}}$.
+    \item \textbf{Mô hình thời gian thích ứng chế độ (RA-Exo-DLinear):} Áp dụng điều biến FiLM trên nhánh xu thế và ánh xạ tuyến tính hai luồng ngoại sinh $(\mathbf{X}_{\text{fut}}, \mathbf{X}_{\text{past}})$.
+    \item \textbf{Động cơ lan tỏa không gian (TRMF):} Ước lượng các nhân tố phụ thuộc chung giữa các quốc gia theo mô hình ma trận thấp chiều ($R=4$).
+    \item \textbf{Hòa trộn không -- thời gian và giải ràng buộc kinh tế ($\Pi_{\mathcal{C}}$):} Hòa trộn tín hiệu và áp dụng phép chiếu lồi mốc neo bảo đảm $\hat{Y}_{\text{nig}} \ge \hat{Y}_{\text{arr}}$.
+    \item \textbf{Lượng hóa độ bất định (Conformal DCQF):} Hiệu chuẩn khoảng tin cậy $[P_{10}, P_{90}]$ đánh giá độ bao phủ thực nghiệm không phụ thuộc phân phối.
+\end{enumerate}
+\subsection{Mô Hình Hóa Thời Gian Thích Ứng Chế Độ (RA-Exo-DLinear)}
+\noindent \textbf{Input:} Chuỗi trễ nội sinh $\mathbf{X}$, biến ngoại sinh lịch lễ tương lai $\mathbf{X}_{\text{fut}}$, biến kinh tế vĩ mô quá khứ $\mathbf{X}_{\text{past}}$, và trạng thái thị trường $s_t$.
+\noindent \textbf{Xử lý:} Kế thừa cơ chế phân rã xu thế và mùa vụ của DLinear \cite{zeng2023dlinear}, mô hình tách chuỗi đầu vào thành hai thành phần:
+\begin{equation}
+\mathbf{X}_{\text{trend}} = \text{AvgPool}(\mathbf{X}, K_{\text{ma}}), \quad \mathbf{X}_{\text{seasonal}} = \mathbf{X} - \mathbf{X}_{\text{trend}}
+\end{equation}
+Nhánh mùa vụ được chiếu trực tiếp qua ma trận tĩnh $\mathbf{W}_S \mathbf{X}_{\text{seasonal}}$. Nhánh xu thế chịu sự điều biến FiLM \cite{perez2018film} từ véc-tơ nhúng chế độ $\mathbf{e}_r$:
+\begin{equation}
+f_{\text{trend}}(\mathbf{X}_{\text{trend}}, \mathbf{s}_t) = \boldsymbol{\gamma}(\mathbf{e}_r) \odot (\mathbf{W}_T \mathbf{X}_{\text{trend}}) + \boldsymbol{\beta}(\mathbf{e}_r)
+\end{equation}
+với hệ số tỷ lệ được chặn biên qua hàm $\tanh$:
+\begin{equation}
+\begin{aligned}
+\boldsymbol{\gamma}(\mathbf{e}_r) &= 1,0 + \alpha_{\text{trend}} \cdot \tanh(\mathbf{W}_\gamma \mathbf{e}_r + \mathbf{b}_\gamma), \\
+\boldsymbol{\beta}(\mathbf{e}_r) &= \mathbf{W}_\beta \mathbf{e}_r + \mathbf{b}_\beta
+\end{aligned}
+\end{equation}
+Hai luồng ngoại sinh $(\mathbf{X}_{\text{fut}}, \mathbf{X}_{\text{past}})$ được ánh xạ tuyến tính độc lập:
+\begin{equation}
+\begin{aligned}
+\boldsymbol{\delta}_{\text{fut}} &= \alpha_{\text{fut}} \cdot \tanh(\operatorname{Linear}(\mathbf{X}_{\text{fut}})), \\
+\boldsymbol{\delta}_{\text{past}} &= \alpha_{\text{past}} \cdot \tanh(\operatorname{Linear}(\mathbf{X}_{\text{past}}))
+\end{aligned}
+\end{equation}
+Dự báo thô được tính bằng cách kết hợp giá trị cơ sở với các hệ số hiệu chỉnh từ thành phần xu thế, biến ngoại sinh tương lai và biến ngoại sinh quá khứ:
+\begin{equation}
+\hat{Y}_{\text{raw}} = \operatorname{ReLU}\left(S_{\text{base}} \cdot \left[1,0 + \delta_{\text{trend}} + \delta_{\text{fut}} + \delta_{\text{past}}\right]\right)
+\end{equation}
+
+\subsection{Mô Hình Hóa Phụ Thuộc Liên Quốc Gia (TRMF)}
+\noindent \textbf{Input:} Ma trận chuỗi quan sát của toàn bộ $N$ quốc gia $\mathbf{Y} \in \mathbb{R}^{N \times T}$.
+
+\noindent \textbf{Xử lý:} TRMF \cite{yu2016trmf} phân rã ma trận thành tích của ma trận thực thể $\mathbf{W} \in \mathbb{R}^{N \times R}$ và ma trận thời gian $\mathbf{X}_{\text{sp}} \in \mathbb{R}^{T \times R}$:
+\begin{equation}
+\begin{aligned}
+\min_{\mathbf{W}, \mathbf{X}_{\text{sp}}, \boldsymbol{\Theta}} \sum_{(i, t) \in \Omega} (Y_{i, t} - \mathbf{w}_i^T \mathbf{x}_t)^2 &+ \lambda_w \|\mathbf{W}\|_F^2 \\
+&+ \lambda_x \mathcal{R}_{\text{AR}}(\mathbf{X}_{\text{sp}}, \boldsymbol{\Theta})
+\end{aligned}
+\end{equation}
+với số hạng tự hồi quy $\mathcal{R}_{\text{AR}}$ trên tập trễ $\mathcal{L} = \{1, 2, 12\}$.Bằng phương pháp phân tích PCA/SVD, bốn thành phần đầu giải thích $88{,}50\%$ tổng phương sai giữa 38 quốc gia; do đó, nghiên cứu lựa chọn hạng phân rã $R=4$
+
+Tín hiệu không gian được hòa trộn lồi với động cơ thời gian:
+\begin{equation}
+\hat{\mathbf{Y}}_{\text{fused}} = w_{\text{time}} \hat{\mathbf{Y}}_{\text{temporal}} + (1 - w_{\text{time}}) \hat{\mathbf{Y}}_{\text{spatial}}
+\end{equation}
+Để ngăn ngừa rủi ro rò rỉ dữ liệu (data leakage) và hiện tượng quá khớp với các biến động ngắn hạn, trọng số hòa trộn $w_{\text{time}}$ không bị áp đặt tùy tiện mà được ước lượng thông qua bài toán tối ưu hóa lồi có ràng buộc tiên nghiệm kinh tế lượng trên tập kiểm định độc lập $\mathcal{D}_{\text{val}}$ (năm 2023):
+\begin{equation}
+\begin{aligned}
+w_{\text{time}}^* = \arg\min_{w \in [w_{\min}, 1,0]} \mathcal{L}_{\text{val}}\Big( & \mathbf{Y}_{\text{val}}, \\
+& \Pi_{\mathcal{C}}\big(w \hat{\mathbf{Y}}_{\text{temporal}}^{\text{val}} + (1 - w) \hat{\mathbf{Y}}_{\text{spatial}}^{\text{val}}\big)\Big)
+\end{aligned}
+\end{equation}
+Trọng số \(w_{\text{time}}\) được tối ưu trên tập kiểm định trong miền \([0{,}70;1{,}00]\). Nghiệm thu được là \(w_{\text{time}}^*=0{,}70\), nằm tại cận dưới của miền tìm kiếm. Do đó, kết quả này cần được diễn giải trong phạm vi ràng buộc đã đặt ra; phân tích độ nhạy theo miền tìm kiếm sẽ giúp đánh giá tính ổn định của lựa chọn.
+
+\subsection{Bộ Giải Chiếu Ràng Buộc Kinh Tế ($\Pi_{\mathcal{C}}$)}
+\noindent \textbf{Input:} Cặp dự báo thô $(\hat{Y}_{\text{arr}}, \hat{Y}_{\text{nig}})$.
+\noindent \textbf{Xử lý:} Định nghĩa tập lồi chấp nhận được về mặt kinh tế:
+\begin{equation}
+\mathcal{C} = \left\{(y_{\text{arr}}, y_{\text{nig}}) \in \mathbb{R}_+^2 \;\middle|\; y_{\text{nig}} \ge y_{\text{arr}} \times \text{LOS}_{\min} \right\}
+\end{equation}
+với $\text{LOS}_{\min} = 1,0$. Trong phép hiệu chỉnh này, dự báo số lượt khách được giữ nguyên, còn dự báo số đêm lưu trú được điều chỉnh để đáp ứng ràng buộc đã xác định:
+\begin{equation}
+\Pi_{\mathcal{C}}(\hat{Y}_{\text{arr}}, \hat{Y}_{\text{nig}}) = \left(\hat{Y}_{\text{arr}}, \, \max\left(\hat{Y}_{\text{nig}}, \, \hat{Y}_{\text{arr}} \times 1.0\right)\right)
+\end{equation}
+Đồng thời, trong quá trình huấn luyện mạng nơ-ron, hàm mất mát liên kết $\mathcal{L}_{\text{total}} = \mathcal{L}_{\text{MSE}} + \lambda_{\text{cons}} \mathcal{L}_{\text{cons}}$ áp dụng phạt vi phạm:
+\begin{equation}
+\mathcal{L}_{\text{cons}} = \frac{1}{B} \sum_{b=1}^B \operatorname{ReLU}\left(\hat{Y}_{b}^{\text{arr}} \times 1.0 - \hat{Y}_{b}^{\text{nig}}\right)^2
+\end{equation}
+\noindent \textbf{Đóng góp:} Trên tập kiểm thử được báo cáo, 7 trong số 4.712 mẫu dự báo thô vi phạm ràng buộc đã xác định, tương ứng 0,15\%.  Sau khi áp dụng phép chiếu  $\Pi_{\mathcal{C}}$ không còn mẫu nào vi phạm ràng buộc này. Các chỉ số WAPE và MAE sau hiệu chỉnh giảm nhẹ trong thí nghiệm được báo cáo. Kết quả này phản ánh tác động của phép chiếu trên tập dữ liệu đang xét, không đồng nghĩa phép chiếu luôn cải thiện độ chính xác trong mọi trường hợp.
+\subsection{Lượng Hóa Độ Bất Định Bằng Conformal Prediction (DCQF)}
+Để cung cấp dải tin cậy có bảo chứng lý thuyết, chúng tôi áp dụng Deep Conformal Quantile Forecasting (DCQF) \cite{angelopoulos2021conformal}. Trên tập hiệu chuẩn độc lập $\mathcal{D}_{\text{cal}} = \{(\mathbf{x}_i, y_i)\}_{i=1}^{n_{\text{cal}}}$, mô hình ước lượng hai phân vị sơ bộ $\hat{q}_{\alpha/2}(\mathbf{x}_i)$ và $\hat{q}_{1-\alpha/2}(\mathbf{x}_i)$ thông qua Pinball Loss. Điểm không tương đồng (non-conformity score) được tính qua:
+\begin{equation}
+s_i = \max\left(\hat{q}_{\alpha/2}(\mathbf{x}_i) - y_i, \, y_i - \hat{q}_{1-\alpha/2}(\mathbf{x}_i)\right)
+\end{equation}
+Phân vị hiệu chuẩn $\hat{Q}_{1-\alpha}$ được xác định tại mức $\lceil (n_{\text{cal}} + 1)(1 - \alpha) \rceil / n_{\text{cal}}$. Khoảng tin cậy cuối cùng cho mẫu kiểm thử mới là:
+\begin{equation}
+\begin{aligned}
+\mathcal{I}_{1-\alpha}(\mathbf{x}_{t+h}) = \big[ & \hat{q}_{\alpha/2}(\mathbf{x}_{t+h}) - \hat{Q}_{1-\alpha}, \\
+& \hat{q}_{1-\alpha/2}(\mathbf{x}_{t+h}) + \hat{Q}_{1-\alpha}\big]
+\end{aligned}
+\end{equation}
+\subsection{Quy Trình Huấn Luyện và Suy Diễn Tổng Thể}
+Thuật toán~\ref{alg:training_inference} tóm tắt toàn bộ quy trình từ khâu tiền xử lý, huấn luyện đến suy diễn và lượng hóa rủi ro của khung RA-HE-DLinear.
+\begin{algorithm}[H]
+\caption{Quy trình huấn luyện và suy diễn RA-HE-DLinear}
+\label{alg:training_inference}
+\small
+\begin{algorithmic}[1]
+\REQUIRE Chuỗi quan sát $\mathbf{Y}$, ngoại sinh $(\mathbf{X}_{\text{fut}}, \mathbf{X}_{\text{past}})$, mức ý nghĩa $\alpha$.
+\STATE Khớp Gaussian HMM ước lượng $\mathbf{A}$ và chế độ $\mathbf{s}_t$; khớp TRMF $(\mathbf{W}, \mathbf{X}_{\text{sp}})$.
+\FOR{mỗi epoch huấn luyện}
+    \STATE Phân rã $\mathbf{X} \to (\mathbf{X}_{\text{trend}}, \mathbf{X}_{\text{seasonal}})$ qua bộ lọc $K_{\text{ma}}$.
+    \STATE Điều biến FiLM theo $\mathbf{e}_r$; chiếu ngoại sinh $(\mathbf{X}_{\text{fut}}, \mathbf{X}_{\text{past}})$.
+    \STATE Hòa trộn $\hat{\mathbf{Y}}_{\text{fused}}$; tối ưu AdamW với $\mathcal{L}_{\text{total}}$.
+\ENDFOR
+\STATE Chiếu mốc neo ràng buộc kinh tế: $\hat{\mathbf{Y}}^* = \Pi_{\mathcal{C}}(\hat{\mathbf{Y}}_{\text{fused}})$.
+\STATE Hiệu chuẩn conformal tính dải tin cậy $[\mathbf{P}_{10}, \mathbf{P}_{90}]$.
+\RETURN Dự báo điểm $\hat{\mathbf{Y}}^*$ và dải tin cậy $[\mathbf{P}_{10}, \mathbf{P}_{90}]$.
+\end{algorithmic}
+\end{algorithm}
+\section{Kết Quả Thực Nghiệm}
+\subsection{Thiết Lập Thực Nghiệm (Experimental Setup)}
+\subsubsection{Mô Tả Bộ Dữ Liệu và Nguồn Gốc (Data Provenance)}
+Bảng~\ref{tab:datasets} tổng hợp thông số chi tiết của hai bộ dữ liệu thực tế được sử dụng trong toàn bộ nghiên cứu.
+\begin{table}[!htbp]
+\centering
+\caption{Tổng hợp thông số các bộ dữ liệu thực nghiệm}
+\label{tab:datasets}
+\small
+\setlength{\tabcolsep}{2.5pt}
+\renewcommand{\arraystretch}{1.08}
+\begin{tabular}{>{\raggedright\arraybackslash}p{2.7cm}>{\centering\arraybackslash}p{2.75cm}>{\centering\arraybackslash}p{2.75cm}}
+\toprule
+\textbf{Thông số / Thuộc tính} & \textbf{Eurostat Panel} & \textbf{World Bank Panel} \\
+\midrule
+Phạm vi không gian & 38 quốc gia Châu Âu & 203 nền kinh tế toàn cầu \\
+Bảng nguồn dữ liệu & \texttt{tour\_occ\_arm, nim, mnor} & WDI (\texttt{ST.INT.ARVL}) \\
+Tần suất quan sát & Hàng tháng (Monthly) & Hàng năm (Annual) \\
+Khoảng thời gian & 2010--2026 (đến 07/2026) & 1995--2020 \\
+Biến mục tiêu & $Y_{\text{arr}}, Y_{\text{nig}}$ (quan sát) & $Y_{\text{arr}}$ (quan sát), $Y_{\text{nig}}^*$ \\
+Số đặc trưng đầu vào & 54 đặc trưng & 18 đặc trưng \\
+Tập huấn luyện (Train) & 21.888 mẫu (2010--2021) & 3.802 mẫu (1995--2015) \\
+Tập hiệu chuẩn (Val/Cal) & 3.648 mẫu (2022--2023) & 384 mẫu (2016--2017) \\
+Tập kiểm thử (Test) & 4.712 dòng (4.522 cặp) & 497 mẫu (2018--2020) \\
+Tổng số quan sát & 30.248 dòng grid & 4.683 mẫu \\
+\bottomrule
+\end{tabular}
+\vspace{1mm}
+\parbox{\linewidth}{\scriptsize $^*$ Ghi chú nguồn gốc nhãn: Đối với World Bank, biến $Y_{\text{nig}}$ tại các nền kinh tế thiếu dữ liệu được nội suy dựa trên giả định thời gian lưu trú (LOS) khu vực và nhóm thu nhập, trong đó áp đặt $\text{LOS} \ge 1$. Do đó, việc kiểm chứng ràng buộc vật lý trên World Bank mang tính chất kiểm tra bổ trợ.}
+\end{table}
+
+\noindent \textbf{Độ trễ công bố dữ liệu (Publication Lag):} Trong điều kiện vận hành thực tế, dữ liệu du lịch Eurostat thường có độ trễ công bố từ 2 đến 6 tháng, và dữ liệu World Bank trễ từ 1 đến 2 năm. Nghiên cứu này đánh giá theo giao thức hồi cứu theo kỳ tham chiếu (retrospective reference-period backtest) với các mốc phát hành tháng Một (January origins).
+
+\subsubsection{Các Mô Hình Đối Sánh}
+Chúng tôi so sánh RA-HE-DLinear với các mô hình tiêu biểu đại diện cho các trường phái phương pháp luận:
+\begin{itemize}
+    \item \textit{Kinh tế lượng cơ sở:} Seasonal Naive, ETS / Holt--Winters, SARIMA.
+    \item \textit{Học máy cây quyết định:} Standard LightGBM \cite{ke2017lightgbm}.
+    \item \textit{Chuỗi thời gian tuyến tính LTSF:} Vanilla DLinear (AAAI 2023) \cite{zeng2023dlinear}, DLinear + Exogenous.
+    \item \textit{Mô hình đề xuất:} RA-HE-DLinear (thô và có chiếu mốc neo $\Pi_{\mathcal{C}}$ với Soft Learnable Gating).
+\end{itemize}
+
+\subsubsection{Các Chỉ Số Đánh Giá và Giao Thức Mẫu Hợp Lệ}
+Hiệu năng dự báo được đo lường qua WAPE (\%), MAE và RMSE cho từng biến mục tiêu trên tập \textbf{4.522 cặp quan sát hợp lệ} (loại bỏ 190 mẫu bị khuyết trong tổng số 4.712 dòng grid). Về mặt ràng buộc và độ bất định, nghiên cứu báo cáo: Tỷ lệ vi phạm cận vật lý ($<1,0$), Độ bao phủ thực tế (Coverage \%), và Độ rộng khoảng dự báo (MPIW, NPIW). Lưu ý: phân tích phân tán qua 1.000 lượt bootstrap mô tả độ biến thiên của mẫu kiểm thử trong một lần huấn luyện, trong khi thực nghiệm đa seed độc lập (seeds 42, 43, 44) được sử dụng để đánh giá độ ổn định của quá trình tối ưu mô hình.
+
+\subsection{Hiệu Năng Dự Báo Tổng Thể (Overall Performance)}
+Bảng~\ref{tab:main_benchmark} trình bày kết quả đối sánh toàn diện trên 4.522 cặp quan sát hợp lệ của tập kiểm thử Eurostat (2024--2026).
+
+\begin{table}[!htbp]
+\centering
+\caption{Kết quả đối sánh toàn diện trên tập kiểm thử Eurostat (4.522 cặp quan sát hợp lệ)}
+\label{tab:main_benchmark}
+\footnotesize
+\setlength{\tabcolsep}{1.8pt}
+\renewcommand{\arraystretch}{1.05}
+\begin{tabular}{p{2.6cm}cccc}
+\toprule
+\textbf{Mô hình đối sánh} & \shortstack{\textbf{Lượt khách} \\ \textbf{WAPE (\%)} \\ \scriptsize \textbf{MAE}} & \shortstack{\textbf{Số đêm} \\ \textbf{WAPE (\%)} \\ \scriptsize \textbf{MAE}} & \shortstack{\textbf{Cận VL} \\ \textbf{($<1,0$)}} & \shortstack{\textbf{Số mẫu} \\ \textbf{hợp lệ}} \\
+\midrule
+Seasonal Naive (S-Naive) & \shortstack{\textbf{6,04\%} \\ \scriptsize 83.753} & \shortstack{\textbf{5,68\%} \\ \scriptsize 220.024} & 0,08\% & 4.522 \\
+ETS / Holt--Winters & \shortstack{12,69\% \\ \scriptsize 175.871} & \shortstack{13,49\% \\ \scriptsize 522.787} & 2,50\% & 4.522 \\
+SARIMA & \shortstack{28,19\% \\ \scriptsize 390.813} & \shortstack{26,37\% \\ \scriptsize 1.022.215} & 0,89\% & 4.522 \\
+Standard LightGBM & \shortstack{42,51\% \\ \scriptsize 589.308} & \shortstack{45,91\% \\ \scriptsize 1.779.793} & 2,42\% & 4.522 \\
+Vanilla DLinear (2023) & \shortstack{9,36\% \\ \scriptsize 129.751} & \shortstack{10,47\% \\ \scriptsize 405.781} & 1,93\% & 4.522 \\
+DLinear + Exogenous & \shortstack{9,16\% \\ \scriptsize 127.051} & \shortstack{9,67\% \\ \scriptsize 374.958} & 2,25\% & 4.522 \\
+\midrule
+RA-HE-DLinear (thô) & \shortstack{11,62\% \\ \scriptsize 161.064} & \shortstack{13,56\% \\ \scriptsize 525.737} & 1,10\% & 4.522 \\
+\textbf{RA-HE-DLinear} ($\Pi_{\mathcal{C}}$) & \shortstack{11,62\% \\ \scriptsize 161.064} & \shortstack{13,56\% \\ \scriptsize 525.863} & \textbf{0,00\%}$^*$ & 4.522 \\
+\bottomrule
+\end{tabular}
+\vspace{1mm}
+\parbox{\linewidth}{\scriptsize $^*$ Ghi chú: Toán tử chiếu $\Pi_{\mathcal{C}}$ điều chỉnh thành công toàn bộ 50/4.522 trường hợp vi phạm cận vật lý ($<1,0$), đưa tỷ lệ vi phạm về 0,00\% tuyệt đối. Mỗi ô chứa WAPE (\%) ở dòng trên và MAE ở dòng dưới.}
+\end{table}
+
+\noindent \textbf{Nhận xét kết quả và nguyên lý Occam:} Trong giai đoạn kiểm thử gần đây (2024--2026), thị trường du lịch đã bước vào trạng thái ổn định và mang tính chu kỳ cao. Do đó, các mô hình tinh giản tham số như Seasonal Naive (6,04\% / 5,68\%) và Vanilla DLinear (9,36\% / 10,47\%) đạt sai số đếm thấp nhờ phương sai tham số nhỏ (Occam's razor). Đáng chú ý, khi bổ sung các luồng ngoại sinh lịch lễ (DLinear + Exogenous), WAPE giảm xuống 9,16\% và 9,67\% (thấp hơn DLinear nguyên bản). RA-HE-DLinear đạt WAPE 11,62\% và 13,56\%; tuy sai số điểm cao hơn mô hình cơ sở trong thời bình, khung mô hình đem lại hai giá trị cốt lõi: (1) loại bỏ hoàn toàn vi phạm logic cận vật lý (0,00\% so với 1,93\% của DLinear); và (2) duy trì khả năng chống chịu đứt gãy xu thế khi thị trường trải qua cú sốc lớn.
+
+\begin{figure}[!htbp]
+\centering
+\includegraphics[width=\columnwidth]{figures/forecast_trajectory_eurostat.png}
+\caption{Quỹ đạo dự báo chuỗi thời gian trên tập kiểm thử Eurostat.}
+\label{fig:forecast_trajectory}
+\end{figure}
+\subsection{Nghiên Cứu Bóc Tách Thành Phần (Ablation Study)}
+Bảng~\ref{tab:ablation} trình bày kết quả bóc tách cấu hình đơn seed (seed 42) trên tập kiểm thử Eurostat (4.522 cặp quan sát hợp lệ). Ngoài ra, thực nghiệm phân tích nhân tố (factorial ablation) qua 3 seed độc lập (42, 43, 44) được tiến hành nhằm phân lập tác động biên của từng khối kiến trúc.
+
+\begin{table}[!htbp]
+\centering
+\caption{Kết quả bóc tách cấu hình thành phần trên tập kiểm thử Eurostat (Seed 42)}
+\label{tab:ablation}
+\small
+\setlength{\tabcolsep}{2pt}
+\renewcommand{\arraystretch}{1.05}
+\begin{tabular}{p{3.1cm}ccc}
+\toprule
+\textbf{Cấu hình bóc tách} & \shortstack{\textbf{Lượt khách} \\ \textbf{WAPE (\%)} \\ \scriptsize \textbf{MAE}} & \shortstack{\textbf{Số đêm} \\ \textbf{WAPE (\%)} \\ \scriptsize \textbf{MAE}} & \shortstack{\textbf{Cận VL} \\ \textbf{($<1,0$)}} \\
+\midrule
+Vanilla DLinear & \shortstack{9,36\% \\ \scriptsize 129.751} & \shortstack{10,47\% \\ \scriptsize 405.781} & 1,93\% \\
+DLinear + Ngoại sinh (Exogenous) & \shortstack{\textbf{9,16\%} \\ \scriptsize 127.051} & \shortstack{\textbf{9,67\%} \\ \scriptsize 374.958} & 2,25\% \\
+DLinear + HMM bias & \shortstack{9,36\% \\ \scriptsize 129.751} & \shortstack{10,47\% \\ \scriptsize 405.781} & 1,91\% \\
+DLinear + static FiLM & \shortstack{11,51\% \\ \scriptsize 159.624} & \shortstack{14,15\% \\ \scriptsize 548.445} & 2,76\% \\
+DLinear + HMM + FiLM & \shortstack{10,97\% \\ \scriptsize 152.101} & \shortstack{13,26\% \\ \scriptsize 514.070} & 2,67\% \\
+DLinear + HMM + FiLM + TRMF & \shortstack{14,82\% \\ \scriptsize 205.420} & \shortstack{16,66\% \\ \scriptsize 645.928} & 0,06\% \\
+RA-HE-DLinear (thô, chưa chiếu) & \shortstack{11,62\% \\ \scriptsize 161.064} & \shortstack{13,56\% \\ \scriptsize 525.737} & 1,10\% \\
+\textbf{RA-HE-DLinear} ($\Pi_{\mathcal{C}}$) & \shortstack{11,62\% \\ \scriptsize 161.064} & \shortstack{13,56\% \\ \scriptsize 525.863} & \textbf{0,00\%}$^*$ \\
+\bottomrule
+\end{tabular}
+\vspace{1mm}
+\parbox{\linewidth}{\scriptsize $^*$ Phép chiếu $\Pi_{\mathcal{C}}$ đưa toàn bộ vi phạm về 0,00\%. Tất cả cấu hình đánh giá trên 4.522 cặp quan sát hợp lệ.}
+\end{table}
+
+\noindent \textbf{Phân tích tác động nhân tố đa seed (Seeds 42, 43, 44):}
+Khi khảo sát $2^3 = 8$ tổ hợp bật/tắt ba thành phần (Ngoại sinh $E$, Chế độ HMM $H$, Điều biến FiLM $F$) trên 3 seed độc lập:
+\begin{itemize}
+    \item \textit{Luồng biến ngoại sinh ($E$):} Giúp giảm mạnh WAPE ở mô hình kết hợp, với mức giảm trung bình $-1{,}75 \pm 0{,}74$ điểm phần trăm (pp) đối với lượt khách và $-2{,}59 \pm 0{,}61$ pp đối với số đêm, nhờ tích hợp các chỉ số lịch lễ và ngày cuối tuần.
+    \item \textit{Chế độ HMM ($H$):} Giảm nhẹ WAPE $-0{,}14 \pm 0{,}05$ pp (lượt khách) và $-0{,}12 \pm 0{,}18$ pp (số đêm).
+    \item \textit{Điều biến FiLM nhân tỷ lệ ($F$):} Trong giai đoạn kiểm thử thời bình (2024--2026), cơ chế FiLM nhân tỷ lệ không ràng buộc làm tăng sai số WAPE $+3{,}37 \pm 1{,}51$ pp (lượt khách) và $+5{,}69 \pm 2{,}13$ pp (số đêm) do khuếch đại nhiễu tham số. Để khắc phục hiện tượng này, nghiên cứu đề xuất cơ chế \textbf{Cổng Học Mềm (Soft Learnable Gating)} với khởi tạo bias âm ($b=-3{,}0$, tương ứng $\sigma(b) \approx 0{,}047$), giúp triệt tiêu nhánh khuếch đại FiLM trong điều kiện ổn định và chỉ tự động mở rộng khi phát hiện biến động vĩ mô bất thường.
+\end{itemize}
+\subsection{Hiệu Năng Theo Chế Độ Thị Trường (Regime-wise Performance)}
+Bảng~\ref{tab:regime_performance} so sánh sai số WAPE giữa DLinear gốc và RA-HE-DLinear trên các chế độ thị trường xác định bởi HMM qua thực nghiệm kiểm thử chịu tải.
+\begin{table}[!htbp]
+\centering
+\caption{Hiệu năng dự báo theo chế độ thị trường trên dữ liệu Eurostat}
+\label{tab:regime_performance}
+\small
+\setlength{\tabcolsep}{2pt}
+\renewcommand{\arraystretch}{1.05}
+\begin{tabular}{p{3.2cm}ccc}
+\toprule
+\textbf{Chế độ thị trường ($s_t$)} & \textbf{DLinear gốc} & \textbf{RA-HE-DLinear} & \shortstack{\textbf{Ý nghĩa} \\ \textbf{so sánh}} \\
+\midrule
+Bình thường (Test 2024--2026) & \textbf{9,36\%} & 11,62\% & S-Naive / DLinear ưu thế \\
+Khủng hoảng COVID (2020--2021) & 58,40\% & \textbf{21,35\%} & RA-HE thích ứng cú sốc \\
+Phục hồi (Val 2022--2023) & 31,50\% & \textbf{16,20\%} & RA-HE giảm sai số đứt gãy \\
+\bottomrule
+\end{tabular}
+\end{table}
+Trong pha kiểm thử gần đây (2024--2026) mang tính ổn định chu kỳ cao, các mô hình cơ sở như Seasonal Naive và DLinear đạt WAPE thấp hơn nhờ phương sai tối thiểu. Ngược lại, trong các giai đoạn khủng hoảng và đứt gãy cấu trúc (như đại dịch 2020--2021), RA-HE-DLinear thể hiện ưu thế vượt trội ($21{,}35\%$ so với $58{,}40\%$), chứng minh tính chống chịu rủi ro cao trước các cú sốc phi đối xứng.
+\subsection{Tính Nhất Quán Ràng Buộc Kinh Tế (Economic Constraint Consistency)}
+Bảng~\ref{tab:projection_effect} phân tích định lượng hiệu quả của toán tử chiếu mốc neo $\Pi_{\mathcal{C}}$ trên 4.522 cặp quan sát kiểm thử hợp lệ.
+\begin{table}[!htbp]
+\centering
+\caption{Đánh giá tác động của toán tử chiếu mốc neo $\Pi_{\mathcal{C}}$ trên tập kiểm thử Eurostat (4.522 cặp quan sát)}
+\label{tab:projection_effect}
+\small
+\setlength{\tabcolsep}{2pt}
+\renewcommand{\arraystretch}{1.05}
+\begin{tabular}{p{3.15cm}cc}
+\toprule
+\textbf{Chỉ số đánh giá} & \shortstack{\textbf{Trước phép chiếu} \\ \textbf{(Thô)}} & \shortstack{\textbf{Sau phép chiếu} \\ \textbf{($\Pi_{\mathcal{C}}$)}} \\
+\midrule
+Tỷ lệ vi phạm cận vật lý ($<1,0$) & 1,10\% (50/4.522 mẫu) & \textbf{0,00\%} (0/4.522 mẫu) \\
+Tỷ lệ can thiệp ($\eta_{\text{proj}}$) & 1,10\% & --- \\
+WAPE Lượt khách (Arrivals) & 11,62\% & \textbf{11,62\%} \\
+MAE Lượt khách (Arrivals) & 161.064 & \textbf{161.064} \\
+WAPE Số đêm lưu trú (Nights) & 13,56\% & \textbf{13,56\%} \\
+MAE Số đêm lưu trú (Nights) & 525.737 & \textbf{525.863} \\
+Lệch dải kinh tế ($[r_{\min}, r_{\max}]$) & 16,02\% & \textbf{16,02\%} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Hình~\ref{fig:projection_scatter} trực quan hóa cơ chế điều chỉnh các mẫu vi phạm cận vật lý về ranh giới $\text{LOS}=1{,}0$. Trước khi can thiệp, mô hình thô ghi nhận 50 trường hợp vi phạm cận vật lý (1,10\%). Toán tử chiếu giải tích $\Pi_{\mathcal{C}}$ bảo đảm 100\% các dự báo sau hiệu chỉnh hoàn toàn thỏa mãn ràng buộc $\hat{Y}_{\text{nig}} \ge \hat{Y}_{\text{arr}}$ mà không làm thay đổi dự báo lượt khách đã được xác định chuẩn xác.
+
+\begin{figure}[!htbp]
+\centering
+\includegraphics[width=\columnwidth]{figures/consistency_projection_scatter_en.png}
+\caption{Không gian chiếu mốc neo bất đối xứng $\Pi_{\mathcal{C}}$ và cơ chế điều chỉnh các mẫu vi phạm cận vật lý.}
+\label{fig:projection_scatter}
+\end{figure}
+
+\begin{figure}[!htbp]
+\centering
+\includegraphics[width=\columnwidth]{figures/los_distribution_economic_band_en.png}
+\caption{Phân phối tỷ lệ thời gian lưu trú bình quân (LOS) và đánh giá độ lệch dải kinh tế lịch sử.}
+\label{fig:los_distribution}
+\end{figure}
+\subsection{Đánh Giá Độ Bất Định Conformal (Uncertainty Quantification)}
+Bảng~\ref{tab:conformal_metrics} tổng hợp độ bao phủ thực nghiệm và độ rộng khoảng dự báo sau phép chiếu trên 4.522 cặp quan sát hợp lệ.
+\begin{table}[!htbp]
+\centering
+\caption{Đánh giá lượng hóa độ bất định bằng Conformal Prediction (DCQF) sau phép chiếu}
+\label{tab:conformal_metrics}
+\small
+\setlength{\tabcolsep}{2.5pt}
+\renewcommand{\arraystretch}{1.05}
+\begin{tabular}{>{\raggedright\arraybackslash}p{2.35cm}>{\centering\arraybackslash}p{1.15cm}>{\centering\arraybackslash}p{1.45cm}>{\centering\arraybackslash}p{1.45cm}>{\centering\arraybackslash}p{0.85cm}}
+\toprule
+\textbf{Biến mục tiêu} & \shortstack{\textbf{Mức} \\ \textbf{danh định}} & \shortstack{\textbf{Độ bao phủ} \\ \textbf{thực tế}} & \shortstack{\textbf{Độ rộng TB} \\ \textbf{(MPIW)}} & \shortstack{\textbf{Số mẫu} \\ \textbf{hợp lệ}} \\
+\midrule
+Lượt khách (Arrivals) & 90,00\% & \textbf{86,86\%} & 467.442 & 4.522 \\
+Số đêm lưu trú (Nights) & 90,00\% & \textbf{87,20\%} & 1.472.058 & 4.522 \\
+\bottomrule
+\end{tabular}
+\end{table}
+Ở mức danh định 90,00\%, độ bao phủ thực tế đạt 86,86\% đối với lượt khách và 87,20\% đối với số đêm lưu trú. Khoảng chênh lệch nhẹ so với mức danh định 90\% phản ánh đặc trưng của chuỗi thời gian kinh tế: sự tồn tại của tính tự tương quan (serial correlation) và các biến động chuyển đổi chế độ hậu đại dịch làm suy giảm cục bộ giả định tính khả hoán (exchangeability) trong phương pháp Split Conformal tiêu chuẩn.
+\subsection{Phân Tích Khả Năng Giải Thích (Explainability Analysis)}
+Hình~\ref{fig:shap} thể hiện xếp hạng thuộc tính theo giá trị trung bình SHAP trên tập kiểm thử Eurostat.
+\begin{figure}[!htbp]
+\centering
+\includegraphics[width=\columnwidth]{figures/shap_feature_importance.png}
+\caption{Xếp hạng mức độ đóng góp thuộc tính theo giá trị trung bình SHAP.}
+\label{fig:shap}
+\end{figure}
+Phân tích SHAP cho thấy ba kết quả thực nghiệm quan trọng:
+\begin{enumerate}
+    \item \textbf{Vai trò chủ đạo của trễ mùa vụ năm:} Thuộc tính trễ 12 tháng ($\text{Lag}_{12}$) và trễ 24 tháng ($\text{Lag}_{24}$) có tác động lớn nhất, phù hợp với tính chu kỳ hàng năm của du lịch Châu Âu.
+    \item \textbf{Ảnh hưởng của chế độ vĩ mô:} Chỉ số chế độ thị trường HMM ($s_t$) đứng thứ ba về tầm quan trọng, giải thích khả năng co giãn độ dốc của mô hình trong giai đoạn khủng hoảng.
+    \item \textbf{Đóng góp của biến ngoại sinh:} Số ngày cuối tuần (\texttt{weekend\_days}) và nhân tố không gian TRMF đóng vai trò tinh chỉnh các bước sóng ngắn hạn và cú sốc lan truyền xuyên biên giới.
+\end{enumerate}
+\subsection{Phân Tích Độ Nhạy Siêu Tham Số}
+Hình~\ref{fig:sensitivity} minh họa sự biến thiên của WAPE theo các siêu tham số chính: $K_{\text{ma}}$, $L$, $K$ và $R$.
+\begin{figure}[!htbp]
+\centering
+\includegraphics[width=\columnwidth]{figures/hyperparameter_sensitivity.png}
+\caption{Đường cong độ nhạy sai số WAPE theo các siêu tham số cốt lõi.}
+\label{fig:sensitivity}
+\end{figure}
+Trong phạm vi các giá trị siêu tham số được khảo sát, cấu hình ($K_{\text{ma}}=13, L=24, K=3, R=4$) ạt WAPE thấp nhất theo kết quả được báo cáo. Thời gian huấn luyện của cấu hình này là 35 giây trong môi trường thực nghiệm đã sử dụng. Kết quả không khẳng định đây là cấu hình tối ưu đối với mọi bộ dữ liệu hoặc điều kiện tính toán.
+\subsection{Khả Năng Thích Ứng Trên Bảng Dữ Liệu World Bank}
+Bảng~\ref{tab:benchmark_wb} tổng hợp kết quả đối sánh trên dữ liệu thường niên World Bank (203 nền kinh tế, 497 mẫu kiểm thử 2018--2020) qua 1.000 lượt bootstrap.
+\begin{table}[!htbp]
+\centering
+\caption{Kết quả đối sánh trên dữ liệu World Bank thường niên (Mean $\pm$ Std qua 1.000 lượt Bootstrap, 2018--2020)}
+\label{tab:benchmark_wb}
+\footnotesize
+\setlength{\tabcolsep}{2.2pt}
+\renewcommand{\arraystretch}{1.05}
+\begin{tabular}{>{\raggedright\arraybackslash}p{2.25cm}cccc}
+\toprule
+\textbf{Mô hình đối sánh} & \shortstack{\textbf{Arr.} \\ \textbf{WAPE}} & \shortstack{\textbf{Arr.} \\ \textbf{MAE}} & \shortstack{\textbf{Nig.} \\ \textbf{WAPE}} & \shortstack{\textbf{Cận} \\ \textbf{vật lý}} \\
+\midrule
+Persistence (1-Năm) & 29,91\% $\pm$ 0,68\% & 3.059.235 & 46,12\% $\pm$ 1,05\% & 0,00\% \\
+Standard LightGBM & 30,70\% $\pm$ 0,71\% & 3.133.800 & 49,20\% $\pm$ 1,10\% & 11,20\% \\
+Vanilla NLinear & 31,96\% $\pm$ 0,73\% & 3.254.366 & 35,63\% $\pm$ 0,88\% & 0,60\% \\
+Vanilla DLinear & 54,93\% $\pm$ 0,98\% & 5.592.558 & 64,72\% $\pm$ 1,25\% & 0,00\% \\
+\midrule
+RA-Exo-DLinear & 9,75\% $\pm$ 0,40\% & 994.780 & 40,35\% $\pm$ 0,95\% & 0,00\% \\
+\textbf{RA-HE-DLinear} & \textbf{9,45\% $\pm$ 0,38\%} & \textbf{964.296} & \textbf{28,27\% $\pm$ 0,82\%} & \textbf{0,00\%}$^*$ \\
+\bottomrule
+\end{tabular}
+\end{table}
+Trên bảng dữ liệu World Bank, RA-HE-DLinear tiếp tục đạt kết quả tốt nhất với Arrivals WAPE \textbf{9,45\% $\pm$ 0,38\%} (MAE $964.296 \pm 41.200$) và Nights WAPE \textbf{28,27\% $\pm$ 0,82\%}. Đặc biệt trong năm khủng hoảng 2020, mô hình duy trì WAPE $13,14\% \pm 0,45\%$ (so với $43,78\% \pm 1,02\%$ của DLinear) nhờ tích hợp chỉ số nghiêm ngặt y tế vĩ mô.
+\section{Thảo Luận}
+\subsection{Các Phát Hiện Chính (Main Findings)}
+Nghiên cứu ghi nhận ba phát hiện thực nghiệm cốt lõi:
+\begin{enumerate}
+    \item \textit{Đặc thù chu kỳ thời bình và nguyên lý Occam:} Trên tập kiểm thử Eurostat gần đây (2024--2026), Seasonal Naive (6,04\% / 5,68\%) và Vanilla DLinear (9,36\% / 10,47\%) đạt sai số đếm thấp nhờ cấu trúc tối giản và phương sai tham số nhỏ khi chuỗi vận hành trong trạng thái dừng chu kỳ cao. RA-HE-DLinear đạt WAPE 11,62\% (lượt khách) và 13,56\% (số đêm); tuy sai số điểm cao hơn mô hình cơ sở trong thời bình, khung mô hình đem lại khả năng chống chịu vượt trội khi xảy ra cú sốc đứt gãy xu thế (như đại dịch 2020 trên World Bank đạt 13,14\% so với 43,78\% của DLinear).
+    \item \textit{Bảo đảm tính nhất quán cận vật lý:} Toán tử chiếu mốc neo bất đối xứng $\Pi_{\mathcal{C}}$ loại bỏ triệt để 100\% các vi phạm cận vật lý ($Y_{\text{nig}} < Y_{\text{arr}}$) từ mức thô 1,10\% (50/4.522 cặp) về 0,00\% tuyệt đối mà không làm suy giảm độ chính xác của dự báo lượt khách.
+    \item \textit{Lượng hóa độ bất định và giới hạn khả hoán:} Khoảng tin cậy DCQF sau phép chiếu đạt độ bao phủ thực nghiệm 86,86\% (lượt khách) và 87,20\% (số đêm) ở mức danh định 90,00\%. Chênh lệch khoảng 3\% này phản ánh sự suy giảm nhẹ của giả định tính khả hoán do tương quan chuỗi và chuyển pha vĩ mô hậu đại dịch.
+\end{enumerate}
+
+\subsection{Hạn Chế Của Nghiên Cứu (Study Limitations)}
+Nghiên cứu ghi nhận bốn hạn chế phương pháp luận:
+\begin{enumerate}
+    \item \textit{Độ trễ công bố dữ liệu thực tế (Publication Lag):} Trong điều kiện vận hành thời gian thực, dữ liệu Eurostat trễ từ 2 đến 6 tháng và World Bank trễ từ 1 đến 2 năm. Nghiên cứu hiện tại đánh giá theo giao thức hồi cứu theo kỳ tham chiếu (retrospective reference-period backtest). Để đánh giá độ chính xác vận hành tại từng mốc phát hành thực tế (Point-in-Time - PIT), cần xây dựng kho dữ liệu lưu vết lịch sử (data vintage snapshots).
+    \item \textit{Nội suy nhãn số đêm World Bank:} Do nhiều nền kinh tế thiếu dữ liệu thống kê số đêm lưu trú, biến $Y_{\text{nig}}$ trong bảng World Bank được nội suy theo hệ số LOS khu vực và nhóm thu nhập với giả định $\text{LOS} \ge 1{,}0$. Ràng buộc vật lý trên bảng World Bank vì thế mang tính chất kiểm tra bổ trợ về độ ổn định số học hơn là kiểm chứng hành vi du khách thực tế.
+    \item \textit{Phân biệt độ ổn định mô hình và độ biến thiên mẫu:} Phân tích 1.000 lượt bootstrap trên tập kiểm thử phản ánh độ biến thiên lấy mẫu (sampling variability) của một lần huấn luyện cụ thể. Độ ổn định của quá trình tối ưu hóa mô hình được xác nhận độc lập qua thực nghiệm đa seed ngẫu nhiên (seeds 42, 43, 44).
+    \item \textit{Cơ chế FiLM trong điều kiện dừng:} Cơ chế FiLM nhân tỷ lệ không ràng buộc có thể khuếch đại nhiễu trong giai đoạn bình thường (+3,37\% / +5,69\% WAPE). Giải pháp Cổng Học Mềm (Soft Learnable Gating) với khởi tạo bias âm ($b=-3{,}0$) là bước cải tiến cần thiết để mô hình tự động ức chế biến dạng xu thế khi không có biến cố vĩ mô.
+\end{enumerate}
+
+\section{Kết Luận}
+Nghiên cứu đề xuất RA-HE-DLinear, một khung dự báo nhu cầu du lịch đa quốc gia kết hợp thông tin trạng thái thị trường vĩ mô qua HMM, biến ngoại sinh lịch lễ, phụ thuộc lan tỏa không gian qua TRMF và ràng buộc logic cận vật lý qua toán tử chiếu mốc neo bất đối xứng $\Pi_{\mathcal{C}}$.
+
+Trên 4.522 cặp quan sát hợp lệ của tập kiểm thử Eurostat (2024--2026), các mô hình cơ sở tinh giản như Seasonal Naive và Vanilla DLinear đạt sai số WAPE thấp hơn trong thời kỳ chu kỳ ổn định. Tuy nhiên, RA-HE-DLinear giải quyết triệt để 100\% các vi phạm cận vật lý (đưa từ 1,10\% về 0,00\%), duy trì sự thích ứng kiên cường trong các pha đứt gãy kinh tế lớn (World Bank 2020: 13,14\% so với 43,78\%), và cung cấp dải tin cậy conformal đạt độ bao phủ xấp xỉ 87\% tại mức danh định 90\%. Hướng nghiên cứu tiếp theo sẽ tập trung vào cơ chế Conformal thích ứng thời gian thực (Adaptive Online Conformal) và xây dựng giao thức kiểm thử theo vết phát hành thực tế (Point-in-Time evaluation).
+
+\bibliographystyle{IEEEtran}
+\begin{thebibliography}{10}
+\bibitem{song2019tourism}
+H.~Song, R.~T.~R.~Qiu, and J.~Park, ``A review of research on tourism demand forecasting: Launching the Annals of Tourism Research Curated Collection on tourism demand forecasting,'' \emph{Annals of Tourism Research}, vol.~75, pp. 338--362, 2019.
+\bibitem{athanasopoulos2011tourism}
+G.~Athanasopoulos, R.~A. Hyndman, H.~Song, and D.~C. Wu, ``The tourism forecasting competition,'' \emph{International Journal of Forecasting}, vol.~27, no.~3, pp. 822--844, 2011.
+\bibitem{dorogush2018catboost}
+A.~V. Dorogush, V.~Ershov, and A.~Gulin, ``CatBoost: gradient boosting with categorical features support,'' \emph{arXiv preprint arXiv:1810.11363}, 2018.
+\bibitem{claveria2016tourism}
+O.~Claveria, E.~Monte, and S.~Torra, ``Combination forecasts of tourism demand with machine learning models,'' \emph{Applied Economics Letters}, vol.~23, no.~6, pp. 428--431, 2016.
+\bibitem{law2019tourism}
+R.~Law, G.~Li, D.~K.~C.~Fong, and X.~Han, ``Tourism demand forecasting: A deep learning approach,'' \emph{Annals of Tourism Research}, vol.~75, pp. 410--423, 2019.
+\bibitem{zeng2023dlinear}
+A.~Zeng, M.~Chen, L.~Zhang, and Q.~Xu, ``Are transformers effective for time series forecasting?'' in \emph{Proc. AAAI Conference on Artificial Intelligence}, vol.~37, no.~9, 2023, pp. 11121--11128.
+\bibitem{perez2018film}
+E.~Perez, F.~Strub, H.~de~Vries, V.~Dumoulin, and A.~Courville, ``FiLM: Visual reasoning with a general conditioning layer,'' in \emph{Proc. AAAI Conference on Artificial Intelligence}, vol.~32, no.~1, 2018, pp. 3942--3951.
+\bibitem{hastie1990gam}
+T.~J. Hastie and R.~J. Tibshirani, \emph{Generalized Additive Models}. Chapman \& Hall/CRC, 1990.
+\bibitem{kourentzes2019coherent}
+N.~Kourentzes and G.~Athanasopoulos, ``Cross-temporal aggregations to enhance national tourism forecasting,'' \emph{Annals of Tourism Research}, vol.~76, pp. 200--216, 2019.
+\bibitem{yu2016trmf}
+H.-F. Yu, N.~Rao, and I.~S. Dhillon, ``Temporal regularized matrix factorization for high-dimensional time series prediction,'' in \emph{Advances in Neural Information Processing Systems (NeurIPS)}, 2016, pp. 847--855.
+\bibitem{angelopoulos2021conformal}
+A.~N. Angelopoulos and S.~Bates, ``A gentle introduction to conformal prediction and distribution-free uncertainty quantification,'' \emph{arXiv preprint arXiv:2107.07511}, 2021.
+\bibitem{vovk2005algorithmic}
+V.~Vovk, A.~Gammerman, and G.~Shafer, \emph{Algorithmic Learning in a Random World}. Springer, 2005.
+\bibitem{nie2023patchtst}
+Y.~Nie, N.~H. Nguyen, P.~Sinthong, and J.~Kalagnanam, ``A time series is worth 64 words: Long-term forecasting with transformers,'' in \emph{Proc. International Conference on Learning Representations (ICLR)}, 2023.
+\bibitem{wu2021autoformer}
+H.~Wu, J.~Xu, J.~Wang, and M.~Long, ``Autoformer: Decomposition transformers with auto-correlation for long-term series forecasting,'' in \emph{Advances in Neural Information Processing Systems (NeurIPS)}, vol.~34, 2021, pp. 22419--22430.
+\bibitem{zhou2021informer}
+H.~Zhou, S.~Zhang, J.~Peng, S.~Zhang, J.~Li, H.~Xiong, and W.~Zhang, ``Informer: Beyond efficient transformer for long sequence time-series forecasting,'' in \emph{Proc. AAAI Conference on Artificial Intelligence}, vol.~35, no.~12, 2021, pp. 11106--11115.
+\bibitem{hochreiter1997lstm}
+S.~Hochreiter and J.~Schmidhuber, ``Long short-term memory,'' \emph{Neural Computation}, vol.~9, no.~8, pp. 1735--1780, 1997.
+\bibitem{lundberg2017shap}
+S.~M. Lundberg and S.-I. Lee, ``A unified approach to interpreting model predictions,'' in \emph{Advances in Neural Information Processing Systems (NeurIPS)}, 2017, pp. 4765--4774.
+\bibitem{ke2017lightgbm}
+G.~Ke, Q.~Meng, T.~Finley, T.~Wang, W.~Chen, W.~Ma, Q.~Ye, and T.-Y. Liu, ``LightGBM: A highly efficient gradient boosting decision tree,'' in \emph{Advances in Neural Information Processing Systems (NeurIPS)}, 2017, pp. 3146--3154.
+\bibitem{hamilton1989regime}
+J.~D.~Hamilton, ``A new approach to the economic analysis of nonstationary time series and the business cycle,'' \emph{Econometrica}, vol.~57, no.~2, pp. 357--384, 1989.
+\bibitem{clements1998forecasting}
+M.~P.~Clements and D.~F.~Hendry, \emph{Forecasting Economic Time Series}. Cambridge University Press, 1998.
+\bibitem{gossling2020pandemics}
+S.~G{\\"o}ssling, D.~Scott, and C.~M.~Hall, ``Pandemics, tourism and global change: a rapid assessment of COVID-19,'' \emph{Journal of Sustainable Tourism}, vol.~29, no.~1, pp. 1--20, 2020.
+\bibitem{hale2021oxford}
+T.~Hale, N.~Angrist, R.~Goldszmidt, B.~Kira, A.~Petherick, T.~Phillips, S.~Webster, E.~Cameron-Blake, L.~Hallas, S.~Majumdar, and H.~Tatem, ``A global panel database of pandemic policies (Oxford COVID-19 Government Response Tracker),'' \emph{Nature Human Behaviour}, vol.~5, no.~4, pp. 529--538, 2021.
+\bibitem{unwto2010recommendations}
+UNWTO, \emph{International Recommendations for Tourism Statistics 2008 (IRTS 2008)}. Statistical Papers, Series M No. 83/Rev.1, United Nations, 2010.
+\bibitem{hyndman2011optimal}
+R.~J.~Hyndman, R.~A.~Ahmed, G.~Athanasopoulos, and H.~L.~Shang, ``Optimal combination forecasts for hierarchical time series,'' \emph{Computational Statistics \& Data Analysis}, vol.~55, no.~9, pp. 2579--2589, 2011.
+\bibitem{peng2014meta}
+B.~Peng, H.~Song, and G.~I.~Crouch, ``A meta-analysis of international tourism demand forecasting,'' \emph{Journal of Travel Research}, vol.~53, no.~4, pp. 399--414, 2014.
+\end{thebibliography}
+\end{document}

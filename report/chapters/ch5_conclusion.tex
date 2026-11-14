@@ -1,0 +1,41 @@
+\chapter{KẾT LUẬN VÀ HƯỚNG PHÁT TRIỂN}
+\label{ch:conclusion}
+
+\section{Các Đóng Góp Chính Của Đồ Án (Key Contributions)}
+\label{sec:conclusion_contributions}
+
+Đồ án đã nghiên cứu và phát triển thành công khung mô hình dự báo \textbf{RA-HE-DLinear} (\textit{Regime-Aware Hierarchical-Economic DLinear}), giải quyết một cách có hệ thống và triệt để các thách thức nan giải trong bài toán dự báo nhu cầu du lịch đa quốc gia. Các đóng góp khoa học và ứng dụng thực tiễn nổi bật của đồ án bao gồm:
+
+\begin{enumerate}
+    \item \textbf{Đột phá trong thiết kế kiến trúc phân rã thích ứng chế độ:} Đồ án đã khắc phục thành công nhược điểm tĩnh của mô hình DLinear bằng cách tích hợp mô hình Markov ẩn (HMM) thông qua cơ chế điều biến tuyến tính FiLM. Sự kết hợp này cho phép mạng nơ-ron tự động điều chỉnh độ dốc và biên độ của nhánh xu thế theo các trạng thái kinh tế tiềm ẩn (\textit{Bình thường, Khủng hoảng, Phục hồi}), đồng thời tiếp nhận trực tiếp các biến ngoại sinh lịch lễ và kinh tế vĩ mô qua các nhánh tham số học được.
+    \item \textbf{Mô hình hóa tương quan lan tỏa liên quốc gia phi khoảng cách:} Việc ứng dụng kỹ thuật phân rã ma trận điều chuẩn theo thời gian TRMF đã bóc tách thành công các nhân tố tiềm ẩn chung của khu vực Châu Âu, nắm bắt hiệu quả các mẫu biến động đồng pha và hiệu ứng lan tỏa xuyên biên giới mà không cần phụ thuộc vào các giả định ma trận kề địa lý cứng nhắc.
+    \item \textbf{Bảo đảm tính nhất quán miền nghiệp vụ bằng toán tử chiếu mốc neo $\Pi_{\mathcal{C}}$:} Đồ án đã xây dựng công thức nghiệm giải tích dạng đóng cho phép chiếu mốc neo, kết hợp hàm mất mát phạt liên kết $\mathcal{L}_{\text{cons}}$. Giải pháp này bảo đảm triệt để $100\%$ các dự báo thỏa mãn cận vật lý $\hat{Y}_{\text{nig}} \ge \hat{Y}_{\text{arr}}$ (đưa tỷ lệ vi phạm từ $1{,}104\%$ về chính xác $0{,}000\%$), khắc phục hoàn toàn hiện tượng dự báo phi lý của các mô hình học máy truyền thống.
+    \item \textbf{Lượng hóa độ bất định có bảo chứng lý thuyết:} Ứng dụng quy trình Conformalized Quantile Forecasting thiết lập khoảng dự báo danh định 90\% có kiểm định độ bao phủ thực nghiệm vững chắc trên mẫu hữu hạn, giải phóng hệ thống khỏi các giả định áp đặt không thực tế về phân phối Gaussian.
+    \item \textbf{Hiệu năng thực tế và tính tối ưu tài nguyên tính toán:} Các thực nghiệm đối chuẩn trên $4.522$ cặp quan sát hợp lệ của bảng dữ liệu Eurostat (152 chuỗi phân loại cơ sở lưu trú) chứng minh RA-HE-DLinear (Cổng thích ứng + $\Pi_{\mathcal{C}}$) đạt WAPE $\mathbf{9{,}16\%}$ (lượt khách) và $\mathbf{9{,}64\%}$ (số đêm), vượt trội toàn diện so với Vanilla DLinear ($9{,}36\%$ và $10{,}47\%$). Khung mô hình giải quyết triệt để bài toán ràng buộc vật lý (đưa tỷ lệ VR về chính xác $0{,}000\%$), duy trì năng lực chống chịu đứt gãy xu thế vượt trội trong các giai đoạn khủng hoảng cấu trúc (như đại dịch 2020 trên World Bank đạt WAPE $13{,}14\%$ so với $43{,}78\%$ của DLinear nguyên bản), đồng thời có tốc độ huấn luyện dưới 40 giây trên GPU cá nhân.
+\end{enumerate}
+
+\section{Hạn Chế Của Nghiên Cứu (Study Limitations)}
+\label{sec:conclusion_limitations}
+
+Mặc dù đã đạt được nhiều kết quả thực nghiệm và lý thuyết xuất sắc, đồ án vẫn còn một số hạn chế nhất định cần được tiếp tục hoàn thiện:
+\begin{enumerate}
+    \item \textbf{Giả định tính khả hoán trong Split Conformal Prediction:} Kỹ thuật Split Conformal cổ điển dựa trên giả định rằng các mẫu dữ liệu thỏa mãn tính khả hoán (\textit{exchangeability}). Trong chuỗi thời gian kinh tế, khi xuất hiện các sự kiện thiên nga đen có tính chất biến đổi cấu trúc vĩnh viễn, giả định này có thể bị vi phạm cục bộ trong các pha chuyển giao, đòi hỏi phải có cơ chế thích ứng động theo thời gian thực.
+    \item \textbf{Độ thưa và độ trễ công bố của dữ liệu thống kê chính thống:} Dữ liệu du lịch từ Eurostat và World Bank tuy có độ tin cậy và chuẩn hóa rất cao nhưng thường có độ trễ công bố từ 1 đến 3 tháng. Nghiên cứu hiện tại chưa tích hợp các nguồn dữ liệu tần suất cao theo thời gian thực (như dữ liệu tìm kiếm du lịch Google Trends, số liệu đặt vé máy bay đặt trước IATA hoặc dữ liệu giao dịch thẻ tín dụng ngân hàng).
+    \item \textbf{Phạm vi phân tích theo không gian:} Nghiên cứu hiện tập trung kiểm thử chuyên sâu ở cấp độ vĩ mô toàn quốc gia ($N=38$ nước Châu Âu). Khi mở rộng xuống các đơn vị hành chính cấp tỉnh hoặc cấp điểm đến cụ thể (NUTS-2, NUTS-3), các đặc thù vi mô về sức chứa buồng phòng và điều kiện thời tiết cục bộ có thể cần thêm các cơ chế điều chỉnh chuyên biệt.
+    \item \textbf{Độ trễ phát hành và kiểm định Point-in-Time (PIT):} Đánh giá hiện tại được thực hiện trên ảnh chụp dữ liệu hồi cứu theo chu kỳ tham chiếu (retrospective reference-period snapshots). Để đánh giá trọn vẹn sai số vận hành thực tế tại từng thời điểm phát dự báo, cần hoàn thiện sổ cái phát hành lịch sử (release ledger) để kiểm thử theo đúng phiên bản dữ liệu có sẵn tại gốc dự báo (Point-in-Time backtesting).
+    \item \textbf{Bản chất bán nhân tạo của số đêm lưu trú trong bảng World Bank:} Do chỉ số WDI toàn cầu chỉ đo lường lượt khách đến ($Y_{\text{arr}}$), chỉ tiêu số đêm lưu trú ($Y_{\text{nig}}$) của các nền kinh tế ngoài OECD được xây dựng dựa trên mốc chuẩn hệ số ALOS vùng của UNWTO. Do đó, bảng World Bank chủ yếu đóng vai trò kiểm thử độ ổn định thuật toán vĩ mô trên diện rộng thay vì đưa ra các kết luận suy diễn kinh tế lượng độc lập về số đêm.
+\end{enumerate}
+
+\section{Kiến Nghị và Hướng Nghiên Cứu Tiếp Theo (Future Work)}
+\label{sec:conclusion_future_work}
+
+Từ các kết quả và hạn chế đã thảo luận, đồ án đề xuất các định hướng nghiên cứu tiếp theo:
+\begin{enumerate}
+    \item \textbf{Ứng dụng Conformal thích ứng thời gian thực (Online Adaptive Conformal Inference):} Phát triển cơ chế cập nhật ngưỡng phân vị động thích ứng với trôi dạt dữ liệu theo từng bước thời gian (Online ACI), giúp duy trì bảo đảm độ bao phủ ngay cả khi chuỗi thời gian trải qua các đợt biến động mạnh liên tục.
+    \item \textbf{Tích hợp luồng dữ liệu lớn thời gian thực (Nowcasting with Alternative Big Data):} Mở rộng nhánh biến ngoại sinh của RA-Exo-DLinear để tiếp nhận luồng dữ liệu tìm kiếm Google Trends, dữ liệu di động viễn thông và tần suất các chuyến bay theo thời gian thực, phục vụ bài toán dự báo hiện tại (\textit{Nowcasting}) cho các cơ quan quản lý điểm đến.
+    \item \textbf{Mở rộng sang các chỉ tiêu kinh tế du lịch đa chiều khác:} Tích hợp thêm các biến mục tiêu liên quan như Tổng thu nhập từ du khách quốc tế ($Y_{\text{rev}}$) và Doanh thu trên mỗi phòng sẵn có (RevPAR) vào cùng một hệ thống ràng buộc phân cấp kinh tế toàn diện:
+    \begin{equation}
+        Y_{\text{rev}} = Y_{\text{arr}} \times \text{LOS} \times \text{Chi tiêu trung bình/đêm}
+    \end{equation}
+    nhằm hình thành một hệ sinh thái hỗ trợ ra quyết định kinh tế du lịch hoàn chỉnh cho chính phủ và doanh nghiệp.
+\end{enumerate}

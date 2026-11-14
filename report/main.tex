@@ -1,0 +1,382 @@
+\documentclass[12pt,a4paper,oneside]{report}
+
+% ==============================================================================
+% GÓI VÀ CẤU HÌNH CƠ BẢN
+% ==============================================================================
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[utf8]{inputenc}
+  \usepackage[vietnamese,english]{babel}
+  \usepackage[T5]{fontenc}
+  \usepackage{mathptmx} % Phông chữ tương thích Times New Roman cho pdfLaTeX
+  \DeclareUnicodeCharacter{2013}{--}
+  \DeclareUnicodeCharacter{2014}{---}
+\else
+  \usepackage{fontspec}
+  \IfFontExistsTF{Times New Roman}{
+    \setmainfont{Times New Roman}
+  }{
+    \setmainfont{Liberation Serif}
+  }
+  \usepackage[vietnamese,english]{babel}
+\fi
+
+% Thiết lập lề chuẩn theo quy định luận văn / đồ án tốt nghiệp:
+% Lề trái 3.5cm (để đóng gáy), lề phải 2.0cm, trên 2.5cm, dưới 2.5cm
+\usepackage[left=3.5cm,right=2.0cm,top=2.5cm,bottom=2.5cm]{geometry}
+
+% Gói toán học và ký hiệu
+\usepackage{amsmath,amssymb,amsfonts,amsthm}
+\usepackage{bm}
+
+% Gói bảng biểu và hình ảnh
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{multirow}
+\usepackage{array}
+\usepackage{longtable}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{float}
+
+% Gói thuật toán
+\usepackage{algorithm}
+\usepackage{algorithmic}
+
+% Gói đồ họa và khung bìa
+\usepackage{tikz}
+\usetikzlibrary{calc}
+
+% Gói định dạng văn bản, thụt lề, khoảng cách dòng
+\usepackage{setspace}
+\onehalfspacing % Dãn dòng 1.5 lines
+\setlength{\parindent}{1.27cm} % Thụt đầu dòng chuẩn 1.27cm (0.5 inch)
+\setlength{\parskip}{6pt}      % Khoảng cách giữa các đoạn
+
+% Gói liên kết và màu sắc
+\usepackage{xcolor}
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=black,
+    citecolor=blue,
+    urlcolor=blue,
+    filecolor=blue,
+    pdfauthor={Trần Nguyễn Tuấn, Phan Hoài Bão},
+    pdftitle={RA-HE-DLinear: Khung Dự Báo Thích Ứng Chế Độ Thị Trường và Ràng Buộc Kinh Tế Cho Nhu Cầu Du Lịch Đa Quốc Gia}
+}
+
+% Định dạng tiêu đề chương, mục (titlesec)
+\usepackage{titlesec}
+% Đánh số mục theo chuẩn 1.1, 1.1.1, 1.1.2...
+\setcounter{secnumdepth}{3}
+\setcounter{tocdepth}{3}
+
+% Tùy biến định dạng tiêu đề chương
+\titleformat{\chapter}[display]
+  {\normalfont\bfseries\Large\centering}
+  {\MakeUppercase{\chaptertitlename}\ \thechapter}
+  {10pt}
+  {\Huge\MakeUppercase}
+\titlespacing*{\chapter}{0pt}{-20pt}{20pt}
+
+\titleformat{\section}
+  {\normalfont\bfseries\large}
+  {\thesection}{1em}{}
+\titlespacing*{\section}{0pt}{12pt}{6pt}
+
+\titleformat{\subsection}
+  {\normalfont\bfseries\normalsize}
+  {\thesubsection}{1em}{}
+\titlespacing*{\subsection}{0pt}{10pt}{4pt}
+
+\titleformat{\subsubsection}
+  {\normalfont\bfseries\normalsize}
+  {\thesubsubsection}{1em}{}
+\titlespacing*{\subsubsection}{0pt}{8pt}{4pt}
+
+% Đặt tên bảng, hình theo tiếng Việt
+\addto\captionsvietnamese{%
+  \renewcommand{\chaptername}{Chương}%
+  \renewcommand{\contentsname}{MỤC LỤC}%
+  \renewcommand{\listfigurename}{DANH MỤC HÌNH ẢNH}%
+  \renewcommand{\listtablename}{DANH MỤC BẢNG}%
+  \renewcommand{\bibname}{TÀI LIỆU THAM KHẢO}%
+  \renewcommand{\figurename}{Hình}%
+  \renewcommand{\tablename}{Bảng}%
+}
+
+% Định nghĩa môi trường định lý, bổ đề
+\newtheorem{definition}{Định nghĩa}[chapter]
+\newtheorem{theorem}{Định lý}[chapter]
+\newtheorem{lemma}{Bổ đề}[chapter]
+\newtheorem{proposition}{Mệnh đề}[chapter]
+
+% ==============================================================================
+% BẮT ĐẦU TÀI LIỆU
+% ==============================================================================
+\begin{document}
+\selectlanguage{vietnamese}
+
+% ------------------------------------------------------------------------------
+% 1. CÁC TRANG ĐẦU (FRONT MATTER: BÌA, NHẬN XÉT, CẢM ƠN, TÓM TẮT)
+% ------------------------------------------------------------------------------
+\pagestyle{empty} % Không đánh số trang các trang bìa
+
+% 1.1 Trang bìa ngoài (Giống mẫu Thực tập tốt nghiệp.pdf)
+\include{cover}
+
+% 1.2 Trang bìa phụ
+\include{cover_sub}
+
+% 1.3 Nhận xét của Giảng viên hướng dẫn
+\include{review}
+
+% 1.4 Lời cảm ơn
+\include{acknowledgments}
+
+% 1.5 Tóm tắt đề tài (Tiếng Việt & Tiếng Anh)
+\include{abstract}
+
+% ------------------------------------------------------------------------------
+% 2. MỤC LỤC VÀ DANH MỤC (TABLE OF CONTENTS & LISTS)
+% ------------------------------------------------------------------------------
+\cleardoublepage
+\pagestyle{plain}
+\pagenumbering{roman} % Đánh số trang kiểu số La Mã cho phần mở đầu
+
+% Mục lục
+\tableofcontents
+\newpage
+
+% Danh mục hình ảnh
+\phantomsection
+\addcontentsline{toc}{chapter}{\listfigurename}
+\listoffigures
+\newpage
+
+% Danh mục bảng
+\phantomsection
+\addcontentsline{toc}{chapter}{\listtablename}
+\listoftables
+\newpage
+
+% Danh mục từ viết tắt và thuật ngữ
+\phantomsection
+\addcontentsline{toc}{chapter}{DANH MỤC TỪ VIẾT TẮT}
+\chapter*{DANH MỤC TỪ VIẾT TẮT}
+\begin{longtable}{p{3.0cm} p{11.5cm}}
+\toprule
+\textbf{Ký hiệu / Viết tắt} & \textbf{Ý nghĩa đầy đủ (Tiếng Anh / Tiếng Việt)} \\
+\midrule
+\endhead
+\textbf{AI} & Artificial Intelligence (Trí tuệ nhân tạo) \\
+\textbf{AIW} & Average Interval Width (Độ rộng trung bình của khoảng dự báo) \\
+\textbf{ARIMA} & Autoregressive Integrated Moving Average (Mô hình tự hồi quy tích hợp trung bình trượt) \\
+\textbf{CatBoost} & Categorical Boosting (Thuật toán cây tăng cường gradient cho biến phân loại) \\
+\textbf{COVID-19} & Coronavirus Disease 2019 (Đại dịch viêm đường hô hấp cấp 2019) \\
+\textbf{DCQF} & Deep Conformal Quantile Forecasting (Dự báo phân vị Conformal sâu) \\
+\textbf{DLinear} & Decomposition Linear (Mô hình tuyến tính phân rã chuỗi thời gian) \\
+\textbf{DMO} & Destination Management Organization (Tổ chức quản lý điểm đến) \\
+\textbf{ECR} & Empirical Coverage Rate (Độ bao phủ thực nghiệm) \\
+\textbf{Eurostat} & European Statistical Office (Cơ quan Thống kê Châu Âu) \\
+\textbf{FiLM} & Feature-wise Linear Modulation (Cơ chế điều biến tuyến tính theo đặc trưng) \\
+\textbf{GDP} & Gross Domestic Product (Tổng sản phẩm quốc nội) \\
+\textbf{GNN} & Graph Neural Network (Mạng nơ-ron đồ thị) \\
+\textbf{HBC} & Historical Band Consistency (Độ nhất quán theo dải lịch sử) \\
+\textbf{HMM} & Hidden Markov Model (Mô hình Markov ẩn) \\
+\textbf{LTSF} & Long-term Time Series Forecasting (Dự báo chuỗi thời gian dài hạn) \\
+\textbf{LightGBM} & Light Gradient Boosting Machine (Mô hình học máy tăng cường gradient nhanh) \\
+\textbf{LOS} & Length of Stay (Thời gian lưu trú trung bình: $Y_{\text{nig}} / Y_{\text{arr}}$) \\
+\textbf{LSTM} & Long Short-Term Memory (Mạng nơ-ron hồi quy có bộ nhớ ngắn dài) \\
+\textbf{MAE} & Mean Absolute Error (Sai số tuyệt đối trung bình) \\
+\textbf{NLinear} & Normalization Linear (Mô hình tuyến tính chuẩn hóa) \\
+\textbf{RA-Exo-DLinear} & Regime-Aware Exogenous DLinear (Động cơ tuyến tính tích hợp chế độ và ngoại sinh) \\
+\textbf{RA-HE-DLinear} & Regime-Aware Hierarchical-Economic DLinear (Khung dự báo thích ứng chế độ và ràng buộc kinh tế) \\
+\textbf{RMSE} & Root Mean Squared Error (Căn bậc hai sai số toàn phương trung bình) \\
+\textbf{SARIMA} & Seasonal Autoregressive Integrated Moving Average (ARIMA mùa vụ) \\
+\textbf{SHAP} & SHapley Additive exPlanations (Phương pháp giải thích cộng tính Shapley) \\
+\textbf{sMAPE} & Symmetric Mean Absolute Percentage Error (Sai số phần trăm tuyệt đối đối xứng) \\
+\textbf{SVD} & Singular Value Decomposition (Phân rã giá trị suy biến) \\
+\textbf{TRMF} & Temporal Regularized Matrix Factorization (Phân rã ma trận điều chuẩn theo thời gian) \\
+\textbf{UNWTO} & United Nations World Tourism Organization (Tổ chức Du lịch Thế giới) \\
+\textbf{VKU} & Vietnam-Korea University of Information and Communication Technology \\
+\textbf{VR} & Violation Rate (Tỷ lệ vi phạm ràng buộc vật lý) \\
+\textbf{WAPE} & Weighted Absolute Percentage Error (Sai số phần trăm tuyệt đối có trọng số) \\
+\textbf{WB} & World Bank (Ngân hàng Thế giới) \\
+\textbf{XAI} & Explainable Artificial Intelligence (Trí tuệ nhân tạo có thể giải thích) \\
+\bottomrule
+\end{longtable}
+\newpage
+
+% ------------------------------------------------------------------------------
+% 3. CÁC CHƯƠNG NỘI DUNG CHÍNH (MAIN BODY)
+% ------------------------------------------------------------------------------
+\cleardoublepage
+\pagenumbering{arabic} % Đánh số trang 1, 2, 3... bắt đầu từ Chương 1
+
+% Chương 1: Giới thiệu
+\include{chapters/ch1_introduction}
+
+% Chương 2: Tổng quan tài liệu và Cơ sở lý thuyết
+\include{chapters/ch2_literature_review}
+
+% Chương 3: Phương pháp nghiên cứu đề xuất
+\include{chapters/ch3_proposed_method}
+
+% Chương 4: Kết quả thực nghiệm và thảo luận
+\include{chapters/ch4_experimental_results}
+
+% Chương 5: Kết luận và Hướng phát triển
+\include{chapters/ch5_conclusion}
+
+% ------------------------------------------------------------------------------
+% 4. TÀI LIỆU THAM KHẢO (REFERENCES - APA REFERENCING STYLE)
+% ------------------------------------------------------------------------------
+\cleardoublepage
+\phantomsection
+\addcontentsline{toc}{chapter}{\bibname}
+\bibliographystyle{apalike}
+\begin{thebibliography}{99}
+
+\bibitem[Angelopoulos \& Bates, 2021]{angelopoulos2021conformal}
+Angelopoulos, A.~N., \& Bates, S. (2021).
+\newblock A gentle introduction to conformal prediction and distribution-free uncertainty quantification.
+\newblock {\em arXiv preprint arXiv:2107.07511}.
+
+\bibitem[Athanasopoulos et~al., 2011]{athanasopoulos2011tourism}
+Athanasopoulos, G., Hyndman, R.~A., Song, H., \& Wu, D.~C. (2011).
+\newblock The tourism forecasting competition.
+\newblock {\em International Journal of Forecasting}, 27(3), 822--844.
+
+\bibitem[Claveria et~al., 2016]{claveria2016tourism}
+Claveria, O., Monte, E., \& Torra, S. (2016).
+\newblock Combination forecasts of tourism demand with artificial neural networks.
+\newblock {\em Tourism Management}, 56, 210--223.
+
+\bibitem[Clements \& Hendry, 1998]{clements1998forecasting}
+Clements, M.~P., \& Hendry, D.~F. (1998).
+\newblock {\em Forecasting Economic Time Series}.
+\newblock Cambridge University Press.
+
+\bibitem[Cort{\'e}s-Jim{\'e}nez \& Pulina, 2024]{cortes2024inconsistency}
+Cort{\'e}s-Jim{\'e}nez, M., \& Pulina, M. (2024).
+\newblock Multi-task consistency and logical constraints in tourism econometric forecasting.
+\newblock {\em Journal of Travel Research}, 63(2), 412--429.
+
+\bibitem[Dorogush et~al., 2018]{dorogush2018catboost}
+Dorogush, A.~V., Ershov, V., \& Gulin, A. (2018).
+\newblock CatBoost: gradient boosting with categorical features support.
+\newblock {\em arXiv preprint arXiv:1810.11363}.
+
+\bibitem[G{\"o}ssling et~al., 2020]{gossling2020pandemics}
+G{\"o}ssling, S., Scott, D., \& Hall, C.~M. (2020).
+\newblock Pandemics, tourism and global change: a rapid assessment of COVID-19.
+\newblock {\em Journal of Sustainable Tourism}, 29(1), 1--20.
+
+\bibitem[Hale et~al., 2021]{hale2021oxford}
+Hale, T., Angrist, N., Goldszmidt, R., Kira, B., Petherick, A., Phillips, T., Webster, S., Cameron-Blake, E., Hallas, L., Majumdar, S., \& Tatem, H. (2021).
+\newblock A global panel database of pandemic policies (Oxford COVID-19 Government Response Tracker).
+\newblock {\em Nature Human Behaviour}, 5(4), 529--538.
+
+\bibitem[Hamilton, 1989]{hamilton1989regime}
+Hamilton, J.~D. (1989).
+\newblock A new approach to the economic analysis of nonstationary time series and the business cycle.
+\newblock {\em Econometrica}, 57(2), 357--384.
+
+\bibitem[Hastie \& Tibshirani, 1990]{hastie1990gam}
+Hastie, T.~J., \& Tibshirani, R.~J. (1990).
+\newblock {\em Generalized Additive Models}.
+\newblock Chapman \& Hall/CRC.
+
+\bibitem[Hochreiter \& Schmidhuber, 1997]{hochreiter1997lstm}
+Hochreiter, S., \& Schmidhuber, J. (1997).
+\newblock Long short-term memory.
+\newblock {\em Neural Computation}, 9(8), 1735--1780.
+
+\bibitem[Hyndman et~al., 2011]{hyndman2011optimal}
+Hyndman, R.~J., Ahmed, R.~A., Athanasopoulos, G., \& Shang, H.~L. (2011).
+\newblock Optimal combination forecasts for hierarchical time series.
+\newblock {\em Computational Statistics \& Data Analysis}, 55(9), 2579--2589.
+
+\bibitem[Ke et~al., 2017]{ke2017lightgbm}
+Ke, G., Meng, Q., Finley, T., Wang, T., Chen, W., Ma, W., Ye, Q., \& Liu, T.-Y. (2017).
+\newblock LightGBM: A highly efficient gradient boosting decision tree.
+\newblock In {\em Advances in Neural Information Processing Systems (NeurIPS)}, 3146--3154.
+
+\bibitem[Lundberg \& Lee, 2017]{lundberg2017shap}
+Lundberg, S.~M., \& Lee, S.-I. (2017).
+\newblock A unified approach to interpreting model predictions.
+\newblock In {\em Advances in Neural Information Processing Systems (NeurIPS)}, 4765--4774.
+
+\bibitem[Nie et~al., 2023]{nie2023patchtst}
+Nie, Y., Nguyen, N.~H., Sinthong, P., \& Kalagnanam, J. (2023).
+\newblock A time series is worth 64 words: Long-term forecasting with transformers.
+\newblock In {\em Proc. International Conference on Learning Representations (ICLR)}.
+
+\bibitem[Peng et~al., 2014]{peng2014meta}
+Peng, B., Song, H., \& Crouch, G.~I. (2014).
+\newblock A meta-analysis of international tourism demand forecasting.
+\newblock {\em Journal of Travel Research}, 53(4), 399--414.
+
+\bibitem[Perez et~al., 2018]{perez2018film}
+Perez, E., Strub, F., de~Vries, H., Dumoulin, V., \& Courville, A. (2018).
+\newblock FiLM: Visual reasoning with a general conditioning layer.
+\newblock In {\em Proc. AAAI Conference on Artificial Intelligence}, 32(1), 3942--3951.
+
+\bibitem[Silva et~al., 2023]{silva2023tourism}
+Silva, E.~S., Hassani, H., \& Huang, X. (2023).
+\newblock Forecasting post-crisis tourism demand: A comparison of deep learning and econometric models.
+\newblock {\em Tourism Management}, 95, 104678.
+
+\bibitem[Song et~al., 2021]{song2021tourism}
+Song, H., Qiu, R.~R., \& Park, J. (2021).
+\newblock A review of tourism demand forecasting: Advances and challenges.
+\newblock {\em Annals of Tourism Research}, 75, 338--362.
+
+\bibitem[UNWTO, 2010]{unwto2010recommendations}
+UNWTO (2010).
+\newblock {\em International Recommendations for Tourism Statistics 2008 (IRTS 2008)}.
+\newblock Statistical Papers, Series M No. 83/Rev.1, United Nations, New York.
+
+\bibitem[Vovk et~al., 2005]{vovk2005algorithmic}
+Vovk, V., Gammerman, A., \& Shafer, G. (2005).
+\newblock {\em Algorithmic Learning in a Random World}.
+\newblock Springer.
+
+\bibitem[Wu et~al., 2021]{wu2021autoformer}
+Wu, H., Xu, J., Wang, J., \& Long, M. (2021).
+\newblock Autoformer: Decomposition transformers with auto-correlation for long-term series forecasting.
+\newblock In {\em Advances in Neural Information Processing Systems (NeurIPS)}, 34, 22419--22430.
+
+\bibitem[Yu et~al., 2016]{yu2016trmf}
+Yu, H.-F., Rao, N., \& Dhillon, I.~S. (2016).
+\newblock Temporal regularized matrix factorization for high-dimensional time series prediction.
+\newblock In {\em Advances in Neural Information Processing Systems (NeurIPS)}, 847--855.
+
+\bibitem[Zeng et~al., 2023]{zeng2023dlinear}
+Zeng, A., Chen, M., Zhang, L., \& Xu, Q. (2023).
+\newblock Are transformers effective for time series forecasting?
+\newblock In {\em Proc. AAAI Conference on Artificial Intelligence}, 37(9), 11121--11128.
+
+\bibitem[Zhou et~al., 2021]{zhou2021informer}
+Zhou, H., Zhang, S., Peng, J., Zhang, S., Li, J., Xiong, H., \& Zhang, W. (2021).
+\newblock Informer: Beyond efficient transformer for long sequence time-series forecasting.
+\newblock In {\em Proc. AAAI Conference on Artificial Intelligence}, 35(12), 11106--11115.
+
+\end{thebibliography}
+
+% ------------------------------------------------------------------------------
+% 5. PHỤ LỤC (APPENDICES)
+% ------------------------------------------------------------------------------
+\cleardoublepage
+\appendix
+\include{appendices}
+
+% ------------------------------------------------------------------------------
+% 6. TÓM TẮT DẠNG BÀI BÁO THEO MẪU IEEE (SUMMARY REPORT)
+% ------------------------------------------------------------------------------
+\cleardoublepage
+\include{summary_ieee}
+
+\end{document}

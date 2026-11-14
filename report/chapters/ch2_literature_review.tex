@@ -1,0 +1,151 @@
+\chapter{TỔNG QUAN TÀI LIỆU VÀ CƠ SỞ LÝ THUYẾT}
+\label{ch:literature_review}
+
+\section{Cơ Sở Lý Thuyết Nền Tảng (Background)}
+\label{sec:background}
+
+\subsection{Mô Hình Tuyến Tính Phân Rã Chuỗi Thời Gian (LTSF-Linear \& DLinear)}
+Trong bài toán dự báo chuỗi thời gian dài hạn (\textit{Long-term Time Series Forecasting} -- LTSF), mạng nơ-ron dựa trên cơ chế chú ý (Transformer) từng được kỳ vọng sẽ tạo ra bước đột phá tương tự như trong xử lý ngôn ngữ tự nhiên và thị giác máy tính \cite{zhou2021informer, wu2021autoformer}. Tuy nhiên, nghiên cứu thực nghiệm mang tính bước ngoặt của Zeng et al. (AAAI 2023) \cite{zeng2023dlinear} đã chỉ ra một nghịch lý: cơ chế tự chú ý (self-attention) có tính chất bất biến hoán vị (\textit{permutation-invariant}), dễ làm mất mát trật tự thời gian cục bộ và gây hiện tượng quá khớp (overfitting) trên dữ liệu chuỗi thời gian liên tục có xu hướng và mùa vụ rõ nét.
+
+Để khắc phục điểm yếu này, Zeng et al. đề xuất họ mô hình LTSF-Linear, trong đó tiêu biểu nhất là kiến trúc \textbf{DLinear} (\textit{Decomposition Linear}). DLinear kết hợp nguyên lý phân rã cổ điển với các phép biến đổi tuyến tính đơn giản:
+\begin{enumerate}
+    \item \textbf{Phân rã xu thế -- mùa vụ bằng bộ lọc trung bình trượt (Moving Average):} Chuỗi đầu vào lịch sử độ dài $L$, ký hiệu là $\mathbf{X} \in \mathbb{R}^{L}$, được tách thành thành phần xu thế ($\mathbf{X}_{\text{trend}}$) phản ánh biến động dài hạn và thành phần mùa vụ ($\mathbf{X}_{\text{seasonal}}$) phản ánh dao động chu kỳ:
+    \begin{align}
+        \mathbf{X}_{\text{trend}} &= \text{AvgPool}(\text{Padding}(\mathbf{X}, k_{\text{ma}})) \\
+        \mathbf{X}_{\text{seasonal}} &= \mathbf{X} - \mathbf{X}_{\text{trend}}
+    \end{align}
+    trong đó $k_{\text{ma}}$ là kích thước cửa sổ trượt (thường chọn bằng chu kỳ mùa vụ, ví dụ $k_{\text{ma}} = 13$ hoặc $25$ đối với dữ liệu tháng có tính đối xứng).
+    \item \textbf{Ánh xạ tuyến tính riêng biệt cho từng nhánh:} Thay vì trộn lẫn hai thành phần, DLinear áp dụng hai ma trận trọng số độc lập $\mathbf{W}_{\text{trend}} \in \mathbb{R}^{H \times L}$ và $\mathbf{W}_{\text{seasonal}} \in \mathbb{R}^{H \times L}$ để ánh xạ từ chiều dài lịch sử $L$ sang chân trời dự báo tương lai $H$:
+    \begin{align}
+        \hat{\mathbf{Y}}_{\text{trend}} &= \mathbf{X}_{\text{trend}} \mathbf{W}_{\text{trend}}^\top + \mathbf{b}_{\text{trend}} \\
+        \hat{\mathbf{Y}}_{\text{seasonal}} &= \mathbf{X}_{\text{seasonal}} \mathbf{W}_{\text{seasonal}}^\top + \mathbf{b}_{\text{seasonal}}
+    \end{align}
+    \item \textbf{Tổng hợp dự báo:} Kết quả dự báo cuối cùng là phép cộng tái lập:
+    \begin{equation}
+        \hat{\mathbf{Y}} = \hat{\mathbf{Y}}_{\text{trend}} + \hat{\mathbf{Y}}_{\text{seasonal}}
+    \end{equation}
+\end{enumerate}
+
+Ưu điểm vượt trội của DLinear là số lượng tham số cực kỳ nhỏ, tốc độ huấn luyện nhanh gấp hàng chục lần so với Transformer, không gặp hiện tượng bùng nổ bộ nhớ và có khả năng nắm bắt xu thế dài hạn rất ổn định. Tuy nhiên, DLinear nguyên bản là một mô hình tuyến tính tĩnh: các ma trận trọng số $\mathbf{W}_{\text{trend}}$ và $\mathbf{W}_{\text{seasonal}}$ là cố định sau khi huấn luyện, hoàn toàn không có khả năng thích ứng khi thị trường chuyển dịch chế độ và không hỗ trợ tích hợp biến ngoại sinh đa dạng.
+
+\subsection{Mô Hình Markov Ẩn (HMM) và Cơ Chế Điều Biến FiLM}
+\subsubsection{Mô Hình Markov Ẩn Trong Nhận Diện Chế Độ Kinh Tế}
+Mô hình chuyển chế độ Markov (\textit{Markov-Switching Model}) do Hamilton (1989) \cite{hamilton1989regime} khởi xướng là nền tảng lý thuyết vững chắc để mô tả các chu kỳ kinh tế tiềm ẩn không thể quan sát trực tiếp. Trong bối cảnh kinh tế du lịch, thị trường vận hành qua ba chế độ tiềm ẩn $s_t \in \{1, 2, 3\}$:
+\begin{itemize}
+    \item \textbf{Chế độ 1 (Bình thường -- Normal):} Nền kinh tế tăng trưởng ổn định, nhu cầu du lịch dao động theo đúng chu kỳ mùa vụ hàng năm.
+    \item \textbf{Chế độ 2 (Khủng hoảng -- Crisis):} Suy thoái kinh tế, dịch bệnh bùng phát hoặc áp dụng phong tỏa, nhu cầu sụt giảm nghiêm trọng.
+    \item \textbf{Chế độ 3 (Phục hồi -- Recovery):} Giai đoạn mở cửa trở lại, nhu cầu du lịch bị dồn nén tăng trưởng đột biến (\textit{revenge travel}).
+\end{itemize}
+
+Chuỗi trạng thái tiềm ẩn $\{s_t\}_{t=1}^T$ tuân theo một xích Markov bậc nhất với ma trận xác suất chuyển trạng thái $\mathbf{A} \in \mathbb{R}^{K \times K}$:
+\begin{equation}
+    A_{j, k} = P(s_t = k \mid s_{t-1} = j), \quad \sum_{k=1}^K A_{j, k} = 1
+\end{equation}
+Tại mỗi mốc thời gian $t$, dựa trên vector đặc trưng vĩ mô quan sát được $\mathbf{u}_t$ (ví dụ: tốc độ tăng trưởng liên tháng, chỉ số biến động), thuật toán Forward-Backward cho phép ước lượng phân phối xác suất hậu nghiệm của các trạng thái:
+\begin{equation}
+    \bm{\pi}_t = \left[ P(s_t = 1 \mid \mathbf{u}_{1:t}), \; P(s_t = 2 \mid \mathbf{u}_{1:t}), \; \dots, \; P(s_t = K \mid \mathbf{u}_{1:t}) \right]^\top \in \Delta^{K-1}
+\end{equation}
+
+\subsubsection{Cơ Chế Điều Biến Tuyến Tính Theo Đặc Trưng (FiLM)}
+Cơ chế \textit{Feature-wise Linear Modulation} (FiLM) được đề xuất bởi Perez et al. (AAAI 2018) \cite{perez2018film} như một giải pháp tổng quát để đưa thông tin bối cảnh vào mạng nơ-ron mà không cần làm thay đổi cấu trúc chiều sâu. FiLM thực hiện điều biến một vector đặc trưng $\mathbf{z}$ thông qua phép biến đổi affine có hệ số co giãn $\bm{\gamma}$ và độ dịch chuyển $\bm{\beta}$:
+\begin{equation}
+    \text{FiLM}(\mathbf{z}; \bm{\gamma}, \bm{\beta}) = \bm{\gamma} \odot \mathbf{z} + \bm{\beta}
+\end{equation}
+trong đó $\bm{\gamma}$ và $\bm{\beta}$ là các hàm học được nhận đầu vào là vector điều kiện bối cảnh (trong nghiên cứu này chính là vector xác suất chế độ thị trường $\bm{\pi}_t$). Việc tích hợp FiLM vào nhánh xu thế giúp mô hình có thể tự động co giãn và dịch chuyển độ dốc dự báo tùy theo thị trường đang ở trạng thái bình thường hay khủng hoảng.
+
+\subsection{Phân Rã Ma Trận Điều Chuẩn Theo Thời Gian (TRMF)}
+Đối với hệ thống gồm $N$ chuỗi thời gian đa biến có quan hệ tương quan không gian (ví dụ: lượng khách đến $N$ quốc gia Châu Âu), các mô hình mạng nơ-ron đồ thị (GNN) thường đòi hỏi phải xây dựng một ma trận kề cố định dựa trên khoảng cách địa lý. Tuy nhiên, trong du lịch hàng không hiện đại, hai quốc gia ở xa nhau về mặt địa lý nhưng có cùng hiệp định mở cửa bầu trời và hãng bay giá rẻ lại có tương quan du lịch cao hơn hai quốc gia láng giềng có cửa khẩu kiểm soát chặt chẽ.
+
+Phương pháp \textit{Temporal Regularized Matrix Factorization} (TRMF) của Yu et al. (NeurIPS 2016) \cite{yu2016trmf} giải quyết xuất sắc hạn chế này. Giả sử ma trận dữ liệu chuỗi thời gian của $N$ quốc gia qua $T$ thời điểm là $\mathbf{Y} \in \mathbb{R}^{N \times T}$. TRMF phân rã $\mathbf{Y}$ thành tích của hai ma trận hạng thấp:
+\begin{equation}
+    \mathbf{Y} \approx \mathbf{W} \mathbf{Z}^\top
+\end{equation}
+trong đó $\mathbf{W} \in \mathbb{R}^{N \times r}$ là ma trận nhúng không gian của các quốc gia ($r \ll N$), và $\mathbf{Z} \in \mathbb{R}^{T \times r}$ là ma trận các nhân tố tiềm ẩn biến thiên theo thời gian. Để bảo toàn cấu trúc chuỗi thời gian, TRMF áp dụng số hạng điều chuẩn tự hồi quy (AR) lên từng nhân tố tiềm ẩn $z_{t, k}$:
+\begin{equation}
+    z_{t, k} \approx \sum_{l \in \mathcal{L}} \theta_{k, l} \, z_{t-l, k}
+\end{equation}
+Hàm mục tiêu tối ưu của TRMF có dạng:
+\begin{equation}
+    \min_{\mathbf{W}, \mathbf{Z}, \bm{\Theta}} \sum_{(i, t) \in \Omega} (Y_{i, t} - \mathbf{w}_i^\top \mathbf{z}_t)^2 + \lambda_z \sum_{k=1}^r \sum_{t=p+1}^T \left( z_{t, k} - \sum_{l=1}^p \theta_{k, l} z_{t-l, k} \right)^2 + \lambda_w \|\mathbf{W}\|_F^2 + \lambda_\theta \|\bm{\Theta}\|_F^2
+\end{equation}
+Nhờ vậy, TRMF nắm bắt được các hình thái biến động chung và hiệu ứng lan tỏa xuyên biên giới một cách tự nhiên từ dữ liệu mà không cần định trước giả định hình học.
+
+\subsection{Lý Thuyết Tối Ưu Hóa Có Ràng Buộc và Phép Chiếu Mốc Neo}
+Trong kinh tế lượng ứng dụng, các biến số thường chịu sự chi phối của các định luật bảo toàn vật lý hoặc logic nghiệp vụ không thể phá vỡ \cite{cortes2024inconsistency}. Trong bài toán du lịch:
+\begin{equation}
+    Y_{\text{nig}} \ge Y_{\text{arr}} \ge 0 \quad \text{và} \quad \text{LOS} = \frac{Y_{\text{nig}}}{Y_{\text{arr}}} \in [r_{\min}, r_{\max}]
+\end{equation}
+Xét không gian hai chiều của một cặp dự báo thô $\hat{\mathbf{y}} = [\hat{y}_{\text{arr}}, \hat{y}_{\text{nig}}]^\top \in \mathbb{R}^2$. Tập ràng buộc lồi khả thi $\mathcal{C}$ được định nghĩa bởi:
+\begin{equation}
+    \mathcal{C} = \left\{ (u, v) \in \mathbb{R}^2 \;\middle|\; u \ge 0, \; v \ge u \right\}
+\end{equation}
+Toán tử chiếu Euclid $\Pi_{\mathcal{C}}(\hat{\mathbf{y}})$ tìm điểm $\mathbf{y}^* \in \mathcal{C}$ gần nhất với $\hat{\mathbf{y}}$:
+\begin{equation}
+    \Pi_{\mathcal{C}}(\hat{\mathbf{y}}) = \arg\min_{\mathbf{y} \in \mathcal{C}} \|\mathbf{y} - \hat{\mathbf{y}}\|_2^2
+\end{equation}
+Tuy nhiên, trong thực tiễn du lịch, số lượt khách đến $\hat{y}_{\text{arr}}$ thường được kiểm đếm chính xác tại cửa khẩu hàng không và xuất nhập cảnh với độ tin cậy cao hơn so với số đêm lưu trú $\hat{y}_{\text{nig}}$ (vốn dễ bị bỏ sót tại các cơ sở lưu trú nhỏ lẻ phi chính thức). Do đó, phép chiếu cần sử dụng cơ chế \textit{chiếu mốc neo} (\textit{Anchor Projection}): coi lượt khách là mốc chuẩn ổn định và ưu tiên điều chỉnh số đêm lưu trú để thỏa mãn ràng buộc.
+
+\subsection{Lượng Hóa Độ Bất Định Phi Phân Phối Bằng Conformal Prediction}
+Dự báo điểm (point forecast) đơn thuần không cung cấp thông tin về mức độ rủi ro đối với nhà quản trị. Các phương pháp lượng hóa độ bất định truyền thống (như khoảng tin cậy của ARIMA hay hồi quy Bayes) thường đặt giả định nghiêm ngặt rằng sai số tuân theo phân phối chuẩn Gaussian với phương sai đồng nhất. Tuy nhiên, trong chuỗi thời gian kinh tế du lịch, phần dư thường có đuôi dày (heavy-tailed) và tính bất đối xứng mạnh.
+
+Kỹ thuật \textbf{Conformal Prediction} do Vovk et al. (2005) \cite{vovk2005algorithmic} và Angelopoulos \& Bates (2021) \cite{angelopoulos2021conformal} phát triển đã khắc phục hoàn toàn hạn chế trên. Phương pháp này có đặc tính:
+\begin{itemize}
+    \item \textbf{Phi phân phối (Distribution-free):} Không cần bất kỳ giả định nào về hình dạng phân phối xác suất của dữ liệu.
+    \item \textbf{Bảo đảm lý thuyết trên mẫu hữu hạn (Finite-sample guarantee):} Với mức ý nghĩa $\alpha \in (0, 1)$, khoảng dự báo bảo đảm xác suất bao phủ thực nghiệm không dưới $1 - \alpha$:
+    \begin{equation}
+        P\left( Y_{t+h} \in \hat{C}_{1-\alpha}(\mathbf{X}) \right) \ge 1 - \alpha
+    \end{equation}
+\end{itemize}
+Trong nghiên cứu này, quy trình \textit{Deep Conformal Quantile Forecasting} (DCQF) được áp dụng: mô hình hồi quy đồng thời ba mức phân vị $\hat{q}_{\alpha/2}$, $\hat{q}_{0{,}5}$, $\hat{q}_{1-\alpha/2}$ bằng hàm mất mát Pinball, sau đó tính toán điểm không tương đồng (\textit{non-conformity score}) trên tập hiệu chuẩn (calibration set) để hiệu chỉnh dải phân vị đạt chuẩn độ bao phủ $\ge 90\%$.
+
+\subsection{Trí Tuệ Nhân Tạo Có Thể Giải Thích (Explainable AI -- SHAP)}
+Để chuyển giao một mô hình học máy vào thực tế điều hành công, tính minh bạch và khả năng giải thích (interpretability) là điều kiện tiên quyết. Phương pháp **SHAP** (\textit{SHapley Additive exPlanations}) của Lundberg \& Lee (NeurIPS 2017) \cite{lundberg2017shap} dựa trên lý thuyết trò chơi hợp tác của Lloyd Shapley, cung cấp giải pháp phân bổ đóng góp công bằng duy nhất thỏa mãn bốn tính chất tiên đề: Tính hiệu quả (\textit{Efficiency}), Tính đối xứng (\textit{Symmetry}), Phần tử bù nhìn (\textit{Dummy}), và Tính cộng tính (\textit{Additivity}).
+
+Giá trị SHAP $\phi_j$ của đặc trưng $j$ đối với dự báo $\hat{y}$ được tính bởi:
+\begin{equation}
+    \phi_j = \sum_{S \subseteq \mathcal{F} \setminus \{j\}} \frac{|S|! (|\mathcal{F}| - |S| - 1)!}{|\mathcal{F}|!} \left[ f(S \cup \{j\}) - f(S) \right]
+\end{equation}
+trong đó $\mathcal{F}$ là tập hợp tất cả các đặc trưng đầu vào, và $f(S)$ là giá trị dự báo kỳ vọng khi chỉ quan sát tập con đặc trưng $S$. Việc tính toán SHAP cho phép phân rã rõ ràng: trong mức tăng trưởng của lượt khách tại một tháng cụ thể, bao nhiêu phần trăm do biến lịch nghỉ lễ đóng góp, bao nhiêu do trạng thái thị trường và bao nhiêu do xu thế quán tính lịch sử.
+
+\section{Các Nghiên Cứu Liên Quan (Related Work)}
+\label{sec:related_work}
+
+\subsection{Dự Báo Nhu Cầu Du Lịch Bằng Kinh Tế Lượng và Học Máy Truyền Thống}
+Nghiên cứu dự báo nhu cầu du lịch đã trải qua hơn bốn thập kỷ phát triển \cite{song2021tourism}. Trong giai đoạn đầu, các mô hình kinh tế lượng chuỗi thời gian cổ điển như ARIMA, Seasonal ARIMA (SARIMA), mô hình san bằng mũ Holt-Winters và mô hình hiệu chỉnh sai số (ECM) chiếm vị trí thống trị \cite{athanasopoulos2011tourism}. Điểm mạnh của các mô hình này là cấu trúc toán học chặt chẽ, dễ diễn giải tham số kinh tế lượng. Tuy nhiên, chúng dựa trên giả định tính tuyến tính nghiêm ngặt và không thể tự động xử lý các tương tác phi tuyến phức tạp khi xuất hiện các cú sốc ngoại sinh lớn.
+
+Bước sang thập niên 2010, các thuật toán học máy trên dữ liệu bảng (\textit{tabular machine learning}) như Random Forest, Gradient Boosting Decision Trees, đặc biệt là LightGBM \cite{ke2017lightgbm} và CatBoost \cite{dorogush2018catboost} đã trở thành tiêu chuẩn thực tế trong nhiều cuộc thi dự báo quốc tế. Các mô hình này có năng lực xử lý biến phân loại xuất sắc và bắt trọn quan hệ phi tuyến giữa các biến kinh tế trễ. Mặc dù vậy, khi đối mặt với dữ liệu chuỗi thời gian dài hạn, các mô hình dạng cây đòi hỏi quá trình kỹ nghệ đặc trưng (\textit{feature engineering}) rất tốn kém và không nắm bắt được tính phụ thuộc thời gian liên tục.
+
+\subsection{Sự Trỗi Dậy và Hạn Chế Của Mạng Nơ-ron Chuỗi Thời Gian Dài Hạn}
+Sự phát triển của mạng nơ-ron hồi quy LSTM \cite{hochreiter1997lstm, claveria2016tourism} và sau đó là các kiến trúc Transformer chuỗi thời gian như Informer \cite{zhou2021informer}, Autoformer \cite{wu2021autoformer}, PatchTST \cite{nie2023patchtst} đã mở rộng đáng kể khả năng dự báo dài hạn. Các mô hình này cố gắng mô hình hóa sự phụ thuộc xa thông qua các cơ chế chú ý biến thể. Tuy nhiên, như phân tích của Zeng et al. \cite{zeng2023dlinear}, trên nhiều tập chuẩn dữ liệu kinh tế và năng lượng, các mô hình tuyến tính đơn giản lại có sai số thấp hơn Transformer từ 10\% đến 40\%, đồng thời giảm lượng tham số tính toán từ hàng triệu xuống chỉ còn vài nghìn tham số.
+
+\subsection{Khoảng Trống Nghiên Cứu (Research Gaps)}
+Qua việc tổng hợp và phân tích có hệ thống các công trình nghiên cứu trong nước và quốc tế, đồ án xác định được bốn khoảng trống nghiên cứu cốt lõi chưa được giải quyết thấu đáo:
+\begin{enumerate}
+    \item \textbf{Khoảng trống 1 -- Thiếu vắng cơ chế thích ứng chế độ trong mô hình tuyến tính:} Các mô hình tuyến tính LTSF (DLinear, NLinear) đạt hiệu năng cao nhờ giả định cấu trúc xu thế ổn định, nhưng lập tức bị suy giảm độ chính xác khi thị trường xảy ra đứt gãy cấu trúc (như giai đoạn đại dịch COVID-19). Chưa có nghiên cứu nào kết hợp mô hình Markov chuyển chế độ vào nhánh xu thế của DLinear thông qua cơ chế FiLM để duy trì tính gọn nhẹ nhưng vẫn thích ứng động.
+    \item \textbf{Khoảng trống 2 -- Thiếu cơ chế bóc tách tương quan lan tỏa liên quốc gia phi khoảng cách:} Các mô hình đa biến hiện tại hoặc giả định ma trận kề địa lý cứng nhắc (GNN), hoặc đối xử các quốc gia như các mẫu độc lập (Channel-Independent). Điều này bỏ qua hiệu ứng lan tỏa nhu cầu xuyên biên giới giữa các thị trường du lịch liên kết.
+    \item \textbf{Khoảng trống 3 -- Bỏ quên ràng buộc miền vật lý và kinh tế:} Hầu hết các công trình nghiên cứu hiện nay tập trung tối ưu hóa các chỉ số thống kê trừu tượng (MSE, MAE) cho từng biến độc lập mà bỏ qua tính nhất quán nghiệp vụ giữa các đại lượng liên đới. Hiện tượng dự báo phi lý $\hat{Y}_{\text{nig}} < \hat{Y}_{\text{arr}}$ thường xuyên xảy ra mà không có thuật toán xử lý bảo đảm toán học.
+    \item \textbf{Khoảng trống 4 -- Thiếu lượng hóa độ bất định phi tham số và tính minh bạch:} Phần lớn các hệ thống chỉ dừng lại ở dự báo điểm hoặc dựa vào giả định phân phối chuẩn không thực tế, thiếu vắng sự kết hợp giữa Conformal Prediction và kỹ thuật giải thích mô hình SHAP để phục vụ trực tiếp công tác tham mưu chính sách.
+\end{enumerate}
+
+\begin{table}[H]
+\centering
+\caption{Bảng tổng hợp đối sánh giữa các phương pháp hiện có và giải pháp đề xuất}
+\label{tab:research_gap_comparison}
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{lcccccc}
+\toprule
+\textbf{Phương pháp} & \textbf{Chi phí tính toán} & \textbf{Thích ứng chế độ} & \textbf{Tương quan liên quốc gia} & \textbf{Ràng buộc kinh tế} & \textbf{Độ bất định phi phân phối} & \textbf{Giải thích được (XAI)} \\
+\midrule
+SARIMA \cite{athanasopoulos2011tourism} & Thấp & Kém & Không & Không & Không (Giả định chuẩn) & Cao \\
+LightGBM / CatBoost \cite{dorogush2018catboost} & Trung bình & Trung bình & Yếu & Không & Phân vị cây (Cần tinh chỉnh) & Cao (Tree SHAP) \\
+LSTM đa biến \cite{claveria2016tourism} & Cao & Kém & Yếu & Không & Không & Hộp đen \\
+DLinear nguyên bản \cite{zeng2023dlinear} & Rất thấp & Không & Không (Channel-Indep.) & Không & Không & Trung bình (Trọng số tuyến tính) \\
+PatchTST \cite{nie2023patchtst} & Rất cao & Kém & Không & Không & Không & Kém (Self-Attention) \\
+\midrule
+\textbf{RA-HE-DLinear (Đề xuất)} & \textbf{Rất thấp} & \textbf{Mạnh (HMM + FiLM)} & \textbf{Mạnh (TRMF)} & \textbf{Triệt để ($\Pi_{\mathcal{C}}$ \& $\mathcal{L}_{\text{cons}}$)} & \textbf{Có bảo đảm (DCQF $\ge 90\%$)} & \textbf{Toàn diện (SHAP \& Attention)} \\
+\bottomrule
+\end{tabular}%
+}
+\end{table}
+
+Bảng \ref{tab:research_gap_comparison} tổng kết rõ nét sự khác biệt và tính vượt trội toàn diện của khung mô hình RA-HE-DLinear đề xuất so với toàn bộ các họ mô hình truyền thống và hiện đại, thiết lập cơ sở khoa học vững chắc cho các đề xuất phương pháp tại Chương 3.

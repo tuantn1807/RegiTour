@@ -1,0 +1,23 @@
+% ==============================================================================
+% TÓM TẮT ĐỒ ÁN (ABSTRACT TIẾNG VIỆT VÀ TIẾNG ANH)
+% ==============================================================================
+\thispagestyle{empty}
+\begin{center}
+  {\fontsize{14pt}{18pt}\selectfont \textbf{TÓM TẮT ĐỒ ÁN}}\\[20pt]
+\end{center}
+
+Dự báo nhu cầu du lịch đa quốc gia đóng vai trò then chốt trong công tác hoạch định chính sách kinh tế vĩ mô, quản trị công suất hạ tầng lưu trú và phân bổ nguồn lực quốc gia. Tuy nhiên, bài toán này đối mặt với ba thách thức cốt lõi: (1) sự dịch chuyển đột ngột về cấu trúc thị trường giữa các chế độ bình thường, khủng hoảng và phục hồi; (2) sự phụ thuộc và hiệu ứng lan tỏa không gian -- thời gian phức tạp giữa các quốc gia liên kết; và (3) sự phi logic nghiệp vụ khi dự báo độc lập hai chỉ tiêu song hành là lượt khách đến ($Y_{\text{arr}}$) và số đêm lưu trú ($Y_{\text{nig}}$), dẫn đến vi phạm ràng buộc vật lý cơ bản là thời gian lưu trú trung bình $\text{LOS} = Y_{\text{nig}} / Y_{\text{arr}} \ge 1{,}0$.
+
+Để giải quyết toàn diện các thách thức trên, đồ án đề xuất khung mô hình \textbf{RA-HE-DLinear} (\textit{Regime-Aware Hierarchical-Economic DLinear}). Kiến trúc bao gồm bốn đóng góp công nghệ chủ đạo:
+\begin{enumerate}
+    \item \textbf{Động cơ thời gian thích ứng chế độ RA-Exo-DLinear:} Mở rộng kiến trúc phân rã tuyến tính DLinear bằng cơ chế điều biến tuyến tính theo đặc trưng (FiLM) cho nhánh xu thế dựa trên phân phối xác suất trạng thái của mô hình Markov ẩn (HMM), đồng thời tích hợp các phép biến đổi học được cho biến ngoại sinh lịch nghỉ lễ và kinh tế vĩ mô.
+    \item \textbf{Mô hình hóa phụ thuộc liên quốc gia bằng TRMF:} Áp dụng phương pháp phân rã ma trận điều chuẩn theo thời gian (Temporal Regularized Matrix Factorization) nhằm bóc tách các nhân tố tiềm ẩn chung và nắm bắt hiệu ứng lan tỏa nhu cầu xuyên biên giới mà không cần phụ thuộc ma trận khoảng cách địa lý định sẵn.
+    \item \textbf{Toán tử chiếu mốc neo bảo đảm ràng buộc kinh tế $\Pi_{\mathcal{C}}$:} Thiết lập phép chiếu giải tích dạng đóng bảo đảm triệt để cận vật lý $\hat{Y}_{\text{nig}} \ge \hat{Y}_{\text{arr}}$ kết hợp hàm phạt liên kết $\mathcal{L}_{\text{cons}}$, giúp loại bỏ hoàn toàn các vi phạm vật lý (đưa tỷ lệ vi phạm về chính xác $0{,}00\%$).
+    \item \textbf{Lượng hóa độ bất định phi phân phối:} Ứng dụng phương pháp Conformalized Quantile Forecasting thiết lập dải dự báo phân vị danh định 90\% có kiểm định độ bao phủ thực nghiệm trên mẫu hữu hạn.
+\end{enumerate}
+
+Khung mô hình được kiểm chứng nghiêm ngặt theo giao thức kiểm định chuỗi thời gian trên bảng dữ liệu tháng Eurostat (38 quốc gia, 152 chuỗi phân loại, 2010--2026) và dữ liệu năm World Bank (203 nền kinh tế, 1995--2020). Trên 4.522 cặp quan sát hợp lệ của tập kiểm thử Eurostat (2024--2026), RA-HE-DLinear (với Cổng học mềm thích ứng và toán tử chiếu $\Pi_{\mathcal{C}}$) đạt WAPE lượt khách $\mathbf{9{,}16\%}$ và WAPE số đêm $\mathbf{9{,}64\%}$, \textbf{vượt trội hơn hẳn Vanilla DLinear ($9{,}36\%$ lượt khách và $10{,}47\%$ số đêm) trên cả hai mục tiêu}. Đồng thời, RA-HE-DLinear loại bỏ triệt để 100\% các dự báo vi phạm vật lý (đưa tỷ lệ VR về chính xác $0{,}00\%$), duy trì tính thích ứng kiên cường trước các cú sốc đứt gãy xu thế (trên World Bank 2020: $13{,}14\%$ so với $43{,}78\%$ của DLinear), và cung cấp khoảng dự báo bất định conformal đáng tin cậy.
+
+\vspace{0.5cm}
+\noindent \textbf{Từ khóa:} Dự báo nhu cầu du lịch, RA-HE-DLinear, RA-Exo-DLinear, LTSF-Linear, FiLM, HMM, TRMF, Ràng buộc kinh tế, Conformal Prediction, XAI SHAP.
+

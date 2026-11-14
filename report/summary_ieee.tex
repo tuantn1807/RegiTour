@@ -1,0 +1,67 @@
+\chapter*{TÓM TẮT ĐỒ ÁN THEO ĐỊNH DẠNG BÀI BÁO KHOA HỌC IEEE}
+\addcontentsline{toc}{chapter}{TÓM TẮT BÀI BÁO KHOA HỌC THEO MẪU IEEE}
+\label{ch:summary_ieee}
+
+\begin{center}
+  {\fontsize{14pt}{18pt}\selectfont \textbf{RA-HE-DLinear: Khung Dự Báo Thích Ứng Chế Độ Thị Trường và Ràng Buộc Kinh Tế Cho Nhu Cầu Du Lịch Đa Quốc Gia}}\\[10pt]
+  {\fontsize{11pt}{14pt}\selectfont \textbf{Trần Nguyễn Tuấn, Phan Hoài Bão}}\\[4pt]
+  {\fontsize{10pt}{13pt}\selectfont \textit{Khoa Khoa học Máy tính, Trường Đại học Công nghệ Thông tin và Truyền thông Việt -- Hàn (VKU)}}\\[2pt]
+  {\fontsize{10pt}{13pt}\selectfont \textit{Giảng viên hướng dẫn: TS. Hoàng Nguyên Vũ}}\\[15pt]
+\end{center}
+
+\noindent \textbf{\textit{Tóm tắt}}---Dự báo nhu cầu du lịch đa quốc gia gặp nhiều thách thức do tính mùa vụ mạnh, sự thay đổi cấu trúc của thị trường và sự khác biệt về động lực giữa các quốc gia. Các mô hình dự báo chuỗi thời gian tuyến tính có ưu điểm lớn về chi phí tính toán nhưng thường chưa khai thác đầy đủ biến ngoại sinh, thông tin về trạng thái thị trường và phụ thuộc lan tỏa giữa các quốc gia. Nghiên cứu này đề xuất \textbf{RA-HE-DLinear} (\textit{Regime-Aware Hierarchical-Economic DLinear}), một khung dự báo kết hợp mô hình hóa trạng thái thị trường, biến ngoại sinh, phụ thuộc liên quốc gia và ràng buộc kinh tế trong một quy trình thống nhất. Cơ chế Conformal Prediction được sử dụng để lượng hóa độ bất định, trong khi SHAP được áp dụng để phân tích đóng góp của các đặc trưng. Khung mô hình được đánh giá trên dữ liệu du lịch Eurostat (38 quốc gia, 152 chuỗi phân loại cơ sở lưu trú) và World Bank (203 nền kinh tế). Trên 4.522 cặp quan sát hợp lệ của tập kiểm thử Eurostat (2024--2026), RA-HE-DLinear đạt WAPE $\mathbf{11{,}62\%}$ đối với lượt khách và $\mathbf{13{,}56\%}$ đối với số đêm lưu trú, đồng thời loại bỏ triệt để 100\% các vi phạm cận vật lý (đưa tỷ lệ vi phạm về chính xác $0{,}00\%$). Trong điều kiện thị trường chu kỳ ổn định, các mô hình tinh giản tham số như Seasonal Naive ($6{,}04\%$ / $5{,}68\%$) và Vanilla DLinear ($9{,}36\%$ / $10{,}47\%$) đạt sai số đếm thấp theo nguyên lý Occam; tuy nhiên, RA-HE-DLinear vượt trội về khả năng kiểm soát logic nghiệp vụ và duy trì tính chống chịu kiên cường trước các cú sốc đứt gãy xu thế.
+
+\vspace{0.3cm}
+\noindent \textbf{\textit{Từ khóa}}---Dự báo nhu cầu du lịch, RA-HE-DLinear, RA-Exo-DLinear, LTSF-Linear, FiLM, TRMF, ràng buộc kinh tế, Conformal Prediction.
+
+\vspace{0.5cm}
+\hrule
+\vspace{0.5cm}
+
+\section*{1. Giới Thiệu \& Động Cơ Nghiên Cứu}
+Trong quản trị du lịch, hai biến số quan trọng nhất là số lượt khách đến ($Y_{\text{arr}}$) và số đêm lưu trú ($Y_{\text{nig}}$). Việc dự báo đa chân trời ($H \in \{3, 6, 12\}$ tháng) hỗ trợ lập kế hoạch công suất và quản lý điểm đến hiệu quả \cite{song2021tourism}. Gần đây, mô hình DLinear \cite{zeng2023dlinear} đã chứng minh tính hiệu quả vượt trội so với Transformer trên nhiều tập chuẩn LTSF. Tuy nhiên, nó chưa được thiết kế để kết hợp trạng thái thị trường, biến ngoại sinh và ràng buộc nghiệp vụ kinh tế. Nghiên cứu này đề xuất RA-HE-DLinear nhằm giải quyết trọn vẹn các thách thức này.
+
+\section*{2. Phương Pháp Đề Xuất}
+Khung mô hình đề xuất bao gồm 4 đóng góp công nghệ:
+\begin{enumerate}
+    \item \textbf{RA-Exo-DLinear:} Mở rộng DLinear bằng cách phân rã xu thế ($\mathbf{X}_{\text{trend}}$) và mùa vụ ($\mathbf{X}_{\text{seasonal}}$), sau đó dùng cơ chế FiLM:
+    \begin{equation}
+        \hat{\mathbf{Y}}_{\text{trend}} = \bm{\gamma}(\bm{\pi}_t) \odot (\mathbf{W}_{\text{trend}} \mathbf{X}_{\text{trend}}) + \bm{\beta}(\bm{\pi}_t)
+    \end{equation}
+    để điều chỉnh độ dốc xu thế dựa trên phân phối xác suất trạng thái thị trường $\bm{\pi}_t$ ước lượng từ mô hình Markov ẩn (HMM). Bổ sung các ánh xạ cho biến lịch lễ tương lai $\mathbf{X}_{\text{cal}}$ và biến kinh tế trễ $\mathbf{X}_{\text{macro}}$.
+    \item \textbf{TRMF:} Phân rã ma trận điều chuẩn theo thời gian $\mathbf{Y} \approx \mathbf{W}\mathbf{Z}^\top$ để mô hình hóa các mẫu biến động chung giữa 38 quốc gia Châu Âu.
+    \item \textbf{Toán tử chiếu mốc neo $\Pi_{\mathcal{C}}$:} Áp dụng phép chiếu giải tích $\hat{Y}_{\text{nig}}^* = \max(\hat{Y}_{\text{nig}}, \hat{Y}_{\text{arr}})$ kết hợp hàm mất mát phạt liên kết $\mathcal{L}_{\text{cons}}$ để bảo đảm triệt để ràng buộc vật lý $\text{LOS} \ge 1{,}0$.
+    \item \textbf{Lượng hóa độ bất định phân vị Conformal:} Xây dựng khoảng dự báo $[P_{10}, P_{90}]$ có bảo đảm độ bao phủ danh định $90\%$ trên mẫu hữu hạn.
+\end{enumerate}
+
+\section*{3. Kết Quả Thực Nghiệm Cốt Lõi}
+\begin{itemize}
+    \item \textbf{Vượt trội hơn Vanilla DLinear trên cả hai mục tiêu:} Khi trang bị Cổng học mềm (Soft Learnable Gate) và toán tử chiếu $\Pi_{\mathcal{C}}$, RA-HE-DLinear đạt WAPE lượt khách $\mathbf{9{,}16\%}$ (so với $9{,}36\%$ của DLinear) và WAPE số đêm lưu trú $\mathbf{9{,}64\%}$ (so với $10{,}47\%$ của DLinear).
+    \item \textbf{Loại bỏ hoàn toàn vi phạm nghiệp vụ miền:} Trong khi Vanilla DLinear có $1{,}93\%$ và SARIMAX có tới $8{,}79\%$ số mẫu dự báo vi phạm logic $\hat{Y}_{\text{nig}} < \hat{Y}_{\text{arr}}$, RA-HE-DLinear đưa tỷ lệ vi phạm về chính xác $\mathbf{0{,}00\%}$.
+    \item \textbf{Chống chịu vượt trội trước các cú sốc đứt gãy:} Trên bảng dữ liệu World Bank trong năm đại dịch 2020, mô hình thích ứng chế độ đạt WAPE $13{,}14\%$ so với $43{,}78\%$ của DLinear nguyên bản, chứng minh giá trị sống còn của cơ chế nhận biết chế độ khi thị trường đứt gãy cấu trúc.
+    \item \textbf{Tối ưu tài nguyên:} Thời gian huấn luyện toàn bộ hệ thống dưới 40 giây trên máy đơn GPU.
+\end{itemize}
+
+\begin{table}[H]
+\centering
+\caption{Đối sánh hiệu năng dự báo trên tập kiểm thử Eurostat (2024--2026)}
+\label{tab:ieee_summary_table}
+\begin{tabular}{lcccc}
+\toprule
+\textbf{Mô hình} & \textbf{WAPE Lượt khách (\%)} & \textbf{WAPE Số đêm (\%)} & \textbf{VR (\%)} & \textbf{Thời gian học (s)} \\
+\midrule
+Seasonal Naive & $6{,}04$ & $5{,}68$ & $0{,}08$ & $<1$ \\
+ETS / Holt--Winters & $12{,}69$ & $13{,}49$ & $2{,}50$ & $\approx 5$ \\
+SARIMA & $28{,}19$ & $26{,}37$ & $0{,}89$ & $\approx 120$ \\
+SARIMAX & $160{,}60$ & $17{,}70$ & $8{,}79$ & $\approx 180$ \\
+LightGBM & $42{,}51$ & $45{,}91$ & $2{,}42$ & $15$ \\
+Vanilla DLinear & $9{,}36$ & $10{,}47$ & $1{,}93$ & $12$ \\
+\midrule
+RA-HE-DLinear (Phối hợp không gian tĩnh) & $11{,}62$ & $13{,}56$ & $0{,}00$ & $38$ \\
+\textbf{RA-HE-DLinear (Cổng thích ứng + $\Pi_{\mathcal{C}}$)} & $\mathbf{9{,}16}$ & $\mathbf{9{,}64}$ & $\mathbf{0{,}00}$ & $\mathbf{38}$ \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\section*{4. Kết Luận \& Hướng Phát Triển}
+RA-HE-DLinear dung hòa thành công giữa tốc độ tính toán của mô hình tuyến tính, khả năng thích ứng linh hoạt trước biến động chế độ kinh tế, năng lực bóc tách tương quan liên quốc gia và sự tuân thủ nghiêm ngặt các ràng buộc nghiệp vụ miền. Hướng đi tiếp theo là áp dụng cơ chế thích ứng conformal động theo thời gian thực (Online ACI) và xây dựng giao thức kiểm thử theo vết phát hành thực tế (Point-in-Time evaluation).

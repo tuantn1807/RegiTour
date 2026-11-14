@@ -1,0 +1,130 @@
+\chapter*{PHỤ LỤC}
+\addcontentsline{toc}{chapter}{PHỤ LỤC}
+\label{ch:appendices}
+
+\section*{Phụ Lục A: Bổ Đề Toán Học và Chứng Minh Phép Chiếu Mốc Neo}
+\label{sec:appendix_proofs}
+\addcontentsline{toc}{section}{Phụ Lục A: Bổ Đề Toán Học và Chứng Minh Phép Chiếu Mốc Neo}
+
+\subsection*{A.1. Bổ Đề Về Nghiệm Đóng Của Toán Tử Chiếu Cận Dưới}
+\begin{lemma}[Nghiệm đóng của phép chiếu cận dưới có mốc neo]
+\label{lem:anchor_projection}
+Xét bài toán tối ưu lồi với mốc neo $\hat{y}_{\text{arr}} > 0$ cố định và giá trị dự báo thô $\hat{y}_{\text{nig}} \in \mathbb{R}$:
+\begin{equation}
+    \min_{y \in \mathbb{R}} \frac{1}{2} (y - \hat{y}_{\text{nig}})^2 \quad \text{thỏa mãn} \quad y \ge \hat{y}_{\text{arr}}
+\end{equation}
+Nghiệm tối ưu duy nhất của bài toán có dạng giải tích đóng:
+\begin{equation}
+    y^* = \max\left( \hat{y}_{\text{nig}}, \; \hat{y}_{\text{arr}} \right)
+\end{equation}
+\end{lemma}
+
+\begin{proof}
+Hàm mục tiêu $f(y) = \frac{1}{2}(y - \hat{y}_{\text{nig}})^2$ là một hàm lồi thực sự trên $\mathbb{R}$, và tập ràng buộc khả thi $\mathcal{S} = \{y \in \mathbb{R} \mid y \ge \hat{y}_{\text{arr}}\}$ là một tập lồi đóng, khác rỗng.
+Ta xét điều kiện Karush-Kuhn-Tucker (KKT):
+Hàm Lagrange có dạng:
+\begin{equation}
+    \mathcal{L}(y, \mu) = \frac{1}{2} (y - \hat{y}_{\text{nig}})^2 - \mu (y - \hat{y}_{\text{arr}})
+\end{equation}
+với nhân tử Lagrange $\mu \ge 0$.
+Các điều kiện KKT cần và đủ là:
+\begin{align}
+    \nabla_y \mathcal{L}(y^*, \mu^*) &= (y^* - \hat{y}_{\text{nig}}) - \mu^* = 0 \label{eq:kkt1} \\
+    y^* &\ge \hat{y}_{\text{arr}} \label{eq:kkt2} \\
+    \mu^* &\ge 0 \label{eq:kkt3} \\
+    \mu^* (y^* - \hat{y}_{\text{arr}}) &= 0 \label{eq:kkt4}
+\end{align}
+Ta xét hai trường hợp:
+\begin{itemize}
+    \item \textbf{Trường hợp 1 ($\hat{y}_{\text{nig}} \ge \hat{y}_{\text{arr}}$):} Chọn $\mu^* = 0$. Khi đó từ (\ref{eq:kkt1}) ta có $y^* = \hat{y}_{\text{nig}}$. Điều kiện (\ref{eq:kkt2}) và (\ref{eq:kkt4}) thỏa mãn hiển nhiên. Do đó $y^* = \hat{y}_{\text{nig}}$.
+    \item \textbf{Trường hợp 2 ($\hat{y}_{\text{nig}} < \hat{y}_{\text{arr}}$):} Nếu chọn $\mu^* = 0$ thì $y^* = \hat{y}_{\text{nig}} < \hat{y}_{\text{arr}}$, vi phạm (\ref{eq:kkt2}). Do đó bắt buộc $\mu^* > 0$. Từ điều kiện bù (\ref{eq:kkt4}) suy ra $y^* = \hat{y}_{\text{arr}}$. Khi đó từ (\ref{eq:kkt1}) ta có $\mu^* = \hat{y}_{\text{arr}} - \hat{y}_{\text{nig}} > 0$, thỏa mãn hoàn toàn điều kiện (\ref{eq:kkt3}).
+\end{itemize}
+Tổng hợp hai trường hợp, nghiệm tối ưu duy nhất là $y^* = \max(\hat{y}_{\text{nig}}, \hat{y}_{\text{arr}})$. Bổ đề được chứng minh.
+\end{proof}
+
+\section*{Phụ Lục B: Danh Mục Các Quốc Gia và Biến Ngoại Sinh}
+\label{sec:appendix_countries}
+\addcontentsline{toc}{section}{Phụ Lục B: Danh Mục Các Quốc Gia và Biến Ngoại Sinh}
+
+Bảng \ref{tab:appendix_country_list} liệt kê danh sách 38 quốc gia Châu Âu trong tập dữ liệu Eurostat cùng mã ISO chuẩn và phân nhóm địa lý - kinh tế du lịch.
+
+\begin{table}[H]
+\centering
+\caption{Danh mục 38 quốc gia trong tập dữ liệu Eurostat}
+\label{tab:appendix_country_list}
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{cllll}
+\toprule
+\textbf{STT} & \textbf{Tên quốc gia (Tiếng Anh)} & \textbf{Mã ISO} & \textbf{Khối liên kết} & \textbf{Đặc thù du lịch chính} \\
+\midrule
+1 & Spain (Tây Ban Nha) & ES & EU-27 / Schengen & Du lịch biển mùa hè, lưu trú dài ngày \\
+2 & Italy (Ý) & IT & EU-27 / Schengen & Văn hóa, lịch sử, ẩm thực, mùa cao điểm hè \\
+3 & France (Pháp) & FR & EU-27 / Schengen & Điểm đến hàng đầu thế giới, đa dạng quanh năm \\
+4 & Germany (Đức) & DE & EU-27 / Schengen & Du lịch công vụ, hội nghị triển lãm (MICE) \\
+5 & Greece (Hy Lạp) & EL & EU-27 / Schengen & Biển đảo, tính mùa vụ cực kỳ cao \\
+6 & Portugal (Bồ Đào Nha) & PT & EU-27 / Schengen & Nghỉ dưỡng biển, thời tiết ấm áp quanh năm \\
+7 & Austria (Áo) & AT & EU-27 / Schengen & Du lịch hai mùa cao điểm (Hè \& Trượt tuyết Đông) \\
+8 & Netherlands (Hà Lan) & NL & EU-27 / Schengen & Du lịch văn hóa, thành phố, lưu trú ngắn ngày \\
+9 & Croatia (Croatia) & HR & EU-27 / Schengen & Bờ biển Adriatic, mùa hè đột biến \\
+10 & Poland (Ba Lan) & PL & EU-27 & Thị trường nội khối Đông Âu tăng trưởng nhanh \\
+11 & Sweden (Thụy Điển) & SE & EU-27 / Schengen & Du lịch Bắc Âu, thiên nhiên, mùa hè \\
+12 & Norway (Na Uy) & NO & Non-EU / Schengen & Du lịch vịnh hẹp (Fjord), chi tiêu cao \\
+13 & Switzerland (Thụy Sĩ) & CH & Non-EU / Schengen & Nghỉ dưỡng vùng núi, du lịch cao cấp \\
+14 & United Kingdom (Anh) & UK & Non-EU & Thị trường nguồn và điểm đến quốc tế trọng điểm \\
+15 & Turkey (Thổ Nhĩ Kỳ) & TR & Đối tác Eurostat & Du lịch biển giá rẻ, cầu nối Á -- Âu \\
+16 & Czechia (Séc) & CZ & EU-27 / Schengen & Du lịch di sản văn hóa Praha \\
+17 & Hungary (Hungary) & HU & EU-27 / Schengen & Du lịch suối khoáng nhiệt, thủ đô Budapest \\
+18 & Belgium (Bỉ) & BE & EU-27 / Schengen & Trung tâm chính trị Châu Âu, công vụ \\
+19 & Denmark (Đan Mạch) & DK & EU-27 / Schengen & Du lịch gia đình, văn hóa Bắc Âu \\
+20 & Finland (Phần Lan) & FI & EU-27 / Schengen & Du lịch mùa đông, cực quang, Lapland \\
+21 & Ireland (Ireland) & IE & EU-27 & Du lịch cảnh quan, giao lưu văn hóa \\
+22 & Romania (Romania) & RO & EU-27 / Schengen & Sinh thái, khám phá Đông Âu \\
+23 & Bulgaria (Bulgaria) & BG & EU-27 / Schengen & Biển Đen mùa hè, trượt tuyết mùa đông \\
+24 & Slovakia (Slovakia) & SK & EU-27 / Schengen & Du lịch thiên nhiên dãy núi Tatra \\
+25 & Slovenia (Slovenia) & SI & EU-27 / Schengen & Du lịch sinh thái, hồ Bled \\
+26 & Cyprus (Síp) & CY & EU-27 & Nghỉ dưỡng Địa Trung Hải \\
+27 & Malta (Malta) & MT & EU-27 / Schengen & Du lịch biển đảo di sản \\
+28 & Luxembourg (Luxembourg) & LU & EU-27 / Schengen & Tài chính ngân hàng, lưu trú ngắn ngày \\
+29 & Iceland (Iceland) & IS & Non-EU / Schengen & Du lịch núi lửa, suối nước nóng, độc đáo \\
+30 & Estonia (Estonia) & EE & EU-27 / Schengen & Vùng Baltic, du lịch số và văn hóa \\
+31 & Latvia (Latvia) & LV & EU-27 / Schengen & Vùng Baltic, bờ biển cát trắng \\
+32 & Lithuania (Litva) & LT & EU-27 / Schengen & Vùng Baltic, di sản lịch sử \\
+33 & Serbia (Serbia) & RS & Ứng viên EU & Vùng Balkan, ẩm thực và văn hóa \\
+34 & Montenegro (Montenegro) & ME & Ứng viên EU & Vịnh Kotor, du lịch biển Balkan \\
+35 & North Macedonia (Bắc Macedonia) & MK & Ứng viên EU & Hồ Ohrid, văn hóa Balkan \\
+36 & Albania (Albania) & AL & Ứng viên EU & Bờ biển Ionian mới nổi \\
+37 & Bosnia \& Herzegovina & BA & Ứng viên EU & Du lịch lịch sử và thiên nhiên \\
+38 & Kosovo (Kosovo) & XK & Tây Balkan & Điểm đến mới nổi \\
+\bottomrule
+\end{tabular}%
+}
+\end{table}
+
+\section*{Phụ Lục C: Bảng Chi Tiết Kết Quả Theo Chân Trời Dự Báo}
+\label{sec:appendix_horizon_results}
+\addcontentsline{toc}{section}{Phụ Lục C: Bảng Chi Tiết Kết Quả Theo Chân Trời Dự Báo}
+
+Bảng \ref{tab:appendix_horizon_results} trình bày chi tiết sai số WAPE (\%) của RA-HE-DLinear và các mô hình đối sánh theo từng chân trời dự báo: ngắn hạn ($H=3$ tháng), trung hạn ($H=6$ tháng) và dài hạn ($H=12$ tháng).
+
+\begin{table}[H]
+\centering
+\caption{Hiệu năng sai số WAPE (\%) phân rã theo đa chân trời dự báo}
+\label{tab:appendix_horizon_results}
+\begin{tabular}{lcccccc}
+\toprule
+\multirow{2}{*}{\textbf{Mô hình}} & \multicolumn{3}{c}{\textbf{Lượt khách ($Y_{\text{arr}}$)}} & \multicolumn{3}{c}{\textbf{Số đêm lưu trú ($Y_{\text{nig}}$)}} \\
+\cmidrule(lr){2-4} \cmidrule(lr){5-7}
+& \textbf{H=3} & \textbf{H=6} & \textbf{H=12} & \textbf{H=3} & \textbf{H=6} & \textbf{H=12} \\
+\midrule
+Seasonal Naive & $24{,}85$ & $27{,}12$ & $29{,}96$ & $30{,}12$ & $32{,}85$ & $35{,}25$ \\
+SARIMA & $18{,}42$ & $21{,}30$ & $23{,}73$ & $25{,}90$ & $28{,}75$ & $31{,}20$ \\
+LightGBM & $15{,}12$ & $17{,}80$ & $20{,}54$ & $24{,}20$ & $26{,}90$ & $29{,}75$ \\
+CatBoost & $14{,}65$ & $17{,}05$ & $19{,}60$ & $23{,}80$ & $26{,}45$ & $28{,}98$ \\
+LSTM đa biến & $15{,}80$ & $18{,}40$ & $21{,}15$ & $24{,}95$ & $27{,}70$ & $30{,}75$ \\
+DLinear nguyên bản & $14{,}20$ & $16{,}75$ & $19{,}45$ & $23{,}40$ & $26{,}15$ & $29{,}05$ \\
+PatchTST & $13{,}90$ & $16{,}20$ & $18{,}65$ & $23{,}10$ & $25{,}80$ & $28{,}65$ \\
+\midrule
+\textbf{RA-HE-DLinear (Đề xuất)} & $\mathbf{12{,}45}$ & $\mathbf{14{,}55}$ & $\mathbf{16{,}78}$ & $\mathbf{22{,}35}$ & $\mathbf{24{,}95}$ & $\mathbf{27{,}70}$ \\
+\bottomrule
+\end{tabular}
+\end{table}
