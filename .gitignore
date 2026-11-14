@@ -35,8 +35,7 @@ Thumbs.db
 .env.*
 *.env
 
-# Thesis / Report Directory (Do not push report files)
-/report/
+
 
 # Compressed Archives & Large Binaries
 *.zip

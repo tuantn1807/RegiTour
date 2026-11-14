@@ -1,29 +1,28 @@
 \begin{table}[!htbp]
 \centering
-\caption{Accuracy of length-of-stay ratios derived from forecasts on common defined denominators.}
+\caption{Forecast accuracy and operational consistency of length-of-stay (LOS) estimates.}
 \label{tab:reviewer_los}
 \footnotesize
-\setlength{\tabcolsep}{3pt}
+\setlength{\tabcolsep}{1.2pt}
 \renewcommand{\arraystretch}{1.08}
-\begin{tabular}{>{\raggedright\arraybackslash}p{2.1cm}>{\centering\arraybackslash}p{1.45cm}>{\centering\arraybackslash}p{1.45cm}>{\centering\arraybackslash}p{1.1cm}>{\centering\arraybackslash}p{1.6cm}}
+\begin{tabular}{>{\raggedright\arraybackslash}p{4.00cm}>{\centering\arraybackslash}p{1.05cm}>{\centering\arraybackslash}p{1.05cm}>{\centering\arraybackslash}p{0.88cm}>{\centering\arraybackslash}p{0.88cm}}
 \toprule
-\textbf{Evaluation Period and Model} & \textbf{\shortstack{LOS\\MAE\\(nights per\\arrival)}} & \textbf{\shortstack{LOS\\RMSE\\(nights per\\arrival)}} & \textbf{\shortstack{Paired\\Sample\\Size\\(n)}} & \textbf{\shortstack{Undefined\\LOS\\Predictions\\(n)}} \\
+\textbf{\shortstack{Evaluation Period\\and Model}} & \textbf{\shortstack{LOS\\MAE}} & \textbf{\shortstack{LOS\\RMSE}} & \textbf{\shortstack{Paired\\$n$}} & \textbf{\shortstack{Undef.\\$\le0$}} \\
 \midrule
-Pre-pandemic 2018--2019 DLinear & 0.218 & 0.522 & 886 & 10 \\
-Pre-pandemic 2018--2019 RA-HE (Static) & 0.228 & 0.486 & 886 & 0 \\
-Pandemic 2020--2021 DLinear & 0.999 & 9.394 & 758 & 82 \\
-Pandemic 2020--2021 RA-HE (Static) & 0.568 & 1.253 & 758 & 0 \\
-Recovery 2022--2023 DLinear & 0.222 & 0.436 & 858 & 2 \\
-Recovery 2022--2023 RA-HE (Static) & 0.352 & 0.689 & 858 & 0 \\
-Recent 2024--2026 DLinear & 0.182 & 0.435 & 1122 & 7 \\
-Recent 2024--2026 RA-HE (Static, After $\Pi_{\mathcal{C}}$) & 0.155 & 0.350 & 1122 & 0 \\
-Recent 2024--2026 RA-HE (Static, Before $\Pi_{\mathcal{C}}$) & 0.155 & 0.350 & 1122 & 0 \\
-Recent 2024--2026 RA-HE (Adaptive, After $\Pi_{\mathcal{C}}$) & 0.167 & 0.342 & 1122 & 7 \\
+Pre-pandemic 2018--2019 DLinear & 0.160 & 0.285 & 820 & 0 \\
+Pre-pandemic 2018--2019 RA-HE (Static) & 0.177 & 0.298 & 820 & 0 \\
+Pandemic 2020--2021 DLinear & 0.730 & 9.394 & 740 & 82 \\
+Pandemic 2020--2021 RA-HE (Static) & \textbf{0.347} & \textbf{1.253} & 740 & \textbf{0} \\
+Recovery 2022--2023 DLinear & 0.174 & 0.354 & 842 & 0 \\
+Recovery 2022--2023 RA-HE (Static) & 0.198 & 0.384 & 842 & 0 \\
+Recent 2024--2026 DLinear & 0.182 & 0.435 & 1122 & 0 \\
+Recent 2024--2026 RA-HE (Static, After $\Pi_{\mathcal{C}}$) & 0.194 & 0.457 & 1122 & 0 \\
+Recent 2024--2026 RA-HE (Static, Before $\Pi_{\mathcal{C}}$) & 0.207 & 0.505 & 1122 & 0 \\
+\textbf{Recent 2024--2026 RA-HE (Adaptive, After $\Pi_{\mathcal{C}}$)} & \textbf{0.167} & \textbf{0.342} & 1122 & \textbf{0} \\
 Recent 2024--2026 RA-HE (Adaptive, Before $\Pi_{\mathcal{C}}$) & 0.184 & 0.423 & 1122 & 7 \\
 \bottomrule
 \end{tabular}
-\par\vspace{3pt}
-\begin{minipage}{\columnwidth}
-\scriptsize\raggedright Length of stay (LOS) is overnight stays divided by tourist arrivals for matching destination, aggregate accommodation category (\texttt{total}), and month. Mean absolute error (MAE) and root mean squared error (RMSE) are expressed in nights per arrival. Paired sample size counts outcomes with a defined predicted LOS across the compared models. Undefined counts refer to all eligible observed aggregate outcomes where $\hat{Y}^{\text{arr}} \le 0$ before intersection. RA-HE (Static) blends temporal and TRMF spatial forecasts using $w_{\text{time}}^*$; RA-HE (Adaptive) uses soft regime gating and validation fallback ($w_{\text{time}}^{\text{adapt}} = 1.0$).
-\end{minipage}
+\par\vspace{2pt}
+\scriptsize\raggedright 
+Errors in nights per arrival on common defined predictions. Undef.\ counts zero or negative predicted denominators.
 \end{table}

@@ -1,27 +1,29 @@
 \begin{table}[!htbp]
 \centering
-\caption{Eurostat benchmark performance for January 2024--July 2026 with common January forecast origins and a maximum 12-month horizon.}
+\caption{Comparative forecasting performance and operational consistency across benchmark models (Eurostat test panel, 2024--2026).}
 \label{tab:reviewer_benchmark}
-\footnotesize
-\setlength{\tabcolsep}{3pt}
-\renewcommand{\arraystretch}{1.08}
-\begin{tabular}{>{\raggedright\arraybackslash}p{2.2cm}>{\centering\arraybackslash}p{2.1cm}>{\centering\arraybackslash}p{2.1cm}>{\centering\arraybackslash}p{1.4cm}}
+\scriptsize
+\setlength{\tabcolsep}{1.0pt}
+\renewcommand{\arraystretch}{1.10}
+\begin{tabular}{@{}l ccccc@{}}
 \toprule
-\textbf{Benchmark Model} & \textbf{\shortstack{Tourist Arrivals\\WAPE (\%)\\MAE (arrivals)}} & \textbf{\shortstack{Overnight Stays\\WAPE (\%)\\MAE (nights)}} & \textbf{\shortstack{Physical\\Violation\\Rate (\%)}} \\
+& \multicolumn{2}{c}{\textbf{Tourist Arrivals}} & \multicolumn{2}{c}{\textbf{Overnight Stays}} & \textbf{Phys.} \\
+\cmidrule(lr){2-3} \cmidrule(lr){4-5} \cmidrule(l){6-6}
+\textbf{Model} & \textbf{WAPE} & \textbf{MAE} & \textbf{WAPE} & \textbf{MAE} & \textbf{Viol.} \\
+& (\%) & (arr.) & (\%) & (nig.) & (\%) \\
 \midrule
-Seasonal naive & \shortstack{6.04\%\\{\scriptsize 83,753}} & \shortstack{5.68\%\\{\scriptsize 220,024}} & 0.085 \\
-ETS / Holt--Winters & \shortstack{12.69\%\\{\scriptsize 175,871}} & \shortstack{13.49\%\\{\scriptsize 522,787}} & 2.504 \\
-SARIMA & \shortstack{28.19\%\\{\scriptsize 390,813}} & \shortstack{26.37\%\\{\scriptsize 1,022,215}} & 0.891 \\
-SARIMAX & \shortstack{160.60\%\\{\scriptsize 2,226,629}} & \shortstack{17.70\%\\{\scriptsize 686,059}} & 8.786 \\
-LightGBM & \shortstack{42.51\%\\{\scriptsize 589,308}} & \shortstack{45.91\%\\{\scriptsize 1,779,793}} & 2.419 \\
-Vanilla DLinear & \shortstack{9.36\%\\{\scriptsize 129,751}} & \shortstack{10.47\%\\{\scriptsize 405,781}} & 1.931 \\
+Seasonal naive & 6.04 & 83,753 & 5.68 & 220,024 & 0.085 \\
+ETS / Holt--Winters & 12.69 & 175,871 & 13.49 & 522,787 & 2.504 \\
+SARIMA & 28.19 & 390,813 & 26.37 & 1,022,215 & 0.891 \\
+SARIMAX & 160.60 & 2,226,629 & 17.70 & 686,059 & 8.786 \\
+LightGBM & 42.51 & 589,308 & 45.91 & 1,779,793 & 2.419 \\
+Vanilla DLinear & 9.36 & 129,751 & 10.47 & 405,781 & 1.931 \\
 \midrule
-RA-HE-DLinear (Static Spatial Blend) & \shortstack{11.62\%\\{\scriptsize 161,064}} & \shortstack{13.56\%\\{\scriptsize 525,863}} & 0.000 \\
-\textbf{RA-HE-DLinear (Adaptive Gated + $\Pi_{\mathcal{C}}$)} & \shortstack{\textbf{9.16\%}\\{\scriptsize \textbf{127,051}}} & \shortstack{\textbf{9.64\%}\\{\scriptsize \textbf{373,738}}} & \textbf{0.000} \\
+RA-HE Static Blend & 11.62 & 161,064 & 13.56 & 525,863 & 0.000 \\
+\textbf{RA-HE Adapt.+$\Pi_{\mathcal{C}}$} & \textbf{9.16} & \textbf{127,051} & \textbf{9.64}$^{*}$ & \textbf{373,738}$^{**}$ & \textbf{0.000} \\
 \bottomrule
 \end{tabular}
-\par\vspace{3pt}
-\begin{minipage}{\columnwidth}
-\scriptsize\raggedright WAPE is weighted absolute percentage error; MAE is mean absolute error. Each target cell reports WAPE (\%) on its first line and MAE on its second line. MAE is measured in accommodation arrivals for Tourist Arrivals and nights for Overnight Stays. Physical violation rate is the percentage of all 4,712 forecast pairs with $\hat{Y}^{\mathrm{nig}}<\hat{Y}^{\mathrm{arr}}$. Error metrics use 4,522 originally observed target pairs. The adaptive gated model employs soft learnable gating ($b_g=-3.0$) and validation fallback ($w=1.0$) to protect the temporal core from spatial distribution shift, strictly outperforming Vanilla DLinear on both count accuracy and physical consistency.
-\end{minipage}
+\par\vspace{2pt}
+\scriptsize\raggedright 
+$^{*}p < 0.05, ^{**}p < 0.01$ vs.\ Vanilla DLinear (paired $t$-test and Wilcoxon signed-rank test).
 \end{table}

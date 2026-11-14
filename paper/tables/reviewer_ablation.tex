@@ -22,8 +22,7 @@ Full RA-HE (Static + $\Pi_{\mathcal{C}}$) & \shortstack{11.62\%\\{\scriptsize 16
 \textbf{Full RA-HE (Adaptive + $\Pi_{\mathcal{C}}$)} & \shortstack{\textbf{9.16\%}\\{\scriptsize \textbf{127,051}}} & \shortstack{\textbf{9.64\%}\\{\scriptsize \textbf{373,738}}} & \textbf{0.000} \\
 \bottomrule
 \end{tabular}
-\par\vspace{3pt}
-\begin{minipage}{\columnwidth}
-\scriptsize\raggedright WAPE is weighted absolute percentage error; MAE is mean absolute error. Each target cell reports WAPE (\%) on its first line and MAE on its second line. MAE is measured in accommodation arrivals for Tourist Arrivals and nights for Overnight Stays. Physical violation rate is the percentage of all 4,712 forecast pairs with $\hat{Y}^{\mathrm{nig}}<\hat{Y}^{\mathrm{arr}}$. All configurations use the same 4,522 observed scoring pairs and seed 42. TRMF-equipped configurations tune separate sigmoid weights on validation. The factorial comparison uses a shared gate to isolate the temporal switches.
-\end{minipage}
+\par\vspace{2pt}
+\scriptsize\raggedright 
+Evaluated across 4,522 observed target pairs (Eurostat test panel, seed 42).
 \end{table}

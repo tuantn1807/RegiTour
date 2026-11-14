@@ -1,0 +1,55 @@
+\begin{table}[!t]
+\centering
+\caption{Single-seed component configuration ladder on the matched Eurostat test set.}
+\label{tab:reviewer_ablation}
+\footnotesize
+\setlength{\tabcolsep}{2.5pt}
+\renewcommand{\arraystretch}{1.05}
+\begin{tabular}{>{\raggedright\arraybackslash}p{2.3cm}>{\centering\arraybackslash}p{2.0cm}>{\centering\arraybackslash}p{2.0cm}>{\centering\arraybackslash}p{1.3cm}}
+\toprule
+\textbf{Ablation Configuration} & \textbf{\shortstack{Tourist\\Arrivals\\WAPE (\%)\\MAE (arr)}} & \textbf{\shortstack{Overnight\\Stays\\WAPE (\%)\\MAE (nig)}} & \textbf{\shortstack{Physical\\Violation\\Rate (\%)}} \\
+\midrule
+DLinear & \shortstack{9.36\%\\{\scriptsize 129,751}} & \shortstack{10.47\%\\{\scriptsize 405,781}} & 1.931 \\
+DLinear + Exogenous & \shortstack{9.16\%\\{\scriptsize 127,051}} & \shortstack{9.67\%\\{\scriptsize 374,958}} & 2.250 \\
+DLinear + HMM bias & \shortstack{9.36\%\\{\scriptsize 129,751}} & \shortstack{10.47\%\\{\scriptsize 405,781}} & 1.910 \\
+DLinear + static FiLM & \shortstack{11.51\%\\{\scriptsize 159,624}} & \shortstack{14.15\%\\{\scriptsize 548,445}} & 2.759 \\
+DLinear + HMM + FiLM & \shortstack{10.97\%\\{\scriptsize 152,101}} & \shortstack{13.26\%\\{\scriptsize 514,070}} & 2.674 \\
+DLinear + HMM + FiLM + TRMF & \shortstack{14.82\%\\{\scriptsize 205,420}} & \shortstack{16.66\%\\{\scriptsize 645,928}} & 0.064 \\
+DLinear + Exogenous + HMM + FiLM & \shortstack{9.42\%\\{\scriptsize 130,571}} & \shortstack{11.34\%\\{\scriptsize 439,518}} & 3.778 \\
+Full without coupled loss & \shortstack{11.57\%\\{\scriptsize 160,473}} & \shortstack{13.55\%\\{\scriptsize 525,246}} & 1.104 \\
+Full RA-HE (Static, Raw) & \shortstack{11.62\%\\{\scriptsize 161,064}} & \shortstack{13.56\%\\{\scriptsize 525,737}} & 1.104 \\
+Full RA-HE (Static + $\Pi_{\mathcal{C}}$) & \shortstack{11.62\%\\{\scriptsize 161,064}} & \shortstack{13.56\%\\{\scriptsize 525,863}} & \textbf{0.000} \\
+\textbf{Full RA-HE (Adaptive + $\Pi_{\mathcal{C}}$)} & \shortstack{\textbf{9.16\%}\\{\scriptsize \textbf{127,051}}} & \shortstack{\textbf{9.64\%}\\{\scriptsize \textbf{373,738}}} & \textbf{0.000} \\
+\bottomrule
+\end{tabular}
+\par\vspace{2pt}
+\scriptsize\raggedright 
+Evaluated across 4,522 observed target pairs (Eurostat test panel, seed 42).
+
+\vspace{8pt}
+
+\normalsize
+\caption{Average conditional marginal effects of architectural components across three random seeds.}
+\label{tab:factorial_effects}
+\footnotesize
+\setlength{\tabcolsep}{1.5pt}
+\renewcommand{\arraystretch}{1.04}
+\begin{tabular}{>{\raggedright\arraybackslash}p{2.85cm}>{\centering\arraybackslash}p{2.65cm}>{\centering\arraybackslash}p{2.65cm}}
+\toprule
+\textbf{Component \& Level} & \textbf{\shortstack{Tourist Arrivals\\$\Delta$WAPE / $\Delta$MAE}} & \textbf{\shortstack{Overnight Stays\\$\Delta$WAPE / $\Delta$MAE}} \\
+\midrule
+\multicolumn{3}{l}{\textit{Temporal Core (Linear Sequence Backbone)}} \\
+\quad Exogenous ($E$) & \shortstack{-0.56 $\pm$ 0.41\\{\scriptsize -7.8k $\pm$ 5.7k}} & \shortstack{-1.06 $\pm$ 0.37\\{\scriptsize -40.9k $\pm$ 14.3k}} \\
+\quad HMM regimes ($H$) & \shortstack{-0.17 $\pm$ 0.02\\{\scriptsize -2.4k $\pm$ 0.3k}} & \shortstack{-0.17 $\pm$ 0.18\\{\scriptsize -6.4k $\pm$ 7.0k}} \\
+\quad Ungated FiLM ($F$) & \shortstack{+3.03 $\pm$ 1.75\\{\scriptsize +42.0k $\pm$ 24.3k}} & \shortstack{+5.42 $\pm$ 2.65\\{\scriptsize +210.3k $\pm$ 102.8k}} \\
+\midrule
+\multicolumn{3}{l}{\textit{Fused Architecture (Adaptive + TRMF + $\Pi_{\mathcal{C}}$)}} \\
+\quad Exogenous ($E$) & \shortstack{\textbf{-1.75 $\pm$ 0.74}\\{\scriptsize \textbf{-24.3k $\pm$ 10.3k}}} & \shortstack{\textbf{-2.59 $\pm$ 0.61}\\{\scriptsize \textbf{-100.5k $\pm$ 23.5k}}} \\
+\quad HMM regimes ($H$) & \shortstack{-0.14 $\pm$ 0.05\\{\scriptsize -2.0k $\pm$ 0.7k}} & \shortstack{-0.12 $\pm$ 0.18\\{\scriptsize -4.8k $\pm$ 7.0k}} \\
+\quad Ungated FiLM ($F$) & \shortstack{+3.37 $\pm$ 1.51\\{\scriptsize +46.7k $\pm$ 20.9k}} & \shortstack{+5.69 $\pm$ 2.13\\{\scriptsize +220.8k $\pm$ 82.5k}} \\
+\bottomrule
+\end{tabular}
+\par\vspace{2pt}
+\scriptsize\raggedright 
+Mean $\pm$ sample SD across three seeds (42, 43, 44). Factor $E$: exogenous projections; $H$: HMM regime states; $F$: ungated FiLM. $\Delta$WAPE in percentage points (pp); $\Delta$MAE in thousands of counts ($\text{k} = 10^3$). Negative $\Delta$ indicates error reduction (improvement).
+\end{table}

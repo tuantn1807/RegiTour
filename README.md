@@ -52,18 +52,27 @@ cd RegiTour
 pip install -r requirements.txt
 ```
 
-### 2. Interactive Demos (Web Dashboard & CLI)
-Khởi chạy bảng điều khiển tương tác trực quan hoặc demo dòng lệnh nhanh:
+### 2. Enterprise Software Capabilities, REST API & Demos
+Khởi chạy bảng điều khiển tương tác trực quan, dịch vụ REST API hoặc CLI:
 ```bash
-# Cách 1: Sử dụng launcher tự động (khuyên dùng, tự nhận diện môi trường Python)
+# A. Khởi chạy Enterprise REST API microservice (FastAPI + Swagger UI)
+python cli.py api --port 8000
+# 👉 Mở Swagger UI tại: http://localhost:8000/docs
+# 👉 Mở ReDoc tại:      http://localhost:8000/redoc
+
+# B. Khởi chạy Streamlit Dashboard (kèm tab Tích hợp API & Báo cáo Tự động)
+python cli.py dashboard --port 8501
+# hoặc:
 python run_demo.py
 
-# Cách 2: Chạy trực tiếp Streamlit (qua môi trường ảo .venv)
-source .venv/bin/activate && streamlit run dashboard/app.py
-# hoặc:
-python -m streamlit run dashboard/app.py
+# C. Sử dụng giao diện dòng lệnh Unified CLI
+python cli.py plan --geo FR --horizon 12 --output plan_fr.json
+python cli.py staffing --geo FR --horizon 12
+python cli.py stress --geo CY --hicp 25 --stringency 50
+python cli.py report --geo DK --format markdown --output baocao_dk.md
+python cli.py audit
 
-# Cách 3: Demo dòng lệnh tức thời trong Terminal (CLI Demo, không cần trình duyệt)
+# D. Demo dòng lệnh nhanh (không cần trình duyệt)
 python demo.py
 ```
 
@@ -109,6 +118,7 @@ The complete academic manuscripts are located in the `paper/` directory:
 - Research Project on AI-Driven Tourism Econometrics (NCKH 2027)
 
 Mọi chi tiết chuyên sâu được tổ chức tại thư mục [`docs/`](docs/):
+* 💻 **Kiến trúc phần mềm & đặc tả REST API:** Xem [`docs/SOFTWARE_ARCHITECTURE.md`](docs/SOFTWARE_ARCHITECTURE.md)
 * 🌐 **Tổng quan hệ thống & cơ sở lý thuyết:** Xem [`docs/03_architecture/overview_system.md`](docs/03_architecture/overview_system.md)
 * 📊 **Hướng dẫn 54 biến dữ liệu:** Xem [`docs/02_data/DATA_GUIDE.md`](docs/02_data/DATA_GUIDE.md)
 * 🏛️ **Đặc tả kiến trúc mô hình Hybrid:** Xem [`docs/03_architecture/MODEL_ARCHITECTURE.md`](docs/03_architecture/MODEL_ARCHITECTURE.md)

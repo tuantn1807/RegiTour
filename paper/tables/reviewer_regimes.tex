@@ -3,25 +3,24 @@
 \caption{Forecast accuracy across chronological tourism stress-test periods. Each test period follows its own training, validation, and calibration partitions.}
 \label{tab:reviewer_regimes}
 \footnotesize
-\setlength{\tabcolsep}{2.5pt}
+\setlength{\tabcolsep}{3pt}
 \renewcommand{\arraystretch}{1.08}
-\begin{tabular}{>{\raggedright\arraybackslash}p{1.75cm}>{\raggedright\arraybackslash}p{1.85cm}>{\centering\arraybackslash}p{2.15cm}>{\centering\arraybackslash}p{2.15cm}}
+\begin{tabular}{>{\raggedright\arraybackslash}p{1.8cm}>{\raggedright\arraybackslash}p{1.7cm}>{\centering\arraybackslash}p{2.2cm}>{\centering\arraybackslash}p{2.2cm}}
 \toprule
 \textbf{Calendar Test Period} & \textbf{Benchmark Model} & \textbf{\shortstack{Tourist Arrivals\\WAPE (\%)\\MAE (arrivals)}} & \textbf{\shortstack{Overnight Stays\\WAPE (\%)\\MAE (nights)}} \\
 \midrule
-Pre-pandemic 2018--2019 & DLinear & \shortstack{11.18\%\\{\scriptsize 152,672}} & \shortstack{12.00\%\\{\scriptsize 468,358}} \\
-Pre-pandemic 2018--2019 & RA-HE (Static) & \shortstack{16.21\%\\{\scriptsize 221,280}} & \shortstack{17.71\%\\{\scriptsize 691,247}} \\
-Pandemic 2020--2021 & DLinear & \shortstack{76.98\%\\{\scriptsize 561,756}} & \shortstack{71.45\%\\{\scriptsize 1,550,035}} \\
-Pandemic 2020--2021 & \textbf{RA-HE (Static)} & \shortstack{\textbf{66.69\%}\\{\scriptsize \textbf{486,696}}} & \shortstack{\textbf{63.06\%}\\{\scriptsize \textbf{1,367,908}}} \\
-Recovery 2022--2023 & DLinear & \shortstack{17.50\%\\{\scriptsize 224,231}} & \shortstack{17.27\%\\{\scriptsize 633,716}} \\
-Recovery 2022--2023 & RA-HE (Static) & \shortstack{22.90\%\\{\scriptsize 293,421}} & \shortstack{27.16\%\\{\scriptsize 996,806}} \\
+Pre-pandemic 2018--2019 & DLinear & \shortstack{8.31\%\\{\scriptsize 97,973}} & \shortstack{9.93\%\\{\scriptsize 342,752}} \\
+Pre-pandemic 2018--2019 & RA-HE (Static) & \shortstack{9.44\%\\{\scriptsize 111,213}} & \shortstack{11.33\%\\{\scriptsize 391,155}} \\
+Pandemic 2020--2021 & DLinear & \shortstack{76.98\%\\{\scriptsize 561,756}} & \shortstack{71.45\%\\{\scriptsize 1,498,393}} \\
+Pandemic 2020--2021 & RA-HE (Static) & \shortstack{\textbf{66.69\%}\\{\scriptsize \textbf{486,696}}} & \shortstack{\textbf{63.06\%}\\{\scriptsize \textbf{1,322,464}}} \\
+Recovery 2022--2023 & DLinear & \shortstack{10.97\%\\{\scriptsize 138,416}} & \shortstack{12.44\%\\{\scriptsize 440,948}} \\
+Recovery 2022--2023 & RA-HE (Static) & \shortstack{12.42\%\\{\scriptsize 156,769}} & \shortstack{13.79\%\\{\scriptsize 488,898}} \\
 Recent 2024--2026 & DLinear & \shortstack{9.36\%\\{\scriptsize 129,751}} & \shortstack{10.47\%\\{\scriptsize 405,781}} \\
 Recent 2024--2026 & RA-HE (Static) & \shortstack{11.62\%\\{\scriptsize 161,064}} & \shortstack{13.56\%\\{\scriptsize 525,863}} \\
 Recent 2024--2026 & \textbf{RA-HE (Adaptive)} & \shortstack{\textbf{9.16\%}\\{\scriptsize \textbf{127,051}}} & \shortstack{\textbf{9.64\%}\\{\scriptsize \textbf{373,738}}} \\
 \bottomrule
 \end{tabular}
-\par\vspace{3pt}
-\begin{minipage}{\columnwidth}
-\scriptsize\raggedright Each target cell reports WAPE (\%) above MAE on originally observed target pairs in each fold. RA-HE (Static) denotes the unconstrained spatial-temporal blend; RA-HE (Adaptive) applies soft gating ($b_g=-3.0$) and validation fallback ($w_{\text{time}}^*\to 1.0$).
-\end{minipage}
+\par\vspace{2pt}
+\scriptsize\raggedright 
+Target cells report WAPE (\%) above MAE in count units evaluated on observed test pairs.
 \end{table}

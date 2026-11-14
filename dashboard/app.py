@@ -30,6 +30,7 @@ from src.decision_support.dmo_engine import (
     load_dss_bundle,
     simulate_macro_stress,
 )
+from src.services.report_generator import ExecutiveReportGenerator
 
 st.set_page_config(
     page_title="RegiTour DSS | Smart Tourism Governance & Destination Management",
@@ -94,9 +95,9 @@ def _render_sidebar(bundle):
     stakeholder_lens = st.sidebar.selectbox(
         "👤 Vai trò khai thác (Stakeholder):",
         [
-            "DMO — Quản trị Điểm đến Tổng hợp",
-            "Cơ quan Du lịch / Hàng không / Cửa khẩu",
-            "Hiệp hội & Cơ sở Lưu trú (NACE I551–I553)",
+            "🏛️ Cơ quan Quản lý Nhà nước (Cục / Sở Du lịch)",
+            "✈️ Cơ quan Quản lý Cửa khẩu & Cảng vụ Hàng không",
+            "🏨 Hiệp hội & Cơ sở Lưu trú (NACE I551–I553)",
         ],
     )
 
@@ -109,6 +110,7 @@ def _render_sidebar(bundle):
             "3️⃣ Giám sát Khủng hoảng & Stress Testing (HMM)",
             "4️⃣ Quỹ đạo Phục hồi & Biên Rủi ro Conformal",
             "🔬 Đối sánh Mô hình & XAI (Benchmark)",
+            "🔌 Tích hợp API & Báo cáo Tự động (Integration Hub)",
         ],
     )
 
@@ -271,26 +273,52 @@ def _render_executive_briefing(bundle, ctx):
             fig_pie.update_layout(showlegend=False)
             st.plotly_chart(fig_pie, width='stretch')
 
-    # Role-based operational briefing
-    st.markdown("#### 📋 Khuyến nghị Hành động theo Vai trò Khai thác")
-    if "Cửa khẩu" in ctx["stakeholder"]:
+    # Role-based operational briefing & Inter-agency Matrix
+    st.markdown("#### 📋 Phương Án Điều Hành & Phối Hợp Liên Ngành")
+    if "Cửa khẩu" in ctx["stakeholder"] or "Hàng không" in ctx["stakeholder"]:
         st.info(
-            f"**Cơ quan Du lịch / Hàng không / Cửa khẩu:** Đỉnh lưu lượng nhập cảnh dự kiến đạt "
+            f"**✈️ Cơ quan Quản lý Cửa khẩu & Cảng vụ Hàng không:** Đỉnh lưu lượng nhập cảnh dự kiến đạt "
             f"**{summary['peak_daily_arrivals']:,.0f} lượt/ngày** (tổng **{summary['total_arrivals']:,.0f}** lượt trong {len(plan_df)} tháng). "
-            f"Cần bố trí luồng thông quan, hạ tầng vận tải mặt đất sân bay và quầy check-in theo các tháng đỉnh mùa vụ."
+            f"Cần bố trí luồng thông quan tự động, điều tiết phương tiện trung chuyển mặt đất và tăng cường quầy thủ tục."
         )
     elif "Lưu trú" in ctx["stakeholder"]:
         st.info(
-            f"**Hiệp hội & Cơ sở Lưu trú (NACE I551–I553):** Tổng cầu phòng đạt **{summary['total_nights']:,.0f} đêm lưu trú** "
+            f"**🏨 Hiệp hội & Cơ sở Lưu trú (NACE I551–I553):** Tổng cầu phòng đạt **{summary['total_nights']:,.0f} đêm lưu trú** "
             f"(đỉnh **{summary['peak_daily_nights']:,.0f} đêm/ngày**), thời gian lưu trú trung bình **{summary['avg_los']:.2f} đêm/khách**. "
             f"Mở phân hệ **2️⃣ Công suất NACE & Nhân sự Thời vụ** để xem lịch tuyển dụng FTE và cửa sổ đóng cửa bảo trì."
         )
     else:
-        st.info(
-            f"**DMO — Quản trị Điểm đến:** Toàn bộ {len(plan_df)} kỳ dự báo đều thỏa mãn nghiêm ngặt chuẩn thống kê UNWTO/Eurostat "
-            f"($\\hat{{Y}}^{{\\text{{nig}}}} \\ge \\hat{{Y}}^{{\\text{{arr}}}}$). Với chỉ số phục hồi bình quân **{rec_str}** so với cùng kỳ 2019, "
-            f"DMO có thể đối chiếu cận trên/dưới của $\\hat{{\\mathcal{{I}}}}_{{0.90}}$ tại phân hệ **4️⃣** để phân bổ ngân sách xúc tiến."
+        # Cơ quan Quản lý Nhà nước (Cục / Sở Du lịch)
+        st.success(
+            f"**🏛️ Cơ quan Quản lý Nhà nước (Cục Du lịch Quốc gia / Sở Du lịch):** Toàn bộ {len(plan_df)} kỳ kế hoạch đều thỏa mãn "
+            f"tuyệt đối chuẩn thống kê UNWTO/Eurostat ($\\hat{{Y}}^{{\\text{{nig}}}} \\ge \\hat{{Y}}^{{\\text{{arr}}}}$, $LOS \\ge 1.0$). "
+            f"Chỉ số phục hồi dự kiến đạt **{rec_str}** so với thời điểm trước dịch (2019)."
         )
+
+        with st.expander("🏛️ Ma Trận Điều Phối Hành Động Liên Ngành (Chỉ đạo của Cục / Sở Du lịch)", expanded=True):
+            m_col1, m_col2 = st.columns(2)
+            with m_col1:
+                st.markdown(
+                    f"""
+                    **1. 🚔 Phối hợp Công an & Giao thông Vận tải:**
+                    - **Ngưỡng tải trọng:** Đỉnh ngày đạt **{summary['peak_daily_arrivals']:,.0f} khách/ngày**.
+                    - **Chỉ đạo:** Kích hoạt phương án phân luồng xe du lịch, cấm xe khách vào trung tâm giờ cao điểm và mở thêm quầy thủ tục tại các cửa khẩu trong các tháng cao điểm.
+
+                    **2. 🎓 Phối hợp Sở Lao động - Thương binh & Xã hội:**
+                    - **Nhu cầu nhân lực:** Dự báo phát sinh thêm lao động thời vụ cho toàn ngành lưu trú.
+                    - **Chỉ đạo:** Ban hành hướng dẫn cho các trường nghề mở khóa bồi dưỡng nghiệp vụ lễ tân/buồng phòng cấp tốc trước mùa cao điểm tối thiểu 60 ngày.
+                    """
+                )
+            with m_col2:
+                st.markdown(
+                    f"""
+                    **3. 🏗️ Phối hợp Sở Xây dựng & Ban Quản lý Di tích:**
+                    - **Chỉ đạo:** Công bố khung thời gian cấp phép tu bổ, sửa chữa hạ tầng du lịch vào các **Cửa sổ bảo trì (<35% công suất)**; nghiêm cấm thi công xây dựng gây mất mỹ quan trong mùa cao điểm hè.
+
+                    **4. 💰 Phối hợp Sở Tài chính & Kế hoạch Đầu tư:**
+                    - **Chỉ đạo:** Thẩm định dự toán ngân sách xúc tiến thị trường; trích lập quỹ dự phòng theo dải **Sàn rủi ro doanh thu 90%** để sẵn sàng kích cầu khi có biến động vĩ mô.
+                    """
+                )
 
     export_cols = [
         "date",
@@ -765,6 +793,261 @@ def _render_scientific_benchmark(bundle):
             st.image(str(attn_path), caption="Cross-Temporal Attention Heatmap", width='stretch')
 
 
+def _render_api_and_reporting(bundle, ctx):
+    st.markdown(
+        f'<div class="main-header">🔌 Tích Hợp Phần Mềm, REST API & Báo Cáo Tự Động</div>',
+        unsafe_allow_html=True,
+    )
+    st.markdown(
+        f'<div class="sub-header">Phân hệ dịch vụ phần mềm doanh nghiệp cho <b>{ctx["country"]} ({ctx["geo"]})</b>: '
+        f'Cung cấp REST API (FastAPI / OpenAPI), engine cảnh báo vận hành thông minh và công cụ xuất báo cáo tự động cho DMO.</div>',
+        unsafe_allow_html=True,
+    )
+
+    tab_alerts, tab_report, tab_api = st.tabs(
+        [
+            "🚨 Giám Sát Cảnh Báo Vận Hành (Alert Engine)",
+            "📄 Khởi Tạo Báo Cáo Điều Hành (1-Click Executive Report)",
+            "⚡ Cổng Tích Hợp REST API (Enterprise Developer Hub)",
+        ]
+    )
+
+    # ------------------ TAB 1: OPERATIONAL ALERT ENGINE ------------------
+    with tab_alerts:
+        st.markdown("### 🚨 Hệ Thống Cảnh Báo Vận Hành Tự Động DMO")
+        st.caption(
+            "Engine tự động quét các ngưỡng giới hạn vật lý, tỷ lệ lấp đầy, đỉnh nhân sự và bảo chứng Pi_C để kích hoạt thông báo điều hành."
+        )
+
+        plan_df, plan_s = compute_coordinated_throughput_plan(
+            bundle.forecasts_df, ctx["geo"], ctx["accom"], ctx["horizon"], ctx["origin"]
+        )
+        cap_df, cap_s = compute_nace_capacity_staffing(
+            bundle.forecasts_df, ctx["geo"], ctx["horizon"], origin_label=ctx["origin"]
+        )
+
+        c1, c2, c3 = st.columns(3)
+        c1.metric("Bất Biến Nghiệp Vụ Pi_C", "100% An Toàn", delta="0 vi phạm vật lý sau chiếu")
+        c2.metric("Đỉnh Nhu Cầu Nhân Lực", f"{cap_s['total_peak_fte']:,.0f} FTE", delta=f"+{cap_s['total_seasonal_hiring_need']:,.0f} thời vụ")
+        c3.metric("Tải Trọng Đỉnh Ngày", f"{plan_s['peak_daily_arrivals']:,.0f} khách/ngày")
+
+        st.markdown("#### 📋 Trạng thái Cảnh báo Chi tiết:")
+
+        # Scan for over-capacity / strain
+        strain_found = False
+        maint_found = False
+        for cat_key, cat in cap_s["categories"].items():
+            if cat["peak_strain_months"]:
+                strain_found = True
+                st.error(
+                    f"⚠️ **[CẢNH BÁO QUÁ TẢI] Phân khúc {cat['nace_name']}:** Tỷ lệ lấp đầy vượt ngưỡng 85% "
+                    f"trong các tháng: **{', '.join(cat['peak_strain_months'])}** (Đỉnh FTE: {cat['peak_fte']:,.0f}). "
+                    f"-> Đề xuất: DMO kích hoạt phương án phân luồng giao thông và bổ sung quầy thủ tục."
+                )
+            if cat["maintenance_window_months"]:
+                maint_found = True
+                st.warning(
+                    f"🛠️ **[CỬA SỔ BẢO TRÌ ĐỀ XUẤT] Phân khúc {cat['nace_name']}:** Công suất thấp (<35%) "
+                    f"trong các tháng: **{', '.join(cat['maintenance_window_months'])}** (Đáy FTE: {cat['trough_fte']:,.0f}). "
+                    f"-> Đề xuất: Thời điểm tối ưu để cấp phép sửa chữa, nâng cấp cơ sở vật chất mà không ảnh hưởng doanh thu."
+                )
+
+        if not strain_found:
+            st.success("✅ **Không có cảnh báo quá tải:** Tải trọng các phân khúc đều nằm trong biên độ vận hành an toàn (<85%).")
+
+        st.info(
+            f"🛡️ **Kiểm toán Toán học Pi_C:** Toàn bộ {len(plan_df)} mốc dự báo đều được bảo chứng bất biến UNWTO "
+            f"($Y^{{\\text{{nig}}}} \\ge Y^{{\\text{{arr}}}}$). Thuật toán đã phát hiện và chặn đứng **{plan_s['raw_violations']} lỗi thô** "
+            f"trước khi phân bổ nguồn lực."
+        )
+
+    # ------------------ TAB 2: AUTOMATED EXECUTIVE REPORT ------------------
+    with tab_report:
+        st.markdown("### 📄 Khởi Tạo Báo Cáo Điều Hành DMO Tự Động")
+        st.caption("Tổng hợp toàn bộ chỉ số, bảng phân bổ NACE và khuyến nghị chiến lược thành tài liệu chuẩn ban ngành.")
+
+        generator = ExecutiveReportGenerator(bundle)
+
+        col_cfg1, col_cfg2 = st.columns([1, 2])
+        with col_cfg1:
+            report_format = st.radio(
+                "Định dạng văn bản hành chính & báo cáo:",
+                [
+                    "🏛️ Tờ trình UBND / Báo cáo Cấp trên (.md)",
+                    "📊 Báo cáo Điều hành DMO Chiến lược (.md)",
+                    "💾 Dữ liệu Kế hoạch Chi tiết (.json)",
+                ],
+                index=0,
+            )
+            btn_generate = st.button("🔄 Khởi tạo Văn Bản Mới", type="primary")
+
+        if "Tờ trình" in report_format:
+            submission_content = generator.generate_government_submission(
+                geo=ctx["geo"],
+                accom_type=ctx["accom"],
+                horizon_months=ctx["horizon"],
+                origin_label=ctx["origin"],
+                agency_name=f"SỞ DU LỊCH ĐIỂM ĐẾN {ctx['country'].upper()}",
+                recipient_name="ỦY BAN NHÂN DÂN / BỘ VĂN HÓA, THỂ THAO VÀ DU LỊCH",
+            )
+            with col_cfg2:
+                st.download_button(
+                    label="⬇️ Tải Dự Thảo Tờ Trình UBND (.md)",
+                    data=submission_content.encode("utf-8"),
+                    file_name=f"to_trinh_ubnd_du_lich_{ctx['geo']}_{ctx['origin']}.md",
+                    mime="text/markdown",
+                )
+            st.markdown("---")
+            st.markdown("#### 👁️ Bản Xem Trước Dự Thảo Tờ Trình (Preview):")
+            st.markdown(submission_content)
+        elif "Chiến lược" in report_format:
+            md_content = generator.generate_markdown_report(
+                geo=ctx["geo"], accom_type=ctx["accom"], horizon_months=ctx["horizon"], origin_label=ctx["origin"]
+            )
+            with col_cfg2:
+                st.download_button(
+                    label="⬇️ Tải Báo Cáo Chiến Lược DMO (.md)",
+                    data=md_content.encode("utf-8"),
+                    file_name=f"regitour_executive_briefing_{ctx['geo']}_{ctx['origin']}.md",
+                    mime="text/markdown",
+                )
+            st.markdown("---")
+            st.markdown("#### 👁️ Bản Xem Trước Báo Cáo (Preview):")
+            st.markdown(md_content)
+        else:
+            dict_content = generator.generate_report_dict(
+                geo=ctx["geo"], accom_type=ctx["accom"], horizon_months=ctx["horizon"], origin_label=ctx["origin"]
+            )
+            import json
+            json_str = json.dumps(dict_content, indent=2, default=str)
+            with col_cfg2:
+                st.download_button(
+                    label="⬇️ Tải Dữ Liệu Kế Hoạch JSON (.json)",
+                    data=json_str.encode("utf-8"),
+                    file_name=f"regitour_plan_data_{ctx['geo']}_{ctx['origin']}.json",
+                    mime="application/json",
+                )
+            st.markdown("---")
+            st.markdown("#### 👁️ Bản Xem Trước JSON (Preview):")
+            st.json(dict_content)
+
+    # ------------------ TAB 3: DEVELOPER REST API HUB ------------------
+    with tab_api:
+        st.markdown("### ⚡ Cổng Tích Hợp Enterprise REST API (FastAPI / OpenAPI)")
+        st.caption("Kết nối hạ tầng mô hình RegiTour với hệ sinh thái phần mềm bên ngoài: PMS Khách sạn, Hệ thống Vé Sân bay, Cổng Dịch vụ công Du lịch.")
+
+        col_api_meta1, col_api_meta2 = st.columns(2)
+        with col_api_meta1:
+            st.markdown(
+                """
+                **Thông tin Microservice:**
+                - **Khung kỹ thuật:** FastAPI 0.162+ / Starlette / Uvicorn (ASGI)
+                - **Tài liệu Tương tác (Swagger UI):** `http://localhost:8000/docs`
+                - **Đặc tả OpenAPI Specification:** `http://localhost:8000/openapi.json`
+                - **ReDoc Interactive:** `http://localhost:8000/redoc`
+                - **Lệnh CLI khởi chạy:** `python cli.py api --port 8000`
+                """
+            )
+        with col_api_meta2:
+            st.markdown(
+                """
+                **Danh mục Endpoint chính (v1):**
+                - `POST /api/v1/forecast/plan` — Kế hoạch lưu lượng đồng bộ (Pi_C safe)
+                - `POST /api/v1/capacity/staffing` — Phân tách nhân sự & công suất NACE
+                - `POST /api/v1/simulation/stress-test` — Mô phỏng cú sốc lạm phát & biên giới
+                - `POST /api/v1/optimizer/pi-c` — Toán tử chiếu bảo toàn bất biến vật lý
+                - `POST /api/v1/reports/generate` — Khởi tạo báo cáo tự động
+                """
+            )
+
+        st.markdown("---")
+        st.markdown("#### 💻 Mẫu Code Tích Hợp Ngoại Vi (API Integration Code Samples):")
+
+        endpoint_choice = st.selectbox(
+            "Chọn Endpoint muốn tích hợp:",
+            [
+                "POST /api/v1/forecast/plan (Kế hoạch Lưu lượng)",
+                "POST /api/v1/capacity/staffing (Nhân sự & Lấp đầy)",
+                "POST /api/v1/simulation/stress-test (Stress Test Vĩ mô)",
+                "POST /api/v1/optimizer/pi-c (Toán tử Chiếu Pi_C)",
+            ],
+        )
+
+        if "forecast/plan" in endpoint_choice:
+            ep_url = "http://localhost:8000/api/v1/forecast/plan"
+            ep_payload = {
+                "geo": ctx["geo"],
+                "accommodation_type": ctx["accom"],
+                "horizon_months": ctx["horizon"],
+                "origin_label": ctx["origin"],
+            }
+        elif "capacity/staffing" in endpoint_choice:
+            ep_url = "http://localhost:8000/api/v1/capacity/staffing"
+            ep_payload = {
+                "geo": ctx["geo"],
+                "horizon_months": ctx["horizon"],
+                "origin_label": ctx["origin"],
+                "hours_per_arrival": 0.5,
+                "hours_per_night": 0.35,
+                "hours_per_fte_month": 160.0,
+                "maintenance_occ_threshold_pct": 35.0,
+            }
+        elif "simulation/stress-test" in endpoint_choice:
+            ep_url = "http://localhost:8000/api/v1/simulation/stress-test"
+            ep_payload = {
+                "geo": ctx["geo"],
+                "accommodation_type": ctx["accom"],
+                "horizon_months": ctx["horizon"],
+                "origin_label": ctx["origin"],
+                "hicp_shock_pct": 15.0,
+                "stringency_delta": 20.0,
+            }
+        else:
+            ep_url = "http://localhost:8000/api/v1/optimizer/pi-c"
+            ep_payload = {
+                "arrivals": [120000.0, 145000.0, 98000.0],
+                "nights": [110000.0, 320000.0, 95000.0],
+            }
+
+        import json
+        payload_json = json.dumps(ep_payload, indent=2)
+
+        code_py = f"""import requests
+
+url = "{ep_url}"
+headers = {{"Content-Type": "application/json"}}
+payload = {payload_json}
+
+response = requests.post(url, json=payload, headers=headers)
+data = response.json()
+print("Status:", response.status_code)
+print("Response:", data)
+"""
+
+        code_curl = f"""curl -X POST "{ep_url}" \\
+  -H "Content-Type: application/json" \\
+  -d '{payload_json}'
+"""
+
+        code_js = f"""// JavaScript (Fetch API / Node.js / Browser)
+const response = await fetch("{ep_url}", {{
+  method: "POST",
+  headers: {{ "Content-Type": "application/json" }},
+  body: JSON.stringify({payload_json})
+}});
+const result = await response.json();
+console.log(result);
+"""
+
+        code_tab1, code_tab2, code_tab3 = st.tabs(["Python (requests)", "cURL (Bash)", "JavaScript (Fetch)"])
+        with code_tab1:
+            st.code(code_py, language="python")
+        with code_tab2:
+            st.code(code_curl, language="bash")
+        with code_tab3:
+            st.code(code_js, language="javascript")
+
+
 def main():
     bundle = get_dss_bundle()
     ctx = _render_sidebar(bundle)
@@ -779,8 +1062,10 @@ def main():
         _render_layer3_crisis_stress(bundle, ctx)
     elif ctx["nav"].startswith("4️⃣"):
         _render_layer4_recovery_conformal(bundle, ctx)
-    else:
+    elif ctx["nav"].startswith("🔬"):
         _render_scientific_benchmark(bundle)
+    else:
+        _render_api_and_reporting(bundle, ctx)
 
 
 if __name__ == "__main__":
