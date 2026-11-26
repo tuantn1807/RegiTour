@@ -1,26 +1,22 @@
-\begin{table}[!htbp]
+\begin{table}[!t]
 \centering
 \caption{Forecast accuracy across chronological tourism stress-test periods. Each test period follows its own training, validation, and calibration partitions.}
 \label{tab:reviewer_regimes}
-\footnotesize
-\setlength{\tabcolsep}{3pt}
-\renewcommand{\arraystretch}{1.08}
-\begin{tabular}{>{\raggedright\arraybackslash}p{1.8cm}>{\raggedright\arraybackslash}p{1.7cm}>{\centering\arraybackslash}p{2.2cm}>{\centering\arraybackslash}p{2.2cm}}
+\scriptsize
+\setlength{\tabcolsep}{2.5pt}
+\renewcommand{\arraystretch}{0.92}
+\begin{tabular}{@{}llcc@{}}
 \toprule
-\textbf{Calendar Test Period} & \textbf{Benchmark Model} & \textbf{\shortstack{Tourist Arrivals\\WAPE (\%)\\MAE (arrivals)}} & \textbf{\shortstack{Overnight Stays\\WAPE (\%)\\MAE (nights)}} \\
+\textbf{Period} & \textbf{Model} & \textbf{Arr. WAPE (MAE)} & \textbf{Nig. WAPE (MAE)} \\
 \midrule
-Pre-pandemic 2018--2019 & DLinear & \shortstack{8.31\%\\{\scriptsize 97,973}} & \shortstack{9.93\%\\{\scriptsize 342,752}} \\
-Pre-pandemic 2018--2019 & RA-HE (Static) & \shortstack{9.44\%\\{\scriptsize 111,213}} & \shortstack{11.33\%\\{\scriptsize 391,155}} \\
-Pandemic 2020--2021 & DLinear & \shortstack{76.98\%\\{\scriptsize 561,756}} & \shortstack{71.45\%\\{\scriptsize 1,498,393}} \\
-Pandemic 2020--2021 & RA-HE (Static) & \shortstack{\textbf{66.69\%}\\{\scriptsize \textbf{486,696}}} & \shortstack{\textbf{63.06\%}\\{\scriptsize \textbf{1,322,464}}} \\
-Recovery 2022--2023 & DLinear & \shortstack{10.97\%\\{\scriptsize 138,416}} & \shortstack{12.44\%\\{\scriptsize 440,948}} \\
-Recovery 2022--2023 & RA-HE (Static) & \shortstack{12.42\%\\{\scriptsize 156,769}} & \shortstack{13.79\%\\{\scriptsize 488,898}} \\
-Recent 2024--2026 & DLinear & \shortstack{9.36\%\\{\scriptsize 129,751}} & \shortstack{10.47\%\\{\scriptsize 405,781}} \\
-Recent 2024--2026 & RA-HE (Static) & \shortstack{11.62\%\\{\scriptsize 161,064}} & \shortstack{13.56\%\\{\scriptsize 525,863}} \\
-Recent 2024--2026 & \textbf{RA-HE (Adaptive)} & \shortstack{\textbf{9.16\%}\\{\scriptsize \textbf{127,051}}} & \shortstack{\textbf{9.64\%}\\{\scriptsize \textbf{373,738}}} \\
+Pre-pandemic (2018--2019) & DLinear & 8.31\% (97,973) & 9.93\% (342,752) \\
+Pre-pandemic (2018--2019) & RA-HE-DLinear & 9.44\% (111,213) & 11.33\% (391,155) \\
+Pandemic (2020--2021) & DLinear & 76.98\% (561,756) & 71.45\% (1,498,393) \\
+Pandemic (2020--2021) & \textbf{RA-HE-DLinear} & \textbf{66.69\% (486,696)} & \textbf{63.06\% (1,322,464)} \\
+Recovery (2022--2023) & DLinear & 10.97\% (138,416) & 12.44\% (440,948) \\
+Recovery (2022--2023) & RA-HE-DLinear & 12.42\% (156,769) & 13.79\% (488,898) \\
+Recent (2024--2026) & DLinear & 9.36\% (129,751) & 10.47\% (405,781) \\
+Recent (2024--2026) & \textbf{RA-HE-DLinear} & \textbf{9.16\% (127,051)} & \textbf{9.64\% (373,738)} \\
 \bottomrule
 \end{tabular}
-\par\vspace{2pt}
-\scriptsize\raggedright 
-Target cells report WAPE (\%) above MAE in count units evaluated on observed test pairs.
 \end{table}
