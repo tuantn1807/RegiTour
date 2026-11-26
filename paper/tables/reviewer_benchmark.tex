@@ -1,29 +1,31 @@
-\begin{table}[!htbp]
+\begin{table}[!t]
 \centering
-\caption{Comparative forecasting performance and operational consistency across benchmark models (Eurostat test panel, 2024--2026).}
+\caption{Comparative forecasting performance and model complexity across four model families (Eurostat test panel, 2024--2026, 4,522 observed pairs).}
 \label{tab:reviewer_benchmark}
 \scriptsize
-\setlength{\tabcolsep}{1.0pt}
-\renewcommand{\arraystretch}{1.10}
-\begin{tabular}{@{}l ccccc@{}}
+\setlength{\tabcolsep}{2.5pt}
+\renewcommand{\arraystretch}{1.04}
+\begin{tabular}{@{}l cccc@{}}
 \toprule
-& \multicolumn{2}{c}{\textbf{Tourist Arrivals}} & \multicolumn{2}{c}{\textbf{Overnight Stays}} & \textbf{Phys.} \\
-\cmidrule(lr){2-3} \cmidrule(lr){4-5} \cmidrule(l){6-6}
-\textbf{Model} & \textbf{WAPE} & \textbf{MAE} & \textbf{WAPE} & \textbf{MAE} & \textbf{Viol.} \\
-& (\%) & (arr.) & (\%) & (nig.) & (\%) \\
+& \multicolumn{2}{c}{\textbf{Tourist Arrivals}} & \multicolumn{2}{c}{\textbf{Overnight Stays}} \\
+\cmidrule(lr){2-3} \cmidrule(l){4-5}
+\textbf{Model (Params)} & \textbf{WAPE (\%)} & \textbf{MAE (arr.)} & \textbf{WAPE (\%)} & \textbf{MAE (nig.)} \\
 \midrule
-Seasonal naive & 6.04 & 83,753 & 5.68 & 220,024 & 0.085 \\
-ETS / Holt--Winters & 12.69 & 175,871 & 13.49 & 522,787 & 2.504 \\
-SARIMA & 28.19 & 390,813 & 26.37 & 1,022,215 & 0.891 \\
-SARIMAX & 160.60 & 2,226,629 & 17.70 & 686,059 & 8.786 \\
-LightGBM & 42.51 & 589,308 & 45.91 & 1,779,793 & 2.419 \\
-Vanilla DLinear & 9.36 & 129,751 & 10.47 & 405,781 & 1.931 \\
+Seasonal Naive (0) & 6.04 & 83,753 & 5.68 & 220,024 \\
+ETS / Holt--Winters & 12.69 & 175,871 & 13.49 & 522,787 \\
+SARIMA & 28.19 & 390,813 & 26.37 & 1,022,215 \\
+SARIMAX & 160.60 & 2,226,629 & 17.70 & 686,059 \\
+LightGBM (200 trees) & 42.51 & 589,308 & 45.91 & 1,779,793 \\
 \midrule
-RA-HE Static Blend & 11.62 & 161,064 & 13.56 & 525,863 & 0.000 \\
-\textbf{RA-HE Adapt.+$\Pi_{\mathcal{C}}$} & \textbf{9.16} & \textbf{127,051} & \textbf{9.64}$^{*}$ & \textbf{373,738}$^{**}$ & \textbf{0.000} \\
+TimesNet (144.3k) & 32.45 & 449,944 & 33.71 & 1,307,025 \\
+PatchTST (106.4k) & 27.55 & 381,947 & 26.33 & 1,020,860 \\
+iTransformer (102.5k) & 22.93 & 317,928 & 22.43 & 869,705 \\
+Vanilla DLinear (0.6k) & 9.36 & 129,751 & 10.47 & 405,781 \\
+\midrule
+\textbf{RA-HE-DLinear (Ours, 4.8k)} & \textbf{9.16}$^{*}$ & \textbf{127,051} & \textbf{9.64}$^{**}$ & \textbf{373,738}$^{**}$ \\
 \bottomrule
 \end{tabular}
-\par\vspace{2pt}
+\par\vspace{1.5pt}
 \scriptsize\raggedright 
 $^{*}p < 0.05, ^{**}p < 0.01$ vs.\ Vanilla DLinear (paired $t$-test and Wilcoxon signed-rank test).
 \end{table}

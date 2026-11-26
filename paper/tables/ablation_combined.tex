@@ -3,23 +3,23 @@
 \caption{Single-seed component configuration ladder on the matched Eurostat test set.}
 \label{tab:reviewer_ablation}
 \footnotesize
-\setlength{\tabcolsep}{2.5pt}
+\setlength{\tabcolsep}{3.5pt}
 \renewcommand{\arraystretch}{1.05}
-\begin{tabular}{>{\raggedright\arraybackslash}p{2.3cm}>{\centering\arraybackslash}p{2.0cm}>{\centering\arraybackslash}p{2.0cm}>{\centering\arraybackslash}p{1.3cm}}
+\begin{tabular}{>{\raggedright\arraybackslash}p{3.2cm}>{\centering\arraybackslash}p{2.3cm}>{\centering\arraybackslash}p{2.3cm}}
 \toprule
-\textbf{Ablation Configuration} & \textbf{\shortstack{Tourist\\Arrivals\\WAPE (\%)\\MAE (arr)}} & \textbf{\shortstack{Overnight\\Stays\\WAPE (\%)\\MAE (nig)}} & \textbf{\shortstack{Physical\\Violation\\Rate (\%)}} \\
+\textbf{Ablation Configuration} & \textbf{\shortstack{Tourist Arrivals\\WAPE (\%)\\MAE (arr)}} & \textbf{\shortstack{Overnight Stays\\WAPE (\%)\\MAE (nig)}} \\
 \midrule
-DLinear & \shortstack{9.36\%\\{\scriptsize 129,751}} & \shortstack{10.47\%\\{\scriptsize 405,781}} & 1.931 \\
-DLinear + Exogenous & \shortstack{9.16\%\\{\scriptsize 127,051}} & \shortstack{9.67\%\\{\scriptsize 374,958}} & 2.250 \\
-DLinear + HMM bias & \shortstack{9.36\%\\{\scriptsize 129,751}} & \shortstack{10.47\%\\{\scriptsize 405,781}} & 1.910 \\
-DLinear + static FiLM & \shortstack{11.51\%\\{\scriptsize 159,624}} & \shortstack{14.15\%\\{\scriptsize 548,445}} & 2.759 \\
-DLinear + HMM + FiLM & \shortstack{10.97\%\\{\scriptsize 152,101}} & \shortstack{13.26\%\\{\scriptsize 514,070}} & 2.674 \\
-DLinear + HMM + FiLM + TRMF & \shortstack{14.82\%\\{\scriptsize 205,420}} & \shortstack{16.66\%\\{\scriptsize 645,928}} & 0.064 \\
-DLinear + Exogenous + HMM + FiLM & \shortstack{9.42\%\\{\scriptsize 130,571}} & \shortstack{11.34\%\\{\scriptsize 439,518}} & 3.778 \\
-Full without coupled loss & \shortstack{11.57\%\\{\scriptsize 160,473}} & \shortstack{13.55\%\\{\scriptsize 525,246}} & 1.104 \\
-Full RA-HE (Static, Raw) & \shortstack{11.62\%\\{\scriptsize 161,064}} & \shortstack{13.56\%\\{\scriptsize 525,737}} & 1.104 \\
-Full RA-HE (Static + $\Pi_{\mathcal{C}}$) & \shortstack{11.62\%\\{\scriptsize 161,064}} & \shortstack{13.56\%\\{\scriptsize 525,863}} & \textbf{0.000} \\
-\textbf{Full RA-HE (Adaptive + $\Pi_{\mathcal{C}}$)} & \shortstack{\textbf{9.16\%}\\{\scriptsize \textbf{127,051}}} & \shortstack{\textbf{9.64\%}\\{\scriptsize \textbf{373,738}}} & \textbf{0.000} \\
+DLinear & \shortstack{9.36\%\\{\scriptsize 129,751}} & \shortstack{10.47\%\\{\scriptsize 405,781}} \\
+DLinear + Exogenous & \shortstack{9.16\%\\{\scriptsize 127,051}} & \shortstack{9.67\%\\{\scriptsize 374,958}} \\
+DLinear + HMM bias & \shortstack{9.36\%\\{\scriptsize 129,751}} & \shortstack{10.47\%\\{\scriptsize 405,781}} \\
+DLinear + static FiLM & \shortstack{11.51\%\\{\scriptsize 159,624}} & \shortstack{14.15\%\\{\scriptsize 548,445}} \\
+DLinear + HMM + FiLM & \shortstack{10.97\%\\{\scriptsize 152,101}} & \shortstack{13.26\%\\{\scriptsize 514,070}} \\
+DLinear + HMM + FiLM + TRMF & \shortstack{14.82\%\\{\scriptsize 205,420}} & \shortstack{16.66\%\\{\scriptsize 645,928}} \\
+DLinear + Exogenous + HMM + FiLM & \shortstack{9.42\%\\{\scriptsize 130,571}} & \shortstack{11.34\%\\{\scriptsize 439,518}} \\
+Full without coupled loss & \shortstack{11.57\%\\{\scriptsize 160,473}} & \shortstack{13.55\%\\{\scriptsize 525,246}} \\
+Full RA-HE (Static, Raw) & \shortstack{11.62\%\\{\scriptsize 161,064}} & \shortstack{13.56\%\\{\scriptsize 525,737}} \\
+Full RA-HE (Static + $\Pi_{\mathcal{C}}$) & \shortstack{11.62\%\\{\scriptsize 161,064}} & \shortstack{13.56\%\\{\scriptsize 525,863}} \\
+\textbf{Full RA-HE (Adaptive + $\Pi_{\mathcal{C}}$)} & \shortstack{\textbf{9.16\%}\\{\scriptsize \textbf{127,051}}} & \shortstack{\textbf{9.64\%}\\{\scriptsize \textbf{373,738}}} \\
 \bottomrule
 \end{tabular}
 \par\vspace{2pt}
