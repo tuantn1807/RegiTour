@@ -1,0 +1,30 @@
+\begin{table*}[!t]
+\centering
+\caption{Matched Eurostat accuracy and CPU cost, January 2024--July 2026 (4,522 observed pairs).}
+\label{tab:section4_benchmark}
+\footnotesize
+\setlength{\tabcolsep}{3pt}
+\renewcommand{\arraystretch}{1.08}
+\begin{tabular}{@{}lrrrrrr@{}}
+\toprule
+\textbf{Model} & \textbf{Arr. WAPE (\%)} & \textbf{Arr. MAE} & \textbf{Nig. WAPE (\%)} & \textbf{Nig. MAE} & \textbf{Active params} & \textbf{CPU (s)} \\
+\midrule
+Seasonal Naive & 6.04 & 83,753 & 5.68 & 220,024 & -- & 2.42 \\
+ETS & 12.69 & 175,871 & 13.49 & 522,787 & -- & 71.03 \\
+SARIMA & 28.19 & 390,813 & 26.37 & 1,022,215 & -- & 137.13 \\
+SARIMAX & 160.60 & 2,226,629 & 17.70 & 686,059 & -- & 370.16 \\
+LightGBM & 42.51 & 589,308 & 45.91 & 1,779,793 & -- & 411.14 \\
+TimesNet & 30.22 & 419,038 & 29.59 & 1,147,110 & 144,334 & 240.83 \\
+PatchTST & 26.70 & 370,216 & 25.55 & 990,342 & 106,380 & 58.50 \\
+iTransformer & 24.28 & 336,580 & 23.71 & 919,088 & 102,476 & 24.27 \\
+Frozen DLinear & 9.36 & 129,751 & 10.47 & 405,781 & 600 & 11.07 \\
+Learned DLinear & 27.17 & 376,757 & 30.31 & 1,175,144 & 600 & 6.45 \\
+DLinear + Exogenous & 9.16 & 127,051 & 9.67 & 374,958 & 4,690 & 12.48 \\
+RA-HE-DLinear & 9.65 & 133,777 & 10.13 & 392,848 & 4,770 & 17.70 \\
+\bottomrule
+\end{tabular}
+\par\vspace{3pt}
+\begin{minipage}{\textwidth}
+\scriptsize\raggedright MAE is in arrivals or nights. CPU cost covers instrumented fitting and one test forecast including feature construction, excluding disk I/O, panel completion and shared HMM state preparation; neural forecast time is the median of three runs. RA-HE also includes spatial preparation. One PyTorch CPU thread is used. Active parameters participate in the forecast graph; disabled branches in the shared wrapper are excluded. Learned DLinear and Transformers use up to 30 validation-selected epochs; linear correction cores use five.
+\end{minipage}
+\end{table*}

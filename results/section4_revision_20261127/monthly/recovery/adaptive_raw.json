@@ -1,0 +1,18 @@
+{
+  "w_temporal": 0.36179801176759285,
+  "selection": "validation mean of two target WAPEs",
+  "model": "adaptive_raw",
+  "test_metrics": {
+    "arrivals_total": {
+      "n": 3475,
+      "mae": 307941.2299213225,
+      "wape": 24.03251736852443
+    },
+    "nights_total": {
+      "n": 3475,
+      "mae": 1061469.144762437,
+      "wape": 28.919988698159457
+    }
+  },
+  "forecast_sha256": "14d6d3a11e8c40799ffe714ca8a37c5b7cd6d7d4c66eeeaeabcd0ce2bb6b2720"
+}

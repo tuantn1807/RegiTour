@@ -1,0 +1,26 @@
+{
+  "epochs_run": 15,
+  "best_validation_mse": 1.3318371772766113,
+  "training_windows": 14592,
+  "learning_rate": 0.001,
+  "batch_size": 128,
+  "patience": 6,
+  "fit_seconds": 22.768997400067747,
+  "forecast_seconds_median3": 1.5051500000990927,
+  "registered_parameters": 102476,
+  "trainable_parameters": 102476,
+  "model": "itransformer",
+  "test_metrics": {
+    "arrivals_total": {
+      "n": 4522,
+      "mae": 336580.056220298,
+      "wape": 24.276739037099503
+    },
+    "nights_total": {
+      "n": 4522,
+      "mae": 919088.1379247427,
+      "wape": 23.707387488520467
+    }
+  },
+  "forecast_sha256": "76da5969a6ce61f21cdf6c36df95536197e228972adced2cf72dcfbcf8c56bc6"
+}

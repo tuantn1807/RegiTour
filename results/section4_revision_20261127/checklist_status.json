@@ -1,0 +1,209 @@
+{
+  "4.1.1": {
+    "status": "completed",
+    "work": "Audited source keys, paired masks, zero counts, target scope, missing data, annual source flags, chronological splits and calendar-year annual grids.",
+    "evidence": [
+      "summary.json",
+      "reproduction_manifest.json",
+      "paper/paper_en.tex"
+    ]
+  },
+  "4.1.2": {
+    "status": "completed",
+    "work": "Documented January origins, pre-origin histories, fixed parameter boundaries, prefix-filtered HMM, publication/vintage limitations, and upstream filling risks; tested future-outcome invariance.",
+    "evidence": [
+      "summary.json",
+      "reproduction_manifest.json",
+      "paper/paper_en.tex"
+    ]
+  },
+  "4.1.3": {
+    "status": "completed",
+    "work": "Retained exact input/code snapshots, hashes, settings, checkpoints, keyed predictions, masks, environment, timings and a single reproduction command.",
+    "evidence": [
+      "summary.json",
+      "reproduction_manifest.json",
+      "paper/paper_en.tex"
+    ]
+  },
+  "4.2.1": {
+    "status": "completed",
+    "work": "Table 2 combines matched accuracy with active parameters and measured CPU training-plus-forecast cost.",
+    "evidence": [
+      "summary.json",
+      "reproduction_manifest.json",
+      "paper/paper_en.tex"
+    ]
+  },
+  "4.2.2": {
+    "status": "completed",
+    "work": "Recomputed WAPE/MAE from keyed predictions; verified every CSV checksum and corresponding JSON metric.",
+    "evidence": [
+      "summary.json",
+      "reproduction_manifest.json",
+      "paper/paper_en.tex"
+    ]
+  },
+  "4.2.3": {
+    "status": "completed",
+    "work": "Generated shared numeric macros and replaced stale accuracy, efficiency and significance claims.",
+    "evidence": [
+      "summary.json",
+      "reproduction_manifest.json",
+      "paper/paper_en.tex"
+    ]
+  },
+  "4.3.1": {
+    "status": "completed",
+    "work": "Table 3 separates temporal references, TRMF-only, fixed 0.7 fusion and bounded validation-selected adaptive fusion.",
+    "evidence": [
+      "summary.json",
+      "reproduction_manifest.json",
+      "paper/paper_en.tex"
+    ]
+  },
+  "4.3.2": {
+    "status": "completed",
+    "work": "Traced archived 66.69% to train<=2017, validation 2018, calibration 2019, test 2020-2021, regularized sigmoid gate and ungated FiLM.",
+    "evidence": [
+      "summary.json",
+      "reproduction_manifest.json",
+      "paper/paper_en.tex"
+    ]
+  },
+  "4.3.3": {
+    "status": "completed",
+    "work": "Distinguished the legacy sigmoid weight 0.7380328366 from the fixed static prior and newly rerun adaptive full model.",
+    "evidence": [
+      "summary.json",
+      "reproduction_manifest.json",
+      "paper/paper_en.tex"
+    ]
+  },
+  "4.3.4": {
+    "status": "completed",
+    "work": "Ran Seasonal Naive on all four stress folds with identical eligible keys.",
+    "evidence": [
+      "summary.json",
+      "reproduction_manifest.json",
+      "paper/paper_en.tex"
+    ]
+  },
+  "4.3.5": {
+    "status": "completed",
+    "work": "Ran RA-Exo temporal control and TRMF-only on all four folds; also added genuinely trained DLinear.",
+    "evidence": [
+      "summary.json",
+      "reproduction_manifest.json",
+      "paper/paper_en.tex"
+    ]
+  },
+  "4.3.6": {
+    "status": "completed",
+    "work": "Reported a separate validation-selected temporal weight for every fold.",
+    "evidence": [
+      "summary.json",
+      "reproduction_manifest.json",
+      "paper/paper_en.tex"
+    ]
+  },
+  "4.4.1": {
+    "status": "completed",
+    "work": "Panel 4A isolates exogenous inputs, HMM intercept, ungated FiLM, soft gating, coupled loss, spatial fusion and final projection.",
+    "evidence": [
+      "summary.json",
+      "reproduction_manifest.json",
+      "paper/paper_en.tex"
+    ]
+  },
+  "4.4.2": {
+    "status": "completed",
+    "work": "Rejected the unsupported equality of Full and Exogenous-only metrics using their freshly generated forecast arrays.",
+    "evidence": [
+      "summary.json",
+      "reproduction_manifest.json",
+      "paper/paper_en.tex"
+    ]
+  },
+  "4.4.3": {
+    "status": "completed",
+    "work": "Mapped each ablation to explicit implementation flags; distinguished frozen and learned DLinear and approximate TRMF implementation.",
+    "evidence": [
+      "summary.json",
+      "reproduction_manifest.json",
+      "paper/paper_en.tex"
+    ]
+  },
+  "4.4.4": {
+    "status": "completed",
+    "work": "Separated cross-fold temporal robustness in Table 3 from recent-fold component contributions in Panel 4A.",
+    "evidence": [
+      "summary.json",
+      "reproduction_manifest.json",
+      "paper/paper_en.tex"
+    ]
+  },
+  "4.5.1": {
+    "status": "completed",
+    "work": "Panel 4B reports new annual re-estimation against Persistence, temporal references and TRMF-only; does not claim zero-shot transfer.",
+    "evidence": [
+      "summary.json",
+      "reproduction_manifest.json",
+      "paper/paper_en.tex"
+    ]
+  },
+  "4.5.2": {
+    "status": "completed",
+    "work": "Preserved observed annual outcomes, rebuilt calendar-year macro lags from raw WDI without backward fill, and scored common positive-pair masks with source-specific nights subsets.",
+    "evidence": [
+      "summary.json",
+      "reproduction_manifest.json",
+      "paper/paper_en.tex"
+    ]
+  },
+  "4.5.3": {
+    "status": "completed",
+    "work": "Replaced universal superiority claims with overall and period-specific results, coverage changes and synthetic-target limitations.",
+    "evidence": [
+      "summary.json",
+      "reproduction_manifest.json",
+      "paper/paper_en.tex"
+    ]
+  },
+  "4.6.1": {
+    "status": "completed",
+    "work": "Regenerated Figure 2 from the new keyed forecasts; measured pre/post projection violations, LOS errors, undefined denominators and numerical rounding.",
+    "evidence": [
+      "summary.json",
+      "reproduction_manifest.json",
+      "paper/paper_en.tex"
+    ]
+  },
+  "4.6.2": {
+    "status": "completed",
+    "work": "Recalculated empirical marginal coverage and normalized width using separate held-out calibration; stated temporal and joint-coverage limitations.",
+    "evidence": [
+      "summary.json",
+      "reproduction_manifest.json",
+      "paper/paper_en.tex"
+    ]
+  },
+  "4.6.3": {
+    "status": "completed",
+    "work": "Replaced outcome-trained legacy SHAP with held-out forecast-surrogate SHAP and measured fidelity; reran actual network HICP perturbations instead of fixed-elasticity simulations.",
+    "evidence": [
+      "summary.json",
+      "reproduction_manifest.json",
+      "paper/paper_en.tex"
+    ]
+  },
+  "4.6.4": {
+    "status": "completed",
+    "work": "Used saved forecasts and generated numbers throughout; removed unsupported causal elasticity, guaranteed coverage and generic operational-feasibility claims.",
+    "evidence": [
+      "summary.json",
+      "reproduction_manifest.json",
+      "paper/paper_en.tex"
+    ]
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "fit_and_forecast_seconds": 4.208062199875712,
+  "model": "trmf",
+  "test_metrics": {
+    "arrivals_total": {
+      "n": 3422,
+      "mae": 590788.5700792795,
+      "wape": 80.95648752087793
+    },
+    "nights_total": {
+      "n": 3422,
+      "mae": 1954458.825796332,
+      "wape": 90.09696599235048
+    }
+  },
+  "forecast_sha256": "ae4e241424f583009b25b12533d0f3f517a06a5bbaa456792bb44675a43da1aa"
+}

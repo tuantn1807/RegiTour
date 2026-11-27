@@ -1,0 +1,8 @@
+model,active_parameters,registered_parameters
+timesnet,144334,144334
+patchtst,106380,106380
+itransformer,102476,102476
+dlinear,600,4752
+learned_dlinear,600,600
+exo,4690,4752
+adaptive,4770,4770

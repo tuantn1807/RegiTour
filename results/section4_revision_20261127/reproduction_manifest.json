@@ -1,0 +1,57 @@
+{
+  "created_on": "2026-11-27",
+  "python": "3.14.8",
+  "python_executable": "D:\\Phython\\python.exe",
+  "processor": "Intel64 Family 6 Model 165 Stepping 2, GenuineIntel",
+  "logical_cpus": 12,
+  "packages": {
+    "numpy": "2.5.4",
+    "pandas": "3.0.6",
+    "torch": "2.15.0",
+    "scipy": "1.18.1",
+    "hmmlearn": "0.3.3",
+    "statsmodels": "0.15.0",
+    "lightgbm": "4.7.0",
+    "catboost": "1.2.10",
+    "scikit-learn": "1.9.1",
+    "matplotlib": "3.11.2",
+    "openpyxl": "3.1.5"
+  },
+  "source_hashes": {
+    "scripts/section4_experiments.py": "89aaf6aab03408e0b9204a1f73a232f70be00fe52c76e9616f26197a2611dff3",
+    "scripts/section4_extra_baselines.py": "7f241a191dd7815c6e5c0f99775bb4494ae5f97ddfd262aaa42cce979022360f",
+    "scripts/analyze_section4.py": "652a7197020b108e252264ee61a3fa994c99d6aecda1baddb5bbfc556878d016",
+    "scripts/revise_section4_manuscript.py": "571e018ecf9b9f6d02c329168af71162350bf2dc6fb292f973c52b4aba6752c4",
+    "scripts/reproduce_section4.py": "ba11f0baa0b59399f827290ad05c1b9bdcd697b44a07b0b044256e158174393b",
+    "scripts/tune_ets_baseline.py": "88ed1b4aaebc475066a1e34477e86bcd99d99816ddc0a01c6d3b190369f80c85",
+    "scripts/reviewer_experiments.py": "71702f14a6831366953825cfa0f417ce7383fbf315278f5baca79185d73539a6",
+    "src/data/dataset_loader.py": "d19833a66337898467a72fde5c294e86493e0943e34ca84cc3d7d08b425267ad",
+    "src/models/ra_exo_dlinear.py": "b85bd5064b8c6be4dccc3846a5c61e3a9996e19887036a7225155e538171a470",
+    "src/models/trmf_spatial.py": "9aa5225785fa87891eae3f4e1a720a226af73e88bbf98e2839d0bda0b87d52e7",
+    "src/models/transformer_baselines.py": "0564c6cfbae659a8b30adcf91aadead6a8e41261e3e1164f08d2ce3ee855de1d",
+    "src/models/coupled_optimizer.py": "db422f34d42d26934e7f31cfb74992a1e49e890865de6c0b39e64f1b06a3aa07",
+    "src/models/dcqf_conformal.py": "af6f829b68a6b2de53255369aaa489b44cabd44a9bf0b48068e763d749d63aeb",
+    "tests/test_section4_protocol.py": "a4b5a3f73a5703cbc1cbe1883cc09ba8eb4c0e70d38102e757221fc5624818a4"
+  },
+  "input_hashes": {
+    "src/data/tourism_europe_enriched.csv": "5cdb6b1c97648b9a63d1b78ba25d7c526b0ea472453d09fd3af6863379f5b1ee",
+    "data/processed/tourism_un_tourism_enriched.csv": "c9564fc2957a60cc96d6bf15605f2aea376011f5217f8862acb8dee1dbd8f44b",
+    "data_oced/tourism_economics_worldbank-3.xlsx": "e84ce4ee235ec3e1cd8eed8ce741a3b9fc0e421ad6d919234222f33259f633e4"
+  },
+  "artifact_hashes": {
+    "paper/paper_en.tex": "37ba53b70ecd8a2930bd00565b41989ddad991392541bf89fb85a22c51fe98d1",
+    "paper/paper_en.pdf": "2fc8e74362a8a9d35b747d1b4426815304d26c51ae074437e26422e7fff79a5f",
+    "paper/tables/section4_numbers.tex": "12afaa6cd4aab25453ea56ddc16a7859f480d4ced569ba0b08138d94437ccd01",
+    "paper/tables/section4_benchmark.tex": "27786411bc5aa0012f9ff4414aef75cd1ecbb2eb5bc84ef8146d8abcbe030f5a",
+    "paper/tables/section4_regimes.tex": "7a641726e8598e26150cd6d257f8e0804290eb5fb968a3a2998a823b8f295fc7",
+    "paper/tables/section4_components_global.tex": "ddfeefb8cbdcde3b3a0ad98970b6f88c6331efe525d9f371322635bdf733464b",
+    "paper/figures/section4_country_cases.png": "66ebd8ff7f1dd4d3ab3f913c41b35f87e5396652c4ee3b98809e47961e367f38",
+    "paper/figures/section4_architecture.pdf": "f747b9e1c6dda3d5a0adf9d79ac94222ed8441c51d80a11c539811bdea29ced2"
+  },
+  "limitations": [
+    "No historical publication vintages; retrospective reference-period evaluation",
+    "Monthly source-stage HICP imputation cannot be fully undone",
+    "Annual nights mostly constructed; source-specific errors reported",
+    "Main results use one seed and finite tuning budgets; bootstrap resamples destinations"
+  ]
+}

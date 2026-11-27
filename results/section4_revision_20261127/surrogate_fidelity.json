@@ -1,0 +1,32 @@
+[
+  {
+    "target": "arrivals_total",
+    "r2_counts": 0.9271016575696323,
+    "r2_log": 0.9700270965342276,
+    "mae_counts": 214925.73819310652,
+    "training_prediction_years": [
+      2022,
+      2023
+    ],
+    "test_prediction_years": [
+      2024,
+      2025,
+      2026
+    ]
+  },
+  {
+    "target": "nights_total",
+    "r2_counts": 0.8417979940197975,
+    "r2_log": 0.9657390560724887,
+    "mae_counts": 902555.3278908337,
+    "training_prediction_years": [
+      2022,
+      2023
+    ],
+    "test_prediction_years": [
+      2024,
+      2025,
+      2026
+    ]
+  }
+]

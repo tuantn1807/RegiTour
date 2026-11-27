@@ -1,0 +1,2827 @@
+[
+  {
+    "geo": "AL",
+    "accommodation_type": "camping",
+    "target": "arrivals_total",
+    "selected_damped_trend": false,
+    "validation_abs_error": 9785.360895846741,
+    "fallback": false,
+    "failures": []
+  },
+  {
+    "geo": "AL",
+    "accommodation_type": "camping",
+    "target": "nights_total",
+    "selected_damped_trend": true,
+    "validation_abs_error": 21237.959196212072,
+    "fallback": false,
+    "failures": []
+  },
+  {
+    "geo": "AL",
+    "accommodation_type": "hotel",
+    "target": "arrivals_total",
+    "selected_damped_trend": false,
+    "validation_abs_error": 477018.14242451027,
+    "fallback": false,
+    "failures": [
+      {
+        "damped_trend": true,
+        "reason": "Optimizer did not converge"
+      }
+    ]
+  },
+  {
+    "geo": "AL",
+    "accommodation_type": "hotel",
+    "target": "nights_total",
+    "selected_damped_trend": false,
+    "validation_abs_error": 830655.0590541572,
+    "fallback": false,
+    "failures": []
+  },
+  {
+    "geo": "AL",
+    "accommodation_type": "short_stay",
+    "target": "arrivals_total",
+    "selected_damped_trend": true,
+    "validation_abs_error": 19260.570232177062,
+    "fallback": false,
+    "failures": []
+  },
+  {
+    "geo": "AL",
+    "accommodation_type": "short_stay",
+    "target": "nights_total",
+    "selected_damped_trend": true,
+    "validation_abs_error": 87716.0847987512,
+    "fallback": false,
+    "failures": []
+  },
+  {
+    "geo": "AL",
+    "accommodation_type": "total",
+    "target": "arrivals_total",
+    "selected_damped_trend": true,
+    "validation_abs_error": 521164.0476518964,
+    "fallback": false,
+    "failures": []
+  },
+  {
+    "geo": "AL",
+    "accommodation_type": "total",
+    "target": "nights_total",
+    "selected_damped_trend": false,
+    "validation_abs_error": 770712.8549393109,
+    "fallback": false,
+    "failures": []
+  },
+  {
+    "geo": "AT",
+    "accommodation_type": "camping",
+    "target": "arrivals_total",
+    "selected_damped_trend": false,
+    "validation_abs_error": 505039.01641828957,
+    "fallback": false,
+    "failures": []
+  },
+  {
+    "geo": "AT",
+    "accommodation_type": "camping",
+    "target": "nights_total",
+    "selected_damped_trend": false,
+    "validation_abs_error": 1674914.5512972986,
+    "fallback": false,
+    "failures": []
+  },
+  {
+    "geo": "AT",
+    "accommodation_type": "hotel",
+    "target": "arrivals_total",
+    "selected_damped_trend": true,
+    "validation_abs_error": 14752881.771472294,
+    "fallback": false,
+    "failures": []
+  },
+  {
+    "geo": "AT",
+    "accommodation_type": "hotel",
+    "target": "nights_total",
+    "selected_damped_trend": true,
+    "validation_abs_error": 33765346.28931039,
+    "fallback": false,
+    "failures": []
+  },
+  {
+    "geo": "AT",
+    "accommodation_type": "short_stay",
+    "target": "arrivals_total",
+    "selected_damped_trend": true,
+    "validation_abs_error": 1821197.687735595,
+    "fallback": false,
+    "failures": []
+  },
+  {
+    "geo": "AT",
+    "accommodation_type": "short_stay",
+    "target": "nights_total",
+    "selected_damped_trend": false,
+    "validation_abs_error": 5773506.320459137,
+    "fallback": false,
+    "failures": []
+  },
+  {
+    "geo": "AT",
+    "accommodation_type": "total",
+    "target": "arrivals_total",
+    "selected_damped_trend": true,
+    "validation_abs_error": 17586912.387985855,
+    "fallback": false,
+    "failures": []
+  },
+  {
+    "geo": "AT",
+    "accommodation_type": "total",
+    "target": "nights_total",
+    "selected_damped_trend": true,
+    "validation_abs_error": 42668958.485696204,
+    "fallback": false,
+    "failures": []
+  },
+  {
+    "geo": "BE",
+    "accommodation_type": "camping",
+    "target": "arrivals_total",
+    "selected_damped_trend": true,
+    "validation_abs_error": 307406.65527446487,
+    "fallback": false,
+    "failures": []
+  },
+  {
+    "geo": "BE",
+    "accommodation_type": "camping",
+    "target": "nights_total",
+    "selected_damped_trend": false,
+    "validation_abs_error": 362243.33911441785,
+    "fallback": false,
+    "failures": []
+  },
+  {
+    "geo": "BE",
+    "accommodation_type": "hotel",
+    "target": "arrivals_total",
+    "selected_damped_trend": false,
+    "validation_abs_error": 2819185.052139271,
+    "fallback": false,
+    "failures": []
+  },
+  {
+    "geo": "BE",
+    "accommodation_type": "hotel",
+    "target": "nights_total",
+    "selected_damped_trend": false,
+    "validation_abs_error": 5563640.7188229365,
+    "fallback": false,
+    "failures": []
+  },
+  {
+    "geo": "BE",
+    "accommodation_type": "short_stay",
+    "target": "arrivals_total",
+    "selected_damped_trend": true,
+    "validation_abs_error": 1633130.6551079727,
+    "fallback": false,
+    "failures": []
+  },
+  {
+    "geo": "BE",
+    "accommodation_type": "short_stay",
+    "target": "nights_total",
+    "selected_damped_trend": true,
+    "validation_abs_error": 3283272.2343733143,
+    "fallback": false,
+    "failures": []
+  },
+  {
+    "geo": "BE",
+    "accommodation_type": "total",
+    "target": "arrivals_total",
+    "selected_damped_trend": false,
+    "validation_abs_error": 4406874.161068228,
+    "fallback": false,
+    "failures": []
+  },
+  {
+    "geo": "BE",
+    "accommodation_type": "total",
+    "target": "nights_total",
+    "selected_damped_trend": true,
+    "validation_abs_error": 10261608.026839372,
+    "fallback": false,
+    "failures": []
+  },
+  {
+    "geo": "BG",
+    "accommodation_type": "camping",
+    "target": "arrivals_total",
+    "selected_damped_trend": true,
+    "validation_abs_error": 2499.290748481028,
+    "fallback": false,
+    "failures": []
+  },
+  {
+    "geo": "BG",
+    "accommodation_type": "camping",
+    "target": "nights_total",
+    "selected_damped_trend": true,
+    "validation_abs_error": 21575.167150524234,
+    "fallback": false,
+    "failures": []
+  },
+  {
+    "geo": "BG",
+    "accommodation_type": "hotel",
+    "target": "arrivals_total",
+    "selected_damped_trend": true,
+    "validation_abs_error": 1932923.1285752575,
+    "fallback": false,
+    "failures": []
+  },
+  {
+    "geo": "BG",
+    "accommodation_type": "hotel",
+    "target": "nights_total",
+    "selected_damped_trend": false,
+    "validation_abs_error": 3475041.420124712,
+    "fallback": false,
+    "failures": [
+      {
+        "damped_trend": true,
+        "reason": "Optimizer did not converge"
+      }
+    ]
+  },
+  {
+    "geo": "BG",
+    "accommodation_type": "short_stay",
+    "target": "arrivals_total",
+    "selected_damped_trend": false,
+    "validation_abs_error": 52398.10418863646,
+    "fallback": false,
+    "failures": []
+  },
+  {
+    "geo": "BG",
+    "accommodation_type": "short_stay",
+    "target": "nights_total",
+    "selected_damped_trend": true,
+    "validation_abs_error": 290090.00267867104,
+    "fallback": false,
+    "failures": []
+  },
+  {
+    "geo": "BG",
+    "accommodation_type": "total",
+    "target": "arrivals_total",
+    "selected_damped_trend": true,
+    "validation_abs_error": 1617796.5653060388,
+    "fallback": false,
+    "failures": []
+  },
+  {
+    "geo": "BG",
+    "accommodation_type": "total",
+    "target": "nights_total",
+    "selected_damped_trend": true,
+    "validation_abs_error": 2798968.1415592264,
+    "fallback": false,
+    "failures": []
+  },
+  {
+    "geo": "CH",
+    "accommodation_type": "camping",
+    "target": "arrivals_total",
+    "selected_damped_trend": true,
+    "validation_abs_error": 643155.0177598973,
+    "fallback": false,
+    "failures": []
+  },
+  {
+    "geo": "CH",
+    "accommodation_type": "camping",
+    "target": "nights_total",
+    "selected_damped_trend": false,
+    "validation_abs_error": 612342.3416852548,
+    "fallback": false,
+    "failures": []
+  },
+  {
+    "geo": "CH",
+    "accommodation_type": "hotel",
+    "target": "arrivals_total",
+    "selected_damped_trend": false,
+    "validation_abs_error": 3000321.467699447,
+    "fallback": false,
+    "failures": []
+  },
+  {
+    "geo": "CH",
+    "accommodation_type": "hotel",
+    "target": "nights_total",
+    "selected_damped_trend": false,
+    "validation_abs_error": 5516550.826926118,
+    "fallback": false,
+    "failures": []
+  },
+  {
+    "geo": "CH",
+    "accommodation_type": "short_stay",
+    "target": "arrivals_total",
+    "selected_damped_trend": false,
+    "validation_abs_error": 648343.0123236851,
+    "fallback": false,
+    "failures": []
+  },
+  {
+    "geo": "CH",
+    "accommodation_type": "short_stay",
+    "target": "nights_total",
+    "selected_damped_trend": false,
+    "validation_abs_error": 1941317.1171579757,
+    "fallback": false,
+    "failures": []
+  },
+  {
+    "geo": "CH",
+    "accommodation_type": "total",
+    "target": "arrivals_total",
+    "selected_damped_trend": true,
+    "validation_abs_error": 3659375.7633604566,
+    "fallback": false,
+    "failures": []
+  },
+  {
+    "geo": "CH",
+    "accommodation_type": "total",
+    "target": "nights_total",
+    "selected_damped_trend": true,
+    "validation_abs_error": 5690316.899431054,
+    "fallback": false,
+    "failures": []
+  },
+  {
+    "geo": "CY",
+    "accommodation_type": "camping",
+    "target": "arrivals_total",
+    "selected_damped_trend": true,
+    "validation_abs_error": 3998.473938406182,
+    "fallback": false,
+    "failures": []
+  },
+  {
+    "geo": "CY",
+    "accommodation_type": "camping",
+    "target": "nights_total",
+    "selected_damped_trend": true,
+    "validation_abs_error": 9742.973174174469,
+    "fallback": false,
+    "failures": []
+  },
+  {
+    "geo": "CY",
+    "accommodation_type": "hotel",
+    "target": "arrivals_total",
+    "selected_damped_trend": true,
+    "validation_abs_error": 240828.71098166273,
+    "fallback": false,
+    "failures": []
+  },
+  {
+    "geo": "CY",
+    "accommodation_type": "hotel",
+    "target": "nights_total",
+    "selected_damped_trend": false,
+    "validation_abs_error": 1143803.044189659,
+    "fallback": false,
+    "failures": []
+  },
+  {
+    "geo": "CY",
+    "accommodation_type": "short_stay",
+    "target": "arrivals_total",
+    "selected_damped_trend": null,
+    "validation_abs_error": null,
+    "fallback": true,
+    "failures": [
+      {
+        "damped_trend": false,
+        "reason": "Constant training series"
+      },
+      {
+        "damped_trend": true,
+        "reason": "Constant training series"
+      }
+    ]
+  },
+  {
+    "geo": "CY",
+    "accommodation_type": "short_stay",
+    "target": "nights_total",
+    "selected_damped_trend": null,
+    "validation_abs_error": null,
+    "fallback": true,
+    "failures": [
+      {
+        "damped_trend": false,
+        "reason": "Constant training series"
+      },
+      {
+        "damped_trend": true,
+        "reason": "Constant training series"
+      }
+    ]
+  },
+  {
+    "geo": "CY",
+    "accommodation_type": "total",
+    "target": "arrivals_total",
+    "selected_damped_trend": true,
+    "validation_abs_error": 242424.72083583573,
+    "fallback": false,
+    "failures": []
+  },
+  {
+    "geo": "CY",
+    "accommodation_type": "total",
+    "target": "nights_total",
+    "selected_damped_trend": false,
+    "validation_abs_error": 1141983.7847880898,
+    "fallback": false,
+    "failures": []
+  },
+  {
+    "geo": "CZ",
+    "accommodation_type": "camping",
+    "target": "arrivals_total",
+    "selected_damped_trend": true,
+    "validation_abs_error": 161569.7081814511,
+    "fallback": false,
+    "failures": []
+  },
+  {
+    "geo": "CZ",
+    "accommodation_type": "camping",
+    "target": "nights_total",
+    "selected_damped_trend": true,
+    "validation_abs_error": 362909.96563309047,
+    "fallback": false,
+    "failures": []
+  },
+  {
+    "geo": "CZ",
+    "accommodation_type": "hotel",
+    "target": "arrivals_total",
+    "selected_damped_trend": true,
+    "validation_abs_error": 6240234.647003967,
+    "fallback": false,
+    "failures": []
+  },
+  {
+    "geo": "CZ",
+    "accommodation_type": "hotel",
+    "target": "nights_total",
+    "selected_damped_trend": true,
+    "validation_abs_error": 12552305.446253227,
+    "fallback": false,
+    "failures": []
+  },
+  {
+    "geo": "CZ",
+    "accommodation_type": "short_stay",
+    "target": "arrivals_total",
+    "selected_damped_trend": true,
+    "validation_abs_error": 502781.4593493687,
+    "fallback": false,
+    "failures": []
+  },
+  {
+    "geo": "CZ",
+    "accommodation_type": "short_stay",
+    "target": "nights_total",
+    "selected_damped_trend": false,
+    "validation_abs_error": 1358164.5836248985,
+    "fallback": false,
+    "failures": []
+  },
+  {
+    "geo": "CZ",
+    "accommodation_type": "total",
+    "target": "arrivals_total",
+    "selected_damped_trend": true,
+    "validation_abs_error": 7043131.878348541,
+    "fallback": false,
+    "failures": []
+  },
+  {
+    "geo": "CZ",
+    "accommodation_type": "total",
+    "target": "nights_total",
+    "selected_damped_trend": true,
+    "validation_abs_error": 14061445.966103435,
+    "fallback": false,
+    "failures": []
+  },
+  {
+    "geo": "DE",
+    "accommodation_type": "camping",
+    "target": "arrivals_total",
+    "selected_damped_trend": true,
+    "validation_abs_error": 3342987.933872778,
+    "fallback": false,
+    "failures": []
+  },
+  {
+    "geo": "DE",
+    "accommodation_type": "camping",
+    "target": "nights_total",
+    "selected_damped_trend": true,
+    "validation_abs_error": 8626658.422444377,
+    "fallback": false,
+    "failures": []
+  },
+  {
+    "geo": "DE",
+    "accommodation_type": "hotel",
+    "target": "arrivals_total",
+    "selected_damped_trend": false,
+    "validation_abs_error": 46235676.2204158,
+    "fallback": false,
+    "failures": []
+  },
+  {
+    "geo": "DE",
+    "accommodation_type": "hotel",
+    "target": "nights_total",
+    "selected_damped_trend": false,
+    "validation_abs_error": 87064732.07844774,
+    "fallback": false,
+    "failures": []
+  },
+  {
+    "geo": "DE",
+    "accommodation_type": "short_stay",
+    "target": "arrivals_total",
+    "selected_damped_trend": true,
+    "validation_abs_error": 6561583.904330722,
+    "fallback": false,
+    "failures": []
+  },
+  {
+    "geo": "DE",
+    "accommodation_type": "short_stay",
+    "target": "nights_total",
+    "selected_damped_trend": false,
+    "validation_abs_error": 15743265.789040126,
+    "fallback": false,
+    "failures": []
+  },
+  {
+    "geo": "DE",
+    "accommodation_type": "total",
+    "target": "arrivals_total",
+    "selected_damped_trend": false,
+    "validation_abs_error": 54064899.29516664,
+    "fallback": false,
+    "failures": []
+  },
+  {
+    "geo": "DE",
+    "accommodation_type": "total",
+    "target": "nights_total",
+    "selected_damped_trend": false,
+    "validation_abs_error": 113289742.351581,
+    "fallback": false,
+    "failures": []
+  },
+  {
+    "geo": "DK",
+    "accommodation_type": "camping",
+    "target": "arrivals_total",
+    "selected_damped_trend": false,
+    "validation_abs_error": 175601.0968393559,
+    "fallback": false,
+    "failures": []
+  },
+  {
+    "geo": "DK",
+    "accommodation_type": "camping",
+    "target": "nights_total",
+    "selected_damped_trend": false,
+    "validation_abs_error": 1076726.1121258414,
+    "fallback": false,
+    "failures": []
+  },
+  {
+    "geo": "DK",
+    "accommodation_type": "hotel",
+    "target": "arrivals_total",
+    "selected_damped_trend": true,
+    "validation_abs_error": 1496681.5373740834,
+    "fallback": false,
+    "failures": []
+  },
+  {
+    "geo": "DK",
+    "accommodation_type": "hotel",
+    "target": "nights_total",
+    "selected_damped_trend": false,
+    "validation_abs_error": 4799599.873748919,
+    "fallback": false,
+    "failures": []
+  },
+  {
+    "geo": "DK",
+    "accommodation_type": "short_stay",
+    "target": "arrivals_total",
+    "selected_damped_trend": true,
+    "validation_abs_error": 290307.6288601613,
+    "fallback": false,
+    "failures": []
+  },
+  {
+    "geo": "DK",
+    "accommodation_type": "short_stay",
+    "target": "nights_total",
+    "selected_damped_trend": true,
+    "validation_abs_error": 1263316.1841636468,
+    "fallback": false,
+    "failures": []
+  },
+  {
+    "geo": "DK",
+    "accommodation_type": "total",
+    "target": "arrivals_total",
+    "selected_damped_trend": true,
+    "validation_abs_error": 1669568.8598664259,
+    "fallback": false,
+    "failures": []
+  },
+  {
+    "geo": "DK",
+    "accommodation_type": "total",
+    "target": "nights_total",
+    "selected_damped_trend": false,
+    "validation_abs_error": 6575540.514444056,
+    "fallback": false,
+    "failures": []
+  },
+  {
+    "geo": "EE",
+    "accommodation_type": "camping",
+    "target": "arrivals_total",
+    "selected_damped_trend": false,
+    "validation_abs_error": 7381.429066861861,
+    "fallback": false,
+    "failures": []
+  },
+  {
+    "geo": "EE",
+    "accommodation_type": "camping",
+    "target": "nights_total",
+    "selected_damped_trend": false,
+    "validation_abs_error": 10699.922499983624,
+    "fallback": false,
+    "failures": []
+  },
+  {
+    "geo": "EE",
+    "accommodation_type": "hotel",
+    "target": "arrivals_total",
+    "selected_damped_trend": false,
+    "validation_abs_error": 519322.8301903415,
+    "fallback": false,
+    "failures": []
+  },
+  {
+    "geo": "EE",
+    "accommodation_type": "hotel",
+    "target": "nights_total",
+    "selected_damped_trend": false,
+    "validation_abs_error": 772751.340110819,
+    "fallback": false,
+    "failures": []
+  },
+  {
+    "geo": "EE",
+    "accommodation_type": "short_stay",
+    "target": "arrivals_total",
+    "selected_damped_trend": true,
+    "validation_abs_error": 90505.90600332568,
+    "fallback": false,
+    "failures": []
+  },
+  {
+    "geo": "EE",
+    "accommodation_type": "short_stay",
+    "target": "nights_total",
+    "selected_damped_trend": true,
+    "validation_abs_error": 227533.05371532886,
+    "fallback": false,
+    "failures": []
+  },
+  {
+    "geo": "EE",
+    "accommodation_type": "total",
+    "target": "arrivals_total",
+    "selected_damped_trend": false,
+    "validation_abs_error": 342727.02469079796,
+    "fallback": false,
+    "failures": []
+  },
+  {
+    "geo": "EE",
+    "accommodation_type": "total",
+    "target": "nights_total",
+    "selected_damped_trend": false,
+    "validation_abs_error": 473941.06630443706,
+    "fallback": false,
+    "failures": []
+  },
+  {
+    "geo": "EL",
+    "accommodation_type": "camping",
+    "target": "arrivals_total",
+    "selected_damped_trend": false,
+    "validation_abs_error": 60304.1285491709,
+    "fallback": false,
+    "failures": []
+  },
+  {
+    "geo": "EL",
+    "accommodation_type": "camping",
+    "target": "nights_total",
+    "selected_damped_trend": false,
+    "validation_abs_error": 428193.48021729896,
+    "fallback": false,
+    "failures": []
+  },
+  {
+    "geo": "EL",
+    "accommodation_type": "hotel",
+    "target": "arrivals_total",
+    "selected_damped_trend": false,
+    "validation_abs_error": 7850630.914267318,
+    "fallback": false,
+    "failures": []
+  },
+  {
+    "geo": "EL",
+    "accommodation_type": "hotel",
+    "target": "nights_total",
+    "selected_damped_trend": false,
+    "validation_abs_error": 30379034.725941006,
+    "fallback": false,
+    "failures": []
+  },
+  {
+    "geo": "EL",
+    "accommodation_type": "short_stay",
+    "target": "arrivals_total",
+    "selected_damped_trend": false,
+    "validation_abs_error": 1751957.2964348122,
+    "fallback": false,
+    "failures": []
+  },
+  {
+    "geo": "EL",
+    "accommodation_type": "short_stay",
+    "target": "nights_total",
+    "selected_damped_trend": false,
+    "validation_abs_error": 9030388.201045841,
+    "fallback": false,
+    "failures": []
+  },
+  {
+    "geo": "EL",
+    "accommodation_type": "total",
+    "target": "arrivals_total",
+    "selected_damped_trend": false,
+    "validation_abs_error": 9619807.060445603,
+    "fallback": false,
+    "failures": []
+  },
+  {
+    "geo": "EL",
+    "accommodation_type": "total",
+    "target": "nights_total",
+    "selected_damped_trend": false,
+    "validation_abs_error": 38579807.73179361,
+    "fallback": false,
+    "failures": []
+  },
+  {
+    "geo": "ES",
+    "accommodation_type": "camping",
+    "target": "arrivals_total",
+    "selected_damped_trend": true,
+    "validation_abs_error": 1928462.9720634534,
+    "fallback": false,
+    "failures": []
+  },
+  {
+    "geo": "ES",
+    "accommodation_type": "camping",
+    "target": "nights_total",
+    "selected_damped_trend": true,
+    "validation_abs_error": 10953728.486367464,
+    "fallback": false,
+    "failures": []
+  },
+  {
+    "geo": "ES",
+    "accommodation_type": "hotel",
+    "target": "arrivals_total",
+    "selected_damped_trend": true,
+    "validation_abs_error": 14921094.71155945,
+    "fallback": false,
+    "failures": []
+  },
+  {
+    "geo": "ES",
+    "accommodation_type": "hotel",
+    "target": "nights_total",
+    "selected_damped_trend": true,
+    "validation_abs_error": 35805715.56532888,
+    "fallback": false,
+    "failures": []
+  },
+  {
+    "geo": "ES",
+    "accommodation_type": "short_stay",
+    "target": "arrivals_total",
+    "selected_damped_trend": true,
+    "validation_abs_error": 5810612.098385445,
+    "fallback": false,
+    "failures": []
+  },
+  {
+    "geo": "ES",
+    "accommodation_type": "short_stay",
+    "target": "nights_total",
+    "selected_damped_trend": true,
+    "validation_abs_error": 18466136.475563258,
+    "fallback": false,
+    "failures": []
+  },
+  {
+    "geo": "ES",
+    "accommodation_type": "total",
+    "target": "arrivals_total",
+    "selected_damped_trend": true,
+    "validation_abs_error": 21929056.08708798,
+    "fallback": false,
+    "failures": []
+  },
+  {
+    "geo": "ES",
+    "accommodation_type": "total",
+    "target": "nights_total",
+    "selected_damped_trend": true,
+    "validation_abs_error": 53736175.95980013,
+    "fallback": false,
+    "failures": []
+  },
+  {
+    "geo": "FI",
+    "accommodation_type": "camping",
+    "target": "arrivals_total",
+    "selected_damped_trend": false,
+    "validation_abs_error": 152185.7681671948,
+    "fallback": false,
+    "failures": []
+  },
+  {
+    "geo": "FI",
+    "accommodation_type": "camping",
+    "target": "nights_total",
+    "selected_damped_trend": true,
+    "validation_abs_error": 213727.21139631266,
+    "fallback": false,
+    "failures": []
+  },
+  {
+    "geo": "FI",
+    "accommodation_type": "hotel",
+    "target": "arrivals_total",
+    "selected_damped_trend": false,
+    "validation_abs_error": 1525946.5865199456,
+    "fallback": false,
+    "failures": []
+  },
+  {
+    "geo": "FI",
+    "accommodation_type": "hotel",
+    "target": "nights_total",
+    "selected_damped_trend": false,
+    "validation_abs_error": 1770819.4527214218,
+    "fallback": false,
+    "failures": []
+  },
+  {
+    "geo": "FI",
+    "accommodation_type": "short_stay",
+    "target": "arrivals_total",
+    "selected_damped_trend": false,
+    "validation_abs_error": 67581.91517237338,
+    "fallback": false,
+    "failures": []
+  },
+  {
+    "geo": "FI",
+    "accommodation_type": "short_stay",
+    "target": "nights_total",
+    "selected_damped_trend": false,
+    "validation_abs_error": 260057.58534324804,
+    "fallback": false,
+    "failures": []
+  },
+  {
+    "geo": "FI",
+    "accommodation_type": "total",
+    "target": "arrivals_total",
+    "selected_damped_trend": true,
+    "validation_abs_error": 1505640.4546160244,
+    "fallback": false,
+    "failures": []
+  },
+  {
+    "geo": "FI",
+    "accommodation_type": "total",
+    "target": "nights_total",
+    "selected_damped_trend": true,
+    "validation_abs_error": 1668235.9261997035,
+    "fallback": false,
+    "failures": []
+  },
+  {
+    "geo": "FR",
+    "accommodation_type": "camping",
+    "target": "arrivals_total",
+    "selected_damped_trend": false,
+    "validation_abs_error": 7703882.591373135,
+    "fallback": false,
+    "failures": []
+  },
+  {
+    "geo": "FR",
+    "accommodation_type": "camping",
+    "target": "nights_total",
+    "selected_damped_trend": false,
+    "validation_abs_error": 31461143.361287165,
+    "fallback": false,
+    "failures": []
+  },
+  {
+    "geo": "FR",
+    "accommodation_type": "hotel",
+    "target": "arrivals_total",
+    "selected_damped_trend": false,
+    "validation_abs_error": 12668323.624741562,
+    "fallback": false,
+    "failures": []
+  },
+  {
+    "geo": "FR",
+    "accommodation_type": "hotel",
+    "target": "nights_total",
+    "selected_damped_trend": false,
+    "validation_abs_error": 24455480.75367689,
+    "fallback": false,
+    "failures": []
+  },
+  {
+    "geo": "FR",
+    "accommodation_type": "short_stay",
+    "target": "arrivals_total",
+    "selected_damped_trend": true,
+    "validation_abs_error": 1803640.2045183196,
+    "fallback": false,
+    "failures": []
+  },
+  {
+    "geo": "FR",
+    "accommodation_type": "short_stay",
+    "target": "nights_total",
+    "selected_damped_trend": true,
+    "validation_abs_error": 14670911.98857496,
+    "fallback": false,
+    "failures": []
+  },
+  {
+    "geo": "FR",
+    "accommodation_type": "total",
+    "target": "arrivals_total",
+    "selected_damped_trend": true,
+    "validation_abs_error": 23484632.722975165,
+    "fallback": false,
+    "failures": []
+  },
+  {
+    "geo": "FR",
+    "accommodation_type": "total",
+    "target": "nights_total",
+    "selected_damped_trend": false,
+    "validation_abs_error": 46439225.645946294,
+    "fallback": false,
+    "failures": []
+  },
+  {
+    "geo": "HR",
+    "accommodation_type": "camping",
+    "target": "arrivals_total",
+    "selected_damped_trend": true,
+    "validation_abs_error": 1114465.7632816464,
+    "fallback": false,
+    "failures": []
+  },
+  {
+    "geo": "HR",
+    "accommodation_type": "camping",
+    "target": "nights_total",
+    "selected_damped_trend": false,
+    "validation_abs_error": 1788973.257835471,
+    "fallback": false,
+    "failures": []
+  },
+  {
+    "geo": "HR",
+    "accommodation_type": "hotel",
+    "target": "arrivals_total",
+    "selected_damped_trend": true,
+    "validation_abs_error": 835274.7534425559,
+    "fallback": false,
+    "failures": []
+  },
+  {
+    "geo": "HR",
+    "accommodation_type": "hotel",
+    "target": "nights_total",
+    "selected_damped_trend": true,
+    "validation_abs_error": 2483882.306734099,
+    "fallback": false,
+    "failures": []
+  },
+  {
+    "geo": "HR",
+    "accommodation_type": "short_stay",
+    "target": "arrivals_total",
+    "selected_damped_trend": true,
+    "validation_abs_error": 3012798.5923859584,
+    "fallback": false,
+    "failures": []
+  },
+  {
+    "geo": "HR",
+    "accommodation_type": "short_stay",
+    "target": "nights_total",
+    "selected_damped_trend": false,
+    "validation_abs_error": 14860566.775225284,
+    "fallback": false,
+    "failures": []
+  },
+  {
+    "geo": "HR",
+    "accommodation_type": "total",
+    "target": "arrivals_total",
+    "selected_damped_trend": true,
+    "validation_abs_error": 4287739.61897793,
+    "fallback": false,
+    "failures": []
+  },
+  {
+    "geo": "HR",
+    "accommodation_type": "total",
+    "target": "nights_total",
+    "selected_damped_trend": true,
+    "validation_abs_error": 16668342.44372508,
+    "fallback": false,
+    "failures": []
+  },
+  {
+    "geo": "HU",
+    "accommodation_type": "camping",
+    "target": "arrivals_total",
+    "selected_damped_trend": true,
+    "validation_abs_error": 274817.9995535721,
+    "fallback": false,
+    "failures": []
+  },
+  {
+    "geo": "HU",
+    "accommodation_type": "camping",
+    "target": "nights_total",
+    "selected_damped_trend": true,
+    "validation_abs_error": 709572.2004053972,
+    "fallback": false,
+    "failures": []
+  },
+  {
+    "geo": "HU",
+    "accommodation_type": "hotel",
+    "target": "arrivals_total",
+    "selected_damped_trend": true,
+    "validation_abs_error": 2111611.1981571172,
+    "fallback": false,
+    "failures": []
+  },
+  {
+    "geo": "HU",
+    "accommodation_type": "hotel",
+    "target": "nights_total",
+    "selected_damped_trend": false,
+    "validation_abs_error": 4960855.405273313,
+    "fallback": false,
+    "failures": []
+  },
+  {
+    "geo": "HU",
+    "accommodation_type": "short_stay",
+    "target": "arrivals_total",
+    "selected_damped_trend": false,
+    "validation_abs_error": 427267.7904612404,
+    "fallback": false,
+    "failures": []
+  },
+  {
+    "geo": "HU",
+    "accommodation_type": "short_stay",
+    "target": "nights_total",
+    "selected_damped_trend": true,
+    "validation_abs_error": 1659862.706022892,
+    "fallback": false,
+    "failures": []
+  },
+  {
+    "geo": "HU",
+    "accommodation_type": "total",
+    "target": "arrivals_total",
+    "selected_damped_trend": true,
+    "validation_abs_error": 2415240.7705208007,
+    "fallback": false,
+    "failures": []
+  },
+  {
+    "geo": "HU",
+    "accommodation_type": "total",
+    "target": "nights_total",
+    "selected_damped_trend": true,
+    "validation_abs_error": 6322813.887550032,
+    "fallback": false,
+    "failures": []
+  },
+  {
+    "geo": "IE",
+    "accommodation_type": "camping",
+    "target": "arrivals_total",
+    "selected_damped_trend": true,
+    "validation_abs_error": 608469.532737881,
+    "fallback": false,
+    "failures": []
+  },
+  {
+    "geo": "IE",
+    "accommodation_type": "camping",
+    "target": "nights_total",
+    "selected_damped_trend": true,
+    "validation_abs_error": 1961803.5192429232,
+    "fallback": false,
+    "failures": []
+  },
+  {
+    "geo": "IE",
+    "accommodation_type": "hotel",
+    "target": "arrivals_total",
+    "selected_damped_trend": false,
+    "validation_abs_error": 3563380.261393733,
+    "fallback": false,
+    "failures": []
+  },
+  {
+    "geo": "IE",
+    "accommodation_type": "hotel",
+    "target": "nights_total",
+    "selected_damped_trend": false,
+    "validation_abs_error": 6630391.568548936,
+    "fallback": false,
+    "failures": []
+  },
+  {
+    "geo": "IE",
+    "accommodation_type": "short_stay",
+    "target": "arrivals_total",
+    "selected_damped_trend": true,
+    "validation_abs_error": 1018639.2052647013,
+    "fallback": false,
+    "failures": []
+  },
+  {
+    "geo": "IE",
+    "accommodation_type": "short_stay",
+    "target": "nights_total",
+    "selected_damped_trend": false,
+    "validation_abs_error": 3904232.5605750475,
+    "fallback": false,
+    "failures": []
+  },
+  {
+    "geo": "IE",
+    "accommodation_type": "total",
+    "target": "arrivals_total",
+    "selected_damped_trend": false,
+    "validation_abs_error": 5055902.761716619,
+    "fallback": false,
+    "failures": []
+  },
+  {
+    "geo": "IE",
+    "accommodation_type": "total",
+    "target": "nights_total",
+    "selected_damped_trend": false,
+    "validation_abs_error": 7909090.6113868505,
+    "fallback": false,
+    "failures": []
+  },
+  {
+    "geo": "IS",
+    "accommodation_type": "camping",
+    "target": "arrivals_total",
+    "selected_damped_trend": true,
+    "validation_abs_error": 271385.7092609987,
+    "fallback": false,
+    "failures": []
+  },
+  {
+    "geo": "IS",
+    "accommodation_type": "camping",
+    "target": "nights_total",
+    "selected_damped_trend": true,
+    "validation_abs_error": 289838.9395850697,
+    "fallback": false,
+    "failures": []
+  },
+  {
+    "geo": "IS",
+    "accommodation_type": "hotel",
+    "target": "arrivals_total",
+    "selected_damped_trend": true,
+    "validation_abs_error": 1123155.2020251206,
+    "fallback": false,
+    "failures": []
+  },
+  {
+    "geo": "IS",
+    "accommodation_type": "hotel",
+    "target": "nights_total",
+    "selected_damped_trend": true,
+    "validation_abs_error": 1702176.2903632235,
+    "fallback": false,
+    "failures": []
+  },
+  {
+    "geo": "IS",
+    "accommodation_type": "short_stay",
+    "target": "arrivals_total",
+    "selected_damped_trend": false,
+    "validation_abs_error": 377564.75709765835,
+    "fallback": false,
+    "failures": []
+  },
+  {
+    "geo": "IS",
+    "accommodation_type": "short_stay",
+    "target": "nights_total",
+    "selected_damped_trend": true,
+    "validation_abs_error": 611348.7673453508,
+    "fallback": false,
+    "failures": []
+  },
+  {
+    "geo": "IS",
+    "accommodation_type": "total",
+    "target": "arrivals_total",
+    "selected_damped_trend": true,
+    "validation_abs_error": 1664527.7127010336,
+    "fallback": false,
+    "failures": []
+  },
+  {
+    "geo": "IS",
+    "accommodation_type": "total",
+    "target": "nights_total",
+    "selected_damped_trend": true,
+    "validation_abs_error": 2553707.971268231,
+    "fallback": false,
+    "failures": []
+  },
+  {
+    "geo": "IT",
+    "accommodation_type": "camping",
+    "target": "arrivals_total",
+    "selected_damped_trend": false,
+    "validation_abs_error": 2318612.52760981,
+    "fallback": false,
+    "failures": []
+  },
+  {
+    "geo": "IT",
+    "accommodation_type": "camping",
+    "target": "nights_total",
+    "selected_damped_trend": true,
+    "validation_abs_error": 11934528.221574048,
+    "fallback": false,
+    "failures": []
+  },
+  {
+    "geo": "IT",
+    "accommodation_type": "hotel",
+    "target": "arrivals_total",
+    "selected_damped_trend": false,
+    "validation_abs_error": 11984364.906498794,
+    "fallback": false,
+    "failures": []
+  },
+  {
+    "geo": "IT",
+    "accommodation_type": "hotel",
+    "target": "nights_total",
+    "selected_damped_trend": true,
+    "validation_abs_error": 25392939.50360178,
+    "fallback": false,
+    "failures": []
+  },
+  {
+    "geo": "IT",
+    "accommodation_type": "short_stay",
+    "target": "arrivals_total",
+    "selected_damped_trend": true,
+    "validation_abs_error": 5407314.789174751,
+    "fallback": false,
+    "failures": []
+  },
+  {
+    "geo": "IT",
+    "accommodation_type": "short_stay",
+    "target": "nights_total",
+    "selected_damped_trend": true,
+    "validation_abs_error": 20034528.699867897,
+    "fallback": false,
+    "failures": []
+  },
+  {
+    "geo": "IT",
+    "accommodation_type": "total",
+    "target": "arrivals_total",
+    "selected_damped_trend": true,
+    "validation_abs_error": 20761154.077972606,
+    "fallback": false,
+    "failures": []
+  },
+  {
+    "geo": "IT",
+    "accommodation_type": "total",
+    "target": "nights_total",
+    "selected_damped_trend": false,
+    "validation_abs_error": 53301695.375261165,
+    "fallback": false,
+    "failures": []
+  },
+  {
+    "geo": "LI",
+    "accommodation_type": "camping",
+    "target": "arrivals_total",
+    "selected_damped_trend": true,
+    "validation_abs_error": 948.3846937894837,
+    "fallback": false,
+    "failures": []
+  },
+  {
+    "geo": "LI",
+    "accommodation_type": "camping",
+    "target": "nights_total",
+    "selected_damped_trend": false,
+    "validation_abs_error": 1882.2891558537772,
+    "fallback": false,
+    "failures": []
+  },
+  {
+    "geo": "LI",
+    "accommodation_type": "hotel",
+    "target": "arrivals_total",
+    "selected_damped_trend": false,
+    "validation_abs_error": 21575.691936653846,
+    "fallback": false,
+    "failures": []
+  },
+  {
+    "geo": "LI",
+    "accommodation_type": "hotel",
+    "target": "nights_total",
+    "selected_damped_trend": true,
+    "validation_abs_error": 22921.43535505036,
+    "fallback": false,
+    "failures": []
+  },
+  {
+    "geo": "LI",
+    "accommodation_type": "short_stay",
+    "target": "arrivals_total",
+    "selected_damped_trend": true,
+    "validation_abs_error": 5656.635119546283,
+    "fallback": false,
+    "failures": [
+      {
+        "damped_trend": false,
+        "reason": "Optimizer did not converge"
+      }
+    ]
+  },
+  {
+    "geo": "LI",
+    "accommodation_type": "short_stay",
+    "target": "nights_total",
+    "selected_damped_trend": true,
+    "validation_abs_error": 10938.667252438623,
+    "fallback": false,
+    "failures": []
+  },
+  {
+    "geo": "LI",
+    "accommodation_type": "total",
+    "target": "arrivals_total",
+    "selected_damped_trend": true,
+    "validation_abs_error": 32656.755558342047,
+    "fallback": false,
+    "failures": []
+  },
+  {
+    "geo": "LI",
+    "accommodation_type": "total",
+    "target": "nights_total",
+    "selected_damped_trend": true,
+    "validation_abs_error": 43241.12459412515,
+    "fallback": false,
+    "failures": []
+  },
+  {
+    "geo": "LT",
+    "accommodation_type": "camping",
+    "target": "arrivals_total",
+    "selected_damped_trend": false,
+    "validation_abs_error": 16450.181847502416,
+    "fallback": false,
+    "failures": []
+  },
+  {
+    "geo": "LT",
+    "accommodation_type": "camping",
+    "target": "nights_total",
+    "selected_damped_trend": false,
+    "validation_abs_error": 43931.053718339,
+    "fallback": false,
+    "failures": []
+  },
+  {
+    "geo": "LT",
+    "accommodation_type": "hotel",
+    "target": "arrivals_total",
+    "selected_damped_trend": true,
+    "validation_abs_error": 252350.19315680943,
+    "fallback": false,
+    "failures": []
+  },
+  {
+    "geo": "LT",
+    "accommodation_type": "hotel",
+    "target": "nights_total",
+    "selected_damped_trend": true,
+    "validation_abs_error": 441189.1254639164,
+    "fallback": false,
+    "failures": []
+  },
+  {
+    "geo": "LT",
+    "accommodation_type": "short_stay",
+    "target": "arrivals_total",
+    "selected_damped_trend": true,
+    "validation_abs_error": 108826.88663621721,
+    "fallback": false,
+    "failures": []
+  },
+  {
+    "geo": "LT",
+    "accommodation_type": "short_stay",
+    "target": "nights_total",
+    "selected_damped_trend": true,
+    "validation_abs_error": 326465.786097832,
+    "fallback": false,
+    "failures": []
+  },
+  {
+    "geo": "LT",
+    "accommodation_type": "total",
+    "target": "arrivals_total",
+    "selected_damped_trend": true,
+    "validation_abs_error": 527904.7874056953,
+    "fallback": false,
+    "failures": []
+  },
+  {
+    "geo": "LT",
+    "accommodation_type": "total",
+    "target": "nights_total",
+    "selected_damped_trend": true,
+    "validation_abs_error": 1095370.1823942612,
+    "fallback": false,
+    "failures": []
+  },
+  {
+    "geo": "LU",
+    "accommodation_type": "camping",
+    "target": "arrivals_total",
+    "selected_damped_trend": true,
+    "validation_abs_error": 112485.74556080422,
+    "fallback": false,
+    "failures": []
+  },
+  {
+    "geo": "LU",
+    "accommodation_type": "camping",
+    "target": "nights_total",
+    "selected_damped_trend": true,
+    "validation_abs_error": 428039.03484290664,
+    "fallback": false,
+    "failures": []
+  },
+  {
+    "geo": "LU",
+    "accommodation_type": "hotel",
+    "target": "arrivals_total",
+    "selected_damped_trend": false,
+    "validation_abs_error": 172348.6101436998,
+    "fallback": false,
+    "failures": []
+  },
+  {
+    "geo": "LU",
+    "accommodation_type": "hotel",
+    "target": "nights_total",
+    "selected_damped_trend": false,
+    "validation_abs_error": 333008.72708479216,
+    "fallback": false,
+    "failures": []
+  },
+  {
+    "geo": "LU",
+    "accommodation_type": "short_stay",
+    "target": "arrivals_total",
+    "selected_damped_trend": true,
+    "validation_abs_error": 20079.701876359944,
+    "fallback": false,
+    "failures": []
+  },
+  {
+    "geo": "LU",
+    "accommodation_type": "short_stay",
+    "target": "nights_total",
+    "selected_damped_trend": true,
+    "validation_abs_error": 61877.13730213876,
+    "fallback": false,
+    "failures": []
+  },
+  {
+    "geo": "LU",
+    "accommodation_type": "total",
+    "target": "arrivals_total",
+    "selected_damped_trend": true,
+    "validation_abs_error": 294944.4289689859,
+    "fallback": false,
+    "failures": []
+  },
+  {
+    "geo": "LU",
+    "accommodation_type": "total",
+    "target": "nights_total",
+    "selected_damped_trend": false,
+    "validation_abs_error": 669121.2690642072,
+    "fallback": false,
+    "failures": [
+      {
+        "damped_trend": true,
+        "reason": "Optimizer did not converge"
+      }
+    ]
+  },
+  {
+    "geo": "LV",
+    "accommodation_type": "camping",
+    "target": "arrivals_total",
+    "selected_damped_trend": true,
+    "validation_abs_error": 24965.090360954222,
+    "fallback": false,
+    "failures": []
+  },
+  {
+    "geo": "LV",
+    "accommodation_type": "camping",
+    "target": "nights_total",
+    "selected_damped_trend": true,
+    "validation_abs_error": 28420.41695718308,
+    "fallback": false,
+    "failures": []
+  },
+  {
+    "geo": "LV",
+    "accommodation_type": "hotel",
+    "target": "arrivals_total",
+    "selected_damped_trend": true,
+    "validation_abs_error": 447489.41753106075,
+    "fallback": false,
+    "failures": []
+  },
+  {
+    "geo": "LV",
+    "accommodation_type": "hotel",
+    "target": "nights_total",
+    "selected_damped_trend": false,
+    "validation_abs_error": 690892.0597682395,
+    "fallback": false,
+    "failures": []
+  },
+  {
+    "geo": "LV",
+    "accommodation_type": "short_stay",
+    "target": "arrivals_total",
+    "selected_damped_trend": true,
+    "validation_abs_error": 97679.50509387528,
+    "fallback": false,
+    "failures": []
+  },
+  {
+    "geo": "LV",
+    "accommodation_type": "short_stay",
+    "target": "nights_total",
+    "selected_damped_trend": false,
+    "validation_abs_error": 256576.6070090695,
+    "fallback": false,
+    "failures": []
+  },
+  {
+    "geo": "LV",
+    "accommodation_type": "total",
+    "target": "arrivals_total",
+    "selected_damped_trend": true,
+    "validation_abs_error": 579328.730224378,
+    "fallback": false,
+    "failures": []
+  },
+  {
+    "geo": "LV",
+    "accommodation_type": "total",
+    "target": "nights_total",
+    "selected_damped_trend": true,
+    "validation_abs_error": 901588.5722139983,
+    "fallback": false,
+    "failures": []
+  },
+  {
+    "geo": "ME",
+    "accommodation_type": "camping",
+    "target": "arrivals_total",
+    "selected_damped_trend": true,
+    "validation_abs_error": 4098.297320146244,
+    "fallback": false,
+    "failures": []
+  },
+  {
+    "geo": "ME",
+    "accommodation_type": "camping",
+    "target": "nights_total",
+    "selected_damped_trend": false,
+    "validation_abs_error": 16328.87216978272,
+    "fallback": false,
+    "failures": []
+  },
+  {
+    "geo": "ME",
+    "accommodation_type": "hotel",
+    "target": "arrivals_total",
+    "selected_damped_trend": true,
+    "validation_abs_error": 453459.17676783365,
+    "fallback": false,
+    "failures": []
+  },
+  {
+    "geo": "ME",
+    "accommodation_type": "hotel",
+    "target": "nights_total",
+    "selected_damped_trend": true,
+    "validation_abs_error": 922648.1791018404,
+    "fallback": false,
+    "failures": []
+  },
+  {
+    "geo": "ME",
+    "accommodation_type": "short_stay",
+    "target": "arrivals_total",
+    "selected_damped_trend": false,
+    "validation_abs_error": 14374.996134943727,
+    "fallback": false,
+    "failures": []
+  },
+  {
+    "geo": "ME",
+    "accommodation_type": "short_stay",
+    "target": "nights_total",
+    "selected_damped_trend": true,
+    "validation_abs_error": 101530.44843098032,
+    "fallback": false,
+    "failures": []
+  },
+  {
+    "geo": "ME",
+    "accommodation_type": "total",
+    "target": "arrivals_total",
+    "selected_damped_trend": true,
+    "validation_abs_error": 242113.04768535876,
+    "fallback": false,
+    "failures": []
+  },
+  {
+    "geo": "ME",
+    "accommodation_type": "total",
+    "target": "nights_total",
+    "selected_damped_trend": false,
+    "validation_abs_error": 1981730.684938691,
+    "fallback": false,
+    "failures": []
+  },
+  {
+    "geo": "MK",
+    "accommodation_type": "camping",
+    "target": "arrivals_total",
+    "selected_damped_trend": false,
+    "validation_abs_error": 5097.38795467744,
+    "fallback": false,
+    "failures": []
+  },
+  {
+    "geo": "MK",
+    "accommodation_type": "camping",
+    "target": "nights_total",
+    "selected_damped_trend": false,
+    "validation_abs_error": 18840.122249889373,
+    "fallback": false,
+    "failures": []
+  },
+  {
+    "geo": "MK",
+    "accommodation_type": "hotel",
+    "target": "arrivals_total",
+    "selected_damped_trend": true,
+    "validation_abs_error": 185325.9495074456,
+    "fallback": false,
+    "failures": []
+  },
+  {
+    "geo": "MK",
+    "accommodation_type": "hotel",
+    "target": "nights_total",
+    "selected_damped_trend": true,
+    "validation_abs_error": 404266.03378505225,
+    "fallback": false,
+    "failures": []
+  },
+  {
+    "geo": "MK",
+    "accommodation_type": "short_stay",
+    "target": "arrivals_total",
+    "selected_damped_trend": true,
+    "validation_abs_error": 12630.484599823638,
+    "fallback": false,
+    "failures": []
+  },
+  {
+    "geo": "MK",
+    "accommodation_type": "short_stay",
+    "target": "nights_total",
+    "selected_damped_trend": false,
+    "validation_abs_error": 33543.99888631622,
+    "fallback": false,
+    "failures": []
+  },
+  {
+    "geo": "MK",
+    "accommodation_type": "total",
+    "target": "arrivals_total",
+    "selected_damped_trend": false,
+    "validation_abs_error": 183821.44238445634,
+    "fallback": false,
+    "failures": []
+  },
+  {
+    "geo": "MK",
+    "accommodation_type": "total",
+    "target": "nights_total",
+    "selected_damped_trend": false,
+    "validation_abs_error": 373675.7230838504,
+    "fallback": false,
+    "failures": []
+  },
+  {
+    "geo": "MT",
+    "accommodation_type": "camping",
+    "target": "arrivals_total",
+    "selected_damped_trend": null,
+    "validation_abs_error": null,
+    "fallback": true,
+    "failures": [
+      {
+        "damped_trend": false,
+        "reason": "Constant training series"
+      },
+      {
+        "damped_trend": true,
+        "reason": "Constant training series"
+      }
+    ]
+  },
+  {
+    "geo": "MT",
+    "accommodation_type": "camping",
+    "target": "nights_total",
+    "selected_damped_trend": null,
+    "validation_abs_error": null,
+    "fallback": true,
+    "failures": [
+      {
+        "damped_trend": false,
+        "reason": "Constant training series"
+      },
+      {
+        "damped_trend": true,
+        "reason": "Constant training series"
+      }
+    ]
+  },
+  {
+    "geo": "MT",
+    "accommodation_type": "hotel",
+    "target": "arrivals_total",
+    "selected_damped_trend": false,
+    "validation_abs_error": 419591.8765736422,
+    "fallback": false,
+    "failures": []
+  },
+  {
+    "geo": "MT",
+    "accommodation_type": "hotel",
+    "target": "nights_total",
+    "selected_damped_trend": false,
+    "validation_abs_error": 1289156.6825083485,
+    "fallback": false,
+    "failures": []
+  },
+  {
+    "geo": "MT",
+    "accommodation_type": "short_stay",
+    "target": "arrivals_total",
+    "selected_damped_trend": true,
+    "validation_abs_error": 10884.901498034047,
+    "fallback": false,
+    "failures": []
+  },
+  {
+    "geo": "MT",
+    "accommodation_type": "short_stay",
+    "target": "nights_total",
+    "selected_damped_trend": true,
+    "validation_abs_error": 54775.80119301638,
+    "fallback": false,
+    "failures": []
+  },
+  {
+    "geo": "MT",
+    "accommodation_type": "total",
+    "target": "arrivals_total",
+    "selected_damped_trend": false,
+    "validation_abs_error": 428715.6473233213,
+    "fallback": false,
+    "failures": []
+  },
+  {
+    "geo": "MT",
+    "accommodation_type": "total",
+    "target": "nights_total",
+    "selected_damped_trend": false,
+    "validation_abs_error": 1337116.2721699919,
+    "fallback": false,
+    "failures": []
+  },
+  {
+    "geo": "NL",
+    "accommodation_type": "camping",
+    "target": "arrivals_total",
+    "selected_damped_trend": true,
+    "validation_abs_error": 821735.2323147005,
+    "fallback": false,
+    "failures": []
+  },
+  {
+    "geo": "NL",
+    "accommodation_type": "camping",
+    "target": "nights_total",
+    "selected_damped_trend": false,
+    "validation_abs_error": 2984872.089435775,
+    "fallback": false,
+    "failures": []
+  },
+  {
+    "geo": "NL",
+    "accommodation_type": "hotel",
+    "target": "arrivals_total",
+    "selected_damped_trend": false,
+    "validation_abs_error": 14872961.714715214,
+    "fallback": false,
+    "failures": []
+  },
+  {
+    "geo": "NL",
+    "accommodation_type": "hotel",
+    "target": "nights_total",
+    "selected_damped_trend": false,
+    "validation_abs_error": 29024984.633898377,
+    "fallback": false,
+    "failures": []
+  },
+  {
+    "geo": "NL",
+    "accommodation_type": "short_stay",
+    "target": "arrivals_total",
+    "selected_damped_trend": true,
+    "validation_abs_error": 2912820.8999824645,
+    "fallback": false,
+    "failures": []
+  },
+  {
+    "geo": "NL",
+    "accommodation_type": "short_stay",
+    "target": "nights_total",
+    "selected_damped_trend": true,
+    "validation_abs_error": 5258885.131705215,
+    "fallback": false,
+    "failures": []
+  },
+  {
+    "geo": "NL",
+    "accommodation_type": "total",
+    "target": "arrivals_total",
+    "selected_damped_trend": true,
+    "validation_abs_error": 18525498.095783398,
+    "fallback": false,
+    "failures": []
+  },
+  {
+    "geo": "NL",
+    "accommodation_type": "total",
+    "target": "nights_total",
+    "selected_damped_trend": true,
+    "validation_abs_error": 44669406.19371238,
+    "fallback": false,
+    "failures": []
+  },
+  {
+    "geo": "NO",
+    "accommodation_type": "camping",
+    "target": "arrivals_total",
+    "selected_damped_trend": true,
+    "validation_abs_error": 280541.21334534686,
+    "fallback": false,
+    "failures": []
+  },
+  {
+    "geo": "NO",
+    "accommodation_type": "camping",
+    "target": "nights_total",
+    "selected_damped_trend": false,
+    "validation_abs_error": 1025428.9971836542,
+    "fallback": false,
+    "failures": []
+  },
+  {
+    "geo": "NO",
+    "accommodation_type": "hotel",
+    "target": "arrivals_total",
+    "selected_damped_trend": false,
+    "validation_abs_error": 2861604.4939699327,
+    "fallback": false,
+    "failures": []
+  },
+  {
+    "geo": "NO",
+    "accommodation_type": "hotel",
+    "target": "nights_total",
+    "selected_damped_trend": true,
+    "validation_abs_error": 4627438.940857494,
+    "fallback": false,
+    "failures": []
+  },
+  {
+    "geo": "NO",
+    "accommodation_type": "short_stay",
+    "target": "arrivals_total",
+    "selected_damped_trend": false,
+    "validation_abs_error": 281788.6792954295,
+    "fallback": false,
+    "failures": []
+  },
+  {
+    "geo": "NO",
+    "accommodation_type": "short_stay",
+    "target": "nights_total",
+    "selected_damped_trend": true,
+    "validation_abs_error": 755110.5052166551,
+    "fallback": false,
+    "failures": []
+  },
+  {
+    "geo": "NO",
+    "accommodation_type": "total",
+    "target": "arrivals_total",
+    "selected_damped_trend": false,
+    "validation_abs_error": 4015447.28290275,
+    "fallback": false,
+    "failures": []
+  },
+  {
+    "geo": "NO",
+    "accommodation_type": "total",
+    "target": "nights_total",
+    "selected_damped_trend": true,
+    "validation_abs_error": 6188340.140260603,
+    "fallback": false,
+    "failures": []
+  },
+  {
+    "geo": "PL",
+    "accommodation_type": "camping",
+    "target": "arrivals_total",
+    "selected_damped_trend": false,
+    "validation_abs_error": 28588.96850608124,
+    "fallback": false,
+    "failures": []
+  },
+  {
+    "geo": "PL",
+    "accommodation_type": "camping",
+    "target": "nights_total",
+    "selected_damped_trend": false,
+    "validation_abs_error": 102188.2713924256,
+    "fallback": false,
+    "failures": [
+      {
+        "damped_trend": true,
+        "reason": "Optimizer did not converge"
+      }
+    ]
+  },
+  {
+    "geo": "PL",
+    "accommodation_type": "hotel",
+    "target": "arrivals_total",
+    "selected_damped_trend": true,
+    "validation_abs_error": 5488966.853024783,
+    "fallback": false,
+    "failures": []
+  },
+  {
+    "geo": "PL",
+    "accommodation_type": "hotel",
+    "target": "nights_total",
+    "selected_damped_trend": true,
+    "validation_abs_error": 11500731.335986504,
+    "fallback": false,
+    "failures": []
+  },
+  {
+    "geo": "PL",
+    "accommodation_type": "short_stay",
+    "target": "arrivals_total",
+    "selected_damped_trend": false,
+    "validation_abs_error": 956371.389529563,
+    "fallback": false,
+    "failures": []
+  },
+  {
+    "geo": "PL",
+    "accommodation_type": "short_stay",
+    "target": "nights_total",
+    "selected_damped_trend": false,
+    "validation_abs_error": 4306212.511847284,
+    "fallback": false,
+    "failures": []
+  },
+  {
+    "geo": "PL",
+    "accommodation_type": "total",
+    "target": "arrivals_total",
+    "selected_damped_trend": true,
+    "validation_abs_error": 6038792.624217646,
+    "fallback": false,
+    "failures": []
+  },
+  {
+    "geo": "PL",
+    "accommodation_type": "total",
+    "target": "nights_total",
+    "selected_damped_trend": false,
+    "validation_abs_error": 14431150.992281757,
+    "fallback": false,
+    "failures": []
+  },
+  {
+    "geo": "PT",
+    "accommodation_type": "camping",
+    "target": "arrivals_total",
+    "selected_damped_trend": false,
+    "validation_abs_error": 576089.8548702287,
+    "fallback": false,
+    "failures": []
+  },
+  {
+    "geo": "PT",
+    "accommodation_type": "camping",
+    "target": "nights_total",
+    "selected_damped_trend": false,
+    "validation_abs_error": 2319448.776533819,
+    "fallback": false,
+    "failures": []
+  },
+  {
+    "geo": "PT",
+    "accommodation_type": "hotel",
+    "target": "arrivals_total",
+    "selected_damped_trend": true,
+    "validation_abs_error": 5104521.826832009,
+    "fallback": false,
+    "failures": []
+  },
+  {
+    "geo": "PT",
+    "accommodation_type": "hotel",
+    "target": "nights_total",
+    "selected_damped_trend": false,
+    "validation_abs_error": 13228137.403592851,
+    "fallback": false,
+    "failures": []
+  },
+  {
+    "geo": "PT",
+    "accommodation_type": "short_stay",
+    "target": "arrivals_total",
+    "selected_damped_trend": false,
+    "validation_abs_error": 2247543.6326386607,
+    "fallback": false,
+    "failures": []
+  },
+  {
+    "geo": "PT",
+    "accommodation_type": "short_stay",
+    "target": "nights_total",
+    "selected_damped_trend": false,
+    "validation_abs_error": 5365564.62578765,
+    "fallback": false,
+    "failures": [
+      {
+        "damped_trend": true,
+        "reason": "Optimizer did not converge"
+      }
+    ]
+  },
+  {
+    "geo": "PT",
+    "accommodation_type": "total",
+    "target": "arrivals_total",
+    "selected_damped_trend": false,
+    "validation_abs_error": 7775106.148619406,
+    "fallback": false,
+    "failures": []
+  },
+  {
+    "geo": "PT",
+    "accommodation_type": "total",
+    "target": "nights_total",
+    "selected_damped_trend": false,
+    "validation_abs_error": 18833352.220519908,
+    "fallback": false,
+    "failures": []
+  },
+  {
+    "geo": "RO",
+    "accommodation_type": "camping",
+    "target": "arrivals_total",
+    "selected_damped_trend": false,
+    "validation_abs_error": 22745.938976624886,
+    "fallback": false,
+    "failures": []
+  },
+  {
+    "geo": "RO",
+    "accommodation_type": "camping",
+    "target": "nights_total",
+    "selected_damped_trend": true,
+    "validation_abs_error": 68970.85545974753,
+    "fallback": false,
+    "failures": []
+  },
+  {
+    "geo": "RO",
+    "accommodation_type": "hotel",
+    "target": "arrivals_total",
+    "selected_damped_trend": false,
+    "validation_abs_error": 2201454.5407192823,
+    "fallback": false,
+    "failures": []
+  },
+  {
+    "geo": "RO",
+    "accommodation_type": "hotel",
+    "target": "nights_total",
+    "selected_damped_trend": false,
+    "validation_abs_error": 4010207.634965449,
+    "fallback": false,
+    "failures": []
+  },
+  {
+    "geo": "RO",
+    "accommodation_type": "short_stay",
+    "target": "arrivals_total",
+    "selected_damped_trend": true,
+    "validation_abs_error": 245029.0773175211,
+    "fallback": false,
+    "failures": []
+  },
+  {
+    "geo": "RO",
+    "accommodation_type": "short_stay",
+    "target": "nights_total",
+    "selected_damped_trend": true,
+    "validation_abs_error": 558459.4848848856,
+    "fallback": false,
+    "failures": []
+  },
+  {
+    "geo": "RO",
+    "accommodation_type": "total",
+    "target": "arrivals_total",
+    "selected_damped_trend": false,
+    "validation_abs_error": 2443055.9944674564,
+    "fallback": false,
+    "failures": []
+  },
+  {
+    "geo": "RO",
+    "accommodation_type": "total",
+    "target": "nights_total",
+    "selected_damped_trend": false,
+    "validation_abs_error": 3772762.499331191,
+    "fallback": false,
+    "failures": []
+  },
+  {
+    "geo": "RS",
+    "accommodation_type": "camping",
+    "target": "arrivals_total",
+    "selected_damped_trend": true,
+    "validation_abs_error": 12542.94050877006,
+    "fallback": false,
+    "failures": []
+  },
+  {
+    "geo": "RS",
+    "accommodation_type": "camping",
+    "target": "nights_total",
+    "selected_damped_trend": false,
+    "validation_abs_error": 19001.103734368993,
+    "fallback": false,
+    "failures": []
+  },
+  {
+    "geo": "RS",
+    "accommodation_type": "hotel",
+    "target": "arrivals_total",
+    "selected_damped_trend": true,
+    "validation_abs_error": 144546.4666045077,
+    "fallback": false,
+    "failures": []
+  },
+  {
+    "geo": "RS",
+    "accommodation_type": "hotel",
+    "target": "nights_total",
+    "selected_damped_trend": true,
+    "validation_abs_error": 239249.2228333623,
+    "fallback": false,
+    "failures": []
+  },
+  {
+    "geo": "RS",
+    "accommodation_type": "short_stay",
+    "target": "arrivals_total",
+    "selected_damped_trend": true,
+    "validation_abs_error": 875604.4014655661,
+    "fallback": false,
+    "failures": []
+  },
+  {
+    "geo": "RS",
+    "accommodation_type": "short_stay",
+    "target": "nights_total",
+    "selected_damped_trend": true,
+    "validation_abs_error": 3225464.867175901,
+    "fallback": false,
+    "failures": []
+  },
+  {
+    "geo": "RS",
+    "accommodation_type": "total",
+    "target": "arrivals_total",
+    "selected_damped_trend": true,
+    "validation_abs_error": 997005.2891042415,
+    "fallback": false,
+    "failures": []
+  },
+  {
+    "geo": "RS",
+    "accommodation_type": "total",
+    "target": "nights_total",
+    "selected_damped_trend": true,
+    "validation_abs_error": 4050402.186322254,
+    "fallback": false,
+    "failures": []
+  },
+  {
+    "geo": "SE",
+    "accommodation_type": "camping",
+    "target": "arrivals_total",
+    "selected_damped_trend": true,
+    "validation_abs_error": 1104323.0046333289,
+    "fallback": false,
+    "failures": []
+  },
+  {
+    "geo": "SE",
+    "accommodation_type": "camping",
+    "target": "nights_total",
+    "selected_damped_trend": false,
+    "validation_abs_error": 1948918.9713562515,
+    "fallback": false,
+    "failures": []
+  },
+  {
+    "geo": "SE",
+    "accommodation_type": "hotel",
+    "target": "arrivals_total",
+    "selected_damped_trend": false,
+    "validation_abs_error": 3582246.5972800525,
+    "fallback": false,
+    "failures": []
+  },
+  {
+    "geo": "SE",
+    "accommodation_type": "hotel",
+    "target": "nights_total",
+    "selected_damped_trend": false,
+    "validation_abs_error": 5684280.619471334,
+    "fallback": false,
+    "failures": []
+  },
+  {
+    "geo": "SE",
+    "accommodation_type": "short_stay",
+    "target": "arrivals_total",
+    "selected_damped_trend": false,
+    "validation_abs_error": 302120.0436012312,
+    "fallback": false,
+    "failures": []
+  },
+  {
+    "geo": "SE",
+    "accommodation_type": "short_stay",
+    "target": "nights_total",
+    "selected_damped_trend": true,
+    "validation_abs_error": 481766.9688986041,
+    "fallback": false,
+    "failures": []
+  },
+  {
+    "geo": "SE",
+    "accommodation_type": "total",
+    "target": "arrivals_total",
+    "selected_damped_trend": false,
+    "validation_abs_error": 4767453.0519834105,
+    "fallback": false,
+    "failures": []
+  },
+  {
+    "geo": "SE",
+    "accommodation_type": "total",
+    "target": "nights_total",
+    "selected_damped_trend": false,
+    "validation_abs_error": 7900830.741620198,
+    "fallback": false,
+    "failures": []
+  },
+  {
+    "geo": "SI",
+    "accommodation_type": "camping",
+    "target": "arrivals_total",
+    "selected_damped_trend": true,
+    "validation_abs_error": 165702.50390939286,
+    "fallback": false,
+    "failures": []
+  },
+  {
+    "geo": "SI",
+    "accommodation_type": "camping",
+    "target": "nights_total",
+    "selected_damped_trend": false,
+    "validation_abs_error": 556103.3198874354,
+    "fallback": false,
+    "failures": []
+  },
+  {
+    "geo": "SI",
+    "accommodation_type": "hotel",
+    "target": "arrivals_total",
+    "selected_damped_trend": true,
+    "validation_abs_error": 414654.9112469613,
+    "fallback": false,
+    "failures": []
+  },
+  {
+    "geo": "SI",
+    "accommodation_type": "hotel",
+    "target": "nights_total",
+    "selected_damped_trend": true,
+    "validation_abs_error": 737051.8230230582,
+    "fallback": false,
+    "failures": []
+  },
+  {
+    "geo": "SI",
+    "accommodation_type": "short_stay",
+    "target": "arrivals_total",
+    "selected_damped_trend": false,
+    "validation_abs_error": 428830.9416557784,
+    "fallback": false,
+    "failures": []
+  },
+  {
+    "geo": "SI",
+    "accommodation_type": "short_stay",
+    "target": "nights_total",
+    "selected_damped_trend": false,
+    "validation_abs_error": 1110574.2710330803,
+    "fallback": false,
+    "failures": []
+  },
+  {
+    "geo": "SI",
+    "accommodation_type": "total",
+    "target": "arrivals_total",
+    "selected_damped_trend": false,
+    "validation_abs_error": 1059701.245622756,
+    "fallback": false,
+    "failures": []
+  },
+  {
+    "geo": "SI",
+    "accommodation_type": "total",
+    "target": "nights_total",
+    "selected_damped_trend": false,
+    "validation_abs_error": 2763206.1814711485,
+    "fallback": false,
+    "failures": []
+  },
+  {
+    "geo": "SK",
+    "accommodation_type": "camping",
+    "target": "arrivals_total",
+    "selected_damped_trend": true,
+    "validation_abs_error": 28017.4079053287,
+    "fallback": false,
+    "failures": []
+  },
+  {
+    "geo": "SK",
+    "accommodation_type": "camping",
+    "target": "nights_total",
+    "selected_damped_trend": true,
+    "validation_abs_error": 82581.37732027666,
+    "fallback": false,
+    "failures": []
+  },
+  {
+    "geo": "SK",
+    "accommodation_type": "hotel",
+    "target": "arrivals_total",
+    "selected_damped_trend": true,
+    "validation_abs_error": 2387325.412147552,
+    "fallback": false,
+    "failures": []
+  },
+  {
+    "geo": "SK",
+    "accommodation_type": "hotel",
+    "target": "nights_total",
+    "selected_damped_trend": true,
+    "validation_abs_error": 4809169.965185729,
+    "fallback": false,
+    "failures": []
+  },
+  {
+    "geo": "SK",
+    "accommodation_type": "short_stay",
+    "target": "arrivals_total",
+    "selected_damped_trend": true,
+    "validation_abs_error": 371508.57930342125,
+    "fallback": false,
+    "failures": []
+  },
+  {
+    "geo": "SK",
+    "accommodation_type": "short_stay",
+    "target": "nights_total",
+    "selected_damped_trend": true,
+    "validation_abs_error": 818149.0389227066,
+    "fallback": false,
+    "failures": []
+  },
+  {
+    "geo": "SK",
+    "accommodation_type": "total",
+    "target": "arrivals_total",
+    "selected_damped_trend": true,
+    "validation_abs_error": 2724623.9808548167,
+    "fallback": false,
+    "failures": []
+  },
+  {
+    "geo": "SK",
+    "accommodation_type": "total",
+    "target": "nights_total",
+    "selected_damped_trend": false,
+    "validation_abs_error": 5373772.607013065,
+    "fallback": false,
+    "failures": []
+  },
+  {
+    "geo": "TR",
+    "accommodation_type": "camping",
+    "target": "arrivals_total",
+    "selected_damped_trend": true,
+    "validation_abs_error": 59657.70581576177,
+    "fallback": false,
+    "failures": []
+  },
+  {
+    "geo": "TR",
+    "accommodation_type": "camping",
+    "target": "nights_total",
+    "selected_damped_trend": false,
+    "validation_abs_error": 117750.64606842832,
+    "fallback": false,
+    "failures": []
+  },
+  {
+    "geo": "TR",
+    "accommodation_type": "hotel",
+    "target": "arrivals_total",
+    "selected_damped_trend": true,
+    "validation_abs_error": 27702991.226589777,
+    "fallback": false,
+    "failures": []
+  },
+  {
+    "geo": "TR",
+    "accommodation_type": "hotel",
+    "target": "nights_total",
+    "selected_damped_trend": false,
+    "validation_abs_error": 81329097.12948611,
+    "fallback": false,
+    "failures": [
+      {
+        "damped_trend": true,
+        "reason": "Optimizer did not converge"
+      }
+    ]
+  },
+  {
+    "geo": "TR",
+    "accommodation_type": "short_stay",
+    "target": "arrivals_total",
+    "selected_damped_trend": false,
+    "validation_abs_error": 13556.297228495845,
+    "fallback": false,
+    "failures": []
+  },
+  {
+    "geo": "TR",
+    "accommodation_type": "short_stay",
+    "target": "nights_total",
+    "selected_damped_trend": false,
+    "validation_abs_error": 28419.91051042035,
+    "fallback": false,
+    "failures": []
+  },
+  {
+    "geo": "TR",
+    "accommodation_type": "total",
+    "target": "arrivals_total",
+    "selected_damped_trend": true,
+    "validation_abs_error": 31786741.791362498,
+    "fallback": false,
+    "failures": []
+  },
+  {
+    "geo": "TR",
+    "accommodation_type": "total",
+    "target": "nights_total",
+    "selected_damped_trend": false,
+    "validation_abs_error": 100492328.8570134,
+    "fallback": false,
+    "failures": []
+  },
+  {
+    "geo": "UK",
+    "accommodation_type": "camping",
+    "target": "arrivals_total",
+    "selected_damped_trend": false,
+    "validation_abs_error": 0.0,
+    "fallback": false,
+    "failures": []
+  },
+  {
+    "geo": "UK",
+    "accommodation_type": "camping",
+    "target": "nights_total",
+    "selected_damped_trend": false,
+    "validation_abs_error": 0.0,
+    "fallback": false,
+    "failures": []
+  },
+  {
+    "geo": "UK",
+    "accommodation_type": "hotel",
+    "target": "arrivals_total",
+    "selected_damped_trend": false,
+    "validation_abs_error": 0.0,
+    "fallback": false,
+    "failures": []
+  },
+  {
+    "geo": "UK",
+    "accommodation_type": "hotel",
+    "target": "nights_total",
+    "selected_damped_trend": false,
+    "validation_abs_error": 0.0,
+    "fallback": false,
+    "failures": []
+  },
+  {
+    "geo": "UK",
+    "accommodation_type": "short_stay",
+    "target": "arrivals_total",
+    "selected_damped_trend": false,
+    "validation_abs_error": 0.0,
+    "fallback": false,
+    "failures": []
+  },
+  {
+    "geo": "UK",
+    "accommodation_type": "short_stay",
+    "target": "nights_total",
+    "selected_damped_trend": false,
+    "validation_abs_error": 0.0,
+    "fallback": false,
+    "failures": []
+  },
+  {
+    "geo": "UK",
+    "accommodation_type": "total",
+    "target": "arrivals_total",
+    "selected_damped_trend": false,
+    "validation_abs_error": 0.0,
+    "fallback": false,
+    "failures": []
+  },
+  {
+    "geo": "UK",
+    "accommodation_type": "total",
+    "target": "nights_total",
+    "selected_damped_trend": false,
+    "validation_abs_error": 0.0,
+    "fallback": false,
+    "failures": []
+  },
+  {
+    "geo": "XK",
+    "accommodation_type": "camping",
+    "target": "arrivals_total",
+    "selected_damped_trend": null,
+    "validation_abs_error": null,
+    "fallback": true,
+    "failures": [
+      {
+        "damped_trend": false,
+        "reason": "Constant training series"
+      },
+      {
+        "damped_trend": true,
+        "reason": "Constant training series"
+      }
+    ]
+  },
+  {
+    "geo": "XK",
+    "accommodation_type": "camping",
+    "target": "nights_total",
+    "selected_damped_trend": null,
+    "validation_abs_error": null,
+    "fallback": true,
+    "failures": [
+      {
+        "damped_trend": false,
+        "reason": "Constant training series"
+      },
+      {
+        "damped_trend": true,
+        "reason": "Constant training series"
+      }
+    ]
+  },
+  {
+    "geo": "XK",
+    "accommodation_type": "hotel",
+    "target": "arrivals_total",
+    "selected_damped_trend": true,
+    "validation_abs_error": 230879.8137441813,
+    "fallback": false,
+    "failures": []
+  },
+  {
+    "geo": "XK",
+    "accommodation_type": "hotel",
+    "target": "nights_total",
+    "selected_damped_trend": true,
+    "validation_abs_error": 411493.0623666543,
+    "fallback": false,
+    "failures": []
+  },
+  {
+    "geo": "XK",
+    "accommodation_type": "short_stay",
+    "target": "arrivals_total",
+    "selected_damped_trend": false,
+    "validation_abs_error": 14968.204851062483,
+    "fallback": false,
+    "failures": []
+  },
+  {
+    "geo": "XK",
+    "accommodation_type": "short_stay",
+    "target": "nights_total",
+    "selected_damped_trend": true,
+    "validation_abs_error": 49865.930016427024,
+    "fallback": false,
+    "failures": []
+  },
+  {
+    "geo": "XK",
+    "accommodation_type": "total",
+    "target": "arrivals_total",
+    "selected_damped_trend": true,
+    "validation_abs_error": 229795.23230158695,
+    "fallback": false,
+    "failures": []
+  },
+  {
+    "geo": "XK",
+    "accommodation_type": "total",
+    "target": "nights_total",
+    "selected_damped_trend": false,
+    "validation_abs_error": 426396.40818913386,
+    "fallback": false,
+    "failures": []
+  }
+]

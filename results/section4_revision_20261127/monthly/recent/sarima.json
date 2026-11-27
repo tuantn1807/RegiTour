@@ -1,0 +1,711 @@
+{
+  "fit_and_forecast_seconds": 137.13429729966447,
+  "fit_diagnostics": [
+    {
+      "geo": "BG",
+      "accommodation_type": "short_stay",
+      "target": "arrivals_total",
+      "fit_error": null,
+      "warnings": [
+        "Non-stationary starting seasonal autoregressive Using zeros as starting parameters."
+      ]
+    },
+    {
+      "geo": "BG",
+      "accommodation_type": "short_stay",
+      "target": "nights_total",
+      "fit_error": null,
+      "warnings": [
+        "Non-stationary starting seasonal autoregressive Using zeros as starting parameters."
+      ]
+    },
+    {
+      "geo": "BG",
+      "accommodation_type": "total",
+      "target": "arrivals_total",
+      "fit_error": null,
+      "warnings": [
+        "Non-stationary starting seasonal autoregressive Using zeros as starting parameters."
+      ]
+    },
+    {
+      "geo": "BG",
+      "accommodation_type": "total",
+      "target": "nights_total",
+      "fit_error": null,
+      "warnings": [
+        "Non-stationary starting seasonal autoregressive Using zeros as starting parameters."
+      ]
+    },
+    {
+      "geo": "CH",
+      "accommodation_type": "hotel",
+      "target": "arrivals_total",
+      "fit_error": "Optimizer did not converge",
+      "warnings": [
+        "Maximum Likelihood optimization failed to converge. Check mle_retvals"
+      ]
+    },
+    {
+      "geo": "CH",
+      "accommodation_type": "hotel",
+      "target": "nights_total",
+      "fit_error": "Optimizer did not converge",
+      "warnings": [
+        "Maximum Likelihood optimization failed to converge. Check mle_retvals"
+      ]
+    },
+    {
+      "geo": "CH",
+      "accommodation_type": "total",
+      "target": "arrivals_total",
+      "fit_error": "Optimizer did not converge",
+      "warnings": [
+        "Maximum Likelihood optimization failed to converge. Check mle_retvals"
+      ]
+    },
+    {
+      "geo": "CH",
+      "accommodation_type": "total",
+      "target": "nights_total",
+      "fit_error": "Optimizer did not converge",
+      "warnings": [
+        "Maximum Likelihood optimization failed to converge. Check mle_retvals"
+      ]
+    },
+    {
+      "geo": "CY",
+      "accommodation_type": "short_stay",
+      "target": "arrivals_total",
+      "fit_error": "Constant training series",
+      "warnings": []
+    },
+    {
+      "geo": "CY",
+      "accommodation_type": "short_stay",
+      "target": "nights_total",
+      "fit_error": "Constant training series",
+      "warnings": []
+    },
+    {
+      "geo": "CZ",
+      "accommodation_type": "camping",
+      "target": "nights_total",
+      "fit_error": null,
+      "warnings": [
+        "Non-stationary starting seasonal autoregressive Using zeros as starting parameters."
+      ]
+    },
+    {
+      "geo": "CZ",
+      "accommodation_type": "hotel",
+      "target": "arrivals_total",
+      "fit_error": "Optimizer did not converge",
+      "warnings": [
+        "Maximum Likelihood optimization failed to converge. Check mle_retvals"
+      ]
+    },
+    {
+      "geo": "CZ",
+      "accommodation_type": "total",
+      "target": "nights_total",
+      "fit_error": "Optimizer did not converge",
+      "warnings": [
+        "Maximum Likelihood optimization failed to converge. Check mle_retvals"
+      ]
+    },
+    {
+      "geo": "DK",
+      "accommodation_type": "hotel",
+      "target": "nights_total",
+      "fit_error": "Optimizer did not converge",
+      "warnings": [
+        "Maximum Likelihood optimization failed to converge. Check mle_retvals"
+      ]
+    },
+    {
+      "geo": "EE",
+      "accommodation_type": "short_stay",
+      "target": "nights_total",
+      "fit_error": null,
+      "warnings": [
+        "Non-stationary starting seasonal autoregressive Using zeros as starting parameters."
+      ]
+    },
+    {
+      "geo": "FI",
+      "accommodation_type": "camping",
+      "target": "arrivals_total",
+      "fit_error": null,
+      "warnings": [
+        "Non-stationary starting seasonal autoregressive Using zeros as starting parameters."
+      ]
+    },
+    {
+      "geo": "FI",
+      "accommodation_type": "camping",
+      "target": "nights_total",
+      "fit_error": null,
+      "warnings": [
+        "Non-stationary starting seasonal autoregressive Using zeros as starting parameters."
+      ]
+    },
+    {
+      "geo": "FI",
+      "accommodation_type": "short_stay",
+      "target": "arrivals_total",
+      "fit_error": null,
+      "warnings": [
+        "Non-stationary starting seasonal autoregressive Using zeros as starting parameters."
+      ]
+    },
+    {
+      "geo": "FI",
+      "accommodation_type": "short_stay",
+      "target": "nights_total",
+      "fit_error": null,
+      "warnings": [
+        "Non-stationary starting seasonal autoregressive Using zeros as starting parameters."
+      ]
+    },
+    {
+      "geo": "FR",
+      "accommodation_type": "total",
+      "target": "nights_total",
+      "fit_error": "Optimizer did not converge",
+      "warnings": [
+        "Maximum Likelihood optimization failed to converge. Check mle_retvals"
+      ]
+    },
+    {
+      "geo": "HR",
+      "accommodation_type": "short_stay",
+      "target": "arrivals_total",
+      "fit_error": null,
+      "warnings": [
+        "Non-stationary starting seasonal autoregressive Using zeros as starting parameters."
+      ]
+    },
+    {
+      "geo": "HR",
+      "accommodation_type": "short_stay",
+      "target": "nights_total",
+      "fit_error": null,
+      "warnings": [
+        "Non-stationary starting seasonal autoregressive Using zeros as starting parameters."
+      ]
+    },
+    {
+      "geo": "HR",
+      "accommodation_type": "total",
+      "target": "nights_total",
+      "fit_error": null,
+      "warnings": [
+        "Non-stationary starting seasonal autoregressive Using zeros as starting parameters."
+      ]
+    },
+    {
+      "geo": "IS",
+      "accommodation_type": "hotel",
+      "target": "arrivals_total",
+      "fit_error": null,
+      "warnings": [
+        "Non-stationary starting seasonal autoregressive Using zeros as starting parameters."
+      ]
+    },
+    {
+      "geo": "IS",
+      "accommodation_type": "hotel",
+      "target": "nights_total",
+      "fit_error": null,
+      "warnings": [
+        "Non-stationary starting seasonal autoregressive Using zeros as starting parameters."
+      ]
+    },
+    {
+      "geo": "IS",
+      "accommodation_type": "total",
+      "target": "arrivals_total",
+      "fit_error": null,
+      "warnings": [
+        "Non-stationary starting seasonal autoregressive Using zeros as starting parameters."
+      ]
+    },
+    {
+      "geo": "IS",
+      "accommodation_type": "total",
+      "target": "nights_total",
+      "fit_error": null,
+      "warnings": [
+        "Non-stationary starting seasonal autoregressive Using zeros as starting parameters."
+      ]
+    },
+    {
+      "geo": "LI",
+      "accommodation_type": "hotel",
+      "target": "arrivals_total",
+      "fit_error": "Optimizer did not converge",
+      "warnings": [
+        "Maximum Likelihood optimization failed to converge. Check mle_retvals"
+      ]
+    },
+    {
+      "geo": "LI",
+      "accommodation_type": "hotel",
+      "target": "nights_total",
+      "fit_error": null,
+      "warnings": [
+        "Non-stationary starting seasonal autoregressive Using zeros as starting parameters."
+      ]
+    },
+    {
+      "geo": "LI",
+      "accommodation_type": "total",
+      "target": "nights_total",
+      "fit_error": "Optimizer did not converge",
+      "warnings": [
+        "Maximum Likelihood optimization failed to converge. Check mle_retvals"
+      ]
+    },
+    {
+      "geo": "LT",
+      "accommodation_type": "camping",
+      "target": "arrivals_total",
+      "fit_error": null,
+      "warnings": [
+        "Non-stationary starting seasonal autoregressive Using zeros as starting parameters."
+      ]
+    },
+    {
+      "geo": "LT",
+      "accommodation_type": "camping",
+      "target": "nights_total",
+      "fit_error": null,
+      "warnings": [
+        "Non-stationary starting seasonal autoregressive Using zeros as starting parameters."
+      ]
+    },
+    {
+      "geo": "LT",
+      "accommodation_type": "total",
+      "target": "arrivals_total",
+      "fit_error": null,
+      "warnings": [
+        "Non-stationary starting seasonal autoregressive Using zeros as starting parameters."
+      ]
+    },
+    {
+      "geo": "LT",
+      "accommodation_type": "total",
+      "target": "nights_total",
+      "fit_error": null,
+      "warnings": [
+        "Non-stationary starting seasonal autoregressive Using zeros as starting parameters."
+      ]
+    },
+    {
+      "geo": "LU",
+      "accommodation_type": "total",
+      "target": "nights_total",
+      "fit_error": "Optimizer did not converge",
+      "warnings": [
+        "Maximum Likelihood optimization failed to converge. Check mle_retvals"
+      ]
+    },
+    {
+      "geo": "LV",
+      "accommodation_type": "camping",
+      "target": "arrivals_total",
+      "fit_error": null,
+      "warnings": [
+        "Non-stationary starting seasonal autoregressive Using zeros as starting parameters."
+      ]
+    },
+    {
+      "geo": "LV",
+      "accommodation_type": "short_stay",
+      "target": "arrivals_total",
+      "fit_error": null,
+      "warnings": [
+        "Non-stationary starting seasonal autoregressive Using zeros as starting parameters."
+      ]
+    },
+    {
+      "geo": "ME",
+      "accommodation_type": "hotel",
+      "target": "arrivals_total",
+      "fit_error": "Optimizer did not converge",
+      "warnings": [
+        "Maximum Likelihood optimization failed to converge. Check mle_retvals"
+      ]
+    },
+    {
+      "geo": "MK",
+      "accommodation_type": "hotel",
+      "target": "nights_total",
+      "fit_error": null,
+      "warnings": [
+        "Non-stationary starting seasonal autoregressive Using zeros as starting parameters."
+      ]
+    },
+    {
+      "geo": "MT",
+      "accommodation_type": "camping",
+      "target": "arrivals_total",
+      "fit_error": "Constant training series",
+      "warnings": []
+    },
+    {
+      "geo": "MT",
+      "accommodation_type": "camping",
+      "target": "nights_total",
+      "fit_error": "Constant training series",
+      "warnings": []
+    },
+    {
+      "geo": "NL",
+      "accommodation_type": "hotel",
+      "target": "arrivals_total",
+      "fit_error": "Optimizer did not converge",
+      "warnings": [
+        "Maximum Likelihood optimization failed to converge. Check mle_retvals"
+      ]
+    },
+    {
+      "geo": "NL",
+      "accommodation_type": "hotel",
+      "target": "nights_total",
+      "fit_error": "Optimizer did not converge",
+      "warnings": [
+        "Maximum Likelihood optimization failed to converge. Check mle_retvals"
+      ]
+    },
+    {
+      "geo": "NL",
+      "accommodation_type": "short_stay",
+      "target": "nights_total",
+      "fit_error": "Optimizer did not converge",
+      "warnings": [
+        "Maximum Likelihood optimization failed to converge. Check mle_retvals"
+      ]
+    },
+    {
+      "geo": "NL",
+      "accommodation_type": "total",
+      "target": "arrivals_total",
+      "fit_error": "Optimizer did not converge",
+      "warnings": [
+        "Maximum Likelihood optimization failed to converge. Check mle_retvals"
+      ]
+    },
+    {
+      "geo": "NL",
+      "accommodation_type": "total",
+      "target": "nights_total",
+      "fit_error": null,
+      "warnings": [
+        "Non-stationary starting seasonal autoregressive Using zeros as starting parameters."
+      ]
+    },
+    {
+      "geo": "NO",
+      "accommodation_type": "camping",
+      "target": "nights_total",
+      "fit_error": null,
+      "warnings": [
+        "Non-stationary starting seasonal autoregressive Using zeros as starting parameters."
+      ]
+    },
+    {
+      "geo": "NO",
+      "accommodation_type": "hotel",
+      "target": "arrivals_total",
+      "fit_error": "Optimizer did not converge",
+      "warnings": [
+        "Maximum Likelihood optimization failed to converge. Check mle_retvals"
+      ]
+    },
+    {
+      "geo": "NO",
+      "accommodation_type": "total",
+      "target": "arrivals_total",
+      "fit_error": "Optimizer did not converge",
+      "warnings": [
+        "Maximum Likelihood optimization failed to converge. Check mle_retvals"
+      ]
+    },
+    {
+      "geo": "PL",
+      "accommodation_type": "camping",
+      "target": "arrivals_total",
+      "fit_error": null,
+      "warnings": [
+        "Non-stationary starting seasonal autoregressive Using zeros as starting parameters."
+      ]
+    },
+    {
+      "geo": "PL",
+      "accommodation_type": "camping",
+      "target": "nights_total",
+      "fit_error": null,
+      "warnings": [
+        "Non-stationary starting seasonal autoregressive Using zeros as starting parameters."
+      ]
+    },
+    {
+      "geo": "PL",
+      "accommodation_type": "hotel",
+      "target": "arrivals_total",
+      "fit_error": "Optimizer did not converge",
+      "warnings": [
+        "Maximum Likelihood optimization failed to converge. Check mle_retvals"
+      ]
+    },
+    {
+      "geo": "PL",
+      "accommodation_type": "hotel",
+      "target": "nights_total",
+      "fit_error": "Optimizer did not converge",
+      "warnings": [
+        "Maximum Likelihood optimization failed to converge. Check mle_retvals"
+      ]
+    },
+    {
+      "geo": "PT",
+      "accommodation_type": "camping",
+      "target": "nights_total",
+      "fit_error": null,
+      "warnings": [
+        "Non-stationary starting seasonal autoregressive Using zeros as starting parameters."
+      ]
+    },
+    {
+      "geo": "PT",
+      "accommodation_type": "short_stay",
+      "target": "arrivals_total",
+      "fit_error": null,
+      "warnings": [
+        "Non-stationary starting seasonal autoregressive Using zeros as starting parameters."
+      ]
+    },
+    {
+      "geo": "PT",
+      "accommodation_type": "short_stay",
+      "target": "nights_total",
+      "fit_error": null,
+      "warnings": [
+        "Non-stationary starting seasonal autoregressive Using zeros as starting parameters."
+      ]
+    },
+    {
+      "geo": "RO",
+      "accommodation_type": "hotel",
+      "target": "arrivals_total",
+      "fit_error": null,
+      "warnings": [
+        "Non-stationary starting seasonal autoregressive Using zeros as starting parameters."
+      ]
+    },
+    {
+      "geo": "RO",
+      "accommodation_type": "total",
+      "target": "arrivals_total",
+      "fit_error": null,
+      "warnings": [
+        "Non-stationary starting seasonal autoregressive Using zeros as starting parameters."
+      ]
+    },
+    {
+      "geo": "RO",
+      "accommodation_type": "total",
+      "target": "nights_total",
+      "fit_error": null,
+      "warnings": [
+        "Non-stationary starting seasonal autoregressive Using zeros as starting parameters."
+      ]
+    },
+    {
+      "geo": "RS",
+      "accommodation_type": "hotel",
+      "target": "nights_total",
+      "fit_error": "Optimizer did not converge",
+      "warnings": [
+        "Maximum Likelihood optimization failed to converge. Check mle_retvals"
+      ]
+    },
+    {
+      "geo": "RS",
+      "accommodation_type": "short_stay",
+      "target": "arrivals_total",
+      "fit_error": null,
+      "warnings": [
+        "Non-stationary starting seasonal autoregressive Using zeros as starting parameters."
+      ]
+    },
+    {
+      "geo": "RS",
+      "accommodation_type": "short_stay",
+      "target": "nights_total",
+      "fit_error": null,
+      "warnings": [
+        "Non-stationary starting seasonal autoregressive Using zeros as starting parameters."
+      ]
+    },
+    {
+      "geo": "RS",
+      "accommodation_type": "total",
+      "target": "nights_total",
+      "fit_error": null,
+      "warnings": [
+        "Non-stationary starting seasonal autoregressive Using zeros as starting parameters."
+      ]
+    },
+    {
+      "geo": "SE",
+      "accommodation_type": "camping",
+      "target": "arrivals_total",
+      "fit_error": null,
+      "warnings": [
+        "Non-stationary starting seasonal autoregressive Using zeros as starting parameters."
+      ]
+    },
+    {
+      "geo": "SE",
+      "accommodation_type": "camping",
+      "target": "nights_total",
+      "fit_error": null,
+      "warnings": [
+        "Non-stationary starting seasonal autoregressive Using zeros as starting parameters."
+      ]
+    },
+    {
+      "geo": "TR",
+      "accommodation_type": "hotel",
+      "target": "arrivals_total",
+      "fit_error": null,
+      "warnings": [
+        "Non-stationary starting seasonal autoregressive Using zeros as starting parameters."
+      ]
+    },
+    {
+      "geo": "TR",
+      "accommodation_type": "hotel",
+      "target": "nights_total",
+      "fit_error": null,
+      "warnings": [
+        "Non-stationary starting seasonal autoregressive Using zeros as starting parameters."
+      ]
+    },
+    {
+      "geo": "TR",
+      "accommodation_type": "short_stay",
+      "target": "nights_total",
+      "fit_error": null,
+      "warnings": [
+        "Non-stationary starting seasonal autoregressive Using zeros as starting parameters."
+      ]
+    },
+    {
+      "geo": "TR",
+      "accommodation_type": "total",
+      "target": "arrivals_total",
+      "fit_error": null,
+      "warnings": [
+        "Non-stationary starting seasonal autoregressive Using zeros as starting parameters."
+      ]
+    },
+    {
+      "geo": "TR",
+      "accommodation_type": "total",
+      "target": "nights_total",
+      "fit_error": null,
+      "warnings": [
+        "Non-stationary starting seasonal autoregressive Using zeros as starting parameters."
+      ]
+    },
+    {
+      "geo": "XK",
+      "accommodation_type": "camping",
+      "target": "arrivals_total",
+      "fit_error": "Constant training series",
+      "warnings": []
+    },
+    {
+      "geo": "XK",
+      "accommodation_type": "camping",
+      "target": "nights_total",
+      "fit_error": "Constant training series",
+      "warnings": []
+    },
+    {
+      "geo": "XK",
+      "accommodation_type": "hotel",
+      "target": "arrivals_total",
+      "fit_error": "Optimizer did not converge",
+      "warnings": [
+        "Maximum Likelihood optimization failed to converge. Check mle_retvals",
+        "Non-stationary starting seasonal autoregressive Using zeros as starting parameters."
+      ]
+    },
+    {
+      "geo": "XK",
+      "accommodation_type": "hotel",
+      "target": "nights_total",
+      "fit_error": null,
+      "warnings": [
+        "Non-stationary starting seasonal autoregressive Using zeros as starting parameters."
+      ]
+    },
+    {
+      "geo": "XK",
+      "accommodation_type": "short_stay",
+      "target": "arrivals_total",
+      "fit_error": null,
+      "warnings": [
+        "Non-stationary starting seasonal autoregressive Using zeros as starting parameters."
+      ]
+    },
+    {
+      "geo": "XK",
+      "accommodation_type": "short_stay",
+      "target": "nights_total",
+      "fit_error": null,
+      "warnings": [
+        "Non-stationary starting seasonal autoregressive Using zeros as starting parameters."
+      ]
+    },
+    {
+      "geo": "XK",
+      "accommodation_type": "total",
+      "target": "arrivals_total",
+      "fit_error": null,
+      "warnings": [
+        "Non-stationary starting seasonal autoregressive Using zeros as starting parameters."
+      ]
+    },
+    {
+      "geo": "XK",
+      "accommodation_type": "total",
+      "target": "nights_total",
+      "fit_error": null,
+      "warnings": [
+        "Non-stationary starting seasonal autoregressive Using zeros as starting parameters."
+      ]
+    }
+  ],
+  "seasonal_fallback_fits": 28,
+  "model": "sarima",
+  "test_metrics": {
+    "arrivals_total": {
+      "n": 4522,
+      "mae": 390812.5504151639,
+      "wape": 28.188403096119213
+    },
+    "nights_total": {
+      "n": 4522,
+      "mae": 1022215.2685741913,
+      "wape": 26.367496727234137
+    }
+  },
+  "forecast_sha256": "fb4f6bed937a8e5d4556780d0228d4b0802978bd41bdd106c25131b9dcefaa44"
+}

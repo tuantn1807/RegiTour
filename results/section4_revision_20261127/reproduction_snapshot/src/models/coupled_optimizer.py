@@ -1,0 +1,105 @@
+"""
+Coupled Consistency Optimizer.
+Layer 5 Business Rule & Economic Constraint Module.
+Solves Research Gap 3 (Inconsistent multi-task predictions between Arrivals and Nights).
+Enforces:
+  1. Physical Lower Bound: Nights / Arrivals >= 1.0
+  2. Historical Realistic Range: [Ratio_base - delta, Ratio_base + delta]
+Performs convex projection to eliminate business contradictions.
+
+The paper's DLinear pipelines use project_physical_pair(), which enforces only
+the physical lower bound. optimize_pair() retains the separate legacy economic
+band adjustment for callers that explicitly request that behavior.
+"""
+
+from typing import Dict, List, Optional, Tuple
+import numpy as np
+
+
+class CoupledConsistencyOptimizer:
+    """
+    Guarantees economic domain consistency between predicted tourist arrivals
+    and overnight stays.
+    """
+
+    def __init__(self, delta: float = 1.0, min_ratio: float = 1.05, anchor_arrivals: bool = True):
+        self.delta = delta
+        self.min_ratio = min_ratio
+        self.anchor_arrivals = anchor_arrivals
+
+    @staticmethod
+    def project_physical_pair(
+        y_arr_pred: np.ndarray,
+        y_nig_pred: np.ndarray,
+    ) -> Tuple[np.ndarray, np.ndarray, np.ndarray]:
+        """Paper Pi_C: preserve nonnegative arrivals; raise nights only if needed.
+
+        Historical economic bands are evaluation criteria, not constraints of
+        this projection. No rounding or positive floor is applied.
+        """
+        arrivals = np.asarray(y_arr_pred, dtype=np.float32)
+        nights = np.asarray(y_nig_pred, dtype=np.float32)
+        if arrivals.shape != nights.shape:
+            raise ValueError("Arrivals and nights must have identical shapes.")
+        arrivals = np.maximum(arrivals, 0.0)
+        violations = nights < arrivals
+        return arrivals.copy(), np.maximum(nights, arrivals), violations
+
+    def optimize_pair(
+        self,
+        y_arr_pred: np.ndarray,
+        y_nig_pred: np.ndarray,
+        base_ratios: np.ndarray,
+    ) -> Tuple[np.ndarray, np.ndarray, np.ndarray]:
+        """
+        Projects (y_arr, y_nig) into the mathematically consistent domain:
+          Ratio = y_nig / max(y_arr, 1.0)
+          Feasible region: [max(min_ratio, base_ratio - delta), base_ratio + delta]
+        When anchor_arrivals is True (recommended in tourism econometrics):
+          Arrivals is treated as the primary observed registration metric (anchor),
+          and Nights is projected into the feasible interval without degrading Arrivals.
+        Returns:
+          - y_arr_adj: Adjusted arrivals
+          - y_nig_adj: Adjusted nights
+          - violations_flag: Boolean array indicating where adjustments occurred
+        """
+        y_arr_adj = np.maximum(y_arr_pred.copy(), 1.0)
+        y_nig_adj = np.maximum(y_nig_pred.copy(), 1.0)
+
+        # Current ratios
+        current_ratios = y_nig_adj / y_arr_adj
+
+        # Feasible bounds per country
+        r_min = np.maximum(self.min_ratio, base_ratios - self.delta)
+        r_max = base_ratios + self.delta
+
+        violations_low = current_ratios < r_min
+        violations_high = current_ratios > r_max
+        violations_flag = violations_low | violations_high
+
+        if self.anchor_arrivals:
+            # Asymmetric anchor projection: Arrivals is invariant anchor
+            if np.any(violations_low):
+                y_nig_adj[violations_low] = y_arr_adj[violations_low] * r_min[violations_low]
+            if np.any(violations_high):
+                y_nig_adj[violations_high] = y_arr_adj[violations_high] * r_max[violations_high]
+        else:
+            # 1. Adjust under-ratio (nights too small compared to arrivals)
+            if np.any(violations_low):
+                target_r = r_min[violations_low]
+                geom = np.sqrt(y_arr_adj[violations_low] * y_nig_adj[violations_low])
+                y_arr_adj[violations_low] = geom / np.sqrt(target_r)
+                y_nig_adj[violations_low] = geom * np.sqrt(target_r)
+
+            # 2. Adjust over-ratio (nights too large compared to arrivals)
+            if np.any(violations_high):
+                target_r = r_max[violations_high]
+                geom = np.sqrt(y_arr_adj[violations_high] * y_nig_adj[violations_high])
+                y_arr_adj[violations_high] = geom / np.sqrt(target_r)
+                y_nig_adj[violations_high] = geom * np.sqrt(target_r)
+
+        return (
+            np.round(y_arr_adj).astype(np.float32),
+            np.round(y_nig_adj).astype(np.float32),
+            violations_flag,
+        )

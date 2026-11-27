@@ -1,0 +1,27 @@
+{
+  "epochs_run": 7,
+  "best_validation_mse": 2362346752.0,
+  "training_windows": 7938,
+  "learning_rate": 0.001,
+  "batch_size": 128,
+  "patience": 6,
+  "fit_seconds": 2.041784499771893,
+  "forecast_seconds_median3": 0.989763599820435,
+  "registered_parameters": 600,
+  "trainable_parameters": 600,
+  "extra_baseline_script_sha256": "7f241a191dd7815c6e5c0f99775bb4494ae5f97ddfd262aaa42cce979022360f",
+  "model": "learned_dlinear",
+  "test_metrics": {
+    "arrivals_total": {
+      "n": 3422,
+      "mae": 774259.2281130519,
+      "wape": 106.09769842068455
+    },
+    "nights_total": {
+      "n": 3422,
+      "mae": 2553950.396709861,
+      "wape": 117.73242751469284
+    }
+  },
+  "forecast_sha256": "934c2397af4fe26c56c0b9069bd2245e2485b9e20e11935b14ce477dc222d7eb"
+}

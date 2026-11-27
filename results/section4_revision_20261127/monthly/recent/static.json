@@ -1,0 +1,18 @@
+{
+  "w_temporal": 0.7,
+  "selection": "fixed prior",
+  "model": "static",
+  "test_metrics": {
+    "arrivals_total": {
+      "n": 4522,
+      "mae": 198088.85422169045,
+      "wape": 14.287689752331834
+    },
+    "nights_total": {
+      "n": 4522,
+      "mae": 601887.2921667434,
+      "wape": 15.52536113895718
+    }
+  },
+  "forecast_sha256": "c34507f02472291866027a635a56a986b16e5981d5c5a08ff6d70b42e2d5f46d"
+}

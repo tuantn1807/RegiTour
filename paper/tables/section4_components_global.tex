@@ -1,0 +1,51 @@
+\begin{table*}[!t]
+\centering
+\caption{Component contributions on Eurostat (Panel A) and re-estimated annual global benchmark (Panel B). Each cell reports WAPE and MAE in original counts.}
+\label{tab:section4_components_global}
+\footnotesize
+\setlength{\tabcolsep}{3pt}
+\renewcommand{\arraystretch}{1.10}
+\begin{minipage}[t]{0.49\textwidth}
+\centering
+\begin{tabular}[t]{@{}lrr@{}}
+\toprule
+\textbf{Panel A: Eurostat components} & \textbf{Arrivals} & \textbf{Nights} \\
+\midrule
+Frozen DLinear & \shortstack{9.36\%\\129,751} & \shortstack{10.47\%\\405,781} \\
+DLinear + Exogenous & \shortstack{9.16\%\\127,051} & \shortstack{9.67\%\\374,958} \\
+DLinear + HMM bias & \shortstack{9.36\%\\129,751} & \shortstack{10.47\%\\405,781} \\
+DLinear + static FiLM & \shortstack{11.51\%\\159,624} & \shortstack{14.15\%\\548,445} \\
+DLinear + HMM + ungated FiLM & \shortstack{10.97\%\\152,101} & \shortstack{13.26\%\\514,070} \\
+Exogenous + HMM + ungated FiLM & \shortstack{9.42\%\\130,571} & \shortstack{11.34\%\\439,518} \\
+Soft FiLM, no coupled loss & \shortstack{9.48\%\\131,449} & \shortstack{9.96\%\\386,265} \\
+Full temporal core & \shortstack{9.49\%\\131,577} & \shortstack{9.96\%\\385,937} \\
+Static blend (0.7), raw & \shortstack{14.29\%\\198,089} & \shortstack{15.53\%\\601,887} \\
+Adaptive before projection & \shortstack{9.65\%\\133,777} & \shortstack{10.14\%\\393,185} \\
+RA-HE-DLinear & \shortstack{9.65\%\\133,777} & \shortstack{10.13\%\\392,848} \\
+\bottomrule
+\end{tabular}
+\end{minipage}\hfill
+\begin{minipage}[t]{0.49\textwidth}
+\centering
+\begin{tabular}[t]{@{}lrr@{}}
+\toprule
+\textbf{Panel B: Annual global benchmark} & \textbf{Arrivals} & \textbf{Nights} \\
+\midrule
+Persistence (all) & \shortstack{43.12\%\\2,442,014} & \shortstack{45.58\%\\11,328,118} \\
+Frozen DLinear (all) & \shortstack{46.77\%\\2,648,641} & \shortstack{50.30\%\\12,502,092} \\
+DLinear + Exogenous (all) & \shortstack{50.18\%\\2,842,018} & \shortstack{54.27\%\\13,487,216} \\
+TRMF-only (all) & \shortstack{51.30\%\\2,905,214} & \shortstack{58.73\%\\14,594,838} \\
+RA-HE-DLinear (all) & \shortstack{49.54\%\\2,805,937} & \shortstack{54.16\%\\13,459,052} \\
+\midrule
+Full: pre-COVID 2019 & \shortstack{7.62\%\\587,025} & \shortstack{11.00\%\\3,675,307} \\
+Full: shock 2020--2021 & \shortstack{167.10\%\\4,089,943} & \shortstack{172.94\%\\18,029,462} \\
+Full: recovery 2022--2024 & \shortstack{32.88\%\\2,735,071} & \shortstack{39.08\%\\14,535,258} \\
+Persistence: recovery & \shortstack{30.67\%\\2,551,078} & \shortstack{32.48\%\\12,079,520} \\
+\bottomrule
+\end{tabular}
+\end{minipage}
+\par\vspace{3pt}
+\begin{minipage}{\textwidth}
+\scriptsize\raggedright Panel A uses 4,522 observed pairs and a single seed. Ungated and soft FiLM are separate controls; static fusion uses $w_{\rm time}=0.7$. Panel B scores 786 reported arrivals paired with mixed-source nights, of which 678 nights targets are constructed and 108 are OECD observations. Annual models are retrained with $L=4$, $H=1$ on a calendar-year grid; this is cross-dataset re-estimation rather than zero-shot transfer.
+\end{minipage}
+\end{table*}

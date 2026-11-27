@@ -1,0 +1,22 @@
+{
+  "w_temporal": 0.9470249462238719,
+  "calibration_pairs": 1769,
+  "calibration_quantiles": [
+    366223.0,
+    1133948.0
+  ],
+  "model": "adaptive",
+  "test_metrics": {
+    "arrivals_total": {
+      "n": 3422,
+      "mae": 543052.553823086,
+      "wape": 74.41516224807793
+    },
+    "nights_total": {
+      "n": 3422,
+      "mae": 1498459.1713569937,
+      "wape": 69.07621855255464
+    }
+  },
+  "forecast_sha256": "bdf7b48868dd441ca54659ccdfaa191112ee8cfe05f677f2a2cfbdebb368c6ea"
+}

@@ -1,0 +1,6 @@
+{
+  "script_sha256": "7f241a191dd7815c6e5c0f99775bb4494ae5f97ddfd262aaa42cce979022360f",
+  "ets_tuner_sha256": "88ed1b4aaebc475066a1e34477e86bcd99d99816ddc0a01c6d3b190369f80c85",
+  "dlinear": "Trainable VanillaDLinearNet; same log-standardized inputs, complete observed training windows, and 30-epoch/6-patience validation protocol as Transformer comparators",
+  "ets": "Validation-selected additive seasonal ETS on training-median-scaled counts; fixed log-ETS retained only as a sensitivity archive"
+}

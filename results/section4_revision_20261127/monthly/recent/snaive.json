@@ -1,0 +1,19 @@
+{
+  "fit_and_forecast_seconds": 2.4203632003627717,
+  "fit_diagnostics": [],
+  "seasonal_fallback_fits": 0,
+  "model": "snaive",
+  "test_metrics": {
+    "arrivals_total": {
+      "n": 4522,
+      "mae": 83753.22379478106,
+      "wape": 6.040925836232224
+    },
+    "nights_total": {
+      "n": 4522,
+      "mae": 220024.07231313578,
+      "wape": 5.67540339592205
+    }
+  },
+  "forecast_sha256": "4676dcf657b3c1a4e42fdea0ff1ec8857be1677e881f22e0e2a5770b3dd54afe"
+}

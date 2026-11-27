@@ -55,23 +55,25 @@
 
 ---
 
+---
+
 ### 4. BẢNG SO SÁNH ĐỐI KHÁNG TRỰC TIẾP VỚI CÁC MÔ HÌNH BASELINE (BENCHMARK COMPARISON)
 
 Bảng dưới đây tổng hợp kết quả đối sánh thực nghiệm giữa kiến trúc đề xuất **RA-HE-DLinear** và các mô hình đại diện cho các thế hệ phương pháp trong kinh tế học du lịch:
 
 | Mô hình đối sánh (Model) | Lớp mô hình (Family) | Arrivals WAPE (%) | Arrivals MAE | Nights WAPE (%) | Nights MAE | Vi phạm vật lý (< 1.0) | Lệch dải kinh tế | Cải thiện sai số |
 | :--- | :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| Seasonal Naive (S-Naive) | Statistical | 27.65% | 412,599 | 32.80% | 1,337,650 | 0.04% | 28.8% | +0.0% |
-| Standard XGBoost | Machine Learning | 34.22% | 510,724 | 41.75% | 1,702,614 | 6.14% | 42.2% | -6.57% |
-| Standard LightGBM | Machine Learning | 30.34% | 452,845 | 33.90% | 1,382,140 | 7.51% | 44.5% | -2.69% |
-| Vanilla DLinear (AAAI 2023) | Linear LTSF (Modern Baseline) | 6.52% | 97,284 | 7.30% | 297,668 | 0.37% | 20.6% | +21.13% |
-| **RA-Exo-DLinear (Proposed Linear ⭐)** | Linear LTSF (Proposed ⭐) | **56.38%** | 841,464 | **41.81%** | 1,704,851 | **5.04%** | **85.0%** | -28.73% |
-| Vanilla BiLSTM (Graves, 2013) | Deep Learning (Classical) | 107.70% | 1,607,337 | 112.04% | 4,568,701 | 0.00% | 28.9% | -80.05% |
-| CatBoost-Regime (Ablation) | Machine Learning (Ablation) | 40.64% | 606,507 | 44.99% | 1,834,703 | 17.41% | 52.9% | -12.99% |
-| PatchTST | Transformer LTSF | 28.14% | 419,919 | 31.76% | 1,294,905 | 1.88% | 36.6% | -0.49% |
-| iTransformer | Transformer LTSF | 30.26% | 451,678 | 34.90% | 1,423,113 | 0.04% | 29.8% | -2.61% |
-| TimesNet | Transformer LTSF | 34.53% | 515,341 | 47.00% | 1,916,403 | 0.36% | 30.6% | -6.88% |
-| **RA-HE-DLinear (Proposed Linear Framework ⭐)** | Linear Framework (Proposed ⭐) | **36.58%** | 545,968 | **46.96%** | 1,915,005 | **0.00%** | **25.1%** | -8.93% |
+| Seasonal Naive (S-Naive) | Statistical | 27.30% | 397,503 | 32.73% | 1,287,411 | 0.04% | 28.8% | +0.0% |
+| Standard XGBoost | Machine Learning | 34.13% | 496,861 | 42.36% | 1,666,128 | 6.22% | 41.8% | -6.83% |
+| Standard LightGBM | Machine Learning | 30.37% | 442,199 | 34.28% | 1,348,103 | 7.74% | 44.4% | -3.07% |
+| Vanilla DLinear (AAAI 2023) | Linear LTSF (Modern Baseline) | 7.20% | 104,893 | 7.92% | 311,701 | 0.38% | 20.9% | +20.1% |
+| **RA-Exo-DLinear (Proposed Linear ⭐)** | Linear LTSF (Proposed ⭐) | **22.27%** | 324,203 | **48.31%** | 1,900,202 | **8.97%** | **45.8%** | +5.03% |
+| Vanilla BiLSTM (Graves, 2013) | Deep Learning (Classical) | 108.53% | 1,580,071 | 113.16% | 4,450,857 | 0.00% | 28.9% | -81.23% |
+| CatBoost-Regime (Ablation) | Machine Learning (Ablation) | 40.27% | 586,231 | 44.86% | 1,764,508 | 17.75% | 52.4% | -12.97% |
+| PatchTST | Transformer LTSF | 28.01% | 407,748 | 31.52% | 1,239,640 | 1.92% | 36.8% | -0.71% |
+| iTransformer | Transformer LTSF | 29.21% | 425,314 | 33.15% | 1,303,752 | 0.04% | 29.9% | -1.91% |
+| TimesNet | Transformer LTSF | 34.93% | 508,596 | 48.44% | 1,905,043 | 0.35% | 30.7% | -7.63% |
+| **RA-HE-DLinear (Proposed Linear Framework ⭐)** | Linear Framework (Proposed ⭐) | **34.58%** | 503,474 | **42.82%** | 1,684,291 | **0.00%** | **24.7%** | -7.28% |
 
 #### 💡 Phân Tích Khoa Học & Bàn Luận (Scientific Discussion):
 1. **Sự vượt trội của Framework Tuyến tính Đề xuất (RA-HE-DLinear):**
