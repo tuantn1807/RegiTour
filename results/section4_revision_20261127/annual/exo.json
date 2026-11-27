@@ -1,0 +1,25 @@
+{
+  "fit_seconds": 5.3821970000863075,
+  "forecast_seconds_median3": 5.966650599613786,
+  "components": {
+    "use_exo": true,
+    "use_film": false,
+    "use_consistency": false,
+    "hmm": false
+  },
+  "registered_parameters": 132,
+  "model": "exo",
+  "test_metrics": {
+    "arrivals_total": {
+      "n": 786,
+      "mae": 2842018.355251697,
+      "wape": 50.18051992776385
+    },
+    "nights_total": {
+      "n": 786,
+      "mae": 13487216.166536016,
+      "wape": 54.268612328716
+    }
+  },
+  "forecast_sha256": "b67e6eef89bb2b4721d5fb681defec910470ef535ecf8444f93dcdfe80c8452c"
+}

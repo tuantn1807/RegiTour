@@ -1,0 +1,26 @@
+{
+  "fit_seconds": 7.752051000017673,
+  "forecast_seconds_median3": 3.3169283997267485,
+  "registered_parameters": 4752,
+  "trainable_parameters": 4152,
+  "components": {
+    "use_exo": false,
+    "use_film": false,
+    "use_consistency": false,
+    "hmm": false
+  },
+  "model": "dlinear",
+  "test_metrics": {
+    "arrivals_total": {
+      "n": 4522,
+      "mae": 129750.9472230897,
+      "wape": 9.358634973575885
+    },
+    "nights_total": {
+      "n": 4522,
+      "mae": 405781.1145689305,
+      "wape": 10.466907058914806
+    }
+  },
+  "forecast_sha256": "d4289a0b443a3873c2765cafea13523809bedc5d03a266efacc3ded3b7ed56b2"
+}

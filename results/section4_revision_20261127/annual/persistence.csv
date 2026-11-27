@@ -1,0 +1,1219 @@
+geo,accommodation_type,date,country,origin,horizon,observed_pair,observed_arrivals_total,observed_nights_total,pred_arrivals,pred_nights,nights_source,is_synthetic_nights,model
+ABW,total,2019-01-01,Aruba,2018-12-31 23:59:59,1,True,1119000.0,7251120.000000001,1082000.0,7011360.0,un_tourism_alos_imputed,1.0,persistence
+ABW,total,2020-01-01,Aruba,2019-12-31 23:59:59,1,True,368000.0,2384640.0,1119000.0,7251120.000000001,un_tourism_alos_imputed,1.0,persistence
+ABW,total,2021-01-01,Aruba,2020-12-31 23:59:59,1,True,807000.0,5229360.0,368000.0,2384640.0,un_tourism_alos_imputed,1.0,persistence
+ABW,total,2022-01-01,Aruba,2021-12-31 23:59:59,1,True,1101000.0,7134480.000000001,807000.0,5229360.0,un_tourism_alos_imputed,1.0,persistence
+ABW,total,2023-01-01,Aruba,2022-12-31 23:59:59,1,False,,,1101000.0,7134480.000000001,,,persistence
+ABW,total,2024-01-01,Aruba,2023-12-31 23:59:59,1,False,,,1101000.0,7134480.000000001,,,persistence
+AGO,total,2019-01-01,Angola,2018-12-31 23:59:59,1,True,218000.0,1704759.9999999998,218000.0,1704759.9999999998,un_tourism_alos_imputed,1.0,persistence
+AGO,total,2020-01-01,Angola,2019-12-31 23:59:59,1,True,64000.0,500480.0,218000.0,1704759.9999999998,un_tourism_alos_imputed,1.0,persistence
+AGO,total,2021-01-01,Angola,2020-12-31 23:59:59,1,True,64000.0,500480.0,64000.0,500480.0,un_tourism_alos_imputed,1.0,persistence
+AGO,total,2022-01-01,Angola,2021-12-31 23:59:59,1,True,130000.0,1016600.0,64000.0,500480.0,un_tourism_alos_imputed,1.0,persistence
+AGO,total,2023-01-01,Angola,2022-12-31 23:59:59,1,False,,,130000.0,1016600.0,,,persistence
+AGO,total,2024-01-01,Angola,2023-12-31 23:59:59,1,False,,,130000.0,1016600.0,,,persistence
+ALB,total,2019-01-01,Albania,2018-12-31 23:59:59,1,True,6128000.0,23286400.0,5340000.0,20292000.0,un_tourism_alos_imputed,1.0,persistence
+ALB,total,2020-01-01,Albania,2019-12-31 23:59:59,1,True,2604000.0,9895200.0,6128000.0,23286400.0,un_tourism_alos_imputed,1.0,persistence
+ALB,total,2021-01-01,Albania,2020-12-31 23:59:59,1,True,5515000.0,20957000.0,2604000.0,9895200.0,un_tourism_alos_imputed,1.0,persistence
+ALB,total,2022-01-01,Albania,2021-12-31 23:59:59,1,True,7104700.0,26997860.0,5515000.0,20957000.0,un_tourism_alos_imputed,1.0,persistence
+ALB,total,2023-01-01,Albania,2022-12-31 23:59:59,1,True,9741000.0,37015800.0,7104700.0,26997860.0,un_tourism_alos_imputed,1.0,persistence
+ALB,total,2024-01-01,Albania,2023-12-31 23:59:59,1,True,11483000.0,43635400.0,9741000.0,37015800.0,un_tourism_alos_imputed,1.0,persistence
+AND,total,2019-01-01,Andorra,2018-12-31 23:59:59,1,True,3090000.0,10567800.0,3042000.0,10403640.0,un_tourism_alos_imputed,1.0,persistence
+AND,total,2020-01-01,Andorra,2019-12-31 23:59:59,1,True,1872000.0,6402240.0,3090000.0,10567800.0,un_tourism_alos_imputed,1.0,persistence
+AND,total,2021-01-01,Andorra,2020-12-31 23:59:59,1,True,1949000.0,6665580.0,1872000.0,6402240.0,un_tourism_alos_imputed,1.0,persistence
+AND,total,2022-01-01,Andorra,2021-12-31 23:59:59,1,True,3555100.0,12158442.0,1949000.0,6665580.0,un_tourism_alos_imputed,1.0,persistence
+AND,total,2023-01-01,Andorra,2022-12-31 23:59:59,1,True,4048100.0,13844502.0,3555100.0,12158442.0,un_tourism_alos_imputed,1.0,persistence
+AND,total,2024-01-01,Andorra,2023-12-31 23:59:59,1,True,4167600.0,14253192.0,4048100.0,13844502.0,un_tourism_alos_imputed,1.0,persistence
+ARE,total,2019-01-01,United Arab Emirates,2018-12-31 23:59:59,1,True,21561000.0,106726950.0,20214000.0,100059300.0,un_tourism_alos_imputed,1.0,persistence
+ARE,total,2020-01-01,United Arab Emirates,2019-12-31 23:59:59,1,True,7165000.0,35466750.0,21561000.0,106726950.0,un_tourism_alos_imputed,1.0,persistence
+ARE,total,2021-01-01,United Arab Emirates,2020-12-31 23:59:59,1,True,11479000.0,56821050.0,7165000.0,35466750.0,un_tourism_alos_imputed,1.0,persistence
+ARE,total,2022-01-01,United Arab Emirates,2021-12-31 23:59:59,1,False,,,11479000.0,56821050.0,,,persistence
+ARE,total,2023-01-01,United Arab Emirates,2022-12-31 23:59:59,1,False,,,11479000.0,56821050.0,,,persistence
+ARE,total,2024-01-01,United Arab Emirates,2023-12-31 23:59:59,1,False,,,11479000.0,56821050.0,,,persistence
+ARG,total,2019-01-01,Argentina,2018-12-31 23:59:59,1,True,7399000.0,10915828.0,6942000.0,9920898.0,oecd_observed,0.0,persistence
+ARG,total,2020-01-01,Argentina,2019-12-31 23:59:59,1,True,2090000.0,2658629.0,7399000.0,10915828.0,oecd_observed,0.0,persistence
+ARG,total,2021-01-01,Argentina,2020-12-31 23:59:59,1,True,297000.0,508454.0,2090000.0,2658629.0,oecd_observed,0.0,persistence
+ARG,total,2022-01-01,Argentina,2021-12-31 23:59:59,1,True,3890000.0,6390615.0,297000.0,508454.0,oecd_observed,0.0,persistence
+ARG,total,2023-01-01,Argentina,2022-12-31 23:59:59,1,True,7285688.0,10370321.0,3890000.0,6390615.0,oecd_observed,0.0,persistence
+ARG,total,2024-01-01,Argentina,2023-12-31 23:59:59,1,True,6603877.0,9854696.0,7285688.0,10370321.0,oecd_observed,0.0,persistence
+ARM,total,2019-01-01,Armenia,2018-12-31 23:59:59,1,True,1894000.0,7197200.0,1652000.0,6277600.0,un_tourism_alos_imputed,1.0,persistence
+ARM,total,2020-01-01,Armenia,2019-12-31 23:59:59,1,True,360000.0,1368000.0,1894000.0,7197200.0,un_tourism_alos_imputed,1.0,persistence
+ARM,total,2021-01-01,Armenia,2020-12-31 23:59:59,1,True,876000.0,3328800.0,360000.0,1368000.0,un_tourism_alos_imputed,1.0,persistence
+ARM,total,2022-01-01,Armenia,2021-12-31 23:59:59,1,True,1666000.0,6330800.0,876000.0,3328800.0,un_tourism_alos_imputed,1.0,persistence
+ARM,total,2023-01-01,Armenia,2022-12-31 23:59:59,1,True,2316000.0,8800800.0,1666000.0,6330800.0,un_tourism_alos_imputed,1.0,persistence
+ARM,total,2024-01-01,Armenia,2023-12-31 23:59:59,1,True,2208000.0,8390400.0,2316000.0,8800800.0,un_tourism_alos_imputed,1.0,persistence
+ASM,total,2019-01-01,American Samoa,2018-12-31 23:59:59,1,True,19200.0,112320.0,20200.0,118170.0,un_tourism_alos_imputed,1.0,persistence
+ASM,total,2020-01-01,American Samoa,2019-12-31 23:59:59,1,True,900.0,5265.000000000001,19200.0,112320.0,un_tourism_alos_imputed,1.0,persistence
+ASM,total,2021-01-01,American Samoa,2020-12-31 23:59:59,1,False,,,900.0,5265.000000000001,,,persistence
+ASM,total,2022-01-01,American Samoa,2021-12-31 23:59:59,1,False,,,900.0,5265.000000000001,,,persistence
+ASM,total,2023-01-01,American Samoa,2022-12-31 23:59:59,1,False,,,900.0,5265.000000000001,,,persistence
+ASM,total,2024-01-01,American Samoa,2023-12-31 23:59:59,1,False,,,900.0,5265.000000000001,,,persistence
+ATG,total,2019-01-01,Antigua and Barbuda,2018-12-31 23:59:59,1,True,301000.0,1950480.0,269000.0,1743120.0,un_tourism_alos_imputed,1.0,persistence
+ATG,total,2020-01-01,Antigua and Barbuda,2019-12-31 23:59:59,1,True,125000.0,810000.0,301000.0,1950480.0,un_tourism_alos_imputed,1.0,persistence
+ATG,total,2021-01-01,Antigua and Barbuda,2020-12-31 23:59:59,1,True,169400.0,1097712.0,125000.0,810000.0,un_tourism_alos_imputed,1.0,persistence
+ATG,total,2022-01-01,Antigua and Barbuda,2021-12-31 23:59:59,1,True,265100.0,1717848.0,169400.0,1097712.0,un_tourism_alos_imputed,1.0,persistence
+ATG,total,2023-01-01,Antigua and Barbuda,2022-12-31 23:59:59,1,True,281800.0,1826064.0,265100.0,1717848.0,un_tourism_alos_imputed,1.0,persistence
+ATG,total,2024-01-01,Antigua and Barbuda,2023-12-31 23:59:59,1,True,330200.0,2139696.0,281800.0,1826064.0,un_tourism_alos_imputed,1.0,persistence
+AUS,total,2019-01-01,Australia,2018-12-31 23:59:59,1,True,9466000.0,106862600.0,9246000.0,109292900.0,oecd_observed,0.0,persistence
+AUS,total,2020-01-01,Australia,2019-12-31 23:59:59,1,True,1828000.0,10693800.000000002,9466000.0,106862600.0,un_tourism_alos_imputed,1.0,persistence
+AUS,total,2021-01-01,Australia,2020-12-31 23:59:59,1,False,,,1828000.0,10693800.000000002,,,persistence
+AUS,total,2022-01-01,Australia,2021-12-31 23:59:59,1,False,,,1828000.0,10693800.000000002,,,persistence
+AUS,total,2023-01-01,Australia,2022-12-31 23:59:59,1,False,,,1828000.0,10693800.000000002,,,persistence
+AUS,total,2024-01-01,Australia,2023-12-31 23:59:59,1,False,,,1828000.0,10693800.000000002,,,persistence
+AUT,total,2019-01-01,Austria,2018-12-31 23:59:59,1,True,31884000.0,109043280.0,30816000.0,105390720.0,un_tourism_alos_imputed,1.0,persistence
+AUT,total,2020-01-01,Austria,2019-12-31 23:59:59,1,True,15091000.0,15137186.0,31884000.0,109043280.0,oecd_observed,0.0,persistence
+AUT,total,2021-01-01,Austria,2020-12-31 23:59:59,1,True,12728000.0,43529760.0,15091000.0,15137186.0,un_tourism_alos_imputed,1.0,persistence
+AUT,total,2022-01-01,Austria,2021-12-31 23:59:59,1,True,26215000.0,89655300.0,12728000.0,43529760.0,un_tourism_alos_imputed,1.0,persistence
+AUT,total,2023-01-01,Austria,2022-12-31 23:59:59,1,False,,,26215000.0,89655300.0,,,persistence
+AUT,total,2024-01-01,Austria,2023-12-31 23:59:59,1,False,,,26215000.0,89655300.0,,,persistence
+AZE,total,2019-01-01,Azerbaijan,2018-12-31 23:59:59,1,True,2876000.0,10928800.0,2633000.0,10005400.0,un_tourism_alos_imputed,1.0,persistence
+AZE,total,2020-01-01,Azerbaijan,2019-12-31 23:59:59,1,True,587000.0,2230600.0,2876000.0,10928800.0,un_tourism_alos_imputed,1.0,persistence
+AZE,total,2021-01-01,Azerbaijan,2020-12-31 23:59:59,1,False,,,587000.0,2230600.0,,,persistence
+AZE,total,2022-01-01,Azerbaijan,2021-12-31 23:59:59,1,True,1508000.0,5730400.0,587000.0,2230600.0,un_tourism_alos_imputed,1.0,persistence
+AZE,total,2023-01-01,Azerbaijan,2022-12-31 23:59:59,1,False,,,1508000.0,5730400.0,,,persistence
+AZE,total,2024-01-01,Azerbaijan,2023-12-31 23:59:59,1,False,,,1508000.0,5730400.0,,,persistence
+BDI,total,2019-01-01,Burundi,2018-12-31 23:59:59,1,False,,,299000.0,2338180.0,,,persistence
+BDI,total,2020-01-01,Burundi,2019-12-31 23:59:59,1,False,,,299000.0,2338180.0,,,persistence
+BDI,total,2021-01-01,Burundi,2020-12-31 23:59:59,1,False,,,299000.0,2338180.0,,,persistence
+BDI,total,2022-01-01,Burundi,2021-12-31 23:59:59,1,False,,,299000.0,2338180.0,,,persistence
+BDI,total,2023-01-01,Burundi,2022-12-31 23:59:59,1,False,,,299000.0,2338180.0,,,persistence
+BDI,total,2024-01-01,Burundi,2023-12-31 23:59:59,1,False,,,299000.0,2338180.0,,,persistence
+BEL,total,2019-01-01,Belgium,2018-12-31 23:59:59,1,True,9343000.0,12669022.0,9119000.0,12424475.0,oecd_observed,0.0,persistence
+BEL,total,2020-01-01,Belgium,2019-12-31 23:59:59,1,True,2584000.0,3479658.0,9343000.0,12669022.0,oecd_observed,0.0,persistence
+BEL,total,2021-01-01,Belgium,2020-12-31 23:59:59,1,True,3243000.0,4341195.0,2584000.0,3479658.0,oecd_observed,0.0,persistence
+BEL,total,2022-01-01,Belgium,2021-12-31 23:59:59,1,True,8220000.0,10915837.0,3243000.0,4341195.0,oecd_observed,0.0,persistence
+BEL,total,2023-01-01,Belgium,2022-12-31 23:59:59,1,True,9280000.0,12344837.0,8220000.0,10915837.0,oecd_observed,0.0,persistence
+BEL,total,2024-01-01,Belgium,2023-12-31 23:59:59,1,True,9638000.0,12594940.0,9280000.0,12344837.0,oecd_observed,0.0,persistence
+BEN,total,2019-01-01,Benin,2018-12-31 23:59:59,1,True,309000.0,2416380.0,295000.0,2306900.0,un_tourism_alos_imputed,1.0,persistence
+BEN,total,2020-01-01,Benin,2019-12-31 23:59:59,1,True,325000.0,2541500.0,309000.0,2416380.0,un_tourism_alos_imputed,1.0,persistence
+BEN,total,2021-01-01,Benin,2020-12-31 23:59:59,1,False,,,325000.0,2541500.0,,,persistence
+BEN,total,2022-01-01,Benin,2021-12-31 23:59:59,1,False,,,325000.0,2541500.0,,,persistence
+BEN,total,2023-01-01,Benin,2022-12-31 23:59:59,1,False,,,325000.0,2541500.0,,,persistence
+BEN,total,2024-01-01,Benin,2023-12-31 23:59:59,1,False,,,325000.0,2541500.0,,,persistence
+BFA,total,2019-01-01,Burkina Faso,2018-12-31 23:59:59,1,True,143000.0,1118260.0,144000.0,1126080.0,un_tourism_alos_imputed,1.0,persistence
+BFA,total,2020-01-01,Burkina Faso,2019-12-31 23:59:59,1,True,67000.0,523940.0,143000.0,1118260.0,un_tourism_alos_imputed,1.0,persistence
+BFA,total,2021-01-01,Burkina Faso,2020-12-31 23:59:59,1,True,106000.0,828919.9999999999,67000.0,523940.0,un_tourism_alos_imputed,1.0,persistence
+BFA,total,2022-01-01,Burkina Faso,2021-12-31 23:59:59,1,True,116000.0,907120.0,106000.0,828919.9999999999,un_tourism_alos_imputed,1.0,persistence
+BFA,total,2023-01-01,Burkina Faso,2022-12-31 23:59:59,1,True,121000.0,946220.0,116000.0,907120.0,un_tourism_alos_imputed,1.0,persistence
+BFA,total,2024-01-01,Burkina Faso,2023-12-31 23:59:59,1,True,132000.0,1032240.0,121000.0,946220.0,un_tourism_alos_imputed,1.0,persistence
+BGD,total,2019-01-01,Bangladesh,2018-12-31 23:59:59,1,True,323000.0,3417339.9999999995,267000.0,2824859.9999999995,un_tourism_alos_imputed,1.0,persistence
+BGD,total,2020-01-01,Bangladesh,2019-12-31 23:59:59,1,True,182000.0,1925560.0,323000.0,3417339.9999999995,un_tourism_alos_imputed,1.0,persistence
+BGD,total,2021-01-01,Bangladesh,2020-12-31 23:59:59,1,True,135000.0,1428299.9999999998,182000.0,1925560.0,un_tourism_alos_imputed,1.0,persistence
+BGD,total,2022-01-01,Bangladesh,2021-12-31 23:59:59,1,False,,,135000.0,1428299.9999999998,,,persistence
+BGD,total,2023-01-01,Bangladesh,2022-12-31 23:59:59,1,False,,,135000.0,1428299.9999999998,,,persistence
+BGD,total,2024-01-01,Bangladesh,2023-12-31 23:59:59,1,False,,,135000.0,1428299.9999999998,,,persistence
+BGR,total,2019-01-01,Bulgaria,2018-12-31 23:59:59,1,True,7775000.0,17479846.0,9273000.0,17748925.0,oecd_observed,0.0,persistence
+BGR,total,2020-01-01,Bulgaria,2019-12-31 23:59:59,1,True,1290000.0,4656289.0,7775000.0,17479846.0,oecd_observed,0.0,persistence
+BGR,total,2021-01-01,Bulgaria,2020-12-31 23:59:59,1,True,2300000.0,7993767.0,1290000.0,4656289.0,oecd_observed,0.0,persistence
+BGR,total,2022-01-01,Bulgaria,2021-12-31 23:59:59,1,True,5557000.0,12886955.0,2300000.0,7993767.0,oecd_observed,0.0,persistence
+BGR,total,2023-01-01,Bulgaria,2022-12-31 23:59:59,1,False,,,5557000.0,12886955.0,,,persistence
+BGR,total,2024-01-01,Bulgaria,2023-12-31 23:59:59,1,False,,,5557000.0,12886955.0,,,persistence
+BHR,total,2019-01-01,Bahrain,2018-12-31 23:59:59,1,True,3849000.0,19052550.0,4366000.0,21611700.0,un_tourism_alos_imputed,1.0,persistence
+BHR,total,2020-01-01,Bahrain,2019-12-31 23:59:59,1,True,827000.0,4093650.0,3849000.0,19052550.0,un_tourism_alos_imputed,1.0,persistence
+BHR,total,2021-01-01,Bahrain,2020-12-31 23:59:59,1,True,2182000.0,10800900.0,827000.0,4093650.0,un_tourism_alos_imputed,1.0,persistence
+BHR,total,2022-01-01,Bahrain,2021-12-31 23:59:59,1,True,3712000.0,18374400.0,2182000.0,10800900.0,un_tourism_alos_imputed,1.0,persistence
+BHR,total,2023-01-01,Bahrain,2022-12-31 23:59:59,1,True,5484000.0,27145800.0,3712000.0,18374400.0,un_tourism_alos_imputed,1.0,persistence
+BHR,total,2024-01-01,Bahrain,2023-12-31 23:59:59,1,True,6618000.0,32759100.0,5484000.0,27145800.0,un_tourism_alos_imputed,1.0,persistence
+BHS,total,2019-01-01,"Bahamas, The",2018-12-31 23:59:59,1,True,1807000.0,11709360.0,1633000.0,10581840.0,un_tourism_alos_imputed,1.0,persistence
+BHS,total,2020-01-01,"Bahamas, The",2019-12-31 23:59:59,1,True,441000.0,2857680.0,1807000.0,11709360.0,un_tourism_alos_imputed,1.0,persistence
+BHS,total,2021-01-01,"Bahamas, The",2020-12-31 23:59:59,1,True,892000.0,5780160.0,441000.0,2857680.0,un_tourism_alos_imputed,1.0,persistence
+BHS,total,2022-01-01,"Bahamas, The",2021-12-31 23:59:59,1,True,1452400.0,9411552.0,892000.0,5780160.0,un_tourism_alos_imputed,1.0,persistence
+BHS,total,2023-01-01,"Bahamas, The",2022-12-31 23:59:59,1,True,1872059.0,12130942.32,1452400.0,9411552.0,un_tourism_alos_imputed,1.0,persistence
+BHS,total,2024-01-01,"Bahamas, The",2023-12-31 23:59:59,1,True,1869133.0,12111981.840000002,1872059.0,12130942.32,un_tourism_alos_imputed,1.0,persistence
+BIH,total,2019-01-01,Bosnia and Herzegovina,2018-12-31 23:59:59,1,True,1198000.0,4552400.0,1053000.0,4001400.0,un_tourism_alos_imputed,1.0,persistence
+BIH,total,2020-01-01,Bosnia and Herzegovina,2019-12-31 23:59:59,1,True,197000.0,748600.0,1198000.0,4552400.0,un_tourism_alos_imputed,1.0,persistence
+BIH,total,2021-01-01,Bosnia and Herzegovina,2020-12-31 23:59:59,1,True,502000.0,1907600.0,197000.0,748600.0,un_tourism_alos_imputed,1.0,persistence
+BIH,total,2022-01-01,Bosnia and Herzegovina,2021-12-31 23:59:59,1,True,915000.0,3477000.0,502000.0,1907600.0,un_tourism_alos_imputed,1.0,persistence
+BIH,total,2023-01-01,Bosnia and Herzegovina,2022-12-31 23:59:59,1,True,1198000.0,4552400.0,915000.0,3477000.0,un_tourism_alos_imputed,1.0,persistence
+BIH,total,2024-01-01,Bosnia and Herzegovina,2023-12-31 23:59:59,1,True,1388775.0,5277345.0,1198000.0,4552400.0,un_tourism_alos_imputed,1.0,persistence
+BLR,total,2019-01-01,Belarus,2018-12-31 23:59:59,1,True,2206000.0,8382800.0,2142000.0,8139600.0,un_tourism_alos_imputed,1.0,persistence
+BLR,total,2020-01-01,Belarus,2019-12-31 23:59:59,1,True,577000.0,2192600.0,2206000.0,8382800.0,un_tourism_alos_imputed,1.0,persistence
+BLR,total,2021-01-01,Belarus,2020-12-31 23:59:59,1,True,787000.0,2990600.0,577000.0,2192600.0,un_tourism_alos_imputed,1.0,persistence
+BLR,total,2022-01-01,Belarus,2021-12-31 23:59:59,1,True,1492000.0,5669600.0,787000.0,2990600.0,un_tourism_alos_imputed,1.0,persistence
+BLR,total,2023-01-01,Belarus,2022-12-31 23:59:59,1,False,,,1492000.0,5669600.0,,,persistence
+BLR,total,2024-01-01,Belarus,2023-12-31 23:59:59,1,False,,,1492000.0,5669600.0,,,persistence
+BLZ,total,2019-01-01,Belize,2018-12-31 23:59:59,1,True,503000.0,3621600.0,489000.0,3520800.0,un_tourism_alos_imputed,1.0,persistence
+BLZ,total,2020-01-01,Belize,2019-12-31 23:59:59,1,True,144100.0,1037520.0,503000.0,3621600.0,un_tourism_alos_imputed,1.0,persistence
+BLZ,total,2021-01-01,Belize,2020-12-31 23:59:59,1,True,219000.0,1576800.0,144100.0,1037520.0,un_tourism_alos_imputed,1.0,persistence
+BLZ,total,2022-01-01,Belize,2021-12-31 23:59:59,1,True,372600.0,2682720.0,219000.0,1576800.0,un_tourism_alos_imputed,1.0,persistence
+BLZ,total,2023-01-01,Belize,2022-12-31 23:59:59,1,False,,,372600.0,2682720.0,,,persistence
+BLZ,total,2024-01-01,Belize,2023-12-31 23:59:59,1,False,,,372600.0,2682720.0,,,persistence
+BMU,total,2019-01-01,Bermuda,2018-12-31 23:59:59,1,True,269000.0,1936800.0,282000.0,2030400.0,un_tourism_alos_imputed,1.0,persistence
+BMU,total,2020-01-01,Bermuda,2019-12-31 23:59:59,1,True,42100.0,303120.0,269000.0,1936800.0,un_tourism_alos_imputed,1.0,persistence
+BMU,total,2021-01-01,Bermuda,2020-12-31 23:59:59,1,True,72200.0,519840.0,42100.0,303120.0,un_tourism_alos_imputed,1.0,persistence
+BMU,total,2022-01-01,Bermuda,2021-12-31 23:59:59,1,True,145900.0,1050480.0,72200.0,519840.0,un_tourism_alos_imputed,1.0,persistence
+BMU,total,2023-01-01,Bermuda,2022-12-31 23:59:59,1,False,,,145900.0,1050480.0,,,persistence
+BMU,total,2024-01-01,Bermuda,2023-12-31 23:59:59,1,False,,,145900.0,1050480.0,,,persistence
+BOL,total,2019-01-01,Bolivia,2018-12-31 23:59:59,1,True,1239000.0,10258920.0,1142000.0,9455760.0,un_tourism_alos_imputed,1.0,persistence
+BOL,total,2020-01-01,Bolivia,2019-12-31 23:59:59,1,True,323300.0,2676924.0,1239000.0,10258920.0,un_tourism_alos_imputed,1.0,persistence
+BOL,total,2021-01-01,Bolivia,2020-12-31 23:59:59,1,True,180000.0,1490400.0,323300.0,2676924.0,un_tourism_alos_imputed,1.0,persistence
+BOL,total,2022-01-01,Bolivia,2021-12-31 23:59:59,1,True,724000.0,5994720.0,180000.0,1490400.0,un_tourism_alos_imputed,1.0,persistence
+BOL,total,2023-01-01,Bolivia,2022-12-31 23:59:59,1,False,,,724000.0,5994720.0,,,persistence
+BOL,total,2024-01-01,Bolivia,2023-12-31 23:59:59,1,False,,,724000.0,5994720.0,,,persistence
+BRA,total,2019-01-01,Brazil,2018-12-31 23:59:59,1,True,6353000.0,45741600.0,6621000.0,47671200.0,un_tourism_alos_imputed,1.0,persistence
+BRA,total,2020-01-01,Brazil,2019-12-31 23:59:59,1,True,2146435.0,15454332.0,6353000.0,45741600.0,un_tourism_alos_imputed,1.0,persistence
+BRA,total,2021-01-01,Brazil,2020-12-31 23:59:59,1,True,745871.0,5370271.2,2146435.0,15454332.0,un_tourism_alos_imputed,1.0,persistence
+BRA,total,2022-01-01,Brazil,2021-12-31 23:59:59,1,True,3630031.0,26136223.2,745871.0,5370271.2,un_tourism_alos_imputed,1.0,persistence
+BRA,total,2023-01-01,Brazil,2022-12-31 23:59:59,1,True,5908341.0,42540055.2,3630031.0,26136223.2,un_tourism_alos_imputed,1.0,persistence
+BRA,total,2024-01-01,Brazil,2023-12-31 23:59:59,1,True,6773619.0,48770056.8,5908341.0,42540055.2,un_tourism_alos_imputed,1.0,persistence
+BRB,total,2019-01-01,Barbados,2018-12-31 23:59:59,1,True,523000.0,3389040.0,680000.0,4406400.0,un_tourism_alos_imputed,1.0,persistence
+BRB,total,2020-01-01,Barbados,2019-12-31 23:59:59,1,True,207400.0,1343952.0,523000.0,3389040.0,un_tourism_alos_imputed,1.0,persistence
+BRB,total,2021-01-01,Barbados,2020-12-31 23:59:59,1,True,144800.0,938304.0,207400.0,1343952.0,un_tourism_alos_imputed,1.0,persistence
+BRB,total,2022-01-01,Barbados,2021-12-31 23:59:59,1,True,539700.0,3497256.0,144800.0,938304.0,un_tourism_alos_imputed,1.0,persistence
+BRB,total,2023-01-01,Barbados,2022-12-31 23:59:59,1,True,636045.9,4121577.432000001,539700.0,3497256.0,un_tourism_alos_imputed,1.0,persistence
+BRB,total,2024-01-01,Barbados,2023-12-31 23:59:59,1,True,704340.0,4564123.2,636045.9,4121577.432000001,un_tourism_alos_imputed,1.0,persistence
+BRN,total,2019-01-01,Brunei Darussalam,2018-12-31 23:59:59,1,True,333000.0,1948050.0,278000.0,1626300.0000000002,un_tourism_alos_imputed,1.0,persistence
+BRN,total,2020-01-01,Brunei Darussalam,2019-12-31 23:59:59,1,True,62300.0,364455.00000000006,333000.0,1948050.0,un_tourism_alos_imputed,1.0,persistence
+BRN,total,2021-01-01,Brunei Darussalam,2020-12-31 23:59:59,1,True,3500.0,20475.000000000004,62300.0,364455.00000000006,un_tourism_alos_imputed,1.0,persistence
+BRN,total,2022-01-01,Brunei Darussalam,2021-12-31 23:59:59,1,False,,,3500.0,20475.000000000004,,,persistence
+BRN,total,2023-01-01,Brunei Darussalam,2022-12-31 23:59:59,1,False,,,3500.0,20475.000000000004,,,persistence
+BRN,total,2024-01-01,Brunei Darussalam,2023-12-31 23:59:59,1,False,,,3500.0,20475.000000000004,,,persistence
+BTN,total,2019-01-01,Bhutan,2018-12-31 23:59:59,1,True,316000.0,3343279.9999999995,274000.0,2898919.9999999995,un_tourism_alos_imputed,1.0,persistence
+BTN,total,2020-01-01,Bhutan,2019-12-31 23:59:59,1,True,29800.0,315283.99999999994,316000.0,3343279.9999999995,un_tourism_alos_imputed,1.0,persistence
+BTN,total,2021-01-01,Bhutan,2020-12-31 23:59:59,1,True,1.0,10.579999999999998,29800.0,315283.99999999994,un_tourism_alos_imputed,1.0,persistence
+BTN,total,2022-01-01,Bhutan,2021-12-31 23:59:59,1,True,20900.0,221122.0,1.0,10.579999999999998,un_tourism_alos_imputed,1.0,persistence
+BTN,total,2023-01-01,Bhutan,2022-12-31 23:59:59,1,False,,,20900.0,221122.0,,,persistence
+BTN,total,2024-01-01,Bhutan,2023-12-31 23:59:59,1,False,,,20900.0,221122.0,,,persistence
+BWA,total,2019-01-01,Botswana,2018-12-31 23:59:59,1,True,1454600.0,9891280.0,1655000.0,11254000.0,un_tourism_alos_imputed,1.0,persistence
+BWA,total,2020-01-01,Botswana,2019-12-31 23:59:59,1,True,328500.0,2233800.0,1454600.0,9891280.0,un_tourism_alos_imputed,1.0,persistence
+BWA,total,2021-01-01,Botswana,2020-12-31 23:59:59,1,True,314000.0,2135200.0,328500.0,2233800.0,un_tourism_alos_imputed,1.0,persistence
+BWA,total,2022-01-01,Botswana,2021-12-31 23:59:59,1,False,,,314000.0,2135200.0,,,persistence
+BWA,total,2023-01-01,Botswana,2022-12-31 23:59:59,1,False,,,314000.0,2135200.0,,,persistence
+BWA,total,2024-01-01,Botswana,2023-12-31 23:59:59,1,False,,,314000.0,2135200.0,,,persistence
+CAF,total,2019-01-01,Central African Republic,2018-12-31 23:59:59,1,True,87000.0,680340.0,109000.0,852379.9999999999,un_tourism_alos_imputed,1.0,persistence
+CAF,total,2020-01-01,Central African Republic,2019-12-31 23:59:59,1,True,34600.0,270572.0,87000.0,680340.0,un_tourism_alos_imputed,1.0,persistence
+CAF,total,2021-01-01,Central African Republic,2020-12-31 23:59:59,1,False,,,34600.0,270572.0,,,persistence
+CAF,total,2022-01-01,Central African Republic,2021-12-31 23:59:59,1,False,,,34600.0,270572.0,,,persistence
+CAF,total,2023-01-01,Central African Republic,2022-12-31 23:59:59,1,False,,,34600.0,270572.0,,,persistence
+CAF,total,2024-01-01,Central African Republic,2023-12-31 23:59:59,1,False,,,34600.0,270572.0,,,persistence
+CAN,total,2019-01-01,Canada,2018-12-31 23:59:59,1,True,22145000.0,118331000.0,21134000.0,106689000.0,oecd_observed,0.0,persistence
+CAN,total,2020-01-01,Canada,2019-12-31 23:59:59,1,True,2960000.0,21312000.0,22145000.0,118331000.0,un_tourism_alos_imputed,1.0,persistence
+CAN,total,2021-01-01,Canada,2020-12-31 23:59:59,1,True,3062000.0,22046400.0,2960000.0,21312000.0,un_tourism_alos_imputed,1.0,persistence
+CAN,total,2022-01-01,Canada,2021-12-31 23:59:59,1,True,12824000.0,92332800.0,3062000.0,22046400.0,un_tourism_alos_imputed,1.0,persistence
+CAN,total,2023-01-01,Canada,2022-12-31 23:59:59,1,True,18344000.0,89016000.0,12824000.0,92332800.0,oecd_observed,0.0,persistence
+CAN,total,2024-01-01,Canada,2023-12-31 23:59:59,1,True,19913000.0,84120000.0,18344000.0,89016000.0,oecd_observed,0.0,persistence
+CHE,total,2019-01-01,Switzerland,2018-12-31 23:59:59,1,True,11818000.0,40417560.0,11715000.0,40065300.0,un_tourism_alos_imputed,1.0,persistence
+CHE,total,2020-01-01,Switzerland,2019-12-31 23:59:59,1,True,3690000.0,12619800.0,11818000.0,40417560.0,un_tourism_alos_imputed,1.0,persistence
+CHE,total,2021-01-01,Switzerland,2020-12-31 23:59:59,1,True,4390000.0,15013800.0,3690000.0,12619800.0,un_tourism_alos_imputed,1.0,persistence
+CHE,total,2022-01-01,Switzerland,2021-12-31 23:59:59,1,True,9159500.0,31325490.0,4390000.0,15013800.0,un_tourism_alos_imputed,1.0,persistence
+CHE,total,2023-01-01,Switzerland,2022-12-31 23:59:59,1,False,,,9159500.0,31325490.0,,,persistence
+CHE,total,2024-01-01,Switzerland,2023-12-31 23:59:59,1,False,,,9159500.0,31325490.0,,,persistence
+CHL,total,2019-01-01,Chile,2018-12-31 23:59:59,1,True,4518000.0,8025447.0,5723000.0,8732941.0,oecd_observed,0.0,persistence
+CHL,total,2020-01-01,Chile,2019-12-31 23:59:59,1,True,1119094.0,7251729.12,4518000.0,8025447.0,un_tourism_alos_imputed,1.0,persistence
+CHL,total,2021-01-01,Chile,2020-12-31 23:59:59,1,True,190022.0,1231342.56,1119094.0,7251729.12,un_tourism_alos_imputed,1.0,persistence
+CHL,total,2022-01-01,Chile,2021-12-31 23:59:59,1,True,2030479.0,13157503.920000002,190022.0,1231342.56,un_tourism_alos_imputed,1.0,persistence
+CHL,total,2023-01-01,Chile,2022-12-31 23:59:59,1,True,3730507.0,24173685.360000003,2030479.0,13157503.920000002,un_tourism_alos_imputed,1.0,persistence
+CHL,total,2024-01-01,Chile,2023-12-31 23:59:59,1,True,5239233.0,33950229.84,3730507.0,24173685.360000003,un_tourism_alos_imputed,1.0,persistence
+CHN,total,2019-01-01,China,2018-12-31 23:59:59,1,True,65725000.0,427212500.0,62900000.0,408850000.0,un_tourism_alos_imputed,1.0,persistence
+CHN,total,2020-01-01,China,2019-12-31 23:59:59,1,True,7967000.0,51785500.0,65725000.0,427212500.0,un_tourism_alos_imputed,1.0,persistence
+CHN,total,2021-01-01,China,2020-12-31 23:59:59,1,False,,,7967000.0,51785500.0,,,persistence
+CHN,total,2022-01-01,China,2021-12-31 23:59:59,1,False,,,7967000.0,51785500.0,,,persistence
+CHN,total,2023-01-01,China,2022-12-31 23:59:59,1,False,,,7967000.0,51785500.0,,,persistence
+CHN,total,2024-01-01,China,2023-12-31 23:59:59,1,False,,,7967000.0,51785500.0,,,persistence
+CIV,total,2019-01-01,Côte d'Ivoire,2018-12-31 23:59:59,1,True,2070000.0,16187399.999999998,1965000.0,15366299.999999998,un_tourism_alos_imputed,1.0,persistence
+CIV,total,2020-01-01,Côte d'Ivoire,2019-12-31 23:59:59,1,True,668000.0,5223760.0,2070000.0,16187399.999999998,un_tourism_alos_imputed,1.0,persistence
+CIV,total,2021-01-01,Côte d'Ivoire,2020-12-31 23:59:59,1,False,,,668000.0,5223760.0,,,persistence
+CIV,total,2022-01-01,Côte d'Ivoire,2021-12-31 23:59:59,1,False,,,668000.0,5223760.0,,,persistence
+CIV,total,2023-01-01,Côte d'Ivoire,2022-12-31 23:59:59,1,False,,,668000.0,5223760.0,,,persistence
+CIV,total,2024-01-01,Côte d'Ivoire,2023-12-31 23:59:59,1,False,,,668000.0,5223760.0,,,persistence
+CMR,total,2019-01-01,Cameroon,2018-12-31 23:59:59,1,True,1021000.0,7984219.999999999,997000.0,7796539.999999999,un_tourism_alos_imputed,1.0,persistence
+CMR,total,2020-01-01,Cameroon,2019-12-31 23:59:59,1,False,,,1021000.0,7984219.999999999,,,persistence
+CMR,total,2021-01-01,Cameroon,2020-12-31 23:59:59,1,False,,,1021000.0,7984219.999999999,,,persistence
+CMR,total,2022-01-01,Cameroon,2021-12-31 23:59:59,1,False,,,1021000.0,7984219.999999999,,,persistence
+CMR,total,2023-01-01,Cameroon,2022-12-31 23:59:59,1,False,,,1021000.0,7984219.999999999,,,persistence
+CMR,total,2024-01-01,Cameroon,2023-12-31 23:59:59,1,False,,,1021000.0,7984219.999999999,,,persistence
+COD,total,2019-01-01,"Congo, Dem. Rep.",2018-12-31 23:59:59,1,True,479000.0,3745780.0,392000.0,3065439.9999999995,un_tourism_alos_imputed,1.0,persistence
+COD,total,2020-01-01,"Congo, Dem. Rep.",2019-12-31 23:59:59,1,True,202000.0,1579639.9999999998,479000.0,3745780.0,un_tourism_alos_imputed,1.0,persistence
+COD,total,2021-01-01,"Congo, Dem. Rep.",2020-12-31 23:59:59,1,True,382000.0,2987240.0,202000.0,1579639.9999999998,un_tourism_alos_imputed,1.0,persistence
+COD,total,2022-01-01,"Congo, Dem. Rep.",2021-12-31 23:59:59,1,False,,,382000.0,2987240.0,,,persistence
+COD,total,2023-01-01,"Congo, Dem. Rep.",2022-12-31 23:59:59,1,False,,,382000.0,2987240.0,,,persistence
+COD,total,2024-01-01,"Congo, Dem. Rep.",2023-12-31 23:59:59,1,False,,,382000.0,2987240.0,,,persistence
+COG,total,2019-01-01,"Congo, Rep.",2018-12-31 23:59:59,1,False,,,156000.0,1219920.0,,,persistence
+COG,total,2020-01-01,"Congo, Rep.",2019-12-31 23:59:59,1,False,,,156000.0,1219920.0,,,persistence
+COG,total,2021-01-01,"Congo, Rep.",2020-12-31 23:59:59,1,False,,,156000.0,1219920.0,,,persistence
+COG,total,2022-01-01,"Congo, Rep.",2021-12-31 23:59:59,1,False,,,156000.0,1219920.0,,,persistence
+COG,total,2023-01-01,"Congo, Rep.",2022-12-31 23:59:59,1,False,,,156000.0,1219920.0,,,persistence
+COG,total,2024-01-01,"Congo, Rep.",2023-12-31 23:59:59,1,False,,,156000.0,1219920.0,,,persistence
+COL,total,2019-01-01,Colombia,2018-12-31 23:59:59,1,True,4169000.0,30016800.0,4020000.0,28944000.0,un_tourism_alos_imputed,1.0,persistence
+COL,total,2020-01-01,Colombia,2019-12-31 23:59:59,1,True,1252000.0,9014400.0,4169000.0,30016800.0,un_tourism_alos_imputed,1.0,persistence
+COL,total,2021-01-01,Colombia,2020-12-31 23:59:59,1,True,2127000.0,15314400.0,1252000.0,9014400.0,un_tourism_alos_imputed,1.0,persistence
+COL,total,2022-01-01,Colombia,2021-12-31 23:59:59,1,True,4519000.0,32536800.0,2127000.0,15314400.0,un_tourism_alos_imputed,1.0,persistence
+COL,total,2023-01-01,Colombia,2022-12-31 23:59:59,1,False,,,4519000.0,32536800.0,,,persistence
+COL,total,2024-01-01,Colombia,2023-12-31 23:59:59,1,False,,,4519000.0,32536800.0,,,persistence
+COM,total,2019-01-01,Comoros,2018-12-31 23:59:59,1,True,45100.0,352682.0,35900.0,280738.0,un_tourism_alos_imputed,1.0,persistence
+COM,total,2020-01-01,Comoros,2019-12-31 23:59:59,1,True,7000.0,54739.99999999999,45100.0,352682.0,un_tourism_alos_imputed,1.0,persistence
+COM,total,2021-01-01,Comoros,2020-12-31 23:59:59,1,True,28800.0,225216.0,7000.0,54739.99999999999,un_tourism_alos_imputed,1.0,persistence
+COM,total,2022-01-01,Comoros,2021-12-31 23:59:59,1,False,,,28800.0,225216.0,,,persistence
+COM,total,2023-01-01,Comoros,2022-12-31 23:59:59,1,False,,,28800.0,225216.0,,,persistence
+COM,total,2024-01-01,Comoros,2023-12-31 23:59:59,1,False,,,28800.0,225216.0,,,persistence
+CPV,total,2019-01-01,Cabo Verde,2018-12-31 23:59:59,1,True,758000.0,5154400.0,710000.0,4828000.0,un_tourism_alos_imputed,1.0,persistence
+CPV,total,2020-01-01,Cabo Verde,2019-12-31 23:59:59,1,True,180000.0,1224000.0,758000.0,5154400.0,un_tourism_alos_imputed,1.0,persistence
+CPV,total,2021-01-01,Cabo Verde,2020-12-31 23:59:59,1,True,135000.0,918000.0,180000.0,1224000.0,un_tourism_alos_imputed,1.0,persistence
+CPV,total,2022-01-01,Cabo Verde,2021-12-31 23:59:59,1,True,785000.0,5338000.0,135000.0,918000.0,un_tourism_alos_imputed,1.0,persistence
+CPV,total,2023-01-01,Cabo Verde,2022-12-31 23:59:59,1,False,,,785000.0,5338000.0,,,persistence
+CPV,total,2024-01-01,Cabo Verde,2023-12-31 23:59:59,1,False,,,785000.0,5338000.0,,,persistence
+CRI,total,2019-01-01,Costa Rica,2018-12-31 23:59:59,1,True,3139000.0,39551501.0,3017000.0,35295004.0,oecd_observed,0.0,persistence
+CRI,total,2020-01-01,Costa Rica,2019-12-31 23:59:59,1,True,1011912.0,13053665.0,3139000.0,39551501.0,oecd_observed,0.0,persistence
+CRI,total,2021-01-01,Costa Rica,2020-12-31 23:59:59,1,True,1347055.0,18319948.0,1011912.0,13053665.0,oecd_observed,0.0,persistence
+CRI,total,2022-01-01,Costa Rica,2021-12-31 23:59:59,1,True,2349537.0,31718750.0,1347055.0,18319948.0,oecd_observed,0.0,persistence
+CRI,total,2023-01-01,Costa Rica,2022-12-31 23:59:59,1,True,2751134.0,35489629.0,2349537.0,31718750.0,oecd_observed,0.0,persistence
+CRI,total,2024-01-01,Costa Rica,2023-12-31 23:59:59,1,True,2919483.0,35617693.0,2751134.0,35489629.0,oecd_observed,0.0,persistence
+CUB,total,2019-01-01,Cuba,2018-12-31 23:59:59,1,True,4263000.0,30693600.0,4684000.0,33724800.0,un_tourism_alos_imputed,1.0,persistence
+CUB,total,2020-01-01,Cuba,2019-12-31 23:59:59,1,True,1085000.0,7812000.0,4263000.0,30693600.0,un_tourism_alos_imputed,1.0,persistence
+CUB,total,2021-01-01,Cuba,2020-12-31 23:59:59,1,True,355500.0,2559600.0,1085000.0,7812000.0,un_tourism_alos_imputed,1.0,persistence
+CUB,total,2022-01-01,Cuba,2021-12-31 23:59:59,1,True,1613400.0,11616480.0,355500.0,2559600.0,un_tourism_alos_imputed,1.0,persistence
+CUB,total,2023-01-01,Cuba,2022-12-31 23:59:59,1,False,,,1613400.0,11616480.0,,,persistence
+CUB,total,2024-01-01,Cuba,2023-12-31 23:59:59,1,False,,,1613400.0,11616480.0,,,persistence
+CUW,total,2019-01-01,Curaçao,2018-12-31 23:59:59,1,True,464000.0,3006720.0,432000.0,2799360.0,un_tourism_alos_imputed,1.0,persistence
+CUW,total,2020-01-01,Curaçao,2019-12-31 23:59:59,1,True,175000.0,1134000.0,464000.0,3006720.0,un_tourism_alos_imputed,1.0,persistence
+CUW,total,2021-01-01,Curaçao,2020-12-31 23:59:59,1,True,265000.0,1717200.0,175000.0,1134000.0,un_tourism_alos_imputed,1.0,persistence
+CUW,total,2022-01-01,Curaçao,2021-12-31 23:59:59,1,True,489600.0,3172608.0,265000.0,1717200.0,un_tourism_alos_imputed,1.0,persistence
+CUW,total,2023-01-01,Curaçao,2022-12-31 23:59:59,1,False,,,489600.0,3172608.0,,,persistence
+CUW,total,2024-01-01,Curaçao,2023-12-31 23:59:59,1,False,,,489600.0,3172608.0,,,persistence
+CYM,total,2019-01-01,Cayman Islands,2018-12-31 23:59:59,1,True,503000.0,3259440.0,463000.0,3000240.0,un_tourism_alos_imputed,1.0,persistence
+CYM,total,2020-01-01,Cayman Islands,2019-12-31 23:59:59,1,True,122000.0,790560.0,503000.0,3259440.0,un_tourism_alos_imputed,1.0,persistence
+CYM,total,2021-01-01,Cayman Islands,2020-12-31 23:59:59,1,True,17300.0,112104.0,122000.0,790560.0,un_tourism_alos_imputed,1.0,persistence
+CYM,total,2022-01-01,Cayman Islands,2021-12-31 23:59:59,1,True,284300.0,1842264.0,17300.0,112104.0,un_tourism_alos_imputed,1.0,persistence
+CYM,total,2023-01-01,Cayman Islands,2022-12-31 23:59:59,1,False,,,284300.0,1842264.0,,,persistence
+CYM,total,2024-01-01,Cayman Islands,2023-12-31 23:59:59,1,False,,,284300.0,1842264.0,,,persistence
+CYP,total,2019-01-01,Cyprus,2018-12-31 23:59:59,1,True,3977000.0,13601340.0,3939000.0,13471380.0,un_tourism_alos_imputed,1.0,persistence
+CYP,total,2020-01-01,Cyprus,2019-12-31 23:59:59,1,True,631609.0,2160102.78,3977000.0,13601340.0,un_tourism_alos_imputed,1.0,persistence
+CYP,total,2021-01-01,Cyprus,2020-12-31 23:59:59,1,True,1936931.0,6624304.02,631609.0,2160102.78,un_tourism_alos_imputed,1.0,persistence
+CYP,total,2022-01-01,Cyprus,2021-12-31 23:59:59,1,True,3201080.0,10947693.6,1936931.0,6624304.02,un_tourism_alos_imputed,1.0,persistence
+CYP,total,2023-01-01,Cyprus,2022-12-31 23:59:59,1,True,3845652.0,13152129.84,3201080.0,10947693.6,un_tourism_alos_imputed,1.0,persistence
+CYP,total,2024-01-01,Cyprus,2023-12-31 23:59:59,1,True,4040200.0,13817484.0,3845652.0,13152129.84,un_tourism_alos_imputed,1.0,persistence
+CZE,total,2019-01-01,Czechia,2018-12-31 23:59:59,1,True,14651000.0,18841750.0,14282600.0,18719698.0,oecd_observed,0.0,persistence
+CZE,total,2020-01-01,Czechia,2019-12-31 23:59:59,1,True,3919400.0,6050752.0,14651000.0,18841750.0,oecd_observed,0.0,persistence
+CZE,total,2021-01-01,Czechia,2020-12-31 23:59:59,1,True,3768000.0,6077058.0,3919400.0,6050752.0,oecd_observed,0.0,persistence
+CZE,total,2022-01-01,Czechia,2021-12-31 23:59:59,1,False,,,3768000.0,6077058.0,,,persistence
+CZE,total,2023-01-01,Czechia,2022-12-31 23:59:59,1,False,,,3768000.0,6077058.0,,,persistence
+CZE,total,2024-01-01,Czechia,2023-12-31 23:59:59,1,False,,,3768000.0,6077058.0,,,persistence
+DEU,total,2019-01-01,Germany,2018-12-31 23:59:59,1,True,39563000.0,135305460.0,38881000.0,132973020.0,un_tourism_alos_imputed,1.0,persistence
+DEU,total,2020-01-01,Germany,2019-12-31 23:59:59,1,True,12411000.0,42445620.0,39563000.0,135305460.0,un_tourism_alos_imputed,1.0,persistence
+DEU,total,2021-01-01,Germany,2020-12-31 23:59:59,1,True,11652000.0,39849840.0,12411000.0,42445620.0,un_tourism_alos_imputed,1.0,persistence
+DEU,total,2022-01-01,Germany,2021-12-31 23:59:59,1,True,28383000.0,97069860.0,11652000.0,39849840.0,un_tourism_alos_imputed,1.0,persistence
+DEU,total,2023-01-01,Germany,2022-12-31 23:59:59,1,True,34712000.0,118715040.0,28383000.0,97069860.0,un_tourism_alos_imputed,1.0,persistence
+DEU,total,2024-01-01,Germany,2023-12-31 23:59:59,1,True,37420000.0,127976400.0,34712000.0,118715040.0,un_tourism_alos_imputed,1.0,persistence
+DJI,total,2019-01-01,Djibouti,2018-12-31 23:59:59,1,True,167000.0,1056274.9999999998,142000.0,898149.9999999999,un_tourism_alos_imputed,1.0,persistence
+DJI,total,2020-01-01,Djibouti,2019-12-31 23:59:59,1,True,75000.0,474375.0,167000.0,1056274.9999999998,un_tourism_alos_imputed,1.0,persistence
+DJI,total,2021-01-01,Djibouti,2020-12-31 23:59:59,1,True,114000.0,721049.9999999999,75000.0,474375.0,un_tourism_alos_imputed,1.0,persistence
+DJI,total,2022-01-01,Djibouti,2021-12-31 23:59:59,1,True,145000.0,917125.0,114000.0,721049.9999999999,un_tourism_alos_imputed,1.0,persistence
+DJI,total,2023-01-01,Djibouti,2022-12-31 23:59:59,1,False,,,145000.0,917125.0,,,persistence
+DJI,total,2024-01-01,Djibouti,2023-12-31 23:59:59,1,False,,,145000.0,917125.0,,,persistence
+DMA,total,2019-01-01,Dominica,2018-12-31 23:59:59,1,True,90000.0,648000.0,63000.0,453600.0,un_tourism_alos_imputed,1.0,persistence
+DMA,total,2020-01-01,Dominica,2019-12-31 23:59:59,1,True,22000.0,158400.0,90000.0,648000.0,un_tourism_alos_imputed,1.0,persistence
+DMA,total,2021-01-01,Dominica,2020-12-31 23:59:59,1,True,15000.0,108000.0,22000.0,158400.0,un_tourism_alos_imputed,1.0,persistence
+DMA,total,2022-01-01,Dominica,2021-12-31 23:59:59,1,True,61000.0,439200.0,15000.0,108000.0,un_tourism_alos_imputed,1.0,persistence
+DMA,total,2023-01-01,Dominica,2022-12-31 23:59:59,1,False,,,61000.0,439200.0,,,persistence
+DMA,total,2024-01-01,Dominica,2023-12-31 23:59:59,1,False,,,61000.0,439200.0,,,persistence
+DNK,total,2019-01-01,Denmark,2018-12-31 23:59:59,1,True,14725000.0,23023577.0,12749000.0,22041240.0,oecd_observed,0.0,persistence
+DNK,total,2020-01-01,Denmark,2019-12-31 23:59:59,1,True,6229000.0,12101538.0,14725000.0,23023577.0,oecd_observed,0.0,persistence
+DNK,total,2021-01-01,Denmark,2020-12-31 23:59:59,1,True,7555000.0,15598469.0,6229000.0,12101538.0,oecd_observed,0.0,persistence
+DNK,total,2022-01-01,Denmark,2021-12-31 23:59:59,1,True,14190000.0,23023577.0,7555000.0,15598469.0,oecd_observed,0.0,persistence
+DNK,total,2023-01-01,Denmark,2022-12-31 23:59:59,1,False,,,14190000.0,23023577.0,,,persistence
+DNK,total,2024-01-01,Denmark,2023-12-31 23:59:59,1,False,,,14190000.0,23023577.0,,,persistence
+DOM,total,2019-01-01,Dominican Republic,2018-12-31 23:59:59,1,True,6446000.0,46411200.0,6569000.0,47296800.0,un_tourism_alos_imputed,1.0,persistence
+DOM,total,2020-01-01,Dominican Republic,2019-12-31 23:59:59,1,True,2405310.0,17318232.0,6446000.0,46411200.0,un_tourism_alos_imputed,1.0,persistence
+DOM,total,2021-01-01,Dominican Republic,2020-12-31 23:59:59,1,True,4994313.0,35959053.6,2405310.0,17318232.0,un_tourism_alos_imputed,1.0,persistence
+DOM,total,2022-01-01,Dominican Republic,2021-12-31 23:59:59,1,True,7163414.0,51576580.8,4994313.0,35959053.6,un_tourism_alos_imputed,1.0,persistence
+DOM,total,2023-01-01,Dominican Republic,2022-12-31 23:59:59,1,True,8058671.5,58022434.8,7163414.0,51576580.8,un_tourism_alos_imputed,1.0,persistence
+DOM,total,2024-01-01,Dominican Republic,2023-12-31 23:59:59,1,True,8535701.0,61457047.2,8058671.5,58022434.8,un_tourism_alos_imputed,1.0,persistence
+DZA,total,2019-01-01,Algeria,2018-12-31 23:59:59,1,True,2371000.0,13040500.0,2657000.0,14613500.0,un_tourism_alos_imputed,1.0,persistence
+DZA,total,2020-01-01,Algeria,2019-12-31 23:59:59,1,True,591000.0,3250500.0,2371000.0,13040500.0,un_tourism_alos_imputed,1.0,persistence
+DZA,total,2021-01-01,Algeria,2020-12-31 23:59:59,1,False,,,591000.0,3250500.0,,,persistence
+DZA,total,2022-01-01,Algeria,2021-12-31 23:59:59,1,False,,,591000.0,3250500.0,,,persistence
+DZA,total,2023-01-01,Algeria,2022-12-31 23:59:59,1,False,,,591000.0,3250500.0,,,persistence
+DZA,total,2024-01-01,Algeria,2023-12-31 23:59:59,1,False,,,591000.0,3250500.0,,,persistence
+ECU,total,2019-01-01,Ecuador,2018-12-31 23:59:59,1,True,2108000.0,15177600.0,2535000.0,18252000.0,un_tourism_alos_imputed,1.0,persistence
+ECU,total,2020-01-01,Ecuador,2019-12-31 23:59:59,1,False,,,2108000.0,15177600.0,,,persistence
+ECU,total,2021-01-01,Ecuador,2020-12-31 23:59:59,1,False,,,2108000.0,15177600.0,,,persistence
+ECU,total,2022-01-01,Ecuador,2021-12-31 23:59:59,1,False,,,2108000.0,15177600.0,,,persistence
+ECU,total,2023-01-01,Ecuador,2022-12-31 23:59:59,1,False,,,2108000.0,15177600.0,,,persistence
+ECU,total,2024-01-01,Ecuador,2023-12-31 23:59:59,1,False,,,2108000.0,15177600.0,,,persistence
+EGY,total,2019-01-01,"Egypt, Arab Rep.",2018-12-31 23:59:59,1,True,12876000.0,81440699.99999999,11196000.0,70814699.99999999,un_tourism_alos_imputed,1.0,persistence
+EGY,total,2020-01-01,"Egypt, Arab Rep.",2019-12-31 23:59:59,1,True,3619000.0,22890175.0,12876000.0,81440699.99999999,un_tourism_alos_imputed,1.0,persistence
+EGY,total,2021-01-01,"Egypt, Arab Rep.",2020-12-31 23:59:59,1,True,7967000.0,50391274.99999999,3619000.0,22890175.0,un_tourism_alos_imputed,1.0,persistence
+EGY,total,2022-01-01,"Egypt, Arab Rep.",2021-12-31 23:59:59,1,True,11625000.0,73528124.99999999,7967000.0,50391274.99999999,un_tourism_alos_imputed,1.0,persistence
+EGY,total,2023-01-01,"Egypt, Arab Rep.",2022-12-31 23:59:59,1,False,,,11625000.0,73528124.99999999,,,persistence
+EGY,total,2024-01-01,"Egypt, Arab Rep.",2023-12-31 23:59:59,1,False,,,11625000.0,73528124.99999999,,,persistence
+ERI,total,2019-01-01,Eritrea,2018-12-31 23:59:59,1,False,,,142000.0,1110440.0,,,persistence
+ERI,total,2020-01-01,Eritrea,2019-12-31 23:59:59,1,False,,,142000.0,1110440.0,,,persistence
+ERI,total,2021-01-01,Eritrea,2020-12-31 23:59:59,1,False,,,142000.0,1110440.0,,,persistence
+ERI,total,2022-01-01,Eritrea,2021-12-31 23:59:59,1,False,,,142000.0,1110440.0,,,persistence
+ERI,total,2023-01-01,Eritrea,2022-12-31 23:59:59,1,False,,,142000.0,1110440.0,,,persistence
+ERI,total,2024-01-01,Eritrea,2023-12-31 23:59:59,1,False,,,142000.0,1110440.0,,,persistence
+ESP,total,2019-01-01,Spain,2018-12-31 23:59:59,1,True,83509000.0,272161298.0,82808000.0,293232652.0,oecd_observed,0.0,persistence
+ESP,total,2020-01-01,Spain,2019-12-31 23:59:59,1,True,18933000.0,82979244.0,83509000.0,272161298.0,oecd_observed,0.0,persistence
+ESP,total,2021-01-01,Spain,2020-12-31 23:59:59,1,True,31181000.0,130728935.0,18933000.0,82979244.0,oecd_observed,0.0,persistence
+ESP,total,2022-01-01,Spain,2021-12-31 23:59:59,1,True,71659000.0,252041110.0,31181000.0,130728935.0,oecd_observed,0.0,persistence
+ESP,total,2023-01-01,Spain,2022-12-31 23:59:59,1,True,85169050.0,291777708.0,71659000.0,252041110.0,oecd_observed,0.0,persistence
+ESP,total,2024-01-01,Spain,2023-12-31 23:59:59,1,True,93759300.0,329730602.0,85169050.0,291777708.0,oecd_observed,0.0,persistence
+EST,total,2019-01-01,Estonia,2018-12-31 23:59:59,1,True,3336000.0,11409120.0,3226000.0,11032920.0,un_tourism_alos_imputed,1.0,persistence
+EST,total,2020-01-01,Estonia,2019-12-31 23:59:59,1,True,1023000.0,3498660.0,3336000.0,11409120.0,un_tourism_alos_imputed,1.0,persistence
+EST,total,2021-01-01,Estonia,2020-12-31 23:59:59,1,True,808000.0,2763360.0,1023000.0,3498660.0,un_tourism_alos_imputed,1.0,persistence
+EST,total,2022-01-01,Estonia,2021-12-31 23:59:59,1,True,2166000.0,7407720.0,808000.0,2763360.0,un_tourism_alos_imputed,1.0,persistence
+EST,total,2023-01-01,Estonia,2022-12-31 23:59:59,1,False,,,2166000.0,7407720.0,,,persistence
+EST,total,2024-01-01,Estonia,2023-12-31 23:59:59,1,False,,,2166000.0,7407720.0,,,persistence
+ETH,total,2019-01-01,Ethiopia,2018-12-31 23:59:59,1,True,812000.0,6349839.999999999,849000.0,6639179.999999999,un_tourism_alos_imputed,1.0,persistence
+ETH,total,2020-01-01,Ethiopia,2019-12-31 23:59:59,1,True,271000.0,2119220.0,812000.0,6349839.999999999,un_tourism_alos_imputed,1.0,persistence
+ETH,total,2021-01-01,Ethiopia,2020-12-31 23:59:59,1,True,518000.0,4050760.0,271000.0,2119220.0,un_tourism_alos_imputed,1.0,persistence
+ETH,total,2022-01-01,Ethiopia,2021-12-31 23:59:59,1,True,897000.0,7014539.999999999,518000.0,4050760.0,un_tourism_alos_imputed,1.0,persistence
+ETH,total,2023-01-01,Ethiopia,2022-12-31 23:59:59,1,True,247000.0,1931540.0,897000.0,7014539.999999999,un_tourism_alos_imputed,1.0,persistence
+ETH,total,2024-01-01,Ethiopia,2023-12-31 23:59:59,1,True,536000.0,4191520.0,247000.0,1931540.0,un_tourism_alos_imputed,1.0,persistence
+FIN,total,2019-01-01,Finland,2018-12-31 23:59:59,1,True,3290000.0,11251800.0,3224000.0,11026080.0,un_tourism_alos_imputed,1.0,persistence
+FIN,total,2020-01-01,Finland,2019-12-31 23:59:59,1,True,896000.0,3064320.0,3290000.0,11251800.0,un_tourism_alos_imputed,1.0,persistence
+FIN,total,2021-01-01,Finland,2020-12-31 23:59:59,1,False,,,896000.0,3064320.0,,,persistence
+FIN,total,2022-01-01,Finland,2021-12-31 23:59:59,1,False,,,896000.0,3064320.0,,,persistence
+FIN,total,2023-01-01,Finland,2022-12-31 23:59:59,1,True,4248000.0,22118000.0,896000.0,3064320.0,oecd_observed,0.0,persistence
+FIN,total,2024-01-01,Finland,2023-12-31 23:59:59,1,True,4475000.0,22644000.0,4248000.0,22118000.0,oecd_observed,0.0,persistence
+FJI,total,2019-01-01,Fiji,2018-12-31 23:59:59,1,True,894000.0,5811000.0,870000.0,5655000.0,un_tourism_alos_imputed,1.0,persistence
+FJI,total,2020-01-01,Fiji,2019-12-31 23:59:59,1,True,146900.0,954850.0,894000.0,5811000.0,un_tourism_alos_imputed,1.0,persistence
+FJI,total,2021-01-01,Fiji,2020-12-31 23:59:59,1,True,32000.0,208000.0,146900.0,954850.0,un_tourism_alos_imputed,1.0,persistence
+FJI,total,2022-01-01,Fiji,2021-12-31 23:59:59,1,True,636300.0,4135950.0,32000.0,208000.0,un_tourism_alos_imputed,1.0,persistence
+FJI,total,2023-01-01,Fiji,2022-12-31 23:59:59,1,True,929740.0,6043310.0,636300.0,4135950.0,un_tourism_alos_imputed,1.0,persistence
+FJI,total,2024-01-01,Fiji,2023-12-31 23:59:59,1,True,928938.0,6038097.0,929740.0,6043310.0,un_tourism_alos_imputed,1.0,persistence
+FRA,total,2019-01-01,France,2018-12-31 23:59:59,1,True,90914000.0,310925880.0,89322000.0,305481240.0,un_tourism_alos_imputed,1.0,persistence
+FRA,total,2020-01-01,France,2019-12-31 23:59:59,1,True,41684000.0,142559280.0,90914000.0,310925880.0,un_tourism_alos_imputed,1.0,persistence
+FRA,total,2021-01-01,France,2020-12-31 23:59:59,1,True,48395000.0,165510900.0,41684000.0,142559280.0,un_tourism_alos_imputed,1.0,persistence
+FRA,total,2022-01-01,France,2021-12-31 23:59:59,1,False,,,48395000.0,165510900.0,,,persistence
+FRA,total,2023-01-01,France,2022-12-31 23:59:59,1,False,,,48395000.0,165510900.0,,,persistence
+FRA,total,2024-01-01,France,2023-12-31 23:59:59,1,False,,,48395000.0,165510900.0,,,persistence
+FSM,total,2019-01-01,"Micronesia, Fed. Sts.",2018-12-31 23:59:59,1,True,18000.0,117000.0,19200.0,124800.0,un_tourism_alos_imputed,1.0,persistence
+FSM,total,2020-01-01,"Micronesia, Fed. Sts.",2019-12-31 23:59:59,1,False,,,18000.0,117000.0,,,persistence
+FSM,total,2021-01-01,"Micronesia, Fed. Sts.",2020-12-31 23:59:59,1,False,,,18000.0,117000.0,,,persistence
+FSM,total,2022-01-01,"Micronesia, Fed. Sts.",2021-12-31 23:59:59,1,False,,,18000.0,117000.0,,,persistence
+FSM,total,2023-01-01,"Micronesia, Fed. Sts.",2022-12-31 23:59:59,1,False,,,18000.0,117000.0,,,persistence
+FSM,total,2024-01-01,"Micronesia, Fed. Sts.",2023-12-31 23:59:59,1,False,,,18000.0,117000.0,,,persistence
+GAB,total,2019-01-01,Gabon,2018-12-31 23:59:59,1,False,,,269000.0,1829200.0,,,persistence
+GAB,total,2020-01-01,Gabon,2019-12-31 23:59:59,1,False,,,269000.0,1829200.0,,,persistence
+GAB,total,2021-01-01,Gabon,2020-12-31 23:59:59,1,False,,,269000.0,1829200.0,,,persistence
+GAB,total,2022-01-01,Gabon,2021-12-31 23:59:59,1,False,,,269000.0,1829200.0,,,persistence
+GAB,total,2023-01-01,Gabon,2022-12-31 23:59:59,1,False,,,269000.0,1829200.0,,,persistence
+GAB,total,2024-01-01,Gabon,2023-12-31 23:59:59,1,False,,,269000.0,1829200.0,,,persistence
+GBR,total,2019-01-01,United Kingdom,2018-12-31 23:59:59,1,True,39418000.0,134809560.0,38664000.0,132230880.0,un_tourism_alos_imputed,1.0,persistence
+GBR,total,2020-01-01,United Kingdom,2019-12-31 23:59:59,1,True,10714000.0,36641880.0,39418000.0,134809560.0,un_tourism_alos_imputed,1.0,persistence
+GBR,total,2021-01-01,United Kingdom,2020-12-31 23:59:59,1,True,6287000.0,93522000.0,10714000.0,36641880.0,oecd_observed,0.0,persistence
+GBR,total,2022-01-01,United Kingdom,2021-12-31 23:59:59,1,True,30741000.0,262864000.0,6287000.0,93522000.0,oecd_observed,0.0,persistence
+GBR,total,2023-01-01,United Kingdom,2022-12-31 23:59:59,1,True,37214804.0,292870000.0,30741000.0,262864000.0,oecd_observed,0.0,persistence
+GBR,total,2024-01-01,United Kingdom,2023-12-31 23:59:59,1,True,38229570.0,287842000.0,37214804.0,292870000.0,oecd_observed,0.0,persistence
+GEO,total,2019-01-01,Georgia,2018-12-31 23:59:59,1,True,5080400.0,19305520.0,4757000.0,18076600.0,un_tourism_alos_imputed,1.0,persistence
+GEO,total,2020-01-01,Georgia,2019-12-31 23:59:59,1,True,1087000.0,4130600.0,5080400.0,19305520.0,un_tourism_alos_imputed,1.0,persistence
+GEO,total,2021-01-01,Georgia,2020-12-31 23:59:59,1,True,1577000.0,5992600.0,1087000.0,4130600.0,un_tourism_alos_imputed,1.0,persistence
+GEO,total,2022-01-01,Georgia,2021-12-31 23:59:59,1,True,3653000.0,13881400.0,1577000.0,5992600.0,un_tourism_alos_imputed,1.0,persistence
+GEO,total,2023-01-01,Georgia,2022-12-31 23:59:59,1,True,4669000.0,17742200.0,3653000.0,13881400.0,un_tourism_alos_imputed,1.0,persistence
+GEO,total,2024-01-01,Georgia,2023-12-31 23:59:59,1,True,5092000.0,19349600.0,4669000.0,17742200.0,un_tourism_alos_imputed,1.0,persistence
+GHA,total,2019-01-01,Ghana,2018-12-31 23:59:59,1,True,1130000.0,8836600.0,956000.0,7475919.999999999,un_tourism_alos_imputed,1.0,persistence
+GHA,total,2020-01-01,Ghana,2019-12-31 23:59:59,1,True,355000.0,2776100.0,1130000.0,8836600.0,un_tourism_alos_imputed,1.0,persistence
+GHA,total,2021-01-01,Ghana,2020-12-31 23:59:59,1,True,624000.0,4879680.0,355000.0,2776100.0,un_tourism_alos_imputed,1.0,persistence
+GHA,total,2022-01-01,Ghana,2021-12-31 23:59:59,1,True,915000.0,7155299.999999999,624000.0,4879680.0,un_tourism_alos_imputed,1.0,persistence
+GHA,total,2023-01-01,Ghana,2022-12-31 23:59:59,1,False,,,915000.0,7155299.999999999,,,persistence
+GHA,total,2024-01-01,Ghana,2023-12-31 23:59:59,1,False,,,915000.0,7155299.999999999,,,persistence
+GIN,total,2019-01-01,Guinea,2018-12-31 23:59:59,1,False,,,99000.0,774179.9999999999,,,persistence
+GIN,total,2020-01-01,Guinea,2019-12-31 23:59:59,1,False,,,99000.0,774179.9999999999,,,persistence
+GIN,total,2021-01-01,Guinea,2020-12-31 23:59:59,1,False,,,99000.0,774179.9999999999,,,persistence
+GIN,total,2022-01-01,Guinea,2021-12-31 23:59:59,1,False,,,99000.0,774179.9999999999,,,persistence
+GIN,total,2023-01-01,Guinea,2022-12-31 23:59:59,1,False,,,99000.0,774179.9999999999,,,persistence
+GIN,total,2024-01-01,Guinea,2023-12-31 23:59:59,1,False,,,99000.0,774179.9999999999,,,persistence
+GMB,total,2019-01-01,"Gambia, The",2018-12-31 23:59:59,1,True,620000.0,4848400.0,552000.0,4316640.0,un_tourism_alos_imputed,1.0,persistence
+GMB,total,2020-01-01,"Gambia, The",2019-12-31 23:59:59,1,True,246000.0,1923720.0,620000.0,4848400.0,un_tourism_alos_imputed,1.0,persistence
+GMB,total,2021-01-01,"Gambia, The",2020-12-31 23:59:59,1,True,332000.0,2596240.0,246000.0,1923720.0,un_tourism_alos_imputed,1.0,persistence
+GMB,total,2022-01-01,"Gambia, The",2021-12-31 23:59:59,1,True,570000.0,4457400.0,332000.0,2596240.0,un_tourism_alos_imputed,1.0,persistence
+GMB,total,2023-01-01,"Gambia, The",2022-12-31 23:59:59,1,False,,,570000.0,4457400.0,,,persistence
+GMB,total,2024-01-01,"Gambia, The",2023-12-31 23:59:59,1,False,,,570000.0,4457400.0,,,persistence
+GNB,total,2019-01-01,Guinea-Bissau,2018-12-31 23:59:59,1,True,52400.0,409768.0,55000.0,430100.0,un_tourism_alos_imputed,1.0,persistence
+GNB,total,2020-01-01,Guinea-Bissau,2019-12-31 23:59:59,1,False,,,52400.0,409768.0,,,persistence
+GNB,total,2021-01-01,Guinea-Bissau,2020-12-31 23:59:59,1,False,,,52400.0,409768.0,,,persistence
+GNB,total,2022-01-01,Guinea-Bissau,2021-12-31 23:59:59,1,False,,,52400.0,409768.0,,,persistence
+GNB,total,2023-01-01,Guinea-Bissau,2022-12-31 23:59:59,1,False,,,52400.0,409768.0,,,persistence
+GNB,total,2024-01-01,Guinea-Bissau,2023-12-31 23:59:59,1,False,,,52400.0,409768.0,,,persistence
+GRC,total,2019-01-01,Greece,2018-12-31 23:59:59,1,True,31348400.0,107211528.0,30123000.0,117767501.0,un_tourism_alos_imputed,1.0,persistence
+GRC,total,2020-01-01,Greece,2019-12-31 23:59:59,1,True,7374400.0,25220448.0,31348400.0,107211528.0,un_tourism_alos_imputed,1.0,persistence
+GRC,total,2021-01-01,Greece,2020-12-31 23:59:59,1,True,14705000.0,50291100.0,7374400.0,25220448.0,un_tourism_alos_imputed,1.0,persistence
+GRC,total,2022-01-01,Greece,2021-12-31 23:59:59,1,True,27836000.0,95199120.0,14705000.0,50291100.0,un_tourism_alos_imputed,1.0,persistence
+GRC,total,2023-01-01,Greece,2022-12-31 23:59:59,1,False,,,27836000.0,95199120.0,,,persistence
+GRC,total,2024-01-01,Greece,2023-12-31 23:59:59,1,False,,,27836000.0,95199120.0,,,persistence
+GRD,total,2019-01-01,Grenada,2018-12-31 23:59:59,1,True,188000.0,1353600.0,186000.0,1339200.0,un_tourism_alos_imputed,1.0,persistence
+GRD,total,2020-01-01,Grenada,2019-12-31 23:59:59,1,True,54200.0,390240.0,188000.0,1353600.0,un_tourism_alos_imputed,1.0,persistence
+GRD,total,2021-01-01,Grenada,2020-12-31 23:59:59,1,True,47000.0,338400.0,54200.0,390240.0,un_tourism_alos_imputed,1.0,persistence
+GRD,total,2022-01-01,Grenada,2021-12-31 23:59:59,1,True,149000.0,1072800.0,47000.0,338400.0,un_tourism_alos_imputed,1.0,persistence
+GRD,total,2023-01-01,Grenada,2022-12-31 23:59:59,1,False,,,149000.0,1072800.0,,,persistence
+GRD,total,2024-01-01,Grenada,2023-12-31 23:59:59,1,False,,,149000.0,1072800.0,,,persistence
+GTM,total,2019-01-01,Guatemala,2018-12-31 23:59:59,1,True,1752400.0,12617280.0,1781000.0,12823200.0,un_tourism_alos_imputed,1.0,persistence
+GTM,total,2020-01-01,Guatemala,2019-12-31 23:59:59,1,True,395700.0,2849040.0,1752400.0,12617280.0,un_tourism_alos_imputed,1.0,persistence
+GTM,total,2021-01-01,Guatemala,2020-12-31 23:59:59,1,True,602100.0,4335120.0,395700.0,2849040.0,un_tourism_alos_imputed,1.0,persistence
+GTM,total,2022-01-01,Guatemala,2021-12-31 23:59:59,1,True,1494000.0,10756800.0,602100.0,4335120.0,un_tourism_alos_imputed,1.0,persistence
+GTM,total,2023-01-01,Guatemala,2022-12-31 23:59:59,1,False,,,1494000.0,10756800.0,,,persistence
+GTM,total,2024-01-01,Guatemala,2023-12-31 23:59:59,1,False,,,1494000.0,10756800.0,,,persistence
+GUM,total,2019-01-01,Guam,2018-12-31 23:59:59,1,True,1667000.0,9751950.0,1549000.0,9061650.0,un_tourism_alos_imputed,1.0,persistence
+GUM,total,2020-01-01,Guam,2019-12-31 23:59:59,1,True,328173.0,1919812.0500000005,1667000.0,9751950.0,un_tourism_alos_imputed,1.0,persistence
+GUM,total,2021-01-01,Guam,2020-12-31 23:59:59,1,True,79389.0,464425.65,328173.0,1919812.0500000005,un_tourism_alos_imputed,1.0,persistence
+GUM,total,2022-01-01,Guam,2021-12-31 23:59:59,1,True,326878.0,1912236.3000000005,79389.0,464425.65,un_tourism_alos_imputed,1.0,persistence
+GUM,total,2023-01-01,Guam,2022-12-31 23:59:59,1,True,656518.0,3840630.3,326878.0,1912236.3000000005,un_tourism_alos_imputed,1.0,persistence
+GUM,total,2024-01-01,Guam,2023-12-31 23:59:59,1,True,739146.0,4324004.100000001,656518.0,3840630.3,un_tourism_alos_imputed,1.0,persistence
+GUY,total,2019-01-01,Guyana,2018-12-31 23:59:59,1,True,315000.0,2041200.0,287000.0,1859760.0,un_tourism_alos_imputed,1.0,persistence
+GUY,total,2020-01-01,Guyana,2019-12-31 23:59:59,1,True,86500.0,560520.0,315000.0,2041200.0,un_tourism_alos_imputed,1.0,persistence
+GUY,total,2021-01-01,Guyana,2020-12-31 23:59:59,1,True,158300.0,1025784.0,86500.0,560520.0,un_tourism_alos_imputed,1.0,persistence
+GUY,total,2022-01-01,Guyana,2021-12-31 23:59:59,1,True,288000.0,1866240.0,158300.0,1025784.0,un_tourism_alos_imputed,1.0,persistence
+GUY,total,2023-01-01,Guyana,2022-12-31 23:59:59,1,False,,,288000.0,1866240.0,,,persistence
+GUY,total,2024-01-01,Guyana,2023-12-31 23:59:59,1,False,,,288000.0,1866240.0,,,persistence
+HKG,total,2019-01-01,"Hong Kong SAR, China",2018-12-31 23:59:59,1,True,23752000.0,138949200.0,29263000.0,171188550.00000003,un_tourism_alos_imputed,1.0,persistence
+HKG,total,2020-01-01,"Hong Kong SAR, China",2019-12-31 23:59:59,1,True,1359000.0,7950150.000000001,23752000.0,138949200.0,un_tourism_alos_imputed,1.0,persistence
+HKG,total,2021-01-01,"Hong Kong SAR, China",2020-12-31 23:59:59,1,True,89200.0,521820.00000000006,1359000.0,7950150.000000001,un_tourism_alos_imputed,1.0,persistence
+HKG,total,2022-01-01,"Hong Kong SAR, China",2021-12-31 23:59:59,1,True,567800.0,3321630.0000000005,89200.0,521820.00000000006,un_tourism_alos_imputed,1.0,persistence
+HKG,total,2023-01-01,"Hong Kong SAR, China",2022-12-31 23:59:59,1,True,17159300.0,100381905.0,567800.0,3321630.0000000005,un_tourism_alos_imputed,1.0,persistence
+HKG,total,2024-01-01,"Hong Kong SAR, China",2023-12-31 23:59:59,1,True,21943900.0,128371815.0,17159300.0,100381905.0,un_tourism_alos_imputed,1.0,persistence
+HND,total,2019-01-01,Honduras,2018-12-31 23:59:59,1,True,724000.0,5994720.0,847000.0,7013159.999999999,un_tourism_alos_imputed,1.0,persistence
+HND,total,2020-01-01,Honduras,2019-12-31 23:59:59,1,True,204000.0,1689119.9999999998,724000.0,5994720.0,un_tourism_alos_imputed,1.0,persistence
+HND,total,2021-01-01,Honduras,2020-12-31 23:59:59,1,True,459000.0,3800520.0,204000.0,1689119.9999999998,un_tourism_alos_imputed,1.0,persistence
+HND,total,2022-01-01,Honduras,2021-12-31 23:59:59,1,True,844000.0,6988319.999999999,459000.0,3800520.0,un_tourism_alos_imputed,1.0,persistence
+HND,total,2023-01-01,Honduras,2022-12-31 23:59:59,1,False,,,844000.0,6988319.999999999,,,persistence
+HND,total,2024-01-01,Honduras,2023-12-31 23:59:59,1,False,,,844000.0,6988319.999999999,,,persistence
+HRV,total,2019-01-01,Croatia,2018-12-31 23:59:59,1,True,17353000.0,36258410.0,16645000.0,35477006.0,oecd_observed,0.0,persistence
+HRV,total,2020-01-01,Croatia,2019-12-31 23:59:59,1,True,5545000.0,19260809.0,17353000.0,36258410.0,oecd_observed,0.0,persistence
+HRV,total,2021-01-01,Croatia,2020-12-31 23:59:59,1,True,10641000.0,29123104.0,5545000.0,19260809.0,oecd_observed,0.0,persistence
+HRV,total,2022-01-01,Croatia,2021-12-31 23:59:59,1,True,15324000.0,36238697.0,10641000.0,29123104.0,oecd_observed,0.0,persistence
+HRV,total,2023-01-01,Croatia,2022-12-31 23:59:59,1,False,,,15324000.0,36238697.0,,,persistence
+HRV,total,2024-01-01,Croatia,2023-12-31 23:59:59,1,False,,,15324000.0,36238697.0,,,persistence
+HTI,total,2019-01-01,Haiti,2018-12-31 23:59:59,1,True,286000.0,2368080.0,447000.0,3701160.0,un_tourism_alos_imputed,1.0,persistence
+HTI,total,2020-01-01,Haiti,2019-12-31 23:59:59,1,True,203000.0,1680839.9999999998,286000.0,2368080.0,un_tourism_alos_imputed,1.0,persistence
+HTI,total,2021-01-01,Haiti,2020-12-31 23:59:59,1,True,148000.0,1225440.0,203000.0,1680839.9999999998,un_tourism_alos_imputed,1.0,persistence
+HTI,total,2022-01-01,Haiti,2021-12-31 23:59:59,1,False,,,148000.0,1225440.0,,,persistence
+HTI,total,2023-01-01,Haiti,2022-12-31 23:59:59,1,False,,,148000.0,1225440.0,,,persistence
+HTI,total,2024-01-01,Haiti,2023-12-31 23:59:59,1,False,,,148000.0,1225440.0,,,persistence
+HUN,total,2019-01-01,Hungary,2018-12-31 23:59:59,1,True,16937000.0,57924540.0,17552000.0,60027840.0,un_tourism_alos_imputed,1.0,persistence
+HUN,total,2020-01-01,Hungary,2019-12-31 23:59:59,1,True,7417000.0,25366140.0,16937000.0,57924540.0,un_tourism_alos_imputed,1.0,persistence
+HUN,total,2021-01-01,Hungary,2020-12-31 23:59:59,1,True,7929100.0,27117522.0,7417000.0,25366140.0,un_tourism_alos_imputed,1.0,persistence
+HUN,total,2022-01-01,Hungary,2021-12-31 23:59:59,1,True,12649000.0,43259580.0,7929100.0,27117522.0,un_tourism_alos_imputed,1.0,persistence
+HUN,total,2023-01-01,Hungary,2022-12-31 23:59:59,1,True,12933000.0,44230860.0,12649000.0,43259580.0,un_tourism_alos_imputed,1.0,persistence
+HUN,total,2024-01-01,Hungary,2023-12-31 23:59:59,1,True,13155000.0,44990100.0,12933000.0,44230860.0,un_tourism_alos_imputed,1.0,persistence
+IDN,total,2019-01-01,Indonesia,2018-12-31 23:59:59,1,True,15455000.0,100457500.0,13396000.0,87074000.0,un_tourism_alos_imputed,1.0,persistence
+IDN,total,2020-01-01,Indonesia,2019-12-31 23:59:59,1,True,3915400.0,25450100.0,15455000.0,100457500.0,un_tourism_alos_imputed,1.0,persistence
+IDN,total,2021-01-01,Indonesia,2020-12-31 23:59:59,1,True,1546300.0,10050950.0,3915400.0,25450100.0,un_tourism_alos_imputed,1.0,persistence
+IDN,total,2022-01-01,Indonesia,2021-12-31 23:59:59,1,True,5764000.0,37466000.0,1546300.0,10050950.0,un_tourism_alos_imputed,1.0,persistence
+IDN,total,2023-01-01,Indonesia,2022-12-31 23:59:59,1,True,11382000.0,73983000.0,5764000.0,37466000.0,un_tourism_alos_imputed,1.0,persistence
+IDN,total,2024-01-01,Indonesia,2023-12-31 23:59:59,1,True,13603000.0,88419500.0,11382000.0,73983000.0,un_tourism_alos_imputed,1.0,persistence
+IND,total,2019-01-01,India,2018-12-31 23:59:59,1,True,17754000.0,187837320.0,17423000.0,184335340.0,un_tourism_alos_imputed,1.0,persistence
+IND,total,2020-01-01,India,2019-12-31 23:59:59,1,True,2699000.0,28555420.0,17754000.0,187837320.0,un_tourism_alos_imputed,1.0,persistence
+IND,total,2021-01-01,India,2020-12-31 23:59:59,1,True,1507000.0,15944059.999999998,2699000.0,28555420.0,un_tourism_alos_imputed,1.0,persistence
+IND,total,2022-01-01,India,2021-12-31 23:59:59,1,True,6374000.0,67436919.99999999,1507000.0,15944059.999999998,un_tourism_alos_imputed,1.0,persistence
+IND,total,2023-01-01,India,2022-12-31 23:59:59,1,True,9405000.0,99504900.0,6374000.0,67436919.99999999,un_tourism_alos_imputed,1.0,persistence
+IND,total,2024-01-01,India,2023-12-31 23:59:59,1,True,9824000.0,103937920.0,9405000.0,99504900.0,un_tourism_alos_imputed,1.0,persistence
+IRL,total,2019-01-01,Ireland,2018-12-31 23:59:59,1,True,10951000.0,37452420.0,10926000.0,37366920.0,un_tourism_alos_imputed,1.0,persistence
+IRL,total,2020-01-01,Ireland,2019-12-31 23:59:59,1,False,,,10951000.0,37452420.0,,,persistence
+IRL,total,2021-01-01,Ireland,2020-12-31 23:59:59,1,False,,,10951000.0,37452420.0,,,persistence
+IRL,total,2022-01-01,Ireland,2021-12-31 23:59:59,1,False,,,10951000.0,37452420.0,,,persistence
+IRL,total,2023-01-01,Ireland,2022-12-31 23:59:59,1,False,,,10951000.0,37452420.0,,,persistence
+IRL,total,2024-01-01,Ireland,2023-12-31 23:59:59,1,False,,,10951000.0,37452420.0,,,persistence
+IRN,total,2019-01-01,"Iran, Islamic Rep.",2018-12-31 23:59:59,1,True,9107000.0,50088500.0,7295000.0,40122500.0,un_tourism_alos_imputed,1.0,persistence
+IRN,total,2020-01-01,"Iran, Islamic Rep.",2019-12-31 23:59:59,1,True,1550000.0,8525000.0,9107000.0,50088500.0,un_tourism_alos_imputed,1.0,persistence
+IRN,total,2021-01-01,"Iran, Islamic Rep.",2020-12-31 23:59:59,1,True,882000.0,4851000.0,1550000.0,8525000.0,un_tourism_alos_imputed,1.0,persistence
+IRN,total,2022-01-01,"Iran, Islamic Rep.",2021-12-31 23:59:59,1,False,,,882000.0,4851000.0,,,persistence
+IRN,total,2023-01-01,"Iran, Islamic Rep.",2022-12-31 23:59:59,1,False,,,882000.0,4851000.0,,,persistence
+IRN,total,2024-01-01,"Iran, Islamic Rep.",2023-12-31 23:59:59,1,False,,,882000.0,4851000.0,,,persistence
+IRQ,total,2019-01-01,Iraq,2018-12-31 23:59:59,1,False,,,892000.0,4906000.0,,,persistence
+IRQ,total,2020-01-01,Iraq,2019-12-31 23:59:59,1,False,,,892000.0,4906000.0,,,persistence
+IRQ,total,2021-01-01,Iraq,2020-12-31 23:59:59,1,False,,,892000.0,4906000.0,,,persistence
+IRQ,total,2022-01-01,Iraq,2021-12-31 23:59:59,1,False,,,892000.0,4906000.0,,,persistence
+IRQ,total,2023-01-01,Iraq,2022-12-31 23:59:59,1,False,,,892000.0,4906000.0,,,persistence
+IRQ,total,2024-01-01,Iraq,2023-12-31 23:59:59,1,False,,,892000.0,4906000.0,,,persistence
+ISL,total,2019-01-01,Iceland,2018-12-31 23:59:59,1,True,2013000.0,6884460.0,2343800.0,8015796.0,un_tourism_alos_imputed,1.0,persistence
+ISL,total,2020-01-01,Iceland,2019-12-31 23:59:59,1,True,486300.0,1663146.0,2013000.0,6884460.0,un_tourism_alos_imputed,1.0,persistence
+ISL,total,2021-01-01,Iceland,2020-12-31 23:59:59,1,True,698000.0,2387160.0,486300.0,1663146.0,un_tourism_alos_imputed,1.0,persistence
+ISL,total,2022-01-01,Iceland,2021-12-31 23:59:59,1,False,,,698000.0,2387160.0,,,persistence
+ISL,total,2023-01-01,Iceland,2022-12-31 23:59:59,1,False,,,698000.0,2387160.0,,,persistence
+ISL,total,2024-01-01,Iceland,2023-12-31 23:59:59,1,False,,,698000.0,2387160.0,,,persistence
+ISR,total,2019-01-01,Israel,2018-12-31 23:59:59,1,True,4552000.0,22532400.0,4121000.0,20398950.0,un_tourism_alos_imputed,1.0,persistence
+ISR,total,2020-01-01,Israel,2019-12-31 23:59:59,1,True,831000.0,4113450.0,4552000.0,22532400.0,un_tourism_alos_imputed,1.0,persistence
+ISR,total,2021-01-01,Israel,2020-12-31 23:59:59,1,True,397000.0,1965150.0,831000.0,4113450.0,un_tourism_alos_imputed,1.0,persistence
+ISR,total,2022-01-01,Israel,2021-12-31 23:59:59,1,True,2675000.0,13241250.0,397000.0,1965150.0,un_tourism_alos_imputed,1.0,persistence
+ISR,total,2023-01-01,Israel,2022-12-31 23:59:59,1,True,3010000.0,14899500.0,2675000.0,13241250.0,un_tourism_alos_imputed,1.0,persistence
+ISR,total,2024-01-01,Israel,2023-12-31 23:59:59,1,True,961000.0,4756950.0,3010000.0,14899500.0,un_tourism_alos_imputed,1.0,persistence
+ITA,total,2019-01-01,Italy,2018-12-31 23:59:59,1,True,64513000.0,149979753.0,61567200.0,140140731.0,oecd_observed,0.0,persistence
+ITA,total,2020-01-01,Italy,2019-12-31 23:59:59,1,True,25190000.0,102443680.0,64513000.0,149979753.0,oecd_observed,0.0,persistence
+ITA,total,2021-01-01,Italy,2020-12-31 23:59:59,1,True,26888000.0,122288107.0,25190000.0,102443680.0,oecd_observed,0.0,persistence
+ITA,total,2022-01-01,Italy,2021-12-31 23:59:59,1,True,49811000.0,182239517.0,26888000.0,122288107.0,oecd_observed,0.0,persistence
+ITA,total,2023-01-01,Italy,2022-12-31 23:59:59,1,True,57250000.0,188312188.0,49811000.0,182239517.0,oecd_observed,0.0,persistence
+ITA,total,2024-01-01,Italy,2023-12-31 23:59:59,1,True,57725000.0,186180325.0,57250000.0,188312188.0,oecd_observed,0.0,persistence
+JAM,total,2019-01-01,Jamaica,2018-12-31 23:59:59,1,True,2681000.0,19303200.0,2473000.0,17805600.0,un_tourism_alos_imputed,1.0,persistence
+JAM,total,2020-01-01,Jamaica,2019-12-31 23:59:59,1,True,880400.0,6338880.0,2681000.0,19303200.0,un_tourism_alos_imputed,1.0,persistence
+JAM,total,2021-01-01,Jamaica,2020-12-31 23:59:59,1,True,1464000.0,10540800.0,880400.0,6338880.0,un_tourism_alos_imputed,1.0,persistence
+JAM,total,2022-01-01,Jamaica,2021-12-31 23:59:59,1,True,2478400.0,17844480.0,1464000.0,10540800.0,un_tourism_alos_imputed,1.0,persistence
+JAM,total,2023-01-01,Jamaica,2022-12-31 23:59:59,1,False,,,2478400.0,17844480.0,,,persistence
+JAM,total,2024-01-01,Jamaica,2023-12-31 23:59:59,1,False,,,2478400.0,17844480.0,,,persistence
+JOR,total,2019-01-01,Jordan,2018-12-31 23:59:59,1,True,4488400.0,24686200.0,4150000.0,22825000.0,un_tourism_alos_imputed,1.0,persistence
+JOR,total,2020-01-01,Jordan,2019-12-31 23:59:59,1,True,1067000.0,5868500.0,4488400.0,24686200.0,un_tourism_alos_imputed,1.0,persistence
+JOR,total,2021-01-01,Jordan,2020-12-31 23:59:59,1,True,2012000.0,11066000.0,1067000.0,5868500.0,un_tourism_alos_imputed,1.0,persistence
+JOR,total,2022-01-01,Jordan,2021-12-31 23:59:59,1,True,4276700.0,23521850.0,2012000.0,11066000.0,un_tourism_alos_imputed,1.0,persistence
+JOR,total,2023-01-01,Jordan,2022-12-31 23:59:59,1,True,5346000.0,29403000.0,4276700.0,23521850.0,un_tourism_alos_imputed,1.0,persistence
+JOR,total,2024-01-01,Jordan,2023-12-31 23:59:59,1,True,5217000.0,28693500.0,5346000.0,29403000.0,un_tourism_alos_imputed,1.0,persistence
+JPN,total,2019-01-01,Japan,2018-12-31 23:59:59,1,True,31881000.0,186503850.00000003,31191000.0,182467350.00000003,un_tourism_alos_imputed,1.0,persistence
+JPN,total,2020-01-01,Japan,2019-12-31 23:59:59,1,True,4115799.8,24077428.83,31881000.0,186503850.00000003,un_tourism_alos_imputed,1.0,persistence
+JPN,total,2021-01-01,Japan,2020-12-31 23:59:59,1,True,245800.0,1437930.0000000002,4115799.8,24077428.83,un_tourism_alos_imputed,1.0,persistence
+JPN,total,2022-01-01,Japan,2021-12-31 23:59:59,1,True,3832100.0,22417785.000000004,245800.0,1437930.0000000002,un_tourism_alos_imputed,1.0,persistence
+JPN,total,2023-01-01,Japan,2022-12-31 23:59:59,1,True,25066000.0,146636100.0,3832100.0,22417785.000000004,un_tourism_alos_imputed,1.0,persistence
+JPN,total,2024-01-01,Japan,2023-12-31 23:59:59,1,True,36870000.0,215689500.00000003,25066000.0,146636100.0,un_tourism_alos_imputed,1.0,persistence
+KAZ,total,2019-01-01,Kazakhstan,2018-12-31 23:59:59,1,True,8515000.0,32357000.0,8789000.0,33398200.0,un_tourism_alos_imputed,1.0,persistence
+KAZ,total,2020-01-01,Kazakhstan,2019-12-31 23:59:59,1,True,2555564.0,9711143.2,8515000.0,32357000.0,un_tourism_alos_imputed,1.0,persistence
+KAZ,total,2021-01-01,Kazakhstan,2020-12-31 23:59:59,1,True,2000314.0,7601193.199999999,2555564.0,9711143.2,un_tourism_alos_imputed,1.0,persistence
+KAZ,total,2022-01-01,Kazakhstan,2021-12-31 23:59:59,1,True,6715459.0,25518744.2,2000314.0,7601193.199999999,un_tourism_alos_imputed,1.0,persistence
+KAZ,total,2023-01-01,Kazakhstan,2022-12-31 23:59:59,1,True,9871166.0,37510430.8,6715459.0,25518744.2,un_tourism_alos_imputed,1.0,persistence
+KAZ,total,2024-01-01,Kazakhstan,2023-12-31 23:59:59,1,True,10381566.0,39449950.8,9871166.0,37510430.8,un_tourism_alos_imputed,1.0,persistence
+KEN,total,2019-01-01,Kenya,2018-12-31 23:59:59,1,True,2049000.0,16023179.999999998,2025000.0,15835499.999999998,un_tourism_alos_imputed,1.0,persistence
+KEN,total,2020-01-01,Kenya,2019-12-31 23:59:59,1,False,,,2049000.0,16023179.999999998,,,persistence
+KEN,total,2021-01-01,Kenya,2020-12-31 23:59:59,1,False,,,2049000.0,16023179.999999998,,,persistence
+KEN,total,2022-01-01,Kenya,2021-12-31 23:59:59,1,False,,,2049000.0,16023179.999999998,,,persistence
+KEN,total,2023-01-01,Kenya,2022-12-31 23:59:59,1,False,,,2049000.0,16023179.999999998,,,persistence
+KEN,total,2024-01-01,Kenya,2023-12-31 23:59:59,1,False,,,2049000.0,16023179.999999998,,,persistence
+KGZ,total,2019-01-01,Kyrgyz Republic,2018-12-31 23:59:59,1,True,235000.0,1026949.9999999998,423000.0,1848510.0,un_tourism_alos_imputed,1.0,persistence
+KGZ,total,2020-01-01,Kyrgyz Republic,2019-12-31 23:59:59,1,True,69000.0,301529.99999999994,235000.0,1026949.9999999998,un_tourism_alos_imputed,1.0,persistence
+KGZ,total,2021-01-01,Kyrgyz Republic,2020-12-31 23:59:59,1,True,144000.0,629279.9999999999,69000.0,301529.99999999994,un_tourism_alos_imputed,1.0,persistence
+KGZ,total,2022-01-01,Kyrgyz Republic,2021-12-31 23:59:59,1,True,345700.0,1510708.9999999998,144000.0,629279.9999999999,un_tourism_alos_imputed,1.0,persistence
+KGZ,total,2023-01-01,Kyrgyz Republic,2022-12-31 23:59:59,1,False,,,345700.0,1510708.9999999998,,,persistence
+KGZ,total,2024-01-01,Kyrgyz Republic,2023-12-31 23:59:59,1,False,,,345700.0,1510708.9999999998,,,persistence
+KHM,total,2019-01-01,Cambodia,2018-12-31 23:59:59,1,True,6611000.0,49417225.0,6201000.0,46352475.0,un_tourism_alos_imputed,1.0,persistence
+KHM,total,2020-01-01,Cambodia,2019-12-31 23:59:59,1,True,1306000.0,9762350.0,6611000.0,49417225.0,un_tourism_alos_imputed,1.0,persistence
+KHM,total,2021-01-01,Cambodia,2020-12-31 23:59:59,1,True,196400.0,1468090.0,1306000.0,9762350.0,un_tourism_alos_imputed,1.0,persistence
+KHM,total,2022-01-01,Cambodia,2021-12-31 23:59:59,1,True,2276600.0,17017585.0,196400.0,1468090.0,un_tourism_alos_imputed,1.0,persistence
+KHM,total,2023-01-01,Cambodia,2022-12-31 23:59:59,1,False,,,2276600.0,17017585.0,,,persistence
+KHM,total,2024-01-01,Cambodia,2023-12-31 23:59:59,1,False,,,2276600.0,17017585.0,,,persistence
+KIR,total,2019-01-01,Kiribati,2018-12-31 23:59:59,1,True,7900.0,59052.5,7100.0,53072.5,un_tourism_alos_imputed,1.0,persistence
+KIR,total,2020-01-01,Kiribati,2019-12-31 23:59:59,1,True,1400.0,10465.0,7900.0,59052.5,un_tourism_alos_imputed,1.0,persistence
+KIR,total,2021-01-01,Kiribati,2020-12-31 23:59:59,1,True,70.0,523.25,1400.0,10465.0,un_tourism_alos_imputed,1.0,persistence
+KIR,total,2022-01-01,Kiribati,2021-12-31 23:59:59,1,True,1800.0,13455.0,70.0,523.25,un_tourism_alos_imputed,1.0,persistence
+KIR,total,2023-01-01,Kiribati,2022-12-31 23:59:59,1,False,,,1800.0,13455.0,,,persistence
+KIR,total,2024-01-01,Kiribati,2023-12-31 23:59:59,1,False,,,1800.0,13455.0,,,persistence
+KNA,total,2019-01-01,St. Kitts and Nevis,2018-12-31 23:59:59,1,True,120000.0,777600.0,125000.0,810000.0,un_tourism_alos_imputed,1.0,persistence
+KNA,total,2020-01-01,St. Kitts and Nevis,2019-12-31 23:59:59,1,True,30000.0,194400.0,120000.0,777600.0,un_tourism_alos_imputed,1.0,persistence
+KNA,total,2021-01-01,St. Kitts and Nevis,2020-12-31 23:59:59,1,True,20200.0,130896.0,30000.0,194400.0,un_tourism_alos_imputed,1.0,persistence
+KNA,total,2022-01-01,St. Kitts and Nevis,2021-12-31 23:59:59,1,True,79800.0,517104.00000000006,20200.0,130896.0,un_tourism_alos_imputed,1.0,persistence
+KNA,total,2023-01-01,St. Kitts and Nevis,2022-12-31 23:59:59,1,False,,,79800.0,517104.00000000006,,,persistence
+KNA,total,2024-01-01,St. Kitts and Nevis,2023-12-31 23:59:59,1,False,,,79800.0,517104.00000000006,,,persistence
+KOR,total,2019-01-01,"Korea, Rep.",2018-12-31 23:59:59,1,True,17503000.0,101735442.0,15347000.0,89779950.00000001,oecd_observed,0.0,persistence
+KOR,total,2020-01-01,"Korea, Rep.",2019-12-31 23:59:59,1,True,2519200.0,14737320.000000002,17503000.0,101735442.0,un_tourism_alos_imputed,1.0,persistence
+KOR,total,2021-01-01,"Korea, Rep.",2020-12-31 23:59:59,1,True,967000.0,1641299.0,2519200.0,14737320.000000002,oecd_observed,0.0,persistence
+KOR,total,2022-01-01,"Korea, Rep.",2021-12-31 23:59:59,1,True,3198000.0,34974524.0,967000.0,1641299.0,oecd_observed,0.0,persistence
+KOR,total,2023-01-01,"Korea, Rep.",2022-12-31 23:59:59,1,True,11032000.0,77393744.0,3198000.0,34974524.0,oecd_observed,0.0,persistence
+KOR,total,2024-01-01,"Korea, Rep.",2023-12-31 23:59:59,1,True,16370000.0,100035262.0,11032000.0,77393744.0,oecd_observed,0.0,persistence
+KWT,total,2019-01-01,Kuwait,2018-12-31 23:59:59,1,True,153000.0,757350.0,200000.0,990000.0,un_tourism_alos_imputed,1.0,persistence
+KWT,total,2020-01-01,Kuwait,2019-12-31 23:59:59,1,True,86485.0,428100.75,153000.0,757350.0,un_tourism_alos_imputed,1.0,persistence
+KWT,total,2021-01-01,Kuwait,2020-12-31 23:59:59,1,True,84971.0,420606.45,86485.0,428100.75,un_tourism_alos_imputed,1.0,persistence
+KWT,total,2022-01-01,Kuwait,2021-12-31 23:59:59,1,True,88670.0,438916.5,84971.0,420606.45,un_tourism_alos_imputed,1.0,persistence
+KWT,total,2023-01-01,Kuwait,2022-12-31 23:59:59,1,True,122456.0,606157.2000000001,88670.0,438916.5,un_tourism_alos_imputed,1.0,persistence
+KWT,total,2024-01-01,Kuwait,2023-12-31 23:59:59,1,False,,,122456.0,606157.2000000001,,,persistence
+LAO,total,2019-01-01,Lao PDR,2018-12-31 23:59:59,1,True,4384000.0,32770400.0,3770000.0,28180750.0,un_tourism_alos_imputed,1.0,persistence
+LAO,total,2020-01-01,Lao PDR,2019-12-31 23:59:59,1,True,811600.0,6066710.0,4384000.0,32770400.0,un_tourism_alos_imputed,1.0,persistence
+LAO,total,2021-01-01,Lao PDR,2020-12-31 23:59:59,1,False,,,811600.0,6066710.0,,,persistence
+LAO,total,2022-01-01,Lao PDR,2021-12-31 23:59:59,1,False,,,811600.0,6066710.0,,,persistence
+LAO,total,2023-01-01,Lao PDR,2022-12-31 23:59:59,1,False,,,811600.0,6066710.0,,,persistence
+LAO,total,2024-01-01,Lao PDR,2023-12-31 23:59:59,1,False,,,811600.0,6066710.0,,,persistence
+LBN,total,2019-01-01,Lebanon,2018-12-31 23:59:59,1,True,1936000.0,12245199.999999998,1964000.0,12422299.999999998,un_tourism_alos_imputed,1.0,persistence
+LBN,total,2020-01-01,Lebanon,2019-12-31 23:59:59,1,True,414000.0,2618549.9999999995,1936000.0,12245199.999999998,un_tourism_alos_imputed,1.0,persistence
+LBN,total,2021-01-01,Lebanon,2020-12-31 23:59:59,1,True,890000.0,5629249.999999999,414000.0,2618549.9999999995,un_tourism_alos_imputed,1.0,persistence
+LBN,total,2022-01-01,Lebanon,2021-12-31 23:59:59,1,True,1466000.0,9272449.999999998,890000.0,5629249.999999999,un_tourism_alos_imputed,1.0,persistence
+LBN,total,2023-01-01,Lebanon,2022-12-31 23:59:59,1,False,,,1466000.0,9272449.999999998,,,persistence
+LBN,total,2024-01-01,Lebanon,2023-12-31 23:59:59,1,False,,,1466000.0,9272449.999999998,,,persistence
+LBY,total,2019-01-01,Libya,2018-12-31 23:59:59,1,False,,,34000.0,187000.0,,,persistence
+LBY,total,2020-01-01,Libya,2019-12-31 23:59:59,1,False,,,34000.0,187000.0,,,persistence
+LBY,total,2021-01-01,Libya,2020-12-31 23:59:59,1,False,,,34000.0,187000.0,,,persistence
+LBY,total,2022-01-01,Libya,2021-12-31 23:59:59,1,False,,,34000.0,187000.0,,,persistence
+LBY,total,2023-01-01,Libya,2022-12-31 23:59:59,1,False,,,34000.0,187000.0,,,persistence
+LBY,total,2024-01-01,Libya,2023-12-31 23:59:59,1,False,,,34000.0,187000.0,,,persistence
+LCA,total,2019-01-01,St. Lucia,2018-12-31 23:59:59,1,True,424000.0,3052800.0,395000.0,2844000.0,un_tourism_alos_imputed,1.0,persistence
+LCA,total,2020-01-01,St. Lucia,2019-12-31 23:59:59,1,True,130700.0,941040.0,424000.0,3052800.0,un_tourism_alos_imputed,1.0,persistence
+LCA,total,2021-01-01,St. Lucia,2020-12-31 23:59:59,1,True,199000.0,1432800.0,130700.0,941040.0,un_tourism_alos_imputed,1.0,persistence
+LCA,total,2022-01-01,St. Lucia,2021-12-31 23:59:59,1,True,356000.0,2563200.0,199000.0,1432800.0,un_tourism_alos_imputed,1.0,persistence
+LCA,total,2023-01-01,St. Lucia,2022-12-31 23:59:59,1,False,,,356000.0,2563200.0,,,persistence
+LCA,total,2024-01-01,St. Lucia,2023-12-31 23:59:59,1,False,,,356000.0,2563200.0,,,persistence
+LIE,total,2019-01-01,Liechtenstein,2018-12-31 23:59:59,1,True,98100.0,335502.0,85300.0,291726.0,un_tourism_alos_imputed,1.0,persistence
+LIE,total,2020-01-01,Liechtenstein,2019-12-31 23:59:59,1,True,58359.0,199587.78,98100.0,335502.0,un_tourism_alos_imputed,1.0,persistence
+LIE,total,2021-01-01,Liechtenstein,2020-12-31 23:59:59,1,True,70764.0,242012.88,58359.0,199587.78,un_tourism_alos_imputed,1.0,persistence
+LIE,total,2022-01-01,Liechtenstein,2021-12-31 23:59:59,1,True,100814.0,344783.88,70764.0,242012.88,un_tourism_alos_imputed,1.0,persistence
+LIE,total,2023-01-01,Liechtenstein,2022-12-31 23:59:59,1,True,114399.0,391244.58,100814.0,344783.88,un_tourism_alos_imputed,1.0,persistence
+LIE,total,2024-01-01,Liechtenstein,2023-12-31 23:59:59,1,True,117789.0,402838.38,114399.0,391244.58,un_tourism_alos_imputed,1.0,persistence
+LKA,total,2019-01-01,Sri Lanka,2018-12-31 23:59:59,1,True,1914000.0,17608800.0,2334000.0,21472800.0,un_tourism_alos_imputed,1.0,persistence
+LKA,total,2020-01-01,Sri Lanka,2019-12-31 23:59:59,1,True,508000.0,4673600.0,1914000.0,17608800.0,un_tourism_alos_imputed,1.0,persistence
+LKA,total,2021-01-01,Sri Lanka,2020-12-31 23:59:59,1,True,194000.0,1784799.9999999998,508000.0,4673600.0,un_tourism_alos_imputed,1.0,persistence
+LKA,total,2022-01-01,Sri Lanka,2021-12-31 23:59:59,1,True,720000.0,6623999.999999999,194000.0,1784799.9999999998,un_tourism_alos_imputed,1.0,persistence
+LKA,total,2023-01-01,Sri Lanka,2022-12-31 23:59:59,1,False,,,720000.0,6623999.999999999,,,persistence
+LKA,total,2024-01-01,Sri Lanka,2023-12-31 23:59:59,1,False,,,720000.0,6623999.999999999,,,persistence
+LSO,total,2019-01-01,Lesotho,2018-12-31 23:59:59,1,True,1142000.0,8930440.0,1173000.0,9172860.0,un_tourism_alos_imputed,1.0,persistence
+LSO,total,2020-01-01,Lesotho,2019-12-31 23:59:59,1,False,,,1142000.0,8930440.0,,,persistence
+LSO,total,2021-01-01,Lesotho,2020-12-31 23:59:59,1,False,,,1142000.0,8930440.0,,,persistence
+LSO,total,2022-01-01,Lesotho,2021-12-31 23:59:59,1,False,,,1142000.0,8930440.0,,,persistence
+LSO,total,2023-01-01,Lesotho,2022-12-31 23:59:59,1,False,,,1142000.0,8930440.0,,,persistence
+LSO,total,2024-01-01,Lesotho,2023-12-31 23:59:59,1,False,,,1142000.0,8930440.0,,,persistence
+LTU,total,2019-01-01,Lithuania,2018-12-31 23:59:59,1,True,2875000.0,9832500.0,2825000.0,9661500.0,un_tourism_alos_imputed,1.0,persistence
+LTU,total,2020-01-01,Lithuania,2019-12-31 23:59:59,1,True,936700.0,3203514.0,2875000.0,9832500.0,un_tourism_alos_imputed,1.0,persistence
+LTU,total,2021-01-01,Lithuania,2020-12-31 23:59:59,1,True,947600.0,3240792.0,936700.0,3203514.0,un_tourism_alos_imputed,1.0,persistence
+LTU,total,2022-01-01,Lithuania,2021-12-31 23:59:59,1,True,2168700.0,7416954.0,947600.0,3240792.0,un_tourism_alos_imputed,1.0,persistence
+LTU,total,2023-01-01,Lithuania,2022-12-31 23:59:59,1,True,2404700.0,8224074.0,2168700.0,7416954.0,un_tourism_alos_imputed,1.0,persistence
+LTU,total,2024-01-01,Lithuania,2023-12-31 23:59:59,1,True,2383300.0,8150886.0,2404700.0,8224074.0,un_tourism_alos_imputed,1.0,persistence
+LUX,total,2019-01-01,Luxembourg,2018-12-31 23:59:59,1,True,1041000.0,3560220.0,1018000.0,3481560.0,un_tourism_alos_imputed,1.0,persistence
+LUX,total,2020-01-01,Luxembourg,2019-12-31 23:59:59,1,True,525000.0,1795500.0,1041000.0,3560220.0,un_tourism_alos_imputed,1.0,persistence
+LUX,total,2021-01-01,Luxembourg,2020-12-31 23:59:59,1,True,615000.0,751417.0,525000.0,1795500.0,oecd_observed,0.0,persistence
+LUX,total,2022-01-01,Luxembourg,2021-12-31 23:59:59,1,True,1013000.0,1071762.0,615000.0,751417.0,oecd_observed,0.0,persistence
+LUX,total,2023-01-01,Luxembourg,2022-12-31 23:59:59,1,False,,,1013000.0,1071762.0,,,persistence
+LUX,total,2024-01-01,Luxembourg,2023-12-31 23:59:59,1,False,,,1013000.0,1071762.0,,,persistence
+LVA,total,2019-01-01,Latvia,2018-12-31 23:59:59,1,True,1935000.0,4397164.0,1946000.0,4419021.0,oecd_observed,0.0,persistence
+LVA,total,2020-01-01,Latvia,2019-12-31 23:59:59,1,True,636000.0,1690966.0,1935000.0,4397164.0,oecd_observed,0.0,persistence
+LVA,total,2021-01-01,Latvia,2020-12-31 23:59:59,1,True,478000.0,1860675.0,636000.0,1690966.0,oecd_observed,0.0,persistence
+LVA,total,2022-01-01,Latvia,2021-12-31 23:59:59,1,False,,,478000.0,1860675.0,,,persistence
+LVA,total,2023-01-01,Latvia,2022-12-31 23:59:59,1,False,,,478000.0,1860675.0,,,persistence
+LVA,total,2024-01-01,Latvia,2023-12-31 23:59:59,1,False,,,478000.0,1860675.0,,,persistence
+MAC,total,2019-01-01,"Macao SAR, China",2018-12-31 23:59:59,1,True,18633000.0,109003050.0,18493000.0,108184050.0,un_tourism_alos_imputed,1.0,persistence
+MAC,total,2020-01-01,"Macao SAR, China",2019-12-31 23:59:59,1,True,2822037.0,16508916.45,18633000.0,109003050.0,un_tourism_alos_imputed,1.0,persistence
+MAC,total,2021-01-01,"Macao SAR, China",2020-12-31 23:59:59,1,True,3696800.0,21626280.000000004,2822037.0,16508916.45,un_tourism_alos_imputed,1.0,persistence
+MAC,total,2022-01-01,"Macao SAR, China",2021-12-31 23:59:59,1,True,2484028.0,14531563.8,3696800.0,21626280.000000004,un_tourism_alos_imputed,1.0,persistence
+MAC,total,2023-01-01,"Macao SAR, China",2022-12-31 23:59:59,1,True,14227229.0,83229289.65,2484028.0,14531563.8,un_tourism_alos_imputed,1.0,persistence
+MAC,total,2024-01-01,"Macao SAR, China",2023-12-31 23:59:59,1,True,16043768.0,93856042.8,14227229.0,83229289.65,un_tourism_alos_imputed,1.0,persistence
+MAR,total,2019-01-01,Morocco,2018-12-31 23:59:59,1,True,12932000.0,17414773.0,12289000.0,99971000.0,oecd_observed,0.0,persistence
+MAR,total,2020-01-01,Morocco,2019-12-31 23:59:59,1,True,2778000.0,3479557.0,12932000.0,17414773.0,oecd_observed,0.0,persistence
+MAR,total,2021-01-01,Morocco,2020-12-31 23:59:59,1,True,3722000.0,23541650.0,2778000.0,3479557.0,un_tourism_alos_imputed,1.0,persistence
+MAR,total,2022-01-01,Morocco,2021-12-31 23:59:59,1,True,10869000.0,11068976.0,3722000.0,23541650.0,oecd_observed,0.0,persistence
+MAR,total,2023-01-01,Morocco,2022-12-31 23:59:59,1,False,,,10869000.0,11068976.0,,,persistence
+MAR,total,2024-01-01,Morocco,2023-12-31 23:59:59,1,False,,,10869000.0,11068976.0,,,persistence
+MCO,total,2019-01-01,Monaco,2018-12-31 23:59:59,1,True,363000.0,1241460.0,347000.0,1186740.0,un_tourism_alos_imputed,1.0,persistence
+MCO,total,2020-01-01,Monaco,2019-12-31 23:59:59,1,True,172037.0,588366.54,363000.0,1241460.0,un_tourism_alos_imputed,1.0,persistence
+MCO,total,2021-01-01,Monaco,2020-12-31 23:59:59,1,True,220052.0,752577.84,172037.0,588366.54,un_tourism_alos_imputed,1.0,persistence
+MCO,total,2022-01-01,Monaco,2021-12-31 23:59:59,1,True,290180.0,992415.6,220052.0,752577.84,un_tourism_alos_imputed,1.0,persistence
+MCO,total,2023-01-01,Monaco,2022-12-31 23:59:59,1,True,341248.0,1167068.16,290180.0,992415.6,un_tourism_alos_imputed,1.0,persistence
+MCO,total,2024-01-01,Monaco,2023-12-31 23:59:59,1,True,348258.0,1191042.36,341248.0,1167068.16,un_tourism_alos_imputed,1.0,persistence
+MDA,total,2019-01-01,Moldova,2018-12-31 23:59:59,1,True,174000.0,661200.0,160000.0,608000.0,un_tourism_alos_imputed,1.0,persistence
+MDA,total,2020-01-01,Moldova,2019-12-31 23:59:59,1,True,28732.0,109181.6,174000.0,661200.0,un_tourism_alos_imputed,1.0,persistence
+MDA,total,2021-01-01,Moldova,2020-12-31 23:59:59,1,True,68852.0,261637.6,28732.0,109181.6,un_tourism_alos_imputed,1.0,persistence
+MDA,total,2022-01-01,Moldova,2021-12-31 23:59:59,1,True,162086.0,615926.7999999999,68852.0,261637.6,un_tourism_alos_imputed,1.0,persistence
+MDA,total,2023-01-01,Moldova,2022-12-31 23:59:59,1,True,195447.0,742698.6,162086.0,615926.7999999999,un_tourism_alos_imputed,1.0,persistence
+MDA,total,2024-01-01,Moldova,2023-12-31 23:59:59,1,True,254020.0,965276.0,195447.0,742698.6,un_tourism_alos_imputed,1.0,persistence
+MDG,total,2019-01-01,Madagascar,2018-12-31 23:59:59,1,True,384000.0,3002880.0,291000.0,2275620.0,un_tourism_alos_imputed,1.0,persistence
+MDG,total,2020-01-01,Madagascar,2019-12-31 23:59:59,1,True,68300.0,534106.0,384000.0,3002880.0,un_tourism_alos_imputed,1.0,persistence
+MDG,total,2021-01-01,Madagascar,2020-12-31 23:59:59,1,True,7800.0,60995.99999999999,68300.0,534106.0,un_tourism_alos_imputed,1.0,persistence
+MDG,total,2022-01-01,Madagascar,2021-12-31 23:59:59,1,False,,,7800.0,60995.99999999999,,,persistence
+MDG,total,2023-01-01,Madagascar,2022-12-31 23:59:59,1,False,,,7800.0,60995.99999999999,,,persistence
+MDG,total,2024-01-01,Madagascar,2023-12-31 23:59:59,1,False,,,7800.0,60995.99999999999,,,persistence
+MDV,total,2019-01-01,Maldives,2018-12-31 23:59:59,1,True,1703000.0,15667599.999999998,1484000.0,13652799.999999998,un_tourism_alos_imputed,1.0,persistence
+MDV,total,2020-01-01,Maldives,2019-12-31 23:59:59,1,True,555000.0,5106000.0,1703000.0,15667599.999999998,un_tourism_alos_imputed,1.0,persistence
+MDV,total,2021-01-01,Maldives,2020-12-31 23:59:59,1,True,1322000.0,12162399.999999998,555000.0,5106000.0,un_tourism_alos_imputed,1.0,persistence
+MDV,total,2022-01-01,Maldives,2021-12-31 23:59:59,1,True,1675000.0,15409999.999999998,1322000.0,12162399.999999998,un_tourism_alos_imputed,1.0,persistence
+MDV,total,2023-01-01,Maldives,2022-12-31 23:59:59,1,False,,,1675000.0,15409999.999999998,,,persistence
+MDV,total,2024-01-01,Maldives,2023-12-31 23:59:59,1,False,,,1675000.0,15409999.999999998,,,persistence
+MEX,total,2019-01-01,Mexico,2018-12-31 23:59:59,1,True,45024000.0,97151304.0,41313000.0,93322515.0,oecd_observed,0.0,persistence
+MEX,total,2020-01-01,Mexico,2019-12-31 23:59:59,1,True,24283536.0,43613734.0,45024000.0,97151304.0,oecd_observed,0.0,persistence
+MEX,total,2021-01-01,Mexico,2020-12-31 23:59:59,1,True,31860392.0,70992243.0,24283536.0,43613734.0,oecd_observed,0.0,persistence
+MEX,total,2022-01-01,Mexico,2021-12-31 23:59:59,1,True,38325550.0,103877320.0,31860392.0,70992243.0,oecd_observed,0.0,persistence
+MEX,total,2023-01-01,Mexico,2022-12-31 23:59:59,1,True,41949428.0,106040684.0,38325550.0,103877320.0,oecd_observed,0.0,persistence
+MEX,total,2024-01-01,Mexico,2023-12-31 23:59:59,1,True,45038750.0,324279000.0,41949428.0,106040684.0,un_tourism_alos_imputed,1.0,persistence
+MHL,total,2019-01-01,Marshall Islands,2018-12-31 23:59:59,1,True,6100.0,39650.0,6800.0,44200.0,un_tourism_alos_imputed,1.0,persistence
+MHL,total,2020-01-01,Marshall Islands,2019-12-31 23:59:59,1,True,1200.0,7800.0,6100.0,39650.0,un_tourism_alos_imputed,1.0,persistence
+MHL,total,2021-01-01,Marshall Islands,2020-12-31 23:59:59,1,True,35.0,227.5,1200.0,7800.0,un_tourism_alos_imputed,1.0,persistence
+MHL,total,2022-01-01,Marshall Islands,2021-12-31 23:59:59,1,False,,,35.0,227.5,,,persistence
+MHL,total,2023-01-01,Marshall Islands,2022-12-31 23:59:59,1,False,,,35.0,227.5,,,persistence
+MHL,total,2024-01-01,Marshall Islands,2023-12-31 23:59:59,1,False,,,35.0,227.5,,,persistence
+MKD,total,2019-01-01,North Macedonia,2018-12-31 23:59:59,1,True,758000.0,2880400.0,707000.0,2686600.0,un_tourism_alos_imputed,1.0,persistence
+MKD,total,2020-01-01,North Macedonia,2019-12-31 23:59:59,1,True,118000.0,448400.0,758000.0,2880400.0,un_tourism_alos_imputed,1.0,persistence
+MKD,total,2021-01-01,North Macedonia,2020-12-31 23:59:59,1,True,294000.0,1117200.0,118000.0,448400.0,un_tourism_alos_imputed,1.0,persistence
+MKD,total,2022-01-01,North Macedonia,2021-12-31 23:59:59,1,True,537000.0,2040600.0,294000.0,1117200.0,un_tourism_alos_imputed,1.0,persistence
+MKD,total,2023-01-01,North Macedonia,2022-12-31 23:59:59,1,True,734139.0,2789728.2,537000.0,2040600.0,un_tourism_alos_imputed,1.0,persistence
+MKD,total,2024-01-01,North Macedonia,2023-12-31 23:59:59,1,True,830179.0,3154680.2,734139.0,2789728.2,un_tourism_alos_imputed,1.0,persistence
+MLI,total,2019-01-01,Mali,2018-12-31 23:59:59,1,True,217000.0,1696939.9999999998,203000.0,1587459.9999999998,un_tourism_alos_imputed,1.0,persistence
+MLI,total,2020-01-01,Mali,2019-12-31 23:59:59,1,True,75000.0,586500.0,217000.0,1696939.9999999998,un_tourism_alos_imputed,1.0,persistence
+MLI,total,2021-01-01,Mali,2020-12-31 23:59:59,1,True,168000.0,1313760.0,75000.0,586500.0,un_tourism_alos_imputed,1.0,persistence
+MLI,total,2022-01-01,Mali,2021-12-31 23:59:59,1,False,,,168000.0,1313760.0,,,persistence
+MLI,total,2023-01-01,Mali,2022-12-31 23:59:59,1,False,,,168000.0,1313760.0,,,persistence
+MLI,total,2024-01-01,Mali,2023-12-31 23:59:59,1,False,,,168000.0,1313760.0,,,persistence
+MLT,total,2019-01-01,Malta,2018-12-31 23:59:59,1,True,2753000.0,9270228.0,2599000.0,8487864.0,oecd_observed,0.0,persistence
+MLT,total,2020-01-01,Malta,2019-12-31 23:59:59,1,True,659000.0,2865259.0,2753000.0,9270228.0,oecd_observed,0.0,persistence
+MLT,total,2021-01-01,Malta,2020-12-31 23:59:59,1,True,968000.0,1855178.0,659000.0,2865259.0,oecd_observed,0.0,persistence
+MLT,total,2022-01-01,Malta,2021-12-31 23:59:59,1,True,2286600.0,2797849.0,968000.0,1855178.0,oecd_observed,0.0,persistence
+MLT,total,2023-01-01,Malta,2022-12-31 23:59:59,1,True,2981500.0,3138766.0,2286600.0,2797849.0,oecd_observed,0.0,persistence
+MLT,total,2024-01-01,Malta,2023-12-31 23:59:59,1,True,3563600.0,17639820.0,2981500.0,3138766.0,un_tourism_alos_imputed,1.0,persistence
+MMR,total,2019-01-01,Myanmar,2018-12-31 23:59:59,1,True,4364000.0,32620900.0,3551000.0,26543725.0,un_tourism_alos_imputed,1.0,persistence
+MMR,total,2020-01-01,Myanmar,2019-12-31 23:59:59,1,True,903000.0,6749925.0,4364000.0,32620900.0,un_tourism_alos_imputed,1.0,persistence
+MMR,total,2021-01-01,Myanmar,2020-12-31 23:59:59,1,True,131000.0,979225.0,903000.0,6749925.0,un_tourism_alos_imputed,1.0,persistence
+MMR,total,2022-01-01,Myanmar,2021-12-31 23:59:59,1,True,233000.0,1741675.0,131000.0,979225.0,un_tourism_alos_imputed,1.0,persistence
+MMR,total,2023-01-01,Myanmar,2022-12-31 23:59:59,1,True,1067000.0,7975825.0,233000.0,1741675.0,un_tourism_alos_imputed,1.0,persistence
+MMR,total,2024-01-01,Myanmar,2023-12-31 23:59:59,1,True,808000.0,6039800.0,1067000.0,7975825.0,un_tourism_alos_imputed,1.0,persistence
+MNE,total,2019-01-01,Montenegro,2018-12-31 23:59:59,1,True,2510000.0,9732959.0,2077000.0,8679953.0,oecd_observed,0.0,persistence
+MNE,total,2020-01-01,Montenegro,2019-12-31 23:59:59,1,True,351000.0,1624719.0,2510000.0,9732959.0,oecd_observed,0.0,persistence
+MNE,total,2021-01-01,Montenegro,2020-12-31 23:59:59,1,True,1554000.0,6851093.0,351000.0,1624719.0,oecd_observed,0.0,persistence
+MNE,total,2022-01-01,Montenegro,2021-12-31 23:59:59,1,True,2036000.0,8080353.0,1554000.0,6851093.0,oecd_observed,0.0,persistence
+MNE,total,2023-01-01,Montenegro,2022-12-31 23:59:59,1,False,,,2036000.0,8080353.0,,,persistence
+MNE,total,2024-01-01,Montenegro,2023-12-31 23:59:59,1,False,,,2036000.0,8080353.0,,,persistence
+MNG,total,2019-01-01,Mongolia,2018-12-31 23:59:59,1,True,577000.0,3750500.0,529000.0,3438500.0,un_tourism_alos_imputed,1.0,persistence
+MNG,total,2020-01-01,Mongolia,2019-12-31 23:59:59,1,True,58900.0,382850.0,577000.0,3750500.0,un_tourism_alos_imputed,1.0,persistence
+MNG,total,2021-01-01,Mongolia,2020-12-31 23:59:59,1,True,33000.0,214500.0,58900.0,382850.0,un_tourism_alos_imputed,1.0,persistence
+MNG,total,2022-01-01,Mongolia,2021-12-31 23:59:59,1,True,286000.0,1859000.0,33000.0,214500.0,un_tourism_alos_imputed,1.0,persistence
+MNG,total,2023-01-01,Mongolia,2022-12-31 23:59:59,1,True,594000.0,3861000.0,286000.0,1859000.0,un_tourism_alos_imputed,1.0,persistence
+MNG,total,2024-01-01,Mongolia,2023-12-31 23:59:59,1,True,727000.0,4725500.0,594000.0,3861000.0,un_tourism_alos_imputed,1.0,persistence
+MNP,total,2019-01-01,Northern Mariana Islands,2018-12-31 23:59:59,1,True,484000.0,2831400.0000000005,517000.0,3024450.0000000005,un_tourism_alos_imputed,1.0,persistence
+MNP,total,2020-01-01,Northern Mariana Islands,2019-12-31 23:59:59,1,True,87000.0,508950.00000000006,484000.0,2831400.0000000005,un_tourism_alos_imputed,1.0,persistence
+MNP,total,2021-01-01,Northern Mariana Islands,2020-12-31 23:59:59,1,True,12200.0,71370.0,87000.0,508950.00000000006,un_tourism_alos_imputed,1.0,persistence
+MNP,total,2022-01-01,Northern Mariana Islands,2021-12-31 23:59:59,1,True,96100.0,562185.0,12200.0,71370.0,un_tourism_alos_imputed,1.0,persistence
+MNP,total,2023-01-01,Northern Mariana Islands,2022-12-31 23:59:59,1,False,,,96100.0,562185.0,,,persistence
+MNP,total,2024-01-01,Northern Mariana Islands,2023-12-31 23:59:59,1,False,,,96100.0,562185.0,,,persistence
+MOZ,total,2019-01-01,Mozambique,2018-12-31 23:59:59,1,True,2019000.0,15788579.999999998,2743000.0,21450260.0,un_tourism_alos_imputed,1.0,persistence
+MOZ,total,2020-01-01,Mozambique,2019-12-31 23:59:59,1,True,952000.0,7444639.999999999,2019000.0,15788579.999999998,un_tourism_alos_imputed,1.0,persistence
+MOZ,total,2021-01-01,Mozambique,2020-12-31 23:59:59,1,True,492000.0,3847440.0,952000.0,7444639.999999999,un_tourism_alos_imputed,1.0,persistence
+MOZ,total,2022-01-01,Mozambique,2021-12-31 23:59:59,1,False,,,492000.0,3847440.0,,,persistence
+MOZ,total,2023-01-01,Mozambique,2022-12-31 23:59:59,1,False,,,492000.0,3847440.0,,,persistence
+MOZ,total,2024-01-01,Mozambique,2023-12-31 23:59:59,1,False,,,492000.0,3847440.0,,,persistence
+MRT,total,2019-01-01,Mauritania,2018-12-31 23:59:59,1,False,,,30000.0,234600.0,,,persistence
+MRT,total,2020-01-01,Mauritania,2019-12-31 23:59:59,1,False,,,30000.0,234600.0,,,persistence
+MRT,total,2021-01-01,Mauritania,2020-12-31 23:59:59,1,False,,,30000.0,234600.0,,,persistence
+MRT,total,2022-01-01,Mauritania,2021-12-31 23:59:59,1,False,,,30000.0,234600.0,,,persistence
+MRT,total,2023-01-01,Mauritania,2022-12-31 23:59:59,1,False,,,30000.0,234600.0,,,persistence
+MRT,total,2024-01-01,Mauritania,2023-12-31 23:59:59,1,False,,,30000.0,234600.0,,,persistence
+MUS,total,2019-01-01,Mauritius,2018-12-31 23:59:59,1,True,1383000.0,9404400.0,1399000.0,9513200.0,un_tourism_alos_imputed,1.0,persistence
+MUS,total,2020-01-01,Mauritius,2019-12-31 23:59:59,1,True,309000.0,2101200.0,1383000.0,9404400.0,un_tourism_alos_imputed,1.0,persistence
+MUS,total,2021-01-01,Mauritius,2020-12-31 23:59:59,1,True,179800.0,1222640.0,309000.0,2101200.0,un_tourism_alos_imputed,1.0,persistence
+MUS,total,2022-01-01,Mauritius,2021-12-31 23:59:59,1,True,997000.0,6779600.0,179800.0,1222640.0,un_tourism_alos_imputed,1.0,persistence
+MUS,total,2023-01-01,Mauritius,2022-12-31 23:59:59,1,True,1295000.0,8806000.0,997000.0,6779600.0,un_tourism_alos_imputed,1.0,persistence
+MUS,total,2024-01-01,Mauritius,2023-12-31 23:59:59,1,True,1382000.0,9397600.0,1295000.0,8806000.0,un_tourism_alos_imputed,1.0,persistence
+MWI,total,2019-01-01,Malawi,2018-12-31 23:59:59,1,True,978000.0,7647959.999999999,871000.0,6811219.999999999,un_tourism_alos_imputed,1.0,persistence
+MWI,total,2020-01-01,Malawi,2019-12-31 23:59:59,1,True,199000.0,1556179.9999999998,978000.0,7647959.999999999,un_tourism_alos_imputed,1.0,persistence
+MWI,total,2021-01-01,Malawi,2020-12-31 23:59:59,1,True,432000.0,3378239.9999999995,199000.0,1556179.9999999998,un_tourism_alos_imputed,1.0,persistence
+MWI,total,2022-01-01,Malawi,2021-12-31 23:59:59,1,False,,,432000.0,3378239.9999999995,,,persistence
+MWI,total,2023-01-01,Malawi,2022-12-31 23:59:59,1,False,,,432000.0,3378239.9999999995,,,persistence
+MWI,total,2024-01-01,Malawi,2023-12-31 23:59:59,1,False,,,432000.0,3378239.9999999995,,,persistence
+MYS,total,2019-01-01,Malaysia,2018-12-31 23:59:59,1,True,26101000.0,169656500.0,25832000.0,167908000.0,un_tourism_alos_imputed,1.0,persistence
+MYS,total,2020-01-01,Malaysia,2019-12-31 23:59:59,1,True,4333000.0,28164500.0,26101000.0,169656500.0,un_tourism_alos_imputed,1.0,persistence
+MYS,total,2021-01-01,Malaysia,2020-12-31 23:59:59,1,True,135000.0,877500.0,4333000.0,28164500.0,un_tourism_alos_imputed,1.0,persistence
+MYS,total,2022-01-01,Malaysia,2021-12-31 23:59:59,1,True,10071000.0,65461500.0,135000.0,877500.0,un_tourism_alos_imputed,1.0,persistence
+MYS,total,2023-01-01,Malaysia,2022-12-31 23:59:59,1,False,,,10071000.0,65461500.0,,,persistence
+MYS,total,2024-01-01,Malaysia,2023-12-31 23:59:59,1,False,,,10071000.0,65461500.0,,,persistence
+NAM,total,2019-01-01,Namibia,2018-12-31 23:59:59,1,True,1596000.0,12480719.999999998,1557000.0,12175739.999999998,un_tourism_alos_imputed,1.0,persistence
+NAM,total,2020-01-01,Namibia,2019-12-31 23:59:59,1,True,169600.0,1326272.0,1596000.0,12480719.999999998,un_tourism_alos_imputed,1.0,persistence
+NAM,total,2021-01-01,Namibia,2020-12-31 23:59:59,1,True,232800.0,1820496.0,169600.0,1326272.0,un_tourism_alos_imputed,1.0,persistence
+NAM,total,2022-01-01,Namibia,2021-12-31 23:59:59,1,True,461000.0,3605020.0,232800.0,1820496.0,un_tourism_alos_imputed,1.0,persistence
+NAM,total,2023-01-01,Namibia,2022-12-31 23:59:59,1,True,864000.0,6756479.999999999,461000.0,3605020.0,un_tourism_alos_imputed,1.0,persistence
+NAM,total,2024-01-01,Namibia,2023-12-31 23:59:59,1,False,,,864000.0,6756479.999999999,,,persistence
+NCL,total,2019-01-01,New Caledonia,2018-12-31 23:59:59,1,True,131000.0,766350.0000000001,120000.0,702000.0000000001,un_tourism_alos_imputed,1.0,persistence
+NCL,total,2020-01-01,New Caledonia,2019-12-31 23:59:59,1,True,32136.002,187995.6117,131000.0,766350.0000000001,un_tourism_alos_imputed,1.0,persistence
+NCL,total,2021-01-01,New Caledonia,2020-12-31 23:59:59,1,True,13825.0,80876.25000000001,32136.002,187995.6117,un_tourism_alos_imputed,1.0,persistence
+NCL,total,2022-01-01,New Caledonia,2021-12-31 23:59:59,1,True,78748.0,460675.8000000001,13825.0,80876.25000000001,un_tourism_alos_imputed,1.0,persistence
+NCL,total,2023-01-01,New Caledonia,2022-12-31 23:59:59,1,True,125097.0,731817.4500000001,78748.0,460675.8000000001,un_tourism_alos_imputed,1.0,persistence
+NCL,total,2024-01-01,New Caledonia,2023-12-31 23:59:59,1,True,59399.0,347484.15,125097.0,731817.4500000001,un_tourism_alos_imputed,1.0,persistence
+NER,total,2019-01-01,Niger,2018-12-31 23:59:59,1,True,192000.0,1501440.0,157000.0,1227740.0,un_tourism_alos_imputed,1.0,persistence
+NER,total,2020-01-01,Niger,2019-12-31 23:59:59,1,True,85000.0,664700.0,192000.0,1501440.0,un_tourism_alos_imputed,1.0,persistence
+NER,total,2021-01-01,Niger,2020-12-31 23:59:59,1,False,,,85000.0,664700.0,,,persistence
+NER,total,2022-01-01,Niger,2021-12-31 23:59:59,1,False,,,85000.0,664700.0,,,persistence
+NER,total,2023-01-01,Niger,2022-12-31 23:59:59,1,False,,,85000.0,664700.0,,,persistence
+NER,total,2024-01-01,Niger,2023-12-31 23:59:59,1,False,,,85000.0,664700.0,,,persistence
+NGA,total,2019-01-01,Nigeria,2018-12-31 23:59:59,1,True,2005000.0,15679099.999999998,1966000.0,15374119.999999998,un_tourism_alos_imputed,1.0,persistence
+NGA,total,2020-01-01,Nigeria,2019-12-31 23:59:59,1,True,502000.0,3925640.0,2005000.0,15679099.999999998,un_tourism_alos_imputed,1.0,persistence
+NGA,total,2021-01-01,Nigeria,2020-12-31 23:59:59,1,True,518000.0,4050760.0,502000.0,3925640.0,un_tourism_alos_imputed,1.0,persistence
+NGA,total,2022-01-01,Nigeria,2021-12-31 23:59:59,1,True,528360.0,4131775.2,518000.0,4050760.0,un_tourism_alos_imputed,1.0,persistence
+NGA,total,2023-01-01,Nigeria,2022-12-31 23:59:59,1,True,528360.0,4131775.2,528360.0,4131775.2,un_tourism_alos_imputed,1.0,persistence
+NGA,total,2024-01-01,Nigeria,2023-12-31 23:59:59,1,True,538927.2,4214410.703999999,528360.0,4131775.2,un_tourism_alos_imputed,1.0,persistence
+NIC,total,2019-01-01,Nicaragua,2018-12-31 23:59:59,1,True,1295000.0,10722600.0,1256000.0,10399680.0,un_tourism_alos_imputed,1.0,persistence
+NIC,total,2020-01-01,Nicaragua,2019-12-31 23:59:59,1,True,384000.0,3179519.9999999995,1295000.0,10722600.0,un_tourism_alos_imputed,1.0,persistence
+NIC,total,2021-01-01,Nicaragua,2020-12-31 23:59:59,1,True,222400.0,1841472.0,384000.0,3179519.9999999995,un_tourism_alos_imputed,1.0,persistence
+NIC,total,2022-01-01,Nicaragua,2021-12-31 23:59:59,1,True,817900.0,6772211.999999999,222400.0,1841472.0,un_tourism_alos_imputed,1.0,persistence
+NIC,total,2023-01-01,Nicaragua,2022-12-31 23:59:59,1,False,,,817900.0,6772211.999999999,,,persistence
+NIC,total,2024-01-01,Nicaragua,2023-12-31 23:59:59,1,False,,,817900.0,6772211.999999999,,,persistence
+NLD,total,2019-01-01,Netherlands,2018-12-31 23:59:59,1,True,20129000.0,68841180.0,18780000.0,64227600.0,un_tourism_alos_imputed,1.0,persistence
+NLD,total,2020-01-01,Netherlands,2019-12-31 23:59:59,1,True,7265000.0,24846300.0,20129000.0,68841180.0,un_tourism_alos_imputed,1.0,persistence
+NLD,total,2021-01-01,Netherlands,2020-12-31 23:59:59,1,True,6248000.0,21368160.0,7265000.0,24846300.0,un_tourism_alos_imputed,1.0,persistence
+NLD,total,2022-01-01,Netherlands,2021-12-31 23:59:59,1,True,16063000.0,54935460.0,6248000.0,21368160.0,un_tourism_alos_imputed,1.0,persistence
+NLD,total,2023-01-01,Netherlands,2022-12-31 23:59:59,1,False,,,16063000.0,54935460.0,,,persistence
+NLD,total,2024-01-01,Netherlands,2023-12-31 23:59:59,1,False,,,16063000.0,54935460.0,,,persistence
+NOR,total,2019-01-01,Norway,2018-12-31 23:59:59,1,True,5879000.0,20106180.0,5688000.0,19452960.0,un_tourism_alos_imputed,1.0,persistence
+NOR,total,2020-01-01,Norway,2019-12-31 23:59:59,1,True,1397000.0,4777740.0,5879000.0,20106180.0,un_tourism_alos_imputed,1.0,persistence
+NOR,total,2021-01-01,Norway,2020-12-31 23:59:59,1,True,1435000.0,4907700.0,1397000.0,4777740.0,un_tourism_alos_imputed,1.0,persistence
+NOR,total,2022-01-01,Norway,2021-12-31 23:59:59,1,True,4979400.0,17029548.0,1435000.0,4907700.0,un_tourism_alos_imputed,1.0,persistence
+NOR,total,2023-01-01,Norway,2022-12-31 23:59:59,1,False,,,4979400.0,17029548.0,,,persistence
+NOR,total,2024-01-01,Norway,2023-12-31 23:59:59,1,False,,,4979400.0,17029548.0,,,persistence
+NPL,total,2019-01-01,Nepal,2018-12-31 23:59:59,1,True,1197000.0,12664259.999999998,1173000.0,12410339.999999998,un_tourism_alos_imputed,1.0,persistence
+NPL,total,2020-01-01,Nepal,2019-12-31 23:59:59,1,True,230000.0,2433399.9999999995,1197000.0,12664259.999999998,un_tourism_alos_imputed,1.0,persistence
+NPL,total,2021-01-01,Nepal,2020-12-31 23:59:59,1,True,151000.0,1597579.9999999998,230000.0,2433399.9999999995,un_tourism_alos_imputed,1.0,persistence
+NPL,total,2022-01-01,Nepal,2021-12-31 23:59:59,1,True,614800.0,6504583.999999999,151000.0,1597579.9999999998,un_tourism_alos_imputed,1.0,persistence
+NPL,total,2023-01-01,Nepal,2022-12-31 23:59:59,1,False,,,614800.0,6504583.999999999,,,persistence
+NPL,total,2024-01-01,Nepal,2023-12-31 23:59:59,1,False,,,614800.0,6504583.999999999,,,persistence
+NZL,total,2019-01-01,New Zealand,2018-12-31 23:59:59,1,True,3702000.0,21656700.000000004,3686000.0,21563100.000000004,un_tourism_alos_imputed,1.0,persistence
+NZL,total,2020-01-01,New Zealand,2019-12-31 23:59:59,1,True,948612.0,5549380.2,3702000.0,21656700.000000004,un_tourism_alos_imputed,1.0,persistence
+NZL,total,2021-01-01,New Zealand,2020-12-31 23:59:59,1,True,204882.0,1198559.7000000002,948612.0,5549380.2,un_tourism_alos_imputed,1.0,persistence
+NZL,total,2022-01-01,New Zealand,2021-12-31 23:59:59,1,True,1389056.0,8125977.600000001,204882.0,1198559.7000000002,un_tourism_alos_imputed,1.0,persistence
+NZL,total,2023-01-01,New Zealand,2022-12-31 23:59:59,1,True,2827557.0,16541208.45,1389056.0,8125977.600000001,un_tourism_alos_imputed,1.0,persistence
+NZL,total,2024-01-01,New Zealand,2023-12-31 23:59:59,1,True,3175839.0,18578658.15,2827557.0,16541208.45,un_tourism_alos_imputed,1.0,persistence
+OMN,total,2019-01-01,Oman,2018-12-31 23:59:59,1,True,2500000.0,12375000.0,2301000.0,11389950.0,un_tourism_alos_imputed,1.0,persistence
+OMN,total,2020-01-01,Oman,2019-12-31 23:59:59,1,True,622400.0,3080880.0,2500000.0,12375000.0,un_tourism_alos_imputed,1.0,persistence
+OMN,total,2021-01-01,Oman,2020-12-31 23:59:59,1,True,464000.0,2296800.0,622400.0,3080880.0,un_tourism_alos_imputed,1.0,persistence
+OMN,total,2022-01-01,Oman,2021-12-31 23:59:59,1,True,2105580.8,10422624.96,464000.0,2296800.0,un_tourism_alos_imputed,1.0,persistence
+OMN,total,2023-01-01,Oman,2022-12-31 23:59:59,1,True,2849060.2,14102847.990000002,2105580.8,10422624.96,un_tourism_alos_imputed,1.0,persistence
+OMN,total,2024-01-01,Oman,2023-12-31 23:59:59,1,True,2659001.5,13162057.425,2849060.2,14102847.990000002,un_tourism_alos_imputed,1.0,persistence
+PAK,total,2019-01-01,Pakistan,2018-12-31 23:59:59,1,False,,,966000.0,6109949.999999999,,,persistence
+PAK,total,2020-01-01,Pakistan,2019-12-31 23:59:59,1,False,,,966000.0,6109949.999999999,,,persistence
+PAK,total,2021-01-01,Pakistan,2020-12-31 23:59:59,1,False,,,966000.0,6109949.999999999,,,persistence
+PAK,total,2022-01-01,Pakistan,2021-12-31 23:59:59,1,False,,,966000.0,6109949.999999999,,,persistence
+PAK,total,2023-01-01,Pakistan,2022-12-31 23:59:59,1,False,,,966000.0,6109949.999999999,,,persistence
+PAK,total,2024-01-01,Pakistan,2023-12-31 23:59:59,1,False,,,966000.0,6109949.999999999,,,persistence
+PAN,total,2019-01-01,Panama,2018-12-31 23:59:59,1,True,1753000.0,11359440.0,1785000.0,11566800.0,un_tourism_alos_imputed,1.0,persistence
+PAN,total,2020-01-01,Panama,2019-12-31 23:59:59,1,True,414000.0,2682720.0,1753000.0,11359440.0,un_tourism_alos_imputed,1.0,persistence
+PAN,total,2021-01-01,Panama,2020-12-31 23:59:59,1,True,618000.0,4004640.000000001,414000.0,2682720.0,un_tourism_alos_imputed,1.0,persistence
+PAN,total,2022-01-01,Panama,2021-12-31 23:59:59,1,True,1488000.0,9642240.0,618000.0,4004640.000000001,un_tourism_alos_imputed,1.0,persistence
+PAN,total,2023-01-01,Panama,2022-12-31 23:59:59,1,False,,,1488000.0,9642240.0,,,persistence
+PAN,total,2024-01-01,Panama,2023-12-31 23:59:59,1,False,,,1488000.0,9642240.0,,,persistence
+PER,total,2019-01-01,Peru,2018-12-31 23:59:59,1,True,4372000.0,14796037.0,4419000.0,14301898.0,oecd_observed,0.0,persistence
+PER,total,2020-01-01,Peru,2019-12-31 23:59:59,1,True,897000.0,3414971.0,4372000.0,14796037.0,oecd_observed,0.0,persistence
+PER,total,2021-01-01,Peru,2020-12-31 23:59:59,1,True,444000.0,3573334.0,897000.0,3414971.0,oecd_observed,0.0,persistence
+PER,total,2022-01-01,Peru,2021-12-31 23:59:59,1,True,2009300.0,9123314.0,444000.0,3573334.0,oecd_observed,0.0,persistence
+PER,total,2023-01-01,Peru,2022-12-31 23:59:59,1,False,,,2009300.0,9123314.0,,,persistence
+PER,total,2024-01-01,Peru,2023-12-31 23:59:59,1,False,,,2009300.0,9123314.0,,,persistence
+PHL,total,2019-01-01,Philippines,2018-12-31 23:59:59,1,True,8261000.0,53696500.0,7168000.0,46592000.0,un_tourism_alos_imputed,1.0,persistence
+PHL,total,2020-01-01,Philippines,2019-12-31 23:59:59,1,True,1483000.0,9639500.0,8261000.0,53696500.0,un_tourism_alos_imputed,1.0,persistence
+PHL,total,2021-01-01,Philippines,2020-12-31 23:59:59,1,True,164000.0,1066000.0,1483000.0,9639500.0,un_tourism_alos_imputed,1.0,persistence
+PHL,total,2022-01-01,Philippines,2021-12-31 23:59:59,1,True,2654000.0,17251000.0,164000.0,1066000.0,un_tourism_alos_imputed,1.0,persistence
+PHL,total,2023-01-01,Philippines,2022-12-31 23:59:59,1,False,,,2654000.0,17251000.0,,,persistence
+PHL,total,2024-01-01,Philippines,2023-12-31 23:59:59,1,False,,,2654000.0,17251000.0,,,persistence
+PLW,total,2019-01-01,Palau,2018-12-31 23:59:59,1,True,94000.0,549900.0,106000.0,620100.0,un_tourism_alos_imputed,1.0,persistence
+PLW,total,2020-01-01,Palau,2019-12-31 23:59:59,1,True,18400.0,107640.0,94000.0,549900.0,un_tourism_alos_imputed,1.0,persistence
+PLW,total,2021-01-01,Palau,2020-12-31 23:59:59,1,False,,,18400.0,107640.0,,,persistence
+PLW,total,2022-01-01,Palau,2021-12-31 23:59:59,1,False,,,18400.0,107640.0,,,persistence
+PLW,total,2023-01-01,Palau,2022-12-31 23:59:59,1,False,,,18400.0,107640.0,,,persistence
+PLW,total,2024-01-01,Palau,2023-12-31 23:59:59,1,False,,,18400.0,107640.0,,,persistence
+PNG,total,2019-01-01,Papua New Guinea,2018-12-31 23:59:59,1,True,160000.0,1196000.0,140000.0,1046500.0,un_tourism_alos_imputed,1.0,persistence
+PNG,total,2020-01-01,Papua New Guinea,2019-12-31 23:59:59,1,True,39000.0,291525.0,160000.0,1196000.0,un_tourism_alos_imputed,1.0,persistence
+PNG,total,2021-01-01,Papua New Guinea,2020-12-31 23:59:59,1,True,17000.0,127075.0,39000.0,291525.0,un_tourism_alos_imputed,1.0,persistence
+PNG,total,2022-01-01,Papua New Guinea,2021-12-31 23:59:59,1,True,66800.0,499330.0,17000.0,127075.0,un_tourism_alos_imputed,1.0,persistence
+PNG,total,2023-01-01,Papua New Guinea,2022-12-31 23:59:59,1,False,,,66800.0,499330.0,,,persistence
+PNG,total,2024-01-01,Papua New Guinea,2023-12-31 23:59:59,1,False,,,66800.0,499330.0,,,persistence
+POL,total,2019-01-01,Poland,2018-12-31 23:59:59,1,True,21158000.0,63160003.0,19622000.0,61088940.0,oecd_observed,0.0,persistence
+POL,total,2020-01-01,Poland,2019-12-31 23:59:59,1,True,8418000.0,31723057.0,21158000.0,63160003.0,oecd_observed,0.0,persistence
+POL,total,2021-01-01,Poland,2020-12-31 23:59:59,1,True,9722000.0,38143605.0,8418000.0,31723057.0,oecd_observed,0.0,persistence
+POL,total,2022-01-01,Poland,2021-12-31 23:59:59,1,True,15948000.0,62654938.0,9722000.0,38143605.0,oecd_observed,0.0,persistence
+POL,total,2023-01-01,Poland,2022-12-31 23:59:59,1,True,18987000.0,72297733.0,15948000.0,62654938.0,oecd_observed,0.0,persistence
+POL,total,2024-01-01,Poland,2023-12-31 23:59:59,1,True,19723000.0,74160177.0,18987000.0,72297733.0,oecd_observed,0.0,persistence
+PRI,total,2019-01-01,Puerto Rico (US),2018-12-31 23:59:59,1,True,3180000.0,20606400.0,3068000.0,19880640.0,un_tourism_alos_imputed,1.0,persistence
+PRI,total,2020-01-01,Puerto Rico (US),2019-12-31 23:59:59,1,True,2617400.0,16960752.0,3180000.0,20606400.0,un_tourism_alos_imputed,1.0,persistence
+PRI,total,2021-01-01,Puerto Rico (US),2020-12-31 23:59:59,1,True,2754700.0,17850456.0,2617400.0,16960752.0,un_tourism_alos_imputed,1.0,persistence
+PRI,total,2022-01-01,Puerto Rico (US),2021-12-31 23:59:59,1,True,4231900.0,27422712.0,2754700.0,17850456.0,un_tourism_alos_imputed,1.0,persistence
+PRI,total,2023-01-01,Puerto Rico (US),2022-12-31 23:59:59,1,True,5046200.0,32699376.000000004,4231900.0,27422712.0,un_tourism_alos_imputed,1.0,persistence
+PRI,total,2024-01-01,Puerto Rico (US),2023-12-31 23:59:59,1,True,5551200.0,35971776.0,5046200.0,32699376.000000004,un_tourism_alos_imputed,1.0,persistence
+PRT,total,2019-01-01,Portugal,2018-12-31 23:59:59,1,True,17283000.0,59107860.0,16186000.0,55356120.0,un_tourism_alos_imputed,1.0,persistence
+PRT,total,2020-01-01,Portugal,2019-12-31 23:59:59,1,True,6480000.0,22161600.0,17283000.0,59107860.0,un_tourism_alos_imputed,1.0,persistence
+PRT,total,2021-01-01,Portugal,2020-12-31 23:59:59,1,True,9617000.0,32890140.0,6480000.0,22161600.0,un_tourism_alos_imputed,1.0,persistence
+PRT,total,2022-01-01,Portugal,2021-12-31 23:59:59,1,True,22254000.0,76108680.0,9617000.0,32890140.0,un_tourism_alos_imputed,1.0,persistence
+PRT,total,2023-01-01,Portugal,2022-12-31 23:59:59,1,True,26504000.0,90643680.0,22254000.0,76108680.0,un_tourism_alos_imputed,1.0,persistence
+PRT,total,2024-01-01,Portugal,2023-12-31 23:59:59,1,True,28970000.0,99077400.0,26504000.0,90643680.0,un_tourism_alos_imputed,1.0,persistence
+PRY,total,2019-01-01,Paraguay,2018-12-31 23:59:59,1,True,1216000.0,8755200.0,1181000.0,8503200.0,un_tourism_alos_imputed,1.0,persistence
+PRY,total,2020-01-01,Paraguay,2019-12-31 23:59:59,1,True,252000.0,1814400.0,1216000.0,8755200.0,un_tourism_alos_imputed,1.0,persistence
+PRY,total,2021-01-01,Paraguay,2020-12-31 23:59:59,1,True,95000.0,684000.0,252000.0,1814400.0,un_tourism_alos_imputed,1.0,persistence
+PRY,total,2022-01-01,Paraguay,2021-12-31 23:59:59,1,True,579400.0,4171680.0,95000.0,684000.0,un_tourism_alos_imputed,1.0,persistence
+PRY,total,2023-01-01,Paraguay,2022-12-31 23:59:59,1,True,864000.0,6220800.0,579400.0,4171680.0,un_tourism_alos_imputed,1.0,persistence
+PRY,total,2024-01-01,Paraguay,2023-12-31 23:59:59,1,True,1061000.0,7639200.0,864000.0,6220800.0,un_tourism_alos_imputed,1.0,persistence
+PSE,total,2019-01-01,West Bank and Gaza,2018-12-31 23:59:59,1,True,1110000.0,7020749.999999999,985000.0,6230124.999999999,un_tourism_alos_imputed,1.0,persistence
+PSE,total,2020-01-01,West Bank and Gaza,2019-12-31 23:59:59,1,True,170000.0,1075249.9999999998,1110000.0,7020749.999999999,un_tourism_alos_imputed,1.0,persistence
+PSE,total,2021-01-01,West Bank and Gaza,2020-12-31 23:59:59,1,False,,,170000.0,1075249.9999999998,,,persistence
+PSE,total,2022-01-01,West Bank and Gaza,2021-12-31 23:59:59,1,False,,,170000.0,1075249.9999999998,,,persistence
+PSE,total,2023-01-01,West Bank and Gaza,2022-12-31 23:59:59,1,False,,,170000.0,1075249.9999999998,,,persistence
+PSE,total,2024-01-01,West Bank and Gaza,2023-12-31 23:59:59,1,False,,,170000.0,1075249.9999999998,,,persistence
+PYF,total,2019-01-01,French Polynesia,2018-12-31 23:59:59,1,True,237000.0,1386450.0000000002,216300.0,1265355.0,un_tourism_alos_imputed,1.0,persistence
+PYF,total,2020-01-01,French Polynesia,2019-12-31 23:59:59,1,True,77000.0,450450.00000000006,237000.0,1386450.0000000002,un_tourism_alos_imputed,1.0,persistence
+PYF,total,2021-01-01,French Polynesia,2020-12-31 23:59:59,1,True,83000.0,485550.00000000006,77000.0,450450.00000000006,un_tourism_alos_imputed,1.0,persistence
+PYF,total,2022-01-01,French Polynesia,2021-12-31 23:59:59,1,True,218800.0,1279980.0000000002,83000.0,485550.00000000006,un_tourism_alos_imputed,1.0,persistence
+PYF,total,2023-01-01,French Polynesia,2022-12-31 23:59:59,1,False,,,218800.0,1279980.0000000002,,,persistence
+PYF,total,2024-01-01,French Polynesia,2023-12-31 23:59:59,1,False,,,218800.0,1279980.0000000002,,,persistence
+QAT,total,2019-01-01,Qatar,2018-12-31 23:59:59,1,True,2136500.0,10575675.0,1819000.0,9004050.0,un_tourism_alos_imputed,1.0,persistence
+QAT,total,2020-01-01,Qatar,2019-12-31 23:59:59,1,True,581700.0,2879415.0,2136500.0,10575675.0,un_tourism_alos_imputed,1.0,persistence
+QAT,total,2021-01-01,Qatar,2020-12-31 23:59:59,1,True,610800.0,3023460.0,581700.0,2879415.0,un_tourism_alos_imputed,1.0,persistence
+QAT,total,2022-01-01,Qatar,2021-12-31 23:59:59,1,True,2559800.0,12671010.0,610800.0,3023460.0,un_tourism_alos_imputed,1.0,persistence
+QAT,total,2023-01-01,Qatar,2022-12-31 23:59:59,1,False,,,2559800.0,12671010.0,,,persistence
+QAT,total,2024-01-01,Qatar,2023-12-31 23:59:59,1,False,,,2559800.0,12671010.0,,,persistence
+ROU,total,2019-01-01,Romania,2018-12-31 23:59:59,1,True,12815000.0,43827300.0,11720000.0,40082400.0,un_tourism_alos_imputed,1.0,persistence
+ROU,total,2020-01-01,Romania,2019-12-31 23:59:59,1,True,5022700.0,17177634.0,12815000.0,43827300.0,un_tourism_alos_imputed,1.0,persistence
+ROU,total,2021-01-01,Romania,2020-12-31 23:59:59,1,True,6788900.0,23218038.0,5022700.0,17177634.0,un_tourism_alos_imputed,1.0,persistence
+ROU,total,2022-01-01,Romania,2021-12-31 23:59:59,1,True,12696800.0,43423056.0,6788900.0,23218038.0,un_tourism_alos_imputed,1.0,persistence
+ROU,total,2023-01-01,Romania,2022-12-31 23:59:59,1,True,14777000.0,50537340.0,12696800.0,43423056.0,un_tourism_alos_imputed,1.0,persistence
+ROU,total,2024-01-01,Romania,2023-12-31 23:59:59,1,True,13353000.0,45667260.0,14777000.0,50537340.0,un_tourism_alos_imputed,1.0,persistence
+RUS,total,2019-01-01,Russian Federation,2018-12-31 23:59:59,1,True,24419000.0,83512980.0,24551000.0,83964420.0,un_tourism_alos_imputed,1.0,persistence
+RUS,total,2020-01-01,Russian Federation,2019-12-31 23:59:59,1,True,6359000.0,21747780.0,24419000.0,83512980.0,un_tourism_alos_imputed,1.0,persistence
+RUS,total,2021-01-01,Russian Federation,2020-12-31 23:59:59,1,False,,,6359000.0,21747780.0,,,persistence
+RUS,total,2022-01-01,Russian Federation,2021-12-31 23:59:59,1,False,,,6359000.0,21747780.0,,,persistence
+RUS,total,2023-01-01,Russian Federation,2022-12-31 23:59:59,1,False,,,6359000.0,21747780.0,,,persistence
+RUS,total,2024-01-01,Russian Federation,2023-12-31 23:59:59,1,False,,,6359000.0,21747780.0,,,persistence
+RWA,total,2019-01-01,Rwanda,2018-12-31 23:59:59,1,True,1544000.0,12074079.999999998,1619000.0,12660579.999999998,un_tourism_alos_imputed,1.0,persistence
+RWA,total,2020-01-01,Rwanda,2019-12-31 23:59:59,1,True,460000.0,3597199.9999999995,1544000.0,12074079.999999998,un_tourism_alos_imputed,1.0,persistence
+RWA,total,2021-01-01,Rwanda,2020-12-31 23:59:59,1,True,480000.0,3753600.0,460000.0,3597199.9999999995,un_tourism_alos_imputed,1.0,persistence
+RWA,total,2022-01-01,Rwanda,2021-12-31 23:59:59,1,False,,,480000.0,3753600.0,,,persistence
+RWA,total,2023-01-01,Rwanda,2022-12-31 23:59:59,1,False,,,480000.0,3753600.0,,,persistence
+RWA,total,2024-01-01,Rwanda,2023-12-31 23:59:59,1,False,,,480000.0,3753600.0,,,persistence
+SAU,total,2019-01-01,Saudi Arabia,2018-12-31 23:59:59,1,True,17526000.0,23498572.0,15334000.0,15626062.0,oecd_observed,0.0,persistence
+SAU,total,2020-01-01,Saudi Arabia,2019-12-31 23:59:59,1,True,4138178.2,7258498.0,17526000.0,23498572.0,oecd_observed,0.0,persistence
+SAU,total,2021-01-01,Saudi Arabia,2020-12-31 23:59:59,1,True,3477216.2,15480093.0,4138178.2,7258498.0,oecd_observed,0.0,persistence
+SAU,total,2022-01-01,Saudi Arabia,2021-12-31 23:59:59,1,True,16637861.0,108940946.0,3477216.2,15480093.0,oecd_observed,0.0,persistence
+SAU,total,2023-01-01,Saudi Arabia,2022-12-31 23:59:59,1,True,27423536.0,129511006.0,16637861.0,108940946.0,oecd_observed,0.0,persistence
+SAU,total,2024-01-01,Saudi Arabia,2023-12-31 23:59:59,1,True,29727444.0,170241753.0,27423536.0,129511006.0,oecd_observed,0.0,persistence
+SDN,total,2019-01-01,Sudan,2018-12-31 23:59:59,1,False,,,836000.0,6537519.999999999,,,persistence
+SDN,total,2020-01-01,Sudan,2019-12-31 23:59:59,1,False,,,836000.0,6537519.999999999,,,persistence
+SDN,total,2021-01-01,Sudan,2020-12-31 23:59:59,1,False,,,836000.0,6537519.999999999,,,persistence
+SDN,total,2022-01-01,Sudan,2021-12-31 23:59:59,1,False,,,836000.0,6537519.999999999,,,persistence
+SDN,total,2023-01-01,Sudan,2022-12-31 23:59:59,1,False,,,836000.0,6537519.999999999,,,persistence
+SDN,total,2024-01-01,Sudan,2023-12-31 23:59:59,1,False,,,836000.0,6537519.999999999,,,persistence
+SEN,total,2019-01-01,Senegal,2018-12-31 23:59:59,1,False,,,1365000.0,10674300.0,,,persistence
+SEN,total,2020-01-01,Senegal,2019-12-31 23:59:59,1,False,,,1365000.0,10674300.0,,,persistence
+SEN,total,2021-01-01,Senegal,2020-12-31 23:59:59,1,False,,,1365000.0,10674300.0,,,persistence
+SEN,total,2022-01-01,Senegal,2021-12-31 23:59:59,1,False,,,1365000.0,10674300.0,,,persistence
+SEN,total,2023-01-01,Senegal,2022-12-31 23:59:59,1,False,,,1365000.0,10674300.0,,,persistence
+SEN,total,2024-01-01,Senegal,2023-12-31 23:59:59,1,False,,,1365000.0,10674300.0,,,persistence
+SGP,total,2019-01-01,Singapore,2018-12-31 23:59:59,1,True,15119000.0,88446150.00000001,14673000.0,85837050.00000001,un_tourism_alos_imputed,1.0,persistence
+SGP,total,2020-01-01,Singapore,2019-12-31 23:59:59,1,True,2086000.0,12203100.000000002,15119000.0,88446150.00000001,un_tourism_alos_imputed,1.0,persistence
+SGP,total,2021-01-01,Singapore,2020-12-31 23:59:59,1,True,325000.0,1901250.0,2086000.0,12203100.000000002,un_tourism_alos_imputed,1.0,persistence
+SGP,total,2022-01-01,Singapore,2021-12-31 23:59:59,1,True,5344000.0,31262400.000000004,325000.0,1901250.0,un_tourism_alos_imputed,1.0,persistence
+SGP,total,2023-01-01,Singapore,2022-12-31 23:59:59,1,True,10812000.0,63250200.00000001,5344000.0,31262400.000000004,un_tourism_alos_imputed,1.0,persistence
+SGP,total,2024-01-01,Singapore,2023-12-31 23:59:59,1,True,13025000.0,76196250.0,10812000.0,63250200.00000001,un_tourism_alos_imputed,1.0,persistence
+SLB,total,2019-01-01,Solomon Islands,2018-12-31 23:59:59,1,True,28900.0,216027.5,27900.0,208552.5,un_tourism_alos_imputed,1.0,persistence
+SLB,total,2020-01-01,Solomon Islands,2019-12-31 23:59:59,1,True,4400.0,32890.0,28900.0,216027.5,un_tourism_alos_imputed,1.0,persistence
+SLB,total,2021-01-01,Solomon Islands,2020-12-31 23:59:59,1,True,700.0,5232.5,4400.0,32890.0,un_tourism_alos_imputed,1.0,persistence
+SLB,total,2022-01-01,Solomon Islands,2021-12-31 23:59:59,1,False,,,700.0,5232.5,,,persistence
+SLB,total,2023-01-01,Solomon Islands,2022-12-31 23:59:59,1,False,,,700.0,5232.5,,,persistence
+SLB,total,2024-01-01,Solomon Islands,2023-12-31 23:59:59,1,False,,,700.0,5232.5,,,persistence
+SLE,total,2019-01-01,Sierra Leone,2018-12-31 23:59:59,1,True,63000.0,492660.0,57000.0,445740.0,un_tourism_alos_imputed,1.0,persistence
+SLE,total,2020-01-01,Sierra Leone,2019-12-31 23:59:59,1,True,24000.0,187680.0,63000.0,492660.0,un_tourism_alos_imputed,1.0,persistence
+SLE,total,2021-01-01,Sierra Leone,2020-12-31 23:59:59,1,True,40000.0,312800.0,24000.0,187680.0,un_tourism_alos_imputed,1.0,persistence
+SLE,total,2022-01-01,Sierra Leone,2021-12-31 23:59:59,1,False,,,40000.0,312800.0,,,persistence
+SLE,total,2023-01-01,Sierra Leone,2022-12-31 23:59:59,1,False,,,40000.0,312800.0,,,persistence
+SLE,total,2024-01-01,Sierra Leone,2023-12-31 23:59:59,1,False,,,40000.0,312800.0,,,persistence
+SLV,total,2019-01-01,El Salvador,2018-12-31 23:59:59,1,True,1766000.0,12715200.0,1677300.0,12076560.0,un_tourism_alos_imputed,1.0,persistence
+SLV,total,2020-01-01,El Salvador,2019-12-31 23:59:59,1,True,549000.0,3952800.0,1766000.0,12715200.0,un_tourism_alos_imputed,1.0,persistence
+SLV,total,2021-01-01,El Salvador,2020-12-31 23:59:59,1,True,1219000.0,8776800.0,549000.0,3952800.0,un_tourism_alos_imputed,1.0,persistence
+SLV,total,2022-01-01,El Salvador,2021-12-31 23:59:59,1,True,1891000.0,13615200.0,1219000.0,8776800.0,un_tourism_alos_imputed,1.0,persistence
+SLV,total,2023-01-01,El Salvador,2022-12-31 23:59:59,1,True,2479099.5,17849516.400000002,1891000.0,13615200.0,un_tourism_alos_imputed,1.0,persistence
+SLV,total,2024-01-01,El Salvador,2023-12-31 23:59:59,1,True,3186988.5,22946317.2,2479099.5,17849516.400000002,un_tourism_alos_imputed,1.0,persistence
+SMR,total,2019-01-01,San Marino,2018-12-31 23:59:59,1,True,111000.0,379620.0,84000.0,287280.0,un_tourism_alos_imputed,1.0,persistence
+SMR,total,2020-01-01,San Marino,2019-12-31 23:59:59,1,True,58000.0,198360.0,111000.0,379620.0,un_tourism_alos_imputed,1.0,persistence
+SMR,total,2021-01-01,San Marino,2020-12-31 23:59:59,1,True,94000.0,321480.0,58000.0,198360.0,un_tourism_alos_imputed,1.0,persistence
+SMR,total,2022-01-01,San Marino,2021-12-31 23:59:59,1,False,,,94000.0,321480.0,,,persistence
+SMR,total,2023-01-01,San Marino,2022-12-31 23:59:59,1,False,,,94000.0,321480.0,,,persistence
+SMR,total,2024-01-01,San Marino,2023-12-31 23:59:59,1,False,,,94000.0,321480.0,,,persistence
+SRB,total,2019-01-01,Serbia,2018-12-31 23:59:59,1,True,1847000.0,7018600.0,1711000.0,6501800.0,un_tourism_alos_imputed,1.0,persistence
+SRB,total,2020-01-01,Serbia,2019-12-31 23:59:59,1,True,446000.0,1694800.0,1847000.0,7018600.0,un_tourism_alos_imputed,1.0,persistence
+SRB,total,2021-01-01,Serbia,2020-12-31 23:59:59,1,True,871000.0,3309800.0,446000.0,1694800.0,un_tourism_alos_imputed,1.0,persistence
+SRB,total,2022-01-01,Serbia,2021-12-31 23:59:59,1,True,1773000.0,6737400.0,871000.0,3309800.0,un_tourism_alos_imputed,1.0,persistence
+SRB,total,2023-01-01,Serbia,2022-12-31 23:59:59,1,True,2134305.0,8110359.0,1773000.0,6737400.0,un_tourism_alos_imputed,1.0,persistence
+SRB,total,2024-01-01,Serbia,2023-12-31 23:59:59,1,True,2384735.0,9061993.0,2134305.0,8110359.0,un_tourism_alos_imputed,1.0,persistence
+STP,total,2019-01-01,São Tomé and Principe,2018-12-31 23:59:59,1,True,34900.0,272918.0,33400.0,261188.0,un_tourism_alos_imputed,1.0,persistence
+STP,total,2020-01-01,São Tomé and Principe,2019-12-31 23:59:59,1,True,10700.0,83674.0,34900.0,272918.0,un_tourism_alos_imputed,1.0,persistence
+STP,total,2021-01-01,São Tomé and Principe,2020-12-31 23:59:59,1,True,15100.0,118082.0,10700.0,83674.0,un_tourism_alos_imputed,1.0,persistence
+STP,total,2022-01-01,São Tomé and Principe,2021-12-31 23:59:59,1,False,,,15100.0,118082.0,,,persistence
+STP,total,2023-01-01,São Tomé and Principe,2022-12-31 23:59:59,1,False,,,15100.0,118082.0,,,persistence
+STP,total,2024-01-01,São Tomé and Principe,2023-12-31 23:59:59,1,False,,,15100.0,118082.0,,,persistence
+SUR,total,2019-01-01,Suriname,2018-12-31 23:59:59,1,False,,,278000.0,2001600.0,,,persistence
+SUR,total,2020-01-01,Suriname,2019-12-31 23:59:59,1,False,,,278000.0,2001600.0,,,persistence
+SUR,total,2021-01-01,Suriname,2020-12-31 23:59:59,1,False,,,278000.0,2001600.0,,,persistence
+SUR,total,2022-01-01,Suriname,2021-12-31 23:59:59,1,False,,,278000.0,2001600.0,,,persistence
+SUR,total,2023-01-01,Suriname,2022-12-31 23:59:59,1,False,,,278000.0,2001600.0,,,persistence
+SUR,total,2024-01-01,Suriname,2023-12-31 23:59:59,1,False,,,278000.0,2001600.0,,,persistence
+SVK,total,2019-01-01,Slovak Republic,2018-12-31 23:59:59,1,False,,,15299000.0,52322580.0,,,persistence
+SVK,total,2020-01-01,Slovak Republic,2019-12-31 23:59:59,1,False,,,15299000.0,52322580.0,,,persistence
+SVK,total,2021-01-01,Slovak Republic,2020-12-31 23:59:59,1,False,,,15299000.0,52322580.0,,,persistence
+SVK,total,2022-01-01,Slovak Republic,2021-12-31 23:59:59,1,False,,,15299000.0,52322580.0,,,persistence
+SVK,total,2023-01-01,Slovak Republic,2022-12-31 23:59:59,1,False,,,15299000.0,52322580.0,,,persistence
+SVK,total,2024-01-01,Slovak Republic,2023-12-31 23:59:59,1,False,,,15299000.0,52322580.0,,,persistence
+SVN,total,2019-01-01,Slovenia,2018-12-31 23:59:59,1,True,4702000.0,16080840.0,4425000.0,15133500.0,un_tourism_alos_imputed,1.0,persistence
+SVN,total,2020-01-01,Slovenia,2019-12-31 23:59:59,1,True,1216000.0,4158720.0,4702000.0,16080840.0,un_tourism_alos_imputed,1.0,persistence
+SVN,total,2021-01-01,Slovenia,2020-12-31 23:59:59,1,True,1832000.0,6265440.0,1216000.0,4158720.0,un_tourism_alos_imputed,1.0,persistence
+SVN,total,2022-01-01,Slovenia,2021-12-31 23:59:59,1,True,3936000.0,13461120.0,1832000.0,6265440.0,un_tourism_alos_imputed,1.0,persistence
+SVN,total,2023-01-01,Slovenia,2022-12-31 23:59:59,1,True,4658000.0,15930360.0,3936000.0,13461120.0,un_tourism_alos_imputed,1.0,persistence
+SVN,total,2024-01-01,Slovenia,2023-12-31 23:59:59,1,True,5054000.0,17284680.0,4658000.0,15930360.0,un_tourism_alos_imputed,1.0,persistence
+SWE,total,2019-01-01,Sweden,2018-12-31 23:59:59,1,True,7616000.0,26046720.0,7440000.0,25444800.0,un_tourism_alos_imputed,1.0,persistence
+SWE,total,2020-01-01,Sweden,2019-12-31 23:59:59,1,True,1957000.0,6692940.0,7616000.0,26046720.0,un_tourism_alos_imputed,1.0,persistence
+SWE,total,2021-01-01,Sweden,2020-12-31 23:59:59,1,True,2990000.0,10225800.0,1957000.0,6692940.0,un_tourism_alos_imputed,1.0,persistence
+SWE,total,2022-01-01,Sweden,2021-12-31 23:59:59,1,True,6629000.0,22671180.0,2990000.0,10225800.0,un_tourism_alos_imputed,1.0,persistence
+SWE,total,2023-01-01,Sweden,2022-12-31 23:59:59,1,False,,,6629000.0,22671180.0,,,persistence
+SWE,total,2024-01-01,Sweden,2023-12-31 23:59:59,1,False,,,6629000.0,22671180.0,,,persistence
+SWZ,total,2019-01-01,Eswatini,2018-12-31 23:59:59,1,True,680000.0,5317600.0,782000.0,6115239.999999999,un_tourism_alos_imputed,1.0,persistence
+SWZ,total,2020-01-01,Eswatini,2019-12-31 23:59:59,1,True,193700.0,1514733.9999999998,680000.0,5317600.0,un_tourism_alos_imputed,1.0,persistence
+SWZ,total,2021-01-01,Eswatini,2020-12-31 23:59:59,1,True,170300.0,1331746.0,193700.0,1514733.9999999998,un_tourism_alos_imputed,1.0,persistence
+SWZ,total,2022-01-01,Eswatini,2021-12-31 23:59:59,1,True,393000.0,3073259.9999999995,170300.0,1331746.0,un_tourism_alos_imputed,1.0,persistence
+SWZ,total,2023-01-01,Eswatini,2022-12-31 23:59:59,1,False,,,393000.0,3073259.9999999995,,,persistence
+SWZ,total,2024-01-01,Eswatini,2023-12-31 23:59:59,1,False,,,393000.0,3073259.9999999995,,,persistence
+SXM,total,2019-01-01,Sint Maarten (Dutch part),2018-12-31 23:59:59,1,True,320000.0,2073600.0,178000.0,1153440.0,un_tourism_alos_imputed,1.0,persistence
+SXM,total,2020-01-01,Sint Maarten (Dutch part),2019-12-31 23:59:59,1,True,106000.0,686880.0,320000.0,2073600.0,un_tourism_alos_imputed,1.0,persistence
+SXM,total,2021-01-01,Sint Maarten (Dutch part),2020-12-31 23:59:59,1,True,249000.0,1613520.0,106000.0,686880.0,un_tourism_alos_imputed,1.0,persistence
+SXM,total,2022-01-01,Sint Maarten (Dutch part),2021-12-31 23:59:59,1,True,373000.0,2417040.0,249000.0,1613520.0,un_tourism_alos_imputed,1.0,persistence
+SXM,total,2023-01-01,Sint Maarten (Dutch part),2022-12-31 23:59:59,1,False,,,373000.0,2417040.0,,,persistence
+SXM,total,2024-01-01,Sint Maarten (Dutch part),2023-12-31 23:59:59,1,False,,,373000.0,2417040.0,,,persistence
+SYC,total,2019-01-01,Seychelles,2018-12-31 23:59:59,1,True,384000.0,2350080.0,362000.0,2215440.0,un_tourism_alos_imputed,1.0,persistence
+SYC,total,2020-01-01,Seychelles,2019-12-31 23:59:59,1,True,114900.0,703188.0,384000.0,2350080.0,un_tourism_alos_imputed,1.0,persistence
+SYC,total,2021-01-01,Seychelles,2020-12-31 23:59:59,1,True,183000.0,1119960.0,114900.0,703188.0,un_tourism_alos_imputed,1.0,persistence
+SYC,total,2022-01-01,Seychelles,2021-12-31 23:59:59,1,True,332000.0,2031840.0,183000.0,1119960.0,un_tourism_alos_imputed,1.0,persistence
+SYC,total,2023-01-01,Seychelles,2022-12-31 23:59:59,1,False,,,332000.0,2031840.0,,,persistence
+SYC,total,2024-01-01,Seychelles,2023-12-31 23:59:59,1,False,,,332000.0,2031840.0,,,persistence
+SYR,total,2019-01-01,Syrian Arab Republic,2018-12-31 23:59:59,1,True,2424000.0,15331799.999999998,1802000.0,11397649.999999998,un_tourism_alos_imputed,1.0,persistence
+SYR,total,2020-01-01,Syrian Arab Republic,2019-12-31 23:59:59,1,False,,,2424000.0,15331799.999999998,,,persistence
+SYR,total,2021-01-01,Syrian Arab Republic,2020-12-31 23:59:59,1,False,,,2424000.0,15331799.999999998,,,persistence
+SYR,total,2022-01-01,Syrian Arab Republic,2021-12-31 23:59:59,1,False,,,2424000.0,15331799.999999998,,,persistence
+SYR,total,2023-01-01,Syrian Arab Republic,2022-12-31 23:59:59,1,False,,,2424000.0,15331799.999999998,,,persistence
+SYR,total,2024-01-01,Syrian Arab Republic,2023-12-31 23:59:59,1,False,,,2424000.0,15331799.999999998,,,persistence
+TCA,total,2019-01-01,Turks and Caicos Islands,2018-12-31 23:59:59,1,True,487000.0,3155760.0,441000.0,2857680.0,un_tourism_alos_imputed,1.0,persistence
+TCA,total,2020-01-01,Turks and Caicos Islands,2019-12-31 23:59:59,1,True,164500.0,1065960.0,487000.0,3155760.0,un_tourism_alos_imputed,1.0,persistence
+TCA,total,2021-01-01,Turks and Caicos Islands,2020-12-31 23:59:59,1,True,405000.0,2624400.0,164500.0,1065960.0,un_tourism_alos_imputed,1.0,persistence
+TCA,total,2022-01-01,Turks and Caicos Islands,2021-12-31 23:59:59,1,False,,,405000.0,2624400.0,,,persistence
+TCA,total,2023-01-01,Turks and Caicos Islands,2022-12-31 23:59:59,1,False,,,405000.0,2624400.0,,,persistence
+TCA,total,2024-01-01,Turks and Caicos Islands,2023-12-31 23:59:59,1,False,,,405000.0,2624400.0,,,persistence
+TCD,total,2019-01-01,Chad,2018-12-31 23:59:59,1,True,79000.0,617780.0,77000.0,602140.0,un_tourism_alos_imputed,1.0,persistence
+TCD,total,2020-01-01,Chad,2019-12-31 23:59:59,1,True,11000.0,86020.0,79000.0,617780.0,un_tourism_alos_imputed,1.0,persistence
+TCD,total,2021-01-01,Chad,2020-12-31 23:59:59,1,True,40000.0,312800.0,11000.0,86020.0,un_tourism_alos_imputed,1.0,persistence
+TCD,total,2022-01-01,Chad,2021-12-31 23:59:59,1,False,,,40000.0,312800.0,,,persistence
+TCD,total,2023-01-01,Chad,2022-12-31 23:59:59,1,False,,,40000.0,312800.0,,,persistence
+TCD,total,2024-01-01,Chad,2023-12-31 23:59:59,1,False,,,40000.0,312800.0,,,persistence
+TGO,total,2019-01-01,Togo,2018-12-31 23:59:59,1,True,876000.0,6850319.999999999,573000.0,4480860.0,un_tourism_alos_imputed,1.0,persistence
+TGO,total,2020-01-01,Togo,2019-12-31 23:59:59,1,True,482000.0,3769240.0,876000.0,6850319.999999999,un_tourism_alos_imputed,1.0,persistence
+TGO,total,2021-01-01,Togo,2020-12-31 23:59:59,1,False,,,482000.0,3769240.0,,,persistence
+TGO,total,2022-01-01,Togo,2021-12-31 23:59:59,1,False,,,482000.0,3769240.0,,,persistence
+TGO,total,2023-01-01,Togo,2022-12-31 23:59:59,1,False,,,482000.0,3769240.0,,,persistence
+TGO,total,2024-01-01,Togo,2023-12-31 23:59:59,1,False,,,482000.0,3769240.0,,,persistence
+THA,total,2019-01-01,Thailand,2018-12-31 23:59:59,1,True,39916000.0,259454000.0,38178000.0,248157000.0,un_tourism_alos_imputed,1.0,persistence
+THA,total,2020-01-01,Thailand,2019-12-31 23:59:59,1,True,6725000.0,43712500.0,39916000.0,259454000.0,un_tourism_alos_imputed,1.0,persistence
+THA,total,2021-01-01,Thailand,2020-12-31 23:59:59,1,True,511000.0,3321500.0,6725000.0,43712500.0,un_tourism_alos_imputed,1.0,persistence
+THA,total,2022-01-01,Thailand,2021-12-31 23:59:59,1,False,,,511000.0,3321500.0,,,persistence
+THA,total,2023-01-01,Thailand,2022-12-31 23:59:59,1,False,,,511000.0,3321500.0,,,persistence
+THA,total,2024-01-01,Thailand,2023-12-31 23:59:59,1,False,,,511000.0,3321500.0,,,persistence
+TJK,total,2019-01-01,Tajikistan,2018-12-31 23:59:59,1,False,,,1035000.0,4522949.999999999,,,persistence
+TJK,total,2020-01-01,Tajikistan,2019-12-31 23:59:59,1,False,,,1035000.0,4522949.999999999,,,persistence
+TJK,total,2021-01-01,Tajikistan,2020-12-31 23:59:59,1,False,,,1035000.0,4522949.999999999,,,persistence
+TJK,total,2022-01-01,Tajikistan,2021-12-31 23:59:59,1,False,,,1035000.0,4522949.999999999,,,persistence
+TJK,total,2023-01-01,Tajikistan,2022-12-31 23:59:59,1,False,,,1035000.0,4522949.999999999,,,persistence
+TJK,total,2024-01-01,Tajikistan,2023-12-31 23:59:59,1,False,,,1035000.0,4522949.999999999,,,persistence
+TKM,total,2019-01-01,Turkmenistan,2018-12-31 23:59:59,1,False,,,8200.0,31160.0,,,persistence
+TKM,total,2020-01-01,Turkmenistan,2019-12-31 23:59:59,1,False,,,8200.0,31160.0,,,persistence
+TKM,total,2021-01-01,Turkmenistan,2020-12-31 23:59:59,1,False,,,8200.0,31160.0,,,persistence
+TKM,total,2022-01-01,Turkmenistan,2021-12-31 23:59:59,1,False,,,8200.0,31160.0,,,persistence
+TKM,total,2023-01-01,Turkmenistan,2022-12-31 23:59:59,1,False,,,8200.0,31160.0,,,persistence
+TKM,total,2024-01-01,Turkmenistan,2023-12-31 23:59:59,1,False,,,8200.0,31160.0,,,persistence
+TLS,total,2019-01-01,Timor-Leste,2018-12-31 23:59:59,1,True,80800.0,603980.0,74600.0,557635.0,un_tourism_alos_imputed,1.0,persistence
+TLS,total,2020-01-01,Timor-Leste,2019-12-31 23:59:59,1,True,17900.0,133802.5,80800.0,603980.0,un_tourism_alos_imputed,1.0,persistence
+TLS,total,2021-01-01,Timor-Leste,2020-12-31 23:59:59,1,True,5500.0,41112.5,17900.0,133802.5,un_tourism_alos_imputed,1.0,persistence
+TLS,total,2022-01-01,Timor-Leste,2021-12-31 23:59:59,1,False,,,5500.0,41112.5,,,persistence
+TLS,total,2023-01-01,Timor-Leste,2022-12-31 23:59:59,1,False,,,5500.0,41112.5,,,persistence
+TLS,total,2024-01-01,Timor-Leste,2023-12-31 23:59:59,1,False,,,5500.0,41112.5,,,persistence
+TON,total,2019-01-01,Tonga,2018-12-31 23:59:59,1,True,67300.0,437450.0,54000.0,351000.0,un_tourism_alos_imputed,1.0,persistence
+TON,total,2020-01-01,Tonga,2019-12-31 23:59:59,1,True,9000.0,58500.0,67300.0,437450.0,un_tourism_alos_imputed,1.0,persistence
+TON,total,2021-01-01,Tonga,2020-12-31 23:59:59,1,True,200.0,1300.0,9000.0,58500.0,un_tourism_alos_imputed,1.0,persistence
+TON,total,2022-01-01,Tonga,2021-12-31 23:59:59,1,True,18400.0,119600.0,200.0,1300.0,un_tourism_alos_imputed,1.0,persistence
+TON,total,2023-01-01,Tonga,2022-12-31 23:59:59,1,False,,,18400.0,119600.0,,,persistence
+TON,total,2024-01-01,Tonga,2023-12-31 23:59:59,1,False,,,18400.0,119600.0,,,persistence
+TTO,total,2019-01-01,Trinidad and Tobago,2018-12-31 23:59:59,1,True,388600.0,2518128.0,375500.0,2433240.0,un_tourism_alos_imputed,1.0,persistence
+TTO,total,2020-01-01,Trinidad and Tobago,2019-12-31 23:59:59,1,True,95300.0,617544.0,388600.0,2518128.0,un_tourism_alos_imputed,1.0,persistence
+TTO,total,2021-01-01,Trinidad and Tobago,2020-12-31 23:59:59,1,True,40600.0,263088.0,95300.0,617544.0,un_tourism_alos_imputed,1.0,persistence
+TTO,total,2022-01-01,Trinidad and Tobago,2021-12-31 23:59:59,1,True,226500.0,1467720.0,40600.0,263088.0,un_tourism_alos_imputed,1.0,persistence
+TTO,total,2023-01-01,Trinidad and Tobago,2022-12-31 23:59:59,1,True,309000.0,2002320.0,226500.0,1467720.0,un_tourism_alos_imputed,1.0,persistence
+TTO,total,2024-01-01,Trinidad and Tobago,2023-12-31 23:59:59,1,True,334000.0,2164320.0,309000.0,2002320.0,un_tourism_alos_imputed,1.0,persistence
+TUN,total,2019-01-01,Tunisia,2018-12-31 23:59:59,1,True,9429000.0,59638424.99999999,8299000.0,52491174.99999999,un_tourism_alos_imputed,1.0,persistence
+TUN,total,2020-01-01,Tunisia,2019-12-31 23:59:59,1,True,2012000.0,12725899.999999998,9429000.0,59638424.99999999,un_tourism_alos_imputed,1.0,persistence
+TUN,total,2021-01-01,Tunisia,2020-12-31 23:59:59,1,True,2475000.0,15654374.999999998,2012000.0,12725899.999999998,un_tourism_alos_imputed,1.0,persistence
+TUN,total,2022-01-01,Tunisia,2021-12-31 23:59:59,1,True,6441000.0,40739324.99999999,2475000.0,15654374.999999998,un_tourism_alos_imputed,1.0,persistence
+TUN,total,2023-01-01,Tunisia,2022-12-31 23:59:59,1,False,,,6441000.0,40739324.99999999,,,persistence
+TUN,total,2024-01-01,Tunisia,2023-12-31 23:59:59,1,False,,,6441000.0,40739324.99999999,,,persistence
+TUR,total,2019-01-01,Türkiye,2018-12-31 23:59:59,1,True,51192000.0,194529600.0,45768000.0,173918400.0,un_tourism_alos_imputed,1.0,persistence
+TUR,total,2020-01-01,Türkiye,2019-12-31 23:59:59,1,True,15894000.0,60397200.0,51192000.0,194529600.0,un_tourism_alos_imputed,1.0,persistence
+TUR,total,2021-01-01,Türkiye,2020-12-31 23:59:59,1,True,29925000.0,113715000.0,15894000.0,60397200.0,un_tourism_alos_imputed,1.0,persistence
+TUR,total,2022-01-01,Türkiye,2021-12-31 23:59:59,1,True,50453000.0,191721400.0,29925000.0,113715000.0,un_tourism_alos_imputed,1.0,persistence
+TUR,total,2023-01-01,Türkiye,2022-12-31 23:59:59,1,False,,,50453000.0,191721400.0,,,persistence
+TUR,total,2024-01-01,Türkiye,2023-12-31 23:59:59,1,False,,,50453000.0,191721400.0,,,persistence
+TUV,total,2019-01-01,Tuvalu,2018-12-31 23:59:59,1,True,3700.0,24050.0,3100.0,20150.0,un_tourism_alos_imputed,1.0,persistence
+TUV,total,2020-01-01,Tuvalu,2019-12-31 23:59:59,1,True,600.0,3900.0,3700.0,24050.0,un_tourism_alos_imputed,1.0,persistence
+TUV,total,2021-01-01,Tuvalu,2020-12-31 23:59:59,1,True,40.0,260.0,600.0,3900.0,un_tourism_alos_imputed,1.0,persistence
+TUV,total,2022-01-01,Tuvalu,2021-12-31 23:59:59,1,True,244.0,1586.0,40.0,260.0,un_tourism_alos_imputed,1.0,persistence
+TUV,total,2023-01-01,Tuvalu,2022-12-31 23:59:59,1,False,,,244.0,1586.0,,,persistence
+TUV,total,2024-01-01,Tuvalu,2023-12-31 23:59:59,1,False,,,244.0,1586.0,,,persistence
+TZA,total,2019-01-01,Tanzania,2018-12-31 23:59:59,1,True,1443000.0,11284260.0,1378000.0,10775960.0,un_tourism_alos_imputed,1.0,persistence
+TZA,total,2020-01-01,Tanzania,2019-12-31 23:59:59,1,True,592000.0,4629440.0,1443000.0,11284260.0,un_tourism_alos_imputed,1.0,persistence
+TZA,total,2021-01-01,Tanzania,2020-12-31 23:59:59,1,True,922700.0,7215513.999999999,592000.0,4629440.0,un_tourism_alos_imputed,1.0,persistence
+TZA,total,2022-01-01,Tanzania,2021-12-31 23:59:59,1,True,1455000.0,11378100.0,922700.0,7215513.999999999,un_tourism_alos_imputed,1.0,persistence
+TZA,total,2023-01-01,Tanzania,2022-12-31 23:59:59,1,False,,,1455000.0,11378100.0,,,persistence
+TZA,total,2024-01-01,Tanzania,2023-12-31 23:59:59,1,False,,,1455000.0,11378100.0,,,persistence
+UGA,total,2019-01-01,Uganda,2018-12-31 23:59:59,1,True,1543000.0,12066259.999999998,1506000.0,11776920.0,un_tourism_alos_imputed,1.0,persistence
+UGA,total,2020-01-01,Uganda,2019-12-31 23:59:59,1,True,473000.0,3698860.0,1543000.0,12066259.999999998,un_tourism_alos_imputed,1.0,persistence
+UGA,total,2021-01-01,Uganda,2020-12-31 23:59:59,1,True,513000.0,4011660.0,473000.0,3698860.0,un_tourism_alos_imputed,1.0,persistence
+UGA,total,2022-01-01,Uganda,2021-12-31 23:59:59,1,False,,,513000.0,4011660.0,,,persistence
+UGA,total,2023-01-01,Uganda,2022-12-31 23:59:59,1,False,,,513000.0,4011660.0,,,persistence
+UGA,total,2024-01-01,Uganda,2023-12-31 23:59:59,1,False,,,513000.0,4011660.0,,,persistence
+UKR,total,2019-01-01,Ukraine,2018-12-31 23:59:59,1,True,13438000.0,51064400.0,14104000.0,53595200.0,un_tourism_alos_imputed,1.0,persistence
+UKR,total,2020-01-01,Ukraine,2019-12-31 23:59:59,1,True,3141000.0,11935800.0,13438000.0,51064400.0,un_tourism_alos_imputed,1.0,persistence
+UKR,total,2021-01-01,Ukraine,2020-12-31 23:59:59,1,True,3973000.0,15097400.0,3141000.0,11935800.0,un_tourism_alos_imputed,1.0,persistence
+UKR,total,2022-01-01,Ukraine,2021-12-31 23:59:59,1,True,2173000.0,8257400.0,3973000.0,15097400.0,un_tourism_alos_imputed,1.0,persistence
+UKR,total,2023-01-01,Ukraine,2022-12-31 23:59:59,1,True,2346000.0,8914800.0,2173000.0,8257400.0,un_tourism_alos_imputed,1.0,persistence
+UKR,total,2024-01-01,Ukraine,2023-12-31 23:59:59,1,True,2482000.0,9431600.0,2346000.0,8914800.0,un_tourism_alos_imputed,1.0,persistence
+URY,total,2019-01-01,Uruguay,2018-12-31 23:59:59,1,True,3059000.0,19822320.0,3469000.0,22479120.0,un_tourism_alos_imputed,1.0,persistence
+URY,total,2020-01-01,Uruguay,2019-12-31 23:59:59,1,False,,,3059000.0,19822320.0,,,persistence
+URY,total,2021-01-01,Uruguay,2020-12-31 23:59:59,1,False,,,3059000.0,19822320.0,,,persistence
+URY,total,2022-01-01,Uruguay,2021-12-31 23:59:59,1,False,,,3059000.0,19822320.0,,,persistence
+URY,total,2023-01-01,Uruguay,2022-12-31 23:59:59,1,False,,,3059000.0,19822320.0,,,persistence
+URY,total,2024-01-01,Uruguay,2023-12-31 23:59:59,1,False,,,3059000.0,19822320.0,,,persistence
+USA,total,2019-01-01,United States,2018-12-31 23:59:59,1,True,79442000.0,178577981.0,79745920.0,174929528.0,oecd_observed,0.0,persistence
+USA,total,2020-01-01,United States,2019-12-31 23:59:59,1,True,19212120.0,138327264.0,79442000.0,178577981.0,un_tourism_alos_imputed,1.0,persistence
+USA,total,2021-01-01,United States,2020-12-31 23:59:59,1,True,22280146.0,107926381.0,19212120.0,138327264.0,oecd_observed,0.0,persistence
+USA,total,2022-01-01,United States,2021-12-31 23:59:59,1,True,50770684.0,193129051.0,22280146.0,107926381.0,oecd_observed,0.0,persistence
+USA,total,2023-01-01,United States,2022-12-31 23:59:59,1,True,66349860.0,200703422.0,50770684.0,193129051.0,oecd_observed,0.0,persistence
+USA,total,2024-01-01,United States,2023-12-31 23:59:59,1,True,72390320.0,198471677.0,66349860.0,200703422.0,oecd_observed,0.0,persistence
+UZB,total,2019-01-01,Uzbekistan,2018-12-31 23:59:59,1,True,6749000.0,29493130.0,5346000.0,23362020.0,un_tourism_alos_imputed,1.0,persistence
+UZB,total,2020-01-01,Uzbekistan,2019-12-31 23:59:59,1,True,1504126.0,6573030.619999999,6749000.0,29493130.0,un_tourism_alos_imputed,1.0,persistence
+UZB,total,2021-01-01,Uzbekistan,2020-12-31 23:59:59,1,True,1881345.0,8221477.6499999985,1504126.0,6573030.619999999,un_tourism_alos_imputed,1.0,persistence
+UZB,total,2022-01-01,Uzbekistan,2021-12-31 23:59:59,1,True,5232781.0,22867252.969999995,1881345.0,8221477.6499999985,un_tourism_alos_imputed,1.0,persistence
+UZB,total,2023-01-01,Uzbekistan,2022-12-31 23:59:59,1,True,6626302.0,28956939.739999995,5232781.0,22867252.969999995,un_tourism_alos_imputed,1.0,persistence
+UZB,total,2024-01-01,Uzbekistan,2023-12-31 23:59:59,1,True,7957213.0,34773020.809999995,6626302.0,28956939.739999995,un_tourism_alos_imputed,1.0,persistence
+VCT,total,2019-01-01,St. Vincent and the Grenadines,2018-12-31 23:59:59,1,True,84000.0,604800.0,80000.0,576000.0,un_tourism_alos_imputed,1.0,persistence
+VCT,total,2020-01-01,St. Vincent and the Grenadines,2019-12-31 23:59:59,1,True,27000.0,194400.0,84000.0,604800.0,un_tourism_alos_imputed,1.0,persistence
+VCT,total,2021-01-01,St. Vincent and the Grenadines,2020-12-31 23:59:59,1,True,24200.0,174240.0,27000.0,194400.0,un_tourism_alos_imputed,1.0,persistence
+VCT,total,2022-01-01,St. Vincent and the Grenadines,2021-12-31 23:59:59,1,True,59000.0,424800.0,24200.0,174240.0,un_tourism_alos_imputed,1.0,persistence
+VCT,total,2023-01-01,St. Vincent and the Grenadines,2022-12-31 23:59:59,1,False,,,59000.0,424800.0,,,persistence
+VCT,total,2024-01-01,St. Vincent and the Grenadines,2023-12-31 23:59:59,1,False,,,59000.0,424800.0,,,persistence
+VEN,total,2019-01-01,"Venezuela, RB",2018-12-31 23:59:59,1,False,,,427000.0,3535559.9999999995,,,persistence
+VEN,total,2020-01-01,"Venezuela, RB",2019-12-31 23:59:59,1,False,,,427000.0,3535559.9999999995,,,persistence
+VEN,total,2021-01-01,"Venezuela, RB",2020-12-31 23:59:59,1,False,,,427000.0,3535559.9999999995,,,persistence
+VEN,total,2022-01-01,"Venezuela, RB",2021-12-31 23:59:59,1,False,,,427000.0,3535559.9999999995,,,persistence
+VEN,total,2023-01-01,"Venezuela, RB",2022-12-31 23:59:59,1,False,,,427000.0,3535559.9999999995,,,persistence
+VEN,total,2024-01-01,"Venezuela, RB",2023-12-31 23:59:59,1,False,,,427000.0,3535559.9999999995,,,persistence
+VGB,total,2019-01-01,British Virgin Islands,2018-12-31 23:59:59,1,True,302400.0,1959552.0,192000.0,1244160.0,un_tourism_alos_imputed,1.0,persistence
+VGB,total,2020-01-01,British Virgin Islands,2019-12-31 23:59:59,1,True,83000.0,537840.0,302400.0,1959552.0,un_tourism_alos_imputed,1.0,persistence
+VGB,total,2021-01-01,British Virgin Islands,2020-12-31 23:59:59,1,True,56000.0,362880.0,83000.0,537840.0,un_tourism_alos_imputed,1.0,persistence
+VGB,total,2022-01-01,British Virgin Islands,2021-12-31 23:59:59,1,True,173000.0,1121040.0,56000.0,362880.0,un_tourism_alos_imputed,1.0,persistence
+VGB,total,2023-01-01,British Virgin Islands,2022-12-31 23:59:59,1,False,,,173000.0,1121040.0,,,persistence
+VGB,total,2024-01-01,British Virgin Islands,2023-12-31 23:59:59,1,False,,,173000.0,1121040.0,,,persistence
+VIR,total,2019-01-01,Virgin Islands (US),2018-12-31 23:59:59,1,True,514000.0,3330720.0,381000.0,2468880.0,un_tourism_alos_imputed,1.0,persistence
+VIR,total,2020-01-01,Virgin Islands (US),2019-12-31 23:59:59,1,True,302700.0,1961496.0,514000.0,3330720.0,un_tourism_alos_imputed,1.0,persistence
+VIR,total,2021-01-01,Virgin Islands (US),2020-12-31 23:59:59,1,True,684800.0,4437504.0,302700.0,1961496.0,un_tourism_alos_imputed,1.0,persistence
+VIR,total,2022-01-01,Virgin Islands (US),2021-12-31 23:59:59,1,False,,,684800.0,4437504.0,,,persistence
+VIR,total,2023-01-01,Virgin Islands (US),2022-12-31 23:59:59,1,False,,,684800.0,4437504.0,,,persistence
+VIR,total,2024-01-01,Virgin Islands (US),2023-12-31 23:59:59,1,False,,,684800.0,4437504.0,,,persistence
+VNM,total,2019-01-01,Viet Nam,2018-12-31 23:59:59,1,True,18009000.0,117058500.0,15498000.0,100737000.0,un_tourism_alos_imputed,1.0,persistence
+VNM,total,2020-01-01,Viet Nam,2019-12-31 23:59:59,1,True,3837000.0,24940500.0,18009000.0,117058500.0,un_tourism_alos_imputed,1.0,persistence
+VNM,total,2021-01-01,Viet Nam,2020-12-31 23:59:59,1,False,,,3837000.0,24940500.0,,,persistence
+VNM,total,2022-01-01,Viet Nam,2021-12-31 23:59:59,1,False,,,3837000.0,24940500.0,,,persistence
+VNM,total,2023-01-01,Viet Nam,2022-12-31 23:59:59,1,False,,,3837000.0,24940500.0,,,persistence
+VNM,total,2024-01-01,Viet Nam,2023-12-31 23:59:59,1,False,,,3837000.0,24940500.0,,,persistence
+VUT,total,2019-01-01,Vanuatu,2018-12-31 23:59:59,1,True,120600.0,901485.0,115600.0,864110.0,un_tourism_alos_imputed,1.0,persistence
+VUT,total,2020-01-01,Vanuatu,2019-12-31 23:59:59,1,True,22000.0,164450.0,120600.0,901485.0,un_tourism_alos_imputed,1.0,persistence
+VUT,total,2021-01-01,Vanuatu,2020-12-31 23:59:59,1,False,,,22000.0,164450.0,,,persistence
+VUT,total,2022-01-01,Vanuatu,2021-12-31 23:59:59,1,True,30000.0,224250.0,22000.0,164450.0,un_tourism_alos_imputed,1.0,persistence
+VUT,total,2023-01-01,Vanuatu,2022-12-31 23:59:59,1,False,,,30000.0,224250.0,,,persistence
+VUT,total,2024-01-01,Vanuatu,2023-12-31 23:59:59,1,False,,,30000.0,224250.0,,,persistence
+WSM,total,2019-01-01,Samoa,2018-12-31 23:59:59,1,True,172000.0,1118000.0,164000.0,1066000.0,un_tourism_alos_imputed,1.0,persistence
+WSM,total,2020-01-01,Samoa,2019-12-31 23:59:59,1,True,23100.0,150150.0,172000.0,1118000.0,un_tourism_alos_imputed,1.0,persistence
+WSM,total,2021-01-01,Samoa,2020-12-31 23:59:59,1,True,2600.0,16900.0,23100.0,150150.0,un_tourism_alos_imputed,1.0,persistence
+WSM,total,2022-01-01,Samoa,2021-12-31 23:59:59,1,True,49400.0,321100.0,2600.0,16900.0,un_tourism_alos_imputed,1.0,persistence
+WSM,total,2023-01-01,Samoa,2022-12-31 23:59:59,1,False,,,49400.0,321100.0,,,persistence
+WSM,total,2024-01-01,Samoa,2023-12-31 23:59:59,1,False,,,49400.0,321100.0,,,persistence
+YEM,total,2019-01-01,"Yemen, Rep.",2018-12-31 23:59:59,1,False,,,366700.0,2319377.4999999995,,,persistence
+YEM,total,2020-01-01,"Yemen, Rep.",2019-12-31 23:59:59,1,False,,,366700.0,2319377.4999999995,,,persistence
+YEM,total,2021-01-01,"Yemen, Rep.",2020-12-31 23:59:59,1,False,,,366700.0,2319377.4999999995,,,persistence
+YEM,total,2022-01-01,"Yemen, Rep.",2021-12-31 23:59:59,1,False,,,366700.0,2319377.4999999995,,,persistence
+YEM,total,2023-01-01,"Yemen, Rep.",2022-12-31 23:59:59,1,False,,,366700.0,2319377.4999999995,,,persistence
+YEM,total,2024-01-01,"Yemen, Rep.",2023-12-31 23:59:59,1,False,,,366700.0,2319377.4999999995,,,persistence
+ZAF,total,2019-01-01,South Africa,2018-12-31 23:59:59,1,True,10227500.0,69547000.0,10472000.0,71209600.0,un_tourism_alos_imputed,1.0,persistence
+ZAF,total,2020-01-01,South Africa,2019-12-31 23:59:59,1,True,2802000.0,4141400.0,10227500.0,69547000.0,oecd_observed,0.0,persistence
+ZAF,total,2021-01-01,South Africa,2020-12-31 23:59:59,1,True,2256000.0,5523200.0,2802000.0,4141400.0,oecd_observed,0.0,persistence
+ZAF,total,2022-01-01,South Africa,2021-12-31 23:59:59,1,True,5698000.0,6621900.0,2256000.0,5523200.0,oecd_observed,0.0,persistence
+ZAF,total,2023-01-01,South Africa,2022-12-31 23:59:59,1,True,8483000.0,57684400.0,5698000.0,6621900.0,un_tourism_alos_imputed,1.0,persistence
+ZAF,total,2024-01-01,South Africa,2023-12-31 23:59:59,1,True,8919000.0,60649200.0,8483000.0,57684400.0,un_tourism_alos_imputed,1.0,persistence
+ZMB,total,2019-01-01,Zambia,2018-12-31 23:59:59,1,True,1266000.0,9900120.0,1072000.0,8383039.999999999,un_tourism_alos_imputed,1.0,persistence
+ZMB,total,2020-01-01,Zambia,2019-12-31 23:59:59,1,True,502000.0,3925640.0,1266000.0,9900120.0,un_tourism_alos_imputed,1.0,persistence
+ZMB,total,2021-01-01,Zambia,2020-12-31 23:59:59,1,True,554000.0,4332280.0,502000.0,3925640.0,un_tourism_alos_imputed,1.0,persistence
+ZMB,total,2022-01-01,Zambia,2021-12-31 23:59:59,1,False,,,554000.0,4332280.0,,,persistence
+ZMB,total,2023-01-01,Zambia,2022-12-31 23:59:59,1,False,,,554000.0,4332280.0,,,persistence
+ZMB,total,2024-01-01,Zambia,2023-12-31 23:59:59,1,False,,,554000.0,4332280.0,,,persistence
+ZWE,total,2019-01-01,Zimbabwe,2018-12-31 23:59:59,1,True,2294000.0,17939080.0,2580000.0,20175600.0,un_tourism_alos_imputed,1.0,persistence
+ZWE,total,2020-01-01,Zimbabwe,2019-12-31 23:59:59,1,True,639000.0,4996980.0,2294000.0,17939080.0,un_tourism_alos_imputed,1.0,persistence
+ZWE,total,2021-01-01,Zimbabwe,2020-12-31 23:59:59,1,False,,,639000.0,4996980.0,,,persistence
+ZWE,total,2022-01-01,Zimbabwe,2021-12-31 23:59:59,1,False,,,639000.0,4996980.0,,,persistence
+ZWE,total,2023-01-01,Zimbabwe,2022-12-31 23:59:59,1,False,,,639000.0,4996980.0,,,persistence
+ZWE,total,2024-01-01,Zimbabwe,2023-12-31 23:59:59,1,False,,,639000.0,4996980.0,,,persistence

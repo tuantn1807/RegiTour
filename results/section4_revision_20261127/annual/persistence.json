@@ -1,0 +1,16 @@
+{
+  "model": "persistence",
+  "test_metrics": {
+    "arrivals_total": {
+      "n": 786,
+      "mae": 2442013.962086514,
+      "wape": 43.117782846799116
+    },
+    "nights_total": {
+      "n": 786,
+      "mae": 11328117.598637404,
+      "wape": 45.581031310218144
+    }
+  },
+  "forecast_sha256": "8aef8ccf46bd9998b962137c54f41f520922e690142e843b70568da2810b3c3d"
+}

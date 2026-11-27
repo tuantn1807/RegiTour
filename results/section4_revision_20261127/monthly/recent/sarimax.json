@@ -1,0 +1,2089 @@
+{
+  "fit_and_forecast_seconds": 370.1576081998646,
+  "fit_diagnostics": [
+    {
+      "geo": "AL",
+      "accommodation_type": "hotel",
+      "target": "nights_total",
+      "fit_error": "Optimizer did not converge",
+      "warnings": [
+        "Maximum Likelihood optimization failed to converge. Check mle_retvals"
+      ]
+    },
+    {
+      "geo": "AL",
+      "accommodation_type": "short_stay",
+      "target": "arrivals_total",
+      "fit_error": "Optimizer did not converge",
+      "warnings": [
+        "Maximum Likelihood optimization failed to converge. Check mle_retvals"
+      ]
+    },
+    {
+      "geo": "AL",
+      "accommodation_type": "short_stay",
+      "target": "nights_total",
+      "fit_error": "Optimizer did not converge",
+      "warnings": [
+        "Maximum Likelihood optimization failed to converge. Check mle_retvals"
+      ]
+    },
+    {
+      "geo": "AT",
+      "accommodation_type": "camping",
+      "target": "nights_total",
+      "fit_error": "Optimizer did not converge",
+      "warnings": [
+        "Maximum Likelihood optimization failed to converge. Check mle_retvals"
+      ]
+    },
+    {
+      "geo": "AT",
+      "accommodation_type": "hotel",
+      "target": "arrivals_total",
+      "fit_error": "Optimizer did not converge",
+      "warnings": [
+        "Maximum Likelihood optimization failed to converge. Check mle_retvals"
+      ]
+    },
+    {
+      "geo": "AT",
+      "accommodation_type": "hotel",
+      "target": "nights_total",
+      "fit_error": "Optimizer did not converge",
+      "warnings": [
+        "Maximum Likelihood optimization failed to converge. Check mle_retvals"
+      ]
+    },
+    {
+      "geo": "AT",
+      "accommodation_type": "short_stay",
+      "target": "arrivals_total",
+      "fit_error": "Optimizer did not converge",
+      "warnings": [
+        "Maximum Likelihood optimization failed to converge. Check mle_retvals"
+      ]
+    },
+    {
+      "geo": "AT",
+      "accommodation_type": "short_stay",
+      "target": "nights_total",
+      "fit_error": "Optimizer did not converge",
+      "warnings": [
+        "Maximum Likelihood optimization failed to converge. Check mle_retvals"
+      ]
+    },
+    {
+      "geo": "AT",
+      "accommodation_type": "total",
+      "target": "arrivals_total",
+      "fit_error": "Optimizer did not converge",
+      "warnings": [
+        "Maximum Likelihood optimization failed to converge. Check mle_retvals"
+      ]
+    },
+    {
+      "geo": "AT",
+      "accommodation_type": "total",
+      "target": "nights_total",
+      "fit_error": "Optimizer did not converge",
+      "warnings": [
+        "Maximum Likelihood optimization failed to converge. Check mle_retvals"
+      ]
+    },
+    {
+      "geo": "BE",
+      "accommodation_type": "camping",
+      "target": "arrivals_total",
+      "fit_error": "Optimizer did not converge",
+      "warnings": [
+        "Maximum Likelihood optimization failed to converge. Check mle_retvals"
+      ]
+    },
+    {
+      "geo": "BE",
+      "accommodation_type": "camping",
+      "target": "nights_total",
+      "fit_error": "Optimizer did not converge",
+      "warnings": [
+        "Maximum Likelihood optimization failed to converge. Check mle_retvals"
+      ]
+    },
+    {
+      "geo": "BE",
+      "accommodation_type": "hotel",
+      "target": "nights_total",
+      "fit_error": "Optimizer did not converge",
+      "warnings": [
+        "Maximum Likelihood optimization failed to converge. Check mle_retvals"
+      ]
+    },
+    {
+      "geo": "BE",
+      "accommodation_type": "short_stay",
+      "target": "arrivals_total",
+      "fit_error": "Optimizer did not converge",
+      "warnings": [
+        "Maximum Likelihood optimization failed to converge. Check mle_retvals"
+      ]
+    },
+    {
+      "geo": "BE",
+      "accommodation_type": "short_stay",
+      "target": "nights_total",
+      "fit_error": "Optimizer did not converge",
+      "warnings": [
+        "Maximum Likelihood optimization failed to converge. Check mle_retvals"
+      ]
+    },
+    {
+      "geo": "BE",
+      "accommodation_type": "total",
+      "target": "nights_total",
+      "fit_error": "Optimizer did not converge",
+      "warnings": [
+        "Maximum Likelihood optimization failed to converge. Check mle_retvals"
+      ]
+    },
+    {
+      "geo": "BG",
+      "accommodation_type": "hotel",
+      "target": "arrivals_total",
+      "fit_error": "Optimizer did not converge",
+      "warnings": [
+        "Maximum Likelihood optimization failed to converge. Check mle_retvals"
+      ]
+    },
+    {
+      "geo": "BG",
+      "accommodation_type": "short_stay",
+      "target": "arrivals_total",
+      "fit_error": "Optimizer did not converge",
+      "warnings": [
+        "Maximum Likelihood optimization failed to converge. Check mle_retvals"
+      ]
+    },
+    {
+      "geo": "BG",
+      "accommodation_type": "short_stay",
+      "target": "nights_total",
+      "fit_error": "Optimizer did not converge",
+      "warnings": [
+        "Maximum Likelihood optimization failed to converge. Check mle_retvals"
+      ]
+    },
+    {
+      "geo": "BG",
+      "accommodation_type": "total",
+      "target": "arrivals_total",
+      "fit_error": "Optimizer did not converge",
+      "warnings": [
+        "Maximum Likelihood optimization failed to converge. Check mle_retvals"
+      ]
+    },
+    {
+      "geo": "CH",
+      "accommodation_type": "camping",
+      "target": "arrivals_total",
+      "fit_error": "Optimizer did not converge",
+      "warnings": [
+        "Maximum Likelihood optimization failed to converge. Check mle_retvals"
+      ]
+    },
+    {
+      "geo": "CH",
+      "accommodation_type": "hotel",
+      "target": "arrivals_total",
+      "fit_error": "Optimizer did not converge",
+      "warnings": [
+        "Maximum Likelihood optimization failed to converge. Check mle_retvals"
+      ]
+    },
+    {
+      "geo": "CH",
+      "accommodation_type": "total",
+      "target": "arrivals_total",
+      "fit_error": "Optimizer did not converge",
+      "warnings": [
+        "Maximum Likelihood optimization failed to converge. Check mle_retvals"
+      ]
+    },
+    {
+      "geo": "CH",
+      "accommodation_type": "total",
+      "target": "nights_total",
+      "fit_error": "Optimizer did not converge",
+      "warnings": [
+        "Maximum Likelihood optimization failed to converge. Check mle_retvals"
+      ]
+    },
+    {
+      "geo": "CY",
+      "accommodation_type": "camping",
+      "target": "arrivals_total",
+      "fit_error": "Optimizer did not converge",
+      "warnings": [
+        "Maximum Likelihood optimization failed to converge. Check mle_retvals"
+      ]
+    },
+    {
+      "geo": "CY",
+      "accommodation_type": "camping",
+      "target": "nights_total",
+      "fit_error": "Optimizer did not converge",
+      "warnings": [
+        "Maximum Likelihood optimization failed to converge. Check mle_retvals"
+      ]
+    },
+    {
+      "geo": "CY",
+      "accommodation_type": "hotel",
+      "target": "nights_total",
+      "fit_error": "Optimizer did not converge",
+      "warnings": [
+        "Maximum Likelihood optimization failed to converge. Check mle_retvals"
+      ]
+    },
+    {
+      "geo": "CY",
+      "accommodation_type": "short_stay",
+      "target": "arrivals_total",
+      "fit_error": "Constant training series",
+      "warnings": []
+    },
+    {
+      "geo": "CY",
+      "accommodation_type": "short_stay",
+      "target": "nights_total",
+      "fit_error": "Constant training series",
+      "warnings": []
+    },
+    {
+      "geo": "CY",
+      "accommodation_type": "total",
+      "target": "arrivals_total",
+      "fit_error": "Optimizer did not converge",
+      "warnings": [
+        "Maximum Likelihood optimization failed to converge. Check mle_retvals"
+      ]
+    },
+    {
+      "geo": "CY",
+      "accommodation_type": "total",
+      "target": "nights_total",
+      "fit_error": "Optimizer did not converge",
+      "warnings": [
+        "Maximum Likelihood optimization failed to converge. Check mle_retvals"
+      ]
+    },
+    {
+      "geo": "CZ",
+      "accommodation_type": "camping",
+      "target": "arrivals_total",
+      "fit_error": "Optimizer did not converge",
+      "warnings": [
+        "Maximum Likelihood optimization failed to converge. Check mle_retvals"
+      ]
+    },
+    {
+      "geo": "CZ",
+      "accommodation_type": "camping",
+      "target": "nights_total",
+      "fit_error": "Optimizer did not converge",
+      "warnings": [
+        "Maximum Likelihood optimization failed to converge. Check mle_retvals"
+      ]
+    },
+    {
+      "geo": "CZ",
+      "accommodation_type": "hotel",
+      "target": "arrivals_total",
+      "fit_error": "Optimizer did not converge",
+      "warnings": [
+        "Maximum Likelihood optimization failed to converge. Check mle_retvals"
+      ]
+    },
+    {
+      "geo": "CZ",
+      "accommodation_type": "hotel",
+      "target": "nights_total",
+      "fit_error": "Optimizer did not converge",
+      "warnings": [
+        "Maximum Likelihood optimization failed to converge. Check mle_retvals"
+      ]
+    },
+    {
+      "geo": "CZ",
+      "accommodation_type": "short_stay",
+      "target": "nights_total",
+      "fit_error": "Optimizer did not converge",
+      "warnings": [
+        "Maximum Likelihood optimization failed to converge. Check mle_retvals"
+      ]
+    },
+    {
+      "geo": "CZ",
+      "accommodation_type": "total",
+      "target": "arrivals_total",
+      "fit_error": "Optimizer did not converge",
+      "warnings": [
+        "Maximum Likelihood optimization failed to converge. Check mle_retvals"
+      ]
+    },
+    {
+      "geo": "CZ",
+      "accommodation_type": "total",
+      "target": "nights_total",
+      "fit_error": "Optimizer did not converge",
+      "warnings": [
+        "Maximum Likelihood optimization failed to converge. Check mle_retvals"
+      ]
+    },
+    {
+      "geo": "DE",
+      "accommodation_type": "camping",
+      "target": "arrivals_total",
+      "fit_error": "Optimizer did not converge",
+      "warnings": [
+        "Maximum Likelihood optimization failed to converge. Check mle_retvals"
+      ]
+    },
+    {
+      "geo": "DE",
+      "accommodation_type": "camping",
+      "target": "nights_total",
+      "fit_error": "Optimizer did not converge",
+      "warnings": [
+        "Maximum Likelihood optimization failed to converge. Check mle_retvals"
+      ]
+    },
+    {
+      "geo": "DE",
+      "accommodation_type": "hotel",
+      "target": "arrivals_total",
+      "fit_error": "Optimizer did not converge",
+      "warnings": [
+        "Maximum Likelihood optimization failed to converge. Check mle_retvals"
+      ]
+    },
+    {
+      "geo": "DE",
+      "accommodation_type": "hotel",
+      "target": "nights_total",
+      "fit_error": "Optimizer did not converge",
+      "warnings": [
+        "Maximum Likelihood optimization failed to converge. Check mle_retvals"
+      ]
+    },
+    {
+      "geo": "DE",
+      "accommodation_type": "short_stay",
+      "target": "arrivals_total",
+      "fit_error": "Optimizer did not converge",
+      "warnings": [
+        "Maximum Likelihood optimization failed to converge. Check mle_retvals"
+      ]
+    },
+    {
+      "geo": "DE",
+      "accommodation_type": "short_stay",
+      "target": "nights_total",
+      "fit_error": "Optimizer did not converge",
+      "warnings": [
+        "Maximum Likelihood optimization failed to converge. Check mle_retvals"
+      ]
+    },
+    {
+      "geo": "DE",
+      "accommodation_type": "total",
+      "target": "arrivals_total",
+      "fit_error": "Optimizer did not converge",
+      "warnings": [
+        "Maximum Likelihood optimization failed to converge. Check mle_retvals"
+      ]
+    },
+    {
+      "geo": "DE",
+      "accommodation_type": "total",
+      "target": "nights_total",
+      "fit_error": "Optimizer did not converge",
+      "warnings": [
+        "Maximum Likelihood optimization failed to converge. Check mle_retvals"
+      ]
+    },
+    {
+      "geo": "DK",
+      "accommodation_type": "camping",
+      "target": "nights_total",
+      "fit_error": "Optimizer did not converge",
+      "warnings": [
+        "Maximum Likelihood optimization failed to converge. Check mle_retvals"
+      ]
+    },
+    {
+      "geo": "DK",
+      "accommodation_type": "hotel",
+      "target": "arrivals_total",
+      "fit_error": "Optimizer did not converge",
+      "warnings": [
+        "Maximum Likelihood optimization failed to converge. Check mle_retvals"
+      ]
+    },
+    {
+      "geo": "DK",
+      "accommodation_type": "hotel",
+      "target": "nights_total",
+      "fit_error": "Optimizer did not converge",
+      "warnings": [
+        "Maximum Likelihood optimization failed to converge. Check mle_retvals"
+      ]
+    },
+    {
+      "geo": "DK",
+      "accommodation_type": "short_stay",
+      "target": "arrivals_total",
+      "fit_error": "Optimizer did not converge",
+      "warnings": [
+        "Maximum Likelihood optimization failed to converge. Check mle_retvals"
+      ]
+    },
+    {
+      "geo": "DK",
+      "accommodation_type": "total",
+      "target": "arrivals_total",
+      "fit_error": "Optimizer did not converge",
+      "warnings": [
+        "Maximum Likelihood optimization failed to converge. Check mle_retvals"
+      ]
+    },
+    {
+      "geo": "EE",
+      "accommodation_type": "camping",
+      "target": "arrivals_total",
+      "fit_error": "Optimizer did not converge",
+      "warnings": [
+        "Maximum Likelihood optimization failed to converge. Check mle_retvals"
+      ]
+    },
+    {
+      "geo": "EE",
+      "accommodation_type": "camping",
+      "target": "nights_total",
+      "fit_error": "Optimizer did not converge",
+      "warnings": [
+        "Maximum Likelihood optimization failed to converge. Check mle_retvals"
+      ]
+    },
+    {
+      "geo": "EE",
+      "accommodation_type": "hotel",
+      "target": "nights_total",
+      "fit_error": "Optimizer did not converge",
+      "warnings": [
+        "Maximum Likelihood optimization failed to converge. Check mle_retvals"
+      ]
+    },
+    {
+      "geo": "EE",
+      "accommodation_type": "short_stay",
+      "target": "arrivals_total",
+      "fit_error": "Optimizer did not converge",
+      "warnings": [
+        "Maximum Likelihood optimization failed to converge. Check mle_retvals"
+      ]
+    },
+    {
+      "geo": "EE",
+      "accommodation_type": "short_stay",
+      "target": "nights_total",
+      "fit_error": "Optimizer did not converge",
+      "warnings": [
+        "Maximum Likelihood optimization failed to converge. Check mle_retvals"
+      ]
+    },
+    {
+      "geo": "EE",
+      "accommodation_type": "total",
+      "target": "arrivals_total",
+      "fit_error": "Optimizer did not converge",
+      "warnings": [
+        "Maximum Likelihood optimization failed to converge. Check mle_retvals"
+      ]
+    },
+    {
+      "geo": "EE",
+      "accommodation_type": "total",
+      "target": "nights_total",
+      "fit_error": "Optimizer did not converge",
+      "warnings": [
+        "Maximum Likelihood optimization failed to converge. Check mle_retvals"
+      ]
+    },
+    {
+      "geo": "EL",
+      "accommodation_type": "camping",
+      "target": "arrivals_total",
+      "fit_error": "Optimizer did not converge",
+      "warnings": [
+        "Maximum Likelihood optimization failed to converge. Check mle_retvals"
+      ]
+    },
+    {
+      "geo": "EL",
+      "accommodation_type": "camping",
+      "target": "nights_total",
+      "fit_error": "Optimizer did not converge",
+      "warnings": [
+        "Maximum Likelihood optimization failed to converge. Check mle_retvals"
+      ]
+    },
+    {
+      "geo": "EL",
+      "accommodation_type": "hotel",
+      "target": "arrivals_total",
+      "fit_error": "Optimizer did not converge",
+      "warnings": [
+        "Maximum Likelihood optimization failed to converge. Check mle_retvals"
+      ]
+    },
+    {
+      "geo": "EL",
+      "accommodation_type": "short_stay",
+      "target": "arrivals_total",
+      "fit_error": "Optimizer did not converge",
+      "warnings": [
+        "Maximum Likelihood optimization failed to converge. Check mle_retvals"
+      ]
+    },
+    {
+      "geo": "EL",
+      "accommodation_type": "short_stay",
+      "target": "nights_total",
+      "fit_error": "Optimizer did not converge",
+      "warnings": [
+        "Maximum Likelihood optimization failed to converge. Check mle_retvals"
+      ]
+    },
+    {
+      "geo": "EL",
+      "accommodation_type": "total",
+      "target": "arrivals_total",
+      "fit_error": "Optimizer did not converge",
+      "warnings": [
+        "Maximum Likelihood optimization failed to converge. Check mle_retvals"
+      ]
+    },
+    {
+      "geo": "ES",
+      "accommodation_type": "hotel",
+      "target": "arrivals_total",
+      "fit_error": "Optimizer did not converge",
+      "warnings": [
+        "Maximum Likelihood optimization failed to converge. Check mle_retvals"
+      ]
+    },
+    {
+      "geo": "ES",
+      "accommodation_type": "hotel",
+      "target": "nights_total",
+      "fit_error": "Optimizer did not converge",
+      "warnings": [
+        "Maximum Likelihood optimization failed to converge. Check mle_retvals"
+      ]
+    },
+    {
+      "geo": "ES",
+      "accommodation_type": "short_stay",
+      "target": "nights_total",
+      "fit_error": "Optimizer did not converge",
+      "warnings": [
+        "Maximum Likelihood optimization failed to converge. Check mle_retvals"
+      ]
+    },
+    {
+      "geo": "ES",
+      "accommodation_type": "total",
+      "target": "nights_total",
+      "fit_error": "Optimizer did not converge",
+      "warnings": [
+        "Maximum Likelihood optimization failed to converge. Check mle_retvals"
+      ]
+    },
+    {
+      "geo": "FI",
+      "accommodation_type": "camping",
+      "target": "arrivals_total",
+      "fit_error": "Optimizer did not converge",
+      "warnings": [
+        "Maximum Likelihood optimization failed to converge. Check mle_retvals"
+      ]
+    },
+    {
+      "geo": "FI",
+      "accommodation_type": "camping",
+      "target": "nights_total",
+      "fit_error": "Optimizer did not converge",
+      "warnings": [
+        "Maximum Likelihood optimization failed to converge. Check mle_retvals"
+      ]
+    },
+    {
+      "geo": "FI",
+      "accommodation_type": "hotel",
+      "target": "arrivals_total",
+      "fit_error": "Optimizer did not converge",
+      "warnings": [
+        "Maximum Likelihood optimization failed to converge. Check mle_retvals"
+      ]
+    },
+    {
+      "geo": "FI",
+      "accommodation_type": "total",
+      "target": "arrivals_total",
+      "fit_error": "Optimizer did not converge",
+      "warnings": [
+        "Maximum Likelihood optimization failed to converge. Check mle_retvals"
+      ]
+    },
+    {
+      "geo": "FR",
+      "accommodation_type": "camping",
+      "target": "arrivals_total",
+      "fit_error": "Optimizer did not converge",
+      "warnings": [
+        "Maximum Likelihood optimization failed to converge. Check mle_retvals"
+      ]
+    },
+    {
+      "geo": "FR",
+      "accommodation_type": "camping",
+      "target": "nights_total",
+      "fit_error": "Optimizer did not converge",
+      "warnings": [
+        "Maximum Likelihood optimization failed to converge. Check mle_retvals"
+      ]
+    },
+    {
+      "geo": "FR",
+      "accommodation_type": "hotel",
+      "target": "arrivals_total",
+      "fit_error": "Optimizer did not converge",
+      "warnings": [
+        "Maximum Likelihood optimization failed to converge. Check mle_retvals"
+      ]
+    },
+    {
+      "geo": "FR",
+      "accommodation_type": "hotel",
+      "target": "nights_total",
+      "fit_error": "Optimizer did not converge",
+      "warnings": [
+        "Maximum Likelihood optimization failed to converge. Check mle_retvals"
+      ]
+    },
+    {
+      "geo": "FR",
+      "accommodation_type": "short_stay",
+      "target": "arrivals_total",
+      "fit_error": "Optimizer did not converge",
+      "warnings": [
+        "Maximum Likelihood optimization failed to converge. Check mle_retvals"
+      ]
+    },
+    {
+      "geo": "FR",
+      "accommodation_type": "short_stay",
+      "target": "nights_total",
+      "fit_error": "Optimizer did not converge",
+      "warnings": [
+        "Maximum Likelihood optimization failed to converge. Check mle_retvals"
+      ]
+    },
+    {
+      "geo": "FR",
+      "accommodation_type": "total",
+      "target": "arrivals_total",
+      "fit_error": "Optimizer did not converge",
+      "warnings": [
+        "Maximum Likelihood optimization failed to converge. Check mle_retvals"
+      ]
+    },
+    {
+      "geo": "FR",
+      "accommodation_type": "total",
+      "target": "nights_total",
+      "fit_error": "Optimizer did not converge",
+      "warnings": [
+        "Maximum Likelihood optimization failed to converge. Check mle_retvals"
+      ]
+    },
+    {
+      "geo": "HR",
+      "accommodation_type": "camping",
+      "target": "arrivals_total",
+      "fit_error": "Optimizer did not converge",
+      "warnings": [
+        "Maximum Likelihood optimization failed to converge. Check mle_retvals"
+      ]
+    },
+    {
+      "geo": "HR",
+      "accommodation_type": "camping",
+      "target": "nights_total",
+      "fit_error": "Optimizer did not converge",
+      "warnings": [
+        "Maximum Likelihood optimization failed to converge. Check mle_retvals"
+      ]
+    },
+    {
+      "geo": "HR",
+      "accommodation_type": "hotel",
+      "target": "arrivals_total",
+      "fit_error": "Optimizer did not converge",
+      "warnings": [
+        "Maximum Likelihood optimization failed to converge. Check mle_retvals"
+      ]
+    },
+    {
+      "geo": "HR",
+      "accommodation_type": "hotel",
+      "target": "nights_total",
+      "fit_error": "Optimizer did not converge",
+      "warnings": [
+        "Maximum Likelihood optimization failed to converge. Check mle_retvals"
+      ]
+    },
+    {
+      "geo": "HR",
+      "accommodation_type": "short_stay",
+      "target": "arrivals_total",
+      "fit_error": "Optimizer did not converge",
+      "warnings": [
+        "Maximum Likelihood optimization failed to converge. Check mle_retvals"
+      ]
+    },
+    {
+      "geo": "HR",
+      "accommodation_type": "short_stay",
+      "target": "nights_total",
+      "fit_error": "Optimizer did not converge",
+      "warnings": [
+        "Maximum Likelihood optimization failed to converge. Check mle_retvals"
+      ]
+    },
+    {
+      "geo": "HU",
+      "accommodation_type": "camping",
+      "target": "arrivals_total",
+      "fit_error": "Optimizer did not converge",
+      "warnings": [
+        "Maximum Likelihood optimization failed to converge. Check mle_retvals"
+      ]
+    },
+    {
+      "geo": "HU",
+      "accommodation_type": "camping",
+      "target": "nights_total",
+      "fit_error": "Optimizer did not converge",
+      "warnings": [
+        "Maximum Likelihood optimization failed to converge. Check mle_retvals"
+      ]
+    },
+    {
+      "geo": "HU",
+      "accommodation_type": "hotel",
+      "target": "arrivals_total",
+      "fit_error": "Optimizer did not converge",
+      "warnings": [
+        "Maximum Likelihood optimization failed to converge. Check mle_retvals"
+      ]
+    },
+    {
+      "geo": "HU",
+      "accommodation_type": "hotel",
+      "target": "nights_total",
+      "fit_error": "Optimizer did not converge",
+      "warnings": [
+        "Maximum Likelihood optimization failed to converge. Check mle_retvals"
+      ]
+    },
+    {
+      "geo": "HU",
+      "accommodation_type": "short_stay",
+      "target": "nights_total",
+      "fit_error": "Optimizer did not converge",
+      "warnings": [
+        "Maximum Likelihood optimization failed to converge. Check mle_retvals"
+      ]
+    },
+    {
+      "geo": "HU",
+      "accommodation_type": "total",
+      "target": "arrivals_total",
+      "fit_error": "Optimizer did not converge",
+      "warnings": [
+        "Maximum Likelihood optimization failed to converge. Check mle_retvals"
+      ]
+    },
+    {
+      "geo": "HU",
+      "accommodation_type": "total",
+      "target": "nights_total",
+      "fit_error": "Optimizer did not converge",
+      "warnings": [
+        "Maximum Likelihood optimization failed to converge. Check mle_retvals"
+      ]
+    },
+    {
+      "geo": "IE",
+      "accommodation_type": "camping",
+      "target": "arrivals_total",
+      "fit_error": "Optimizer did not converge",
+      "warnings": [
+        "Maximum Likelihood optimization failed to converge. Check mle_retvals"
+      ]
+    },
+    {
+      "geo": "IE",
+      "accommodation_type": "hotel",
+      "target": "arrivals_total",
+      "fit_error": "Optimizer did not converge",
+      "warnings": [
+        "Maximum Likelihood optimization failed to converge. Check mle_retvals"
+      ]
+    },
+    {
+      "geo": "IE",
+      "accommodation_type": "hotel",
+      "target": "nights_total",
+      "fit_error": "Optimizer did not converge",
+      "warnings": [
+        "Maximum Likelihood optimization failed to converge. Check mle_retvals"
+      ]
+    },
+    {
+      "geo": "IE",
+      "accommodation_type": "short_stay",
+      "target": "arrivals_total",
+      "fit_error": "Optimizer did not converge",
+      "warnings": [
+        "Maximum Likelihood optimization failed to converge. Check mle_retvals"
+      ]
+    },
+    {
+      "geo": "IE",
+      "accommodation_type": "short_stay",
+      "target": "nights_total",
+      "fit_error": "Optimizer did not converge",
+      "warnings": [
+        "Maximum Likelihood optimization failed to converge. Check mle_retvals"
+      ]
+    },
+    {
+      "geo": "IE",
+      "accommodation_type": "total",
+      "target": "nights_total",
+      "fit_error": "Optimizer did not converge",
+      "warnings": [
+        "Maximum Likelihood optimization failed to converge. Check mle_retvals"
+      ]
+    },
+    {
+      "geo": "IS",
+      "accommodation_type": "camping",
+      "target": "arrivals_total",
+      "fit_error": "Optimizer did not converge",
+      "warnings": [
+        "Maximum Likelihood optimization failed to converge. Check mle_retvals"
+      ]
+    },
+    {
+      "geo": "IS",
+      "accommodation_type": "camping",
+      "target": "nights_total",
+      "fit_error": "Optimizer did not converge",
+      "warnings": [
+        "Maximum Likelihood optimization failed to converge. Check mle_retvals"
+      ]
+    },
+    {
+      "geo": "IS",
+      "accommodation_type": "hotel",
+      "target": "arrivals_total",
+      "fit_error": "Optimizer did not converge",
+      "warnings": [
+        "Maximum Likelihood optimization failed to converge. Check mle_retvals"
+      ]
+    },
+    {
+      "geo": "IS",
+      "accommodation_type": "short_stay",
+      "target": "nights_total",
+      "fit_error": "Optimizer did not converge",
+      "warnings": [
+        "Maximum Likelihood optimization failed to converge. Check mle_retvals"
+      ]
+    },
+    {
+      "geo": "IS",
+      "accommodation_type": "total",
+      "target": "arrivals_total",
+      "fit_error": "Optimizer did not converge",
+      "warnings": [
+        "Maximum Likelihood optimization failed to converge. Check mle_retvals"
+      ]
+    },
+    {
+      "geo": "IS",
+      "accommodation_type": "total",
+      "target": "nights_total",
+      "fit_error": "Optimizer did not converge",
+      "warnings": [
+        "Maximum Likelihood optimization failed to converge. Check mle_retvals"
+      ]
+    },
+    {
+      "geo": "IT",
+      "accommodation_type": "camping",
+      "target": "arrivals_total",
+      "fit_error": "Optimizer did not converge",
+      "warnings": [
+        "Maximum Likelihood optimization failed to converge. Check mle_retvals"
+      ]
+    },
+    {
+      "geo": "IT",
+      "accommodation_type": "camping",
+      "target": "nights_total",
+      "fit_error": "Optimizer did not converge",
+      "warnings": [
+        "Maximum Likelihood optimization failed to converge. Check mle_retvals"
+      ]
+    },
+    {
+      "geo": "IT",
+      "accommodation_type": "hotel",
+      "target": "arrivals_total",
+      "fit_error": "Optimizer did not converge",
+      "warnings": [
+        "Maximum Likelihood optimization failed to converge. Check mle_retvals"
+      ]
+    },
+    {
+      "geo": "IT",
+      "accommodation_type": "hotel",
+      "target": "nights_total",
+      "fit_error": "Optimizer did not converge",
+      "warnings": [
+        "Maximum Likelihood optimization failed to converge. Check mle_retvals"
+      ]
+    },
+    {
+      "geo": "IT",
+      "accommodation_type": "short_stay",
+      "target": "arrivals_total",
+      "fit_error": "Optimizer did not converge",
+      "warnings": [
+        "Maximum Likelihood optimization failed to converge. Check mle_retvals"
+      ]
+    },
+    {
+      "geo": "IT",
+      "accommodation_type": "short_stay",
+      "target": "nights_total",
+      "fit_error": "Optimizer did not converge",
+      "warnings": [
+        "Maximum Likelihood optimization failed to converge. Check mle_retvals"
+      ]
+    },
+    {
+      "geo": "IT",
+      "accommodation_type": "total",
+      "target": "arrivals_total",
+      "fit_error": "Optimizer did not converge",
+      "warnings": [
+        "Maximum Likelihood optimization failed to converge. Check mle_retvals"
+      ]
+    },
+    {
+      "geo": "IT",
+      "accommodation_type": "total",
+      "target": "nights_total",
+      "fit_error": "Optimizer did not converge",
+      "warnings": [
+        "Maximum Likelihood optimization failed to converge. Check mle_retvals"
+      ]
+    },
+    {
+      "geo": "LI",
+      "accommodation_type": "camping",
+      "target": "arrivals_total",
+      "fit_error": "A constant trend was included in the model specification, but the `exog` data already contains a column of constants.",
+      "warnings": []
+    },
+    {
+      "geo": "LI",
+      "accommodation_type": "camping",
+      "target": "nights_total",
+      "fit_error": "A constant trend was included in the model specification, but the `exog` data already contains a column of constants.",
+      "warnings": []
+    },
+    {
+      "geo": "LI",
+      "accommodation_type": "hotel",
+      "target": "arrivals_total",
+      "fit_error": "A constant trend was included in the model specification, but the `exog` data already contains a column of constants.",
+      "warnings": []
+    },
+    {
+      "geo": "LI",
+      "accommodation_type": "hotel",
+      "target": "nights_total",
+      "fit_error": "A constant trend was included in the model specification, but the `exog` data already contains a column of constants.",
+      "warnings": []
+    },
+    {
+      "geo": "LI",
+      "accommodation_type": "short_stay",
+      "target": "arrivals_total",
+      "fit_error": "A constant trend was included in the model specification, but the `exog` data already contains a column of constants.",
+      "warnings": []
+    },
+    {
+      "geo": "LI",
+      "accommodation_type": "short_stay",
+      "target": "nights_total",
+      "fit_error": "A constant trend was included in the model specification, but the `exog` data already contains a column of constants.",
+      "warnings": []
+    },
+    {
+      "geo": "LI",
+      "accommodation_type": "total",
+      "target": "arrivals_total",
+      "fit_error": "A constant trend was included in the model specification, but the `exog` data already contains a column of constants.",
+      "warnings": []
+    },
+    {
+      "geo": "LI",
+      "accommodation_type": "total",
+      "target": "nights_total",
+      "fit_error": "A constant trend was included in the model specification, but the `exog` data already contains a column of constants.",
+      "warnings": []
+    },
+    {
+      "geo": "LT",
+      "accommodation_type": "camping",
+      "target": "arrivals_total",
+      "fit_error": "Optimizer did not converge",
+      "warnings": [
+        "Maximum Likelihood optimization failed to converge. Check mle_retvals"
+      ]
+    },
+    {
+      "geo": "LT",
+      "accommodation_type": "camping",
+      "target": "nights_total",
+      "fit_error": "Optimizer did not converge",
+      "warnings": [
+        "Maximum Likelihood optimization failed to converge. Check mle_retvals"
+      ]
+    },
+    {
+      "geo": "LT",
+      "accommodation_type": "hotel",
+      "target": "arrivals_total",
+      "fit_error": "Optimizer did not converge",
+      "warnings": [
+        "Maximum Likelihood optimization failed to converge. Check mle_retvals"
+      ]
+    },
+    {
+      "geo": "LT",
+      "accommodation_type": "hotel",
+      "target": "nights_total",
+      "fit_error": "Optimizer did not converge",
+      "warnings": [
+        "Maximum Likelihood optimization failed to converge. Check mle_retvals"
+      ]
+    },
+    {
+      "geo": "LT",
+      "accommodation_type": "short_stay",
+      "target": "nights_total",
+      "fit_error": "Optimizer did not converge",
+      "warnings": [
+        "Maximum Likelihood optimization failed to converge. Check mle_retvals"
+      ]
+    },
+    {
+      "geo": "LT",
+      "accommodation_type": "total",
+      "target": "arrivals_total",
+      "fit_error": "Optimizer did not converge",
+      "warnings": [
+        "Maximum Likelihood optimization failed to converge. Check mle_retvals"
+      ]
+    },
+    {
+      "geo": "LT",
+      "accommodation_type": "total",
+      "target": "nights_total",
+      "fit_error": "Optimizer did not converge",
+      "warnings": [
+        "Maximum Likelihood optimization failed to converge. Check mle_retvals"
+      ]
+    },
+    {
+      "geo": "LU",
+      "accommodation_type": "camping",
+      "target": "arrivals_total",
+      "fit_error": "Optimizer did not converge",
+      "warnings": [
+        "Maximum Likelihood optimization failed to converge. Check mle_retvals"
+      ]
+    },
+    {
+      "geo": "LU",
+      "accommodation_type": "hotel",
+      "target": "arrivals_total",
+      "fit_error": "Optimizer did not converge",
+      "warnings": [
+        "Maximum Likelihood optimization failed to converge. Check mle_retvals"
+      ]
+    },
+    {
+      "geo": "LU",
+      "accommodation_type": "hotel",
+      "target": "nights_total",
+      "fit_error": "Optimizer did not converge",
+      "warnings": [
+        "Maximum Likelihood optimization failed to converge. Check mle_retvals"
+      ]
+    },
+    {
+      "geo": "LU",
+      "accommodation_type": "short_stay",
+      "target": "nights_total",
+      "fit_error": "Optimizer did not converge",
+      "warnings": [
+        "Maximum Likelihood optimization failed to converge. Check mle_retvals"
+      ]
+    },
+    {
+      "geo": "LU",
+      "accommodation_type": "total",
+      "target": "arrivals_total",
+      "fit_error": "Optimizer did not converge",
+      "warnings": [
+        "Maximum Likelihood optimization failed to converge. Check mle_retvals"
+      ]
+    },
+    {
+      "geo": "LU",
+      "accommodation_type": "total",
+      "target": "nights_total",
+      "fit_error": "Optimizer did not converge",
+      "warnings": [
+        "Maximum Likelihood optimization failed to converge. Check mle_retvals"
+      ]
+    },
+    {
+      "geo": "LV",
+      "accommodation_type": "camping",
+      "target": "arrivals_total",
+      "fit_error": "Optimizer did not converge",
+      "warnings": [
+        "Maximum Likelihood optimization failed to converge. Check mle_retvals"
+      ]
+    },
+    {
+      "geo": "LV",
+      "accommodation_type": "camping",
+      "target": "nights_total",
+      "fit_error": "Optimizer did not converge",
+      "warnings": [
+        "Maximum Likelihood optimization failed to converge. Check mle_retvals"
+      ]
+    },
+    {
+      "geo": "LV",
+      "accommodation_type": "hotel",
+      "target": "arrivals_total",
+      "fit_error": "Optimizer did not converge",
+      "warnings": [
+        "Maximum Likelihood optimization failed to converge. Check mle_retvals"
+      ]
+    },
+    {
+      "geo": "LV",
+      "accommodation_type": "hotel",
+      "target": "nights_total",
+      "fit_error": "Optimizer did not converge",
+      "warnings": [
+        "Maximum Likelihood optimization failed to converge. Check mle_retvals"
+      ]
+    },
+    {
+      "geo": "LV",
+      "accommodation_type": "short_stay",
+      "target": "nights_total",
+      "fit_error": "Optimizer did not converge",
+      "warnings": [
+        "Maximum Likelihood optimization failed to converge. Check mle_retvals"
+      ]
+    },
+    {
+      "geo": "LV",
+      "accommodation_type": "total",
+      "target": "arrivals_total",
+      "fit_error": "Optimizer did not converge",
+      "warnings": [
+        "Maximum Likelihood optimization failed to converge. Check mle_retvals"
+      ]
+    },
+    {
+      "geo": "LV",
+      "accommodation_type": "total",
+      "target": "nights_total",
+      "fit_error": "Optimizer did not converge",
+      "warnings": [
+        "Maximum Likelihood optimization failed to converge. Check mle_retvals"
+      ]
+    },
+    {
+      "geo": "ME",
+      "accommodation_type": "hotel",
+      "target": "arrivals_total",
+      "fit_error": "Optimizer did not converge",
+      "warnings": [
+        "Maximum Likelihood optimization failed to converge. Check mle_retvals"
+      ]
+    },
+    {
+      "geo": "ME",
+      "accommodation_type": "hotel",
+      "target": "nights_total",
+      "fit_error": "Optimizer did not converge",
+      "warnings": [
+        "Maximum Likelihood optimization failed to converge. Check mle_retvals"
+      ]
+    },
+    {
+      "geo": "ME",
+      "accommodation_type": "short_stay",
+      "target": "arrivals_total",
+      "fit_error": "Optimizer did not converge",
+      "warnings": [
+        "Maximum Likelihood optimization failed to converge. Check mle_retvals"
+      ]
+    },
+    {
+      "geo": "ME",
+      "accommodation_type": "short_stay",
+      "target": "nights_total",
+      "fit_error": "Optimizer did not converge",
+      "warnings": [
+        "Maximum Likelihood optimization failed to converge. Check mle_retvals"
+      ]
+    },
+    {
+      "geo": "ME",
+      "accommodation_type": "total",
+      "target": "arrivals_total",
+      "fit_error": "Optimizer did not converge",
+      "warnings": [
+        "Maximum Likelihood optimization failed to converge. Check mle_retvals"
+      ]
+    },
+    {
+      "geo": "MK",
+      "accommodation_type": "short_stay",
+      "target": "nights_total",
+      "fit_error": "Optimizer did not converge",
+      "warnings": [
+        "Maximum Likelihood optimization failed to converge. Check mle_retvals"
+      ]
+    },
+    {
+      "geo": "MT",
+      "accommodation_type": "camping",
+      "target": "arrivals_total",
+      "fit_error": "Constant training series",
+      "warnings": []
+    },
+    {
+      "geo": "MT",
+      "accommodation_type": "camping",
+      "target": "nights_total",
+      "fit_error": "Constant training series",
+      "warnings": []
+    },
+    {
+      "geo": "MT",
+      "accommodation_type": "hotel",
+      "target": "arrivals_total",
+      "fit_error": "Optimizer did not converge",
+      "warnings": [
+        "Maximum Likelihood optimization failed to converge. Check mle_retvals"
+      ]
+    },
+    {
+      "geo": "MT",
+      "accommodation_type": "short_stay",
+      "target": "nights_total",
+      "fit_error": "Optimizer did not converge",
+      "warnings": [
+        "Maximum Likelihood optimization failed to converge. Check mle_retvals"
+      ]
+    },
+    {
+      "geo": "MT",
+      "accommodation_type": "total",
+      "target": "nights_total",
+      "fit_error": "Optimizer did not converge",
+      "warnings": [
+        "Maximum Likelihood optimization failed to converge. Check mle_retvals"
+      ]
+    },
+    {
+      "geo": "NL",
+      "accommodation_type": "camping",
+      "target": "nights_total",
+      "fit_error": "Optimizer did not converge",
+      "warnings": [
+        "Maximum Likelihood optimization failed to converge. Check mle_retvals"
+      ]
+    },
+    {
+      "geo": "NL",
+      "accommodation_type": "hotel",
+      "target": "arrivals_total",
+      "fit_error": "Optimizer did not converge",
+      "warnings": [
+        "Maximum Likelihood optimization failed to converge. Check mle_retvals"
+      ]
+    },
+    {
+      "geo": "NL",
+      "accommodation_type": "hotel",
+      "target": "nights_total",
+      "fit_error": "Optimizer did not converge",
+      "warnings": [
+        "Maximum Likelihood optimization failed to converge. Check mle_retvals"
+      ]
+    },
+    {
+      "geo": "NL",
+      "accommodation_type": "short_stay",
+      "target": "arrivals_total",
+      "fit_error": "Optimizer did not converge",
+      "warnings": [
+        "Maximum Likelihood optimization failed to converge. Check mle_retvals"
+      ]
+    },
+    {
+      "geo": "NL",
+      "accommodation_type": "short_stay",
+      "target": "nights_total",
+      "fit_error": "Optimizer did not converge",
+      "warnings": [
+        "Maximum Likelihood optimization failed to converge. Check mle_retvals"
+      ]
+    },
+    {
+      "geo": "NL",
+      "accommodation_type": "total",
+      "target": "arrivals_total",
+      "fit_error": "Optimizer did not converge",
+      "warnings": [
+        "Maximum Likelihood optimization failed to converge. Check mle_retvals"
+      ]
+    },
+    {
+      "geo": "NL",
+      "accommodation_type": "total",
+      "target": "nights_total",
+      "fit_error": "Optimizer did not converge",
+      "warnings": [
+        "Maximum Likelihood optimization failed to converge. Check mle_retvals"
+      ]
+    },
+    {
+      "geo": "NO",
+      "accommodation_type": "camping",
+      "target": "arrivals_total",
+      "fit_error": "Optimizer did not converge",
+      "warnings": [
+        "Maximum Likelihood optimization failed to converge. Check mle_retvals"
+      ]
+    },
+    {
+      "geo": "NO",
+      "accommodation_type": "camping",
+      "target": "nights_total",
+      "fit_error": "Optimizer did not converge",
+      "warnings": [
+        "Maximum Likelihood optimization failed to converge. Check mle_retvals"
+      ]
+    },
+    {
+      "geo": "NO",
+      "accommodation_type": "hotel",
+      "target": "arrivals_total",
+      "fit_error": "Optimizer did not converge",
+      "warnings": [
+        "Maximum Likelihood optimization failed to converge. Check mle_retvals"
+      ]
+    },
+    {
+      "geo": "NO",
+      "accommodation_type": "hotel",
+      "target": "nights_total",
+      "fit_error": "Optimizer did not converge",
+      "warnings": [
+        "Maximum Likelihood optimization failed to converge. Check mle_retvals"
+      ]
+    },
+    {
+      "geo": "NO",
+      "accommodation_type": "short_stay",
+      "target": "arrivals_total",
+      "fit_error": "Optimizer did not converge",
+      "warnings": [
+        "Maximum Likelihood optimization failed to converge. Check mle_retvals"
+      ]
+    },
+    {
+      "geo": "NO",
+      "accommodation_type": "total",
+      "target": "arrivals_total",
+      "fit_error": "Optimizer did not converge",
+      "warnings": [
+        "Maximum Likelihood optimization failed to converge. Check mle_retvals"
+      ]
+    },
+    {
+      "geo": "NO",
+      "accommodation_type": "total",
+      "target": "nights_total",
+      "fit_error": "Optimizer did not converge",
+      "warnings": [
+        "Maximum Likelihood optimization failed to converge. Check mle_retvals"
+      ]
+    },
+    {
+      "geo": "PL",
+      "accommodation_type": "camping",
+      "target": "arrivals_total",
+      "fit_error": "Optimizer did not converge",
+      "warnings": [
+        "Maximum Likelihood optimization failed to converge. Check mle_retvals"
+      ]
+    },
+    {
+      "geo": "PL",
+      "accommodation_type": "camping",
+      "target": "nights_total",
+      "fit_error": "Optimizer did not converge",
+      "warnings": [
+        "Maximum Likelihood optimization failed to converge. Check mle_retvals"
+      ]
+    },
+    {
+      "geo": "PL",
+      "accommodation_type": "hotel",
+      "target": "arrivals_total",
+      "fit_error": "Optimizer did not converge",
+      "warnings": [
+        "Maximum Likelihood optimization failed to converge. Check mle_retvals"
+      ]
+    },
+    {
+      "geo": "PL",
+      "accommodation_type": "hotel",
+      "target": "nights_total",
+      "fit_error": "Optimizer did not converge",
+      "warnings": [
+        "Maximum Likelihood optimization failed to converge. Check mle_retvals"
+      ]
+    },
+    {
+      "geo": "PL",
+      "accommodation_type": "short_stay",
+      "target": "arrivals_total",
+      "fit_error": "Optimizer did not converge",
+      "warnings": [
+        "Maximum Likelihood optimization failed to converge. Check mle_retvals"
+      ]
+    },
+    {
+      "geo": "PL",
+      "accommodation_type": "short_stay",
+      "target": "nights_total",
+      "fit_error": "Optimizer did not converge",
+      "warnings": [
+        "Maximum Likelihood optimization failed to converge. Check mle_retvals"
+      ]
+    },
+    {
+      "geo": "PL",
+      "accommodation_type": "total",
+      "target": "arrivals_total",
+      "fit_error": "Optimizer did not converge",
+      "warnings": [
+        "Maximum Likelihood optimization failed to converge. Check mle_retvals"
+      ]
+    },
+    {
+      "geo": "PL",
+      "accommodation_type": "total",
+      "target": "nights_total",
+      "fit_error": "Optimizer did not converge",
+      "warnings": [
+        "Maximum Likelihood optimization failed to converge. Check mle_retvals"
+      ]
+    },
+    {
+      "geo": "PT",
+      "accommodation_type": "camping",
+      "target": "nights_total",
+      "fit_error": "Optimizer did not converge",
+      "warnings": [
+        "Maximum Likelihood optimization failed to converge. Check mle_retvals"
+      ]
+    },
+    {
+      "geo": "PT",
+      "accommodation_type": "hotel",
+      "target": "arrivals_total",
+      "fit_error": "Optimizer did not converge",
+      "warnings": [
+        "Maximum Likelihood optimization failed to converge. Check mle_retvals"
+      ]
+    },
+    {
+      "geo": "PT",
+      "accommodation_type": "hotel",
+      "target": "nights_total",
+      "fit_error": "Optimizer did not converge",
+      "warnings": [
+        "Maximum Likelihood optimization failed to converge. Check mle_retvals"
+      ]
+    },
+    {
+      "geo": "PT",
+      "accommodation_type": "short_stay",
+      "target": "arrivals_total",
+      "fit_error": "Optimizer did not converge",
+      "warnings": [
+        "Maximum Likelihood optimization failed to converge. Check mle_retvals"
+      ]
+    },
+    {
+      "geo": "PT",
+      "accommodation_type": "short_stay",
+      "target": "nights_total",
+      "fit_error": "Optimizer did not converge",
+      "warnings": [
+        "Maximum Likelihood optimization failed to converge. Check mle_retvals"
+      ]
+    },
+    {
+      "geo": "PT",
+      "accommodation_type": "total",
+      "target": "arrivals_total",
+      "fit_error": "Optimizer did not converge",
+      "warnings": [
+        "Maximum Likelihood optimization failed to converge. Check mle_retvals"
+      ]
+    },
+    {
+      "geo": "PT",
+      "accommodation_type": "total",
+      "target": "nights_total",
+      "fit_error": "Optimizer did not converge",
+      "warnings": [
+        "Maximum Likelihood optimization failed to converge. Check mle_retvals"
+      ]
+    },
+    {
+      "geo": "RO",
+      "accommodation_type": "camping",
+      "target": "arrivals_total",
+      "fit_error": "Optimizer did not converge",
+      "warnings": [
+        "Maximum Likelihood optimization failed to converge. Check mle_retvals"
+      ]
+    },
+    {
+      "geo": "RO",
+      "accommodation_type": "camping",
+      "target": "nights_total",
+      "fit_error": "Optimizer did not converge",
+      "warnings": [
+        "Maximum Likelihood optimization failed to converge. Check mle_retvals"
+      ]
+    },
+    {
+      "geo": "RO",
+      "accommodation_type": "hotel",
+      "target": "arrivals_total",
+      "fit_error": "Optimizer did not converge",
+      "warnings": [
+        "Maximum Likelihood optimization failed to converge. Check mle_retvals"
+      ]
+    },
+    {
+      "geo": "RO",
+      "accommodation_type": "hotel",
+      "target": "nights_total",
+      "fit_error": "Optimizer did not converge",
+      "warnings": [
+        "Maximum Likelihood optimization failed to converge. Check mle_retvals"
+      ]
+    },
+    {
+      "geo": "RO",
+      "accommodation_type": "short_stay",
+      "target": "arrivals_total",
+      "fit_error": "Optimizer did not converge",
+      "warnings": [
+        "Maximum Likelihood optimization failed to converge. Check mle_retvals"
+      ]
+    },
+    {
+      "geo": "RO",
+      "accommodation_type": "total",
+      "target": "arrivals_total",
+      "fit_error": "Optimizer did not converge",
+      "warnings": [
+        "Maximum Likelihood optimization failed to converge. Check mle_retvals"
+      ]
+    },
+    {
+      "geo": "RS",
+      "accommodation_type": "hotel",
+      "target": "arrivals_total",
+      "fit_error": "Optimizer did not converge",
+      "warnings": [
+        "Maximum Likelihood optimization failed to converge. Check mle_retvals"
+      ]
+    },
+    {
+      "geo": "RS",
+      "accommodation_type": "hotel",
+      "target": "nights_total",
+      "fit_error": "Optimizer did not converge",
+      "warnings": [
+        "Maximum Likelihood optimization failed to converge. Check mle_retvals"
+      ]
+    },
+    {
+      "geo": "RS",
+      "accommodation_type": "short_stay",
+      "target": "arrivals_total",
+      "fit_error": "Optimizer did not converge",
+      "warnings": [
+        "Maximum Likelihood optimization failed to converge. Check mle_retvals"
+      ]
+    },
+    {
+      "geo": "RS",
+      "accommodation_type": "short_stay",
+      "target": "nights_total",
+      "fit_error": "Optimizer did not converge",
+      "warnings": [
+        "Maximum Likelihood optimization failed to converge. Check mle_retvals"
+      ]
+    },
+    {
+      "geo": "RS",
+      "accommodation_type": "total",
+      "target": "arrivals_total",
+      "fit_error": "Optimizer did not converge",
+      "warnings": [
+        "Maximum Likelihood optimization failed to converge. Check mle_retvals"
+      ]
+    },
+    {
+      "geo": "RS",
+      "accommodation_type": "total",
+      "target": "nights_total",
+      "fit_error": "Optimizer did not converge",
+      "warnings": [
+        "Maximum Likelihood optimization failed to converge. Check mle_retvals"
+      ]
+    },
+    {
+      "geo": "SE",
+      "accommodation_type": "camping",
+      "target": "arrivals_total",
+      "fit_error": "Optimizer did not converge",
+      "warnings": [
+        "Maximum Likelihood optimization failed to converge. Check mle_retvals"
+      ]
+    },
+    {
+      "geo": "SE",
+      "accommodation_type": "camping",
+      "target": "nights_total",
+      "fit_error": "Optimizer did not converge",
+      "warnings": [
+        "Maximum Likelihood optimization failed to converge. Check mle_retvals"
+      ]
+    },
+    {
+      "geo": "SE",
+      "accommodation_type": "hotel",
+      "target": "arrivals_total",
+      "fit_error": "Optimizer did not converge",
+      "warnings": [
+        "Maximum Likelihood optimization failed to converge. Check mle_retvals"
+      ]
+    },
+    {
+      "geo": "SE",
+      "accommodation_type": "hotel",
+      "target": "nights_total",
+      "fit_error": "Optimizer did not converge",
+      "warnings": [
+        "Maximum Likelihood optimization failed to converge. Check mle_retvals"
+      ]
+    },
+    {
+      "geo": "SE",
+      "accommodation_type": "short_stay",
+      "target": "arrivals_total",
+      "fit_error": "Optimizer did not converge",
+      "warnings": [
+        "Maximum Likelihood optimization failed to converge. Check mle_retvals"
+      ]
+    },
+    {
+      "geo": "SE",
+      "accommodation_type": "short_stay",
+      "target": "nights_total",
+      "fit_error": "Optimizer did not converge",
+      "warnings": [
+        "Maximum Likelihood optimization failed to converge. Check mle_retvals"
+      ]
+    },
+    {
+      "geo": "SE",
+      "accommodation_type": "total",
+      "target": "arrivals_total",
+      "fit_error": "Optimizer did not converge",
+      "warnings": [
+        "Maximum Likelihood optimization failed to converge. Check mle_retvals"
+      ]
+    },
+    {
+      "geo": "SE",
+      "accommodation_type": "total",
+      "target": "nights_total",
+      "fit_error": "Optimizer did not converge",
+      "warnings": [
+        "Maximum Likelihood optimization failed to converge. Check mle_retvals"
+      ]
+    },
+    {
+      "geo": "SI",
+      "accommodation_type": "camping",
+      "target": "arrivals_total",
+      "fit_error": "Optimizer did not converge",
+      "warnings": [
+        "Maximum Likelihood optimization failed to converge. Check mle_retvals"
+      ]
+    },
+    {
+      "geo": "SI",
+      "accommodation_type": "camping",
+      "target": "nights_total",
+      "fit_error": "Optimizer did not converge",
+      "warnings": [
+        "Maximum Likelihood optimization failed to converge. Check mle_retvals"
+      ]
+    },
+    {
+      "geo": "SI",
+      "accommodation_type": "hotel",
+      "target": "nights_total",
+      "fit_error": "Optimizer did not converge",
+      "warnings": [
+        "Maximum Likelihood optimization failed to converge. Check mle_retvals"
+      ]
+    },
+    {
+      "geo": "SI",
+      "accommodation_type": "short_stay",
+      "target": "nights_total",
+      "fit_error": "Optimizer did not converge",
+      "warnings": [
+        "Maximum Likelihood optimization failed to converge. Check mle_retvals"
+      ]
+    },
+    {
+      "geo": "SI",
+      "accommodation_type": "total",
+      "target": "nights_total",
+      "fit_error": "Optimizer did not converge",
+      "warnings": [
+        "Maximum Likelihood optimization failed to converge. Check mle_retvals"
+      ]
+    },
+    {
+      "geo": "SK",
+      "accommodation_type": "hotel",
+      "target": "arrivals_total",
+      "fit_error": "Optimizer did not converge",
+      "warnings": [
+        "Maximum Likelihood optimization failed to converge. Check mle_retvals"
+      ]
+    },
+    {
+      "geo": "SK",
+      "accommodation_type": "hotel",
+      "target": "nights_total",
+      "fit_error": "Optimizer did not converge",
+      "warnings": [
+        "Maximum Likelihood optimization failed to converge. Check mle_retvals"
+      ]
+    },
+    {
+      "geo": "SK",
+      "accommodation_type": "short_stay",
+      "target": "arrivals_total",
+      "fit_error": "Optimizer did not converge",
+      "warnings": [
+        "Maximum Likelihood optimization failed to converge. Check mle_retvals"
+      ]
+    },
+    {
+      "geo": "SK",
+      "accommodation_type": "short_stay",
+      "target": "nights_total",
+      "fit_error": "Optimizer did not converge",
+      "warnings": [
+        "Maximum Likelihood optimization failed to converge. Check mle_retvals"
+      ]
+    },
+    {
+      "geo": "SK",
+      "accommodation_type": "total",
+      "target": "arrivals_total",
+      "fit_error": "Optimizer did not converge",
+      "warnings": [
+        "Maximum Likelihood optimization failed to converge. Check mle_retvals"
+      ]
+    },
+    {
+      "geo": "SK",
+      "accommodation_type": "total",
+      "target": "nights_total",
+      "fit_error": "Optimizer did not converge",
+      "warnings": [
+        "Maximum Likelihood optimization failed to converge. Check mle_retvals"
+      ]
+    },
+    {
+      "geo": "TR",
+      "accommodation_type": "camping",
+      "target": "arrivals_total",
+      "fit_error": "Optimizer did not converge",
+      "warnings": [
+        "Maximum Likelihood optimization failed to converge. Check mle_retvals"
+      ]
+    },
+    {
+      "geo": "TR",
+      "accommodation_type": "camping",
+      "target": "nights_total",
+      "fit_error": "Optimizer did not converge",
+      "warnings": [
+        "Maximum Likelihood optimization failed to converge. Check mle_retvals"
+      ]
+    },
+    {
+      "geo": "TR",
+      "accommodation_type": "hotel",
+      "target": "arrivals_total",
+      "fit_error": "Optimizer did not converge",
+      "warnings": [
+        "Maximum Likelihood optimization failed to converge. Check mle_retvals"
+      ]
+    },
+    {
+      "geo": "TR",
+      "accommodation_type": "hotel",
+      "target": "nights_total",
+      "fit_error": "Optimizer did not converge",
+      "warnings": [
+        "Maximum Likelihood optimization failed to converge. Check mle_retvals"
+      ]
+    },
+    {
+      "geo": "TR",
+      "accommodation_type": "short_stay",
+      "target": "arrivals_total",
+      "fit_error": "Optimizer did not converge",
+      "warnings": [
+        "Maximum Likelihood optimization failed to converge. Check mle_retvals"
+      ]
+    },
+    {
+      "geo": "TR",
+      "accommodation_type": "short_stay",
+      "target": "nights_total",
+      "fit_error": "Optimizer did not converge",
+      "warnings": [
+        "Maximum Likelihood optimization failed to converge. Check mle_retvals"
+      ]
+    },
+    {
+      "geo": "TR",
+      "accommodation_type": "total",
+      "target": "arrivals_total",
+      "fit_error": "Optimizer did not converge",
+      "warnings": [
+        "Maximum Likelihood optimization failed to converge. Check mle_retvals"
+      ]
+    },
+    {
+      "geo": "TR",
+      "accommodation_type": "total",
+      "target": "nights_total",
+      "fit_error": "Optimizer did not converge",
+      "warnings": [
+        "Maximum Likelihood optimization failed to converge. Check mle_retvals"
+      ]
+    },
+    {
+      "geo": "UK",
+      "accommodation_type": "camping",
+      "target": "arrivals_total",
+      "fit_error": "Optimizer did not converge",
+      "warnings": [
+        "Maximum Likelihood optimization failed to converge. Check mle_retvals"
+      ]
+    },
+    {
+      "geo": "UK",
+      "accommodation_type": "camping",
+      "target": "nights_total",
+      "fit_error": "Optimizer did not converge",
+      "warnings": [
+        "Maximum Likelihood optimization failed to converge. Check mle_retvals"
+      ]
+    },
+    {
+      "geo": "UK",
+      "accommodation_type": "hotel",
+      "target": "arrivals_total",
+      "fit_error": "Optimizer did not converge",
+      "warnings": [
+        "Maximum Likelihood optimization failed to converge. Check mle_retvals"
+      ]
+    },
+    {
+      "geo": "UK",
+      "accommodation_type": "hotel",
+      "target": "nights_total",
+      "fit_error": "Optimizer did not converge",
+      "warnings": [
+        "Maximum Likelihood optimization failed to converge. Check mle_retvals"
+      ]
+    },
+    {
+      "geo": "UK",
+      "accommodation_type": "short_stay",
+      "target": "arrivals_total",
+      "fit_error": "Optimizer did not converge",
+      "warnings": [
+        "Maximum Likelihood optimization failed to converge. Check mle_retvals"
+      ]
+    },
+    {
+      "geo": "UK",
+      "accommodation_type": "short_stay",
+      "target": "nights_total",
+      "fit_error": "Optimizer did not converge",
+      "warnings": [
+        "Maximum Likelihood optimization failed to converge. Check mle_retvals"
+      ]
+    },
+    {
+      "geo": "UK",
+      "accommodation_type": "total",
+      "target": "arrivals_total",
+      "fit_error": "Optimizer did not converge",
+      "warnings": [
+        "Maximum Likelihood optimization failed to converge. Check mle_retvals"
+      ]
+    },
+    {
+      "geo": "XK",
+      "accommodation_type": "camping",
+      "target": "arrivals_total",
+      "fit_error": "Constant training series",
+      "warnings": []
+    },
+    {
+      "geo": "XK",
+      "accommodation_type": "camping",
+      "target": "nights_total",
+      "fit_error": "Constant training series",
+      "warnings": []
+    },
+    {
+      "geo": "XK",
+      "accommodation_type": "hotel",
+      "target": "arrivals_total",
+      "fit_error": "Optimizer did not converge",
+      "warnings": [
+        "Maximum Likelihood optimization failed to converge. Check mle_retvals"
+      ]
+    },
+    {
+      "geo": "XK",
+      "accommodation_type": "hotel",
+      "target": "nights_total",
+      "fit_error": "Optimizer did not converge",
+      "warnings": [
+        "Maximum Likelihood optimization failed to converge. Check mle_retvals"
+      ]
+    },
+    {
+      "geo": "XK",
+      "accommodation_type": "total",
+      "target": "arrivals_total",
+      "fit_error": "Optimizer did not converge",
+      "warnings": [
+        "Maximum Likelihood optimization failed to converge. Check mle_retvals"
+      ]
+    },
+    {
+      "geo": "XK",
+      "accommodation_type": "total",
+      "target": "nights_total",
+      "fit_error": "Optimizer did not converge",
+      "warnings": [
+        "Maximum Likelihood optimization failed to converge. Check mle_retvals"
+      ]
+    }
+  ],
+  "seasonal_fallback_fits": 233,
+  "model": "sarimax",
+  "test_metrics": {
+    "arrivals_total": {
+      "n": 4522,
+      "mae": 2226628.7683233307,
+      "wape": 160.6015702418909
+    },
+    "nights_total": {
+      "n": 4522,
+      "mae": 686058.5162923554,
+      "wape": 17.69651289621376
+    }
+  },
+  "forecast_sha256": "3fdfa38f2692864493797913b60b609b692136308d546c4ba9f0d76eac489440"
+}

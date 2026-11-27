@@ -20,7 +20,7 @@
 \renewcommand\footnotetextcopyrightpermission[1]{}
 \acmConference[ICIIT 2027]{2027 12th International Conference on Intelligent Information Technology}{March 04--07, 2027}{Ho Chi Minh City, Vietnam}
 
-% Tighten float spacing for 5-page 2-column conference format
+% Float spacing for the two-column conference format
 \setlength{\textfloatsep}{2pt plus 1pt minus 1pt}
 \setlength{\floatsep}{2pt plus 1pt minus 1pt}
 \setlength{\intextsep}{2pt plus 1pt minus 1pt}
@@ -29,7 +29,7 @@
 \setlength{\belowcaptionskip}{2pt}
 \addtolength{\textheight}{6pt}
 
-\input{tables/reviewer_numbers.tex}
+\input{tables/section4_numbers.tex}
 
 \renewcommand{\bottomfraction}{0.7}
 \begin{document}
@@ -63,7 +63,7 @@
 \renewcommand{\shortauthors}{Tran et al.}
 
 \begin{abstract}
-Multi-country tourism demand forecasting is challenging due to temporal heterogeneity, economic fluctuations, and cross-country dependencies. This paper proposes RA-HE-DLinear, a lightweight regime-aware framework for jointly forecasting tourist arrivals and overnight stays. At its core, RA-HE-DLinear combines a regime-aware temporal engine (RA-Exo-DLinear) with forward-filtered HMM regime states and exogenous macroeconomic/calendar signals, while integrating Temporal Regularized Matrix Factorization (TRMF) to model cross-country co-movements. Adaptive validation gating, operational consistency projection ($\Pi_{\mathcal{C}}$), and residual conformal calibration provide forecast coherence and distribution-free uncertainty intervals, supported by TreeSHAP interpretability. We evaluate the framework on monthly Eurostat data covering 38 destinations (2010--2026) and annual UN Tourism data covering 203 global economies (1995--2024). On Eurostat, RA-HE-DLinear achieves WAPE values of 9.16\% for arrivals and 9.64\% for overnight stays (vs.\ 9.36\% and 10.47\% for Vanilla DLinear, while Seasonal Naive achieves 6.04\% and 5.68\% on the full panel). During the pandemic crisis shock, cross-country TRMF pooling lowers arrivals WAPE from 76.98\% to 66.69\%, and achieves 19.82\% arrivals WAPE during post-COVID global recovery. Stress-test evaluations demonstrate robust adaptability across diverse market regimes.
+Multi-country tourism demand forecasting requires models that accommodate seasonal patterns, regime changes, and related targets. We evaluate RA-HE-DLinear, which combines an exogenous linear temporal core, forward-filtered HMM conditioning, spatial pooling inspired by TRMF, fusion selected on validation, projection of point forecasts, and residual conformal calibration. Matched retrospective experiments cover 38 European destinations at monthly frequency and 203 economies at annual frequency. On the recent Eurostat test, arrivals WAPE is \ResultFullArrWAPE\% and nights WAPE is \ResultFullNigWAPE\%. Seasonal Naive obtains \ResultNaiveArrWAPE\%/\ResultNaiveNigWAPE\%, and exogenous-only correction obtains \ResultExoArrWAPE\%/\ResultExoNigWAPE\%. During the pandemic fold, adaptive fusion gives \ResultAdaptiveShockArr\% arrivals WAPE versus \ResultFrozenShockArr\% for the frozen temporal reference; a predeclared static blend gives \ResultStaticShockArr\%. Recent empirical interval coverage is \ResultCoverageArr\%/\ResultCoverageNig\% at 90\% nominal coverage. Annual arrivals WAPE is \ResultAnnualFullAllArr\%, versus \ResultAnnualNaiveAllArr\% for Persistence, with additional limitations from unequal coverage and constructed nights targets. The results support selective use of model components while showing that added complexity and validation gains do not ensure better test accuracy.
 \end{abstract}
 
 \begin{CCSXML}
@@ -93,7 +93,7 @@ Tourism demand forecasting is vital for destination management, accommodation pl
 
 Multi-country tourism forecasting faces several key challenges. Macroeconomic shocks such as pandemics \cite{gossling2020pandemics}, inflation, and energy crises induce abrupt regime shifts in travel demand. Furthermore, cross-country spillover effects and regional co-movements connect destination markets \cite{yang2019spatial,cang2014comparative}, making isolated single-country models suboptimal. Uncoordinated forecasts also risk violating physical consistency between arrivals and overnight stays \cite{kourentzes2019coherent}, while structural shifts undermine reliable uncertainty estimation \cite{barber2023conformal,gibbs2021adaptive}.
 
-Although lightweight linear models such as DLinear \cite{zeng2023dlinear} provide computationally efficient alternatives to complex neural architectures, they do not explicitly model regime transitions, macroeconomic signals, or cross-country dependencies. To bridge this gap, we propose \textbf{RA-HE-DLinear}, a lightweight framework combining linear sequence decomposition with forward-filtered HMM regime states, macroeconomic modulation, and cross-country Temporal Regularized Matrix Factorization (TRMF). The framework incorporates adaptive validation gating, an asymmetric consistency projection $\Pi_{\mathcal{C}}$, distribution-free conformal calibration, and TreeSHAP sensitivity analysis.
+Although lightweight linear models such as DLinear \cite{zeng2023dlinear} provide computationally efficient alternatives to complex neural architectures, they do not explicitly model regime transitions, macroeconomic signals, or cross-country dependencies. To bridge this gap, we propose \textbf{RA-HE-DLinear}, a lightweight framework combining linear sequence decomposition with forward-filtered HMM regime states, macroeconomic modulation, and cross-country Temporal Regularized Matrix Factorization (TRMF). The framework incorporates adaptive validation gating, an asymmetric consistency projection $\Pi_{\mathcal{C}}$, residual conformal calibration, surrogate TreeSHAP analysis, and direct input sensitivity.
 
 The contributions are threefold: (1) designing the RA-Exo-DLinear temporal core with forward-filtered regime conditioning; (2) coupling cross-country matrix factorization with adaptive validation gating and consistency projection $\Pi_{\mathcal{C}}$; and (3) benchmarking across 38 Eurostat destinations and 203 global economies (UN Tourism, 1995--2024).
 
@@ -108,7 +108,7 @@ The contributions are threefold: (1) designing the RA-Exo-DLinear temporal core 
 
 \begin{figure*}[!t]
 \centering
-\includegraphics[width=0.68\textwidth]{figures/ra_he_dlinear_architecture_en.png}
+\includegraphics[width=0.94\textwidth]{figures/section4_architecture.pdf}
 \caption{End-to-end architecture of RA-HE-DLinear, integrating the RA-Exo-DLinear temporal core, forward-filtered HMM regime conditioning, TRMF cross-country factorization, adaptive validation gating, and physical consistency projection $\Pi_{\mathcal{C}}$.}
 \Description{Architecture diagram of the proposed RA-HE-DLinear forecasting framework.}
 \label{fig:architecture}
@@ -157,6 +157,8 @@ To capture cross-country co-movement, normalized country-level matrices $\wideti
 \min_{\mathbf{W}_k, \mathbf{X}_k, \boldsymbol{\Theta}_k} \|\widetilde{\mathbf{Y}}_k - \mathbf{W}_k \mathbf{X}_k^T\|_F^2 + \lambda_w \|\mathbf{W}_k\|_F^2 + \lambda_x \mathcal{R}_{\text{AR}}(\mathbf{X}_k, \boldsymbol{\Theta}_k).
 \label{eq:trmf_objective}
 \end{equation}
+The implemented spatial solver is an approximation to this reference objective: it alternates ridge loading updates and factor reconstruction steps, fits clipped ridge AR coefficients, and applies forecast damping of 0.96. It does not jointly optimize the full AR regularizer; we therefore describe the evaluated component as TRMF-inspired.
+
 Extrapolated latent factors are rescaled and allocated to accommodation categories via historical shares to form spatial forecast $\hat{\mathbf{Y}}_{\text{spatial}}$. Temporal and spatial forecasts are blended via adaptive gating inspired by mixture-of-experts architectures \cite{jacobs1991adaptive,shazeer2017moe}: $\hat{\mathbf{Y}}_{\text{fused}} = w_{\text{time}} \hat{\mathbf{Y}}_{\text{temporal}} + (1 - w_{\text{time}}) \hat{\mathbf{Y}}_{\text{spatial}}$, where $w_{\text{time}} \in [0, 1]$ is selected by evaluating candidate weights on the validation set to minimize validation WAPE. If no weight strictly improves validation WAPE over pure temporal forecasting by at least $\epsilon=10^{-5}$, an adaptive gate defaults to $w_{\text{time}}^{\text{adapt}}=1.0$:
 \begin{equation}
 w_{\text{time}}^{\text{adapt}} = \begin{cases}
@@ -181,122 +183,138 @@ At inference, the arrivals-anchored projection operator $\Pi_{\mathcal{C}}$ enfo
 For uncertainty quantification, split conformal calibration \cite{vovk2005algorithmic,angelopoulos2021conformal,barber2023conformal} evaluates absolute residuals $s_{i,k}=|y_{i,k}-\hat{Y}_{i,k}^*|$ on held-out calibration data. Prediction intervals are formed as $\hat{\mathcal{I}}_{1-\alpha,k}=[\max(0,\hat{Y}_k^*-\hat{Q}_{1-\alpha,k}),\hat{Y}_k^*+\hat{Q}_{1-\alpha,k}]$ using empirical quantile level $\lceil(N_{\text{cal}}+1)(1-\alpha)\rceil/N_{\text{cal}}$ ($\alpha=0.10$). Under exchangeability, split conformal prediction provides finite-sample marginal coverage. Since temporal dependence and distribution shifts may violate this assumption, empirical coverage can deviate from the nominal level.
 
 \subsection{Feature Attribution and Explainability (XAI)}
-\label{sec:method_xai}
-To examine the influence of macroeconomic and calendar features, we compute post-hoc Shapley attributions via TreeSHAP \cite{lundberg2020treeshap} fitted on gradient-boosted surrogates approximating RA-HE-DLinear predictions:
-\begin{equation}
-\phi_j = \sum_{S \subseteq \mathcal{F} \setminus \{j\}} \frac{|S|!(|\mathcal{F}| - |S| - 1)!}{|\mathcal{F}|!} \Big[f_{\text{surr}}(x_{S \cup \{j\}}) - f_{\text{surr}}(x_S)\Big].
-\label{eq:shap_attribution}
-\end{equation}
-We also evaluate relative model sensitivity ratios $\mathcal{S}_j = \frac{\Delta \hat{Y}/\hat{Y}}{\Delta X_j/X_j}$ under simulated accommodation price index perturbations ($\pm 5\%, \pm 10\%$ HICP CP112 shocks, \emph{ceteris paribus}) to examine model response across major destinations.
+To examine forecast associations, we fit CatBoost surrogates to log-transformed outputs of the fused, projected forecasting model. Surrogate training uses forecasts for 2022--2023 and fidelity is evaluated on 2024--2026 forecasts. Inputs summarize the same pre-origin target histories and historical covariates, together with known calendar variables. TreeSHAP \cite{lundberg2020treeshap} decomposes each surrogate prediction as $g(\mathbf x)=\phi_0+\sum_j\phi_j$; mean absolute values quantify surrogate associations in log-output units. They approximate the forecaster only to the extent supported by held-out fidelity.
 
-\section{Experimental Results}
+We separately measure direct input sensitivity by perturbing historical accommodation HICP levels by $\pm5\%$ and $\pm10\%$, rerunning the stored forecasting model, and holding other inputs, states, spatial forecasts, and fusion weights fixed. Uniform level shifts leave percentage-change features unchanged. This model intervention is not an identified economic elasticity; its measured responses are reported in Section~\ref{sec:results_xai}.
+
+\section{Experimental Results and Discussion}
 \label{sec:results}
 
-\subsection{Datasets and Experimental Setup}
+\subsection{Datasets and Evaluation Protocol}
 \label{sec:experimental_setup}
-\enlargethispage{20pt}
-We evaluate the framework on two multi-country panels summarized in Table~\ref{tab:datasets}:
-
-\begin{table}[b]
-\centering
-\caption{Summary of multi-country evaluation datasets.}
-\label{tab:datasets}
-\scriptsize
-\setlength{\tabcolsep}{2.5pt}
-\renewcommand{\arraystretch}{1.01}
-\begin{tabular}{@{}lll@{}}
-\toprule
-\textbf{Characteristic} & \textbf{Eurostat Monthly Panel} & \textbf{UN Tourism Annual Panel} \\
-\midrule
-Coverage & 38 European countries (152 series) & 203 global economies \\
-Time Span & Jan.\ 2010--Jul.\ 2026 (30,248 rows) & 1995--2024 (5,444 rows) \\
-Horizons / Features & $L=24, H=12$ mos / 21 exo.\ features & $L=4, H=1$ yr / 8 exo.\ features \\
-Splits (Train/Val/Cal) & 2010--2021 / 2022 / 2023 & 1995--2016 / 2017 / 2018 \\
-Test Window & Jan.\ 2024--Jul.\ 2026 (4,522 pairs) & 2019--2024 (786 pairs: Pre/Shock/Post) \\
-\bottomrule
-\end{tabular}
-\end{table}
-
-\textbf{Data Coverage and Missing Data Handling:} The \textbf{Eurostat Monthly Panel} \cite{eurostat_tourism_release} covers 38 European destinations across 4 accommodation categories (152 series, Jan.\ 2010--Jul.\ 2026, 30,248 rows, 4,522 observed positive test pairs in Jan.\ 2024--Jul.\ 2026). Unreported months and zero counts are masked via a boolean observation mask $M_{i,t} \in \{0, 1\}$ so backpropagation updates only on valid observations; evaluation is strictly scored on originally observed positive target pairs (\texttt{observed\_pair}). The \textbf{UN Tourism Annual Panel} \cite{un_tourism_database} covers 203 global economies (1995--2024, 5,444 rows). Missing exogenous values in historical series are imputed using forward-fill or regional medians learned strictly on the training partition without lookahead data leakage, while test evaluation is confined strictly to the 786 officially reported economy--year benchmark pairs.
-
-\textbf{Chronological Splits and Stress-Test Folds:} All partitions strictly preserve temporal order without lookahead. For the primary Eurostat benchmark (Table~\ref{tab:reviewer_benchmark}), training spans 2010--2021, validation 2022, calibration 2023, and testing Jan.\ 2024--Jul.\ 2026. For UN Tourism, training spans 1995--2016, validation 2017, calibration 2018, and testing 2019--2024. Furthermore, the four stress-test periods in Table~\ref{tab:reviewer_regimes} follow dedicated rolling splits: Pre-pandemic (train $\le$2016, val 2017, test 2018--2019), Pandemic (train $\le$2018, val 2019, test 2020--2021), Recovery (train $\le$2020, val 2021, test 2022--2023), and Recent (train $\le$2021, val 2022, cal 2023, test 2024--2026), ensuring validation hyperparameter tuning and calibration quantiles never leak future regime dynamics.
-
-\textbf{Baselines and Training:} Baselines include classical statistical models (Seasonal Naive, ETS \cite{athanasopoulos2011tourism}, SARIMA $(1,0,0)(1,0,0)_{12}$ \cite{song2019tourism}, SARIMAX), gradient-boosted trees (LightGBM, 200 trees) \cite{ke2017lightgbm}, deep Transformers (TimesNet \cite{wu2023timesnet}, PatchTST \cite{nie2023patchtst}, iTransformer \cite{liu2024itransformer}), and linear LTSF (Vanilla DLinear \cite{zeng2023dlinear}). RA-HE-DLinear is optimized with AdamW ($\text{lr}=10^{-4}$, batch size 256, 5 epochs, seed 42). Metrics are Weighted Absolute Percentage Error (WAPE) and Mean Absolute Error (MAE) in original counts.
-
-\input{tables/reviewer_benchmark.tex}
-
-\enlargethispage{20pt}
-\subsection{Comparative Performance on Eurostat}
-Table~\ref{tab:reviewer_benchmark} presents test results on the Eurostat panel:
-
-\textbf{Efficiency and Statistical Significance:} With 4,770 parameters ($\approx 4.8\text{k}$, $\sim$2.8s CPU inference on a commodity workstation), RA-HE-DLinear is $21\times$--$30\times$ more compact than evaluated deep Transformers (102.5k--144.3k) and achieves the lowest error among learned models (9.16\% arrivals, 9.64\% nights WAPE). On these monthly series with limited history, evaluated deep Transformers (TimesNet, PatchTST, iTransformer) incur higher errors ($2.4\times$--$3.5\times$ higher WAPE). Over destination test pairs, RA-HE-DLinear statistically significantly outperforms Vanilla DLinear (9.36\% / 10.47\%) under both paired Student's $t$-test ($p < 0.01$ on nights) and two-sided Wilcoxon signed-rank tests ($p < 10^{-5}$ on arrivals, $p < 10^{-14}$ on nights). Seasonal Naive achieves the lowest WAPE on the full Eurostat test panel (6.04\% / 5.68\%), while RA-HE-DLinear achieves the lowest error among the learned models.
-
-\textbf{Econometric Stability and Fallback:} Under post-COVID inflation volatility, 233 of 304 SARIMAX destination-series fits failed numerical convergence in maximum likelihood estimation and defaulted to the seasonal naive fallback. Moreover, 23 converged series exhibited explosive log-inverse divergence ($\exp(\hat{y})$ scaling unregularized inflation coefficients into millions), inflating aggregate arrivals WAPE to 160.60\%. In contrast, RA-HE-DLinear did not exhibit the numerical divergence observed in the evaluated SARIMAX fits, and simulated two-month reporting lags increase WAPE by only +0.28 pp (arrivals) and +0.25 pp (nights).
-
-\subsection{Performance Across Market Regimes and Destination Cases}
-
-\textbf{Market Regimes:} Table~\ref{tab:reviewer_regimes} demonstrates performance across chronological stress-test periods. Monthly log-growth standard deviation of arrivals surged from 0.244 (pre-pandemic) to 1.371 (pandemic shock) before moderating to 0.443 (recovery) and 0.380 (recent 2024--2026), while arrivals--nights growth correlation remained high ($r=0.933$--$0.962$). During the 2020--2021 pandemic collapse, RA-HE-DLinear reduced arrivals WAPE from DLinear's 76.98\% to \textbf{66.69\%} and nights WAPE from 71.45\% to \textbf{63.06\%}; the lower errors are consistent with the possibility that cross-country factor sharing helps capture common movements during the pandemic shock. Unconstrained DLinear produced non-positive arrivals denominators during border closures, yielding 82 undefined or non-positive ratios ($\le 0$) and causing its defined-subset LOS RMSE to explode to 9.394 nights/arrival; in contrast, RA-HE-DLinear produced no non-positive predicted-arrival denominators in this test period, and its LOS RMSE was \textbf{1.253}.
-
-\input{tables/reviewer_regimes.tex}
-
-\enlargethispage{20pt}
-\textbf{Adaptive Forecasting:} In tranquil post-crisis conditions, unconstrained spatial pooling yields 11.62\% / 13.56\% error (Table~\ref{tab:compact_ablation}). These results suggest that cross-country factor sharing may help during synchronized shocks, but can oversmooth local trajectories in less volatile periods. The validation gate selects the temporal core ($w_{\text{time}}^*\to 1.0$), yielding 9.16\% / 9.64\% WAPE on the evaluated test panel and lowering recent LOS MAE to \textbf{0.167} nights/arrival (RMSE 0.342) vs.\ DLinear's 0.182 (RMSE 0.435). Disaggregating by World Bank FY2024 income tiers \cite{worldbank_income_fy24}, high-income destinations have lower DLinear WAPE in this evaluation (DLinear 8.64\% / 10.00\%; RA-HE-DLinear 8.53\% / 9.23\%), whereas in upper-middle-income emerging destinations, RA-HE-DLinear reduces arrivals WAPE from 17.39\% to \textbf{13.47\%} and nights WAPE from 17.87\% to \textbf{12.37\%}.
-
-\begin{figure}[!t]
-\centering
-\includegraphics[width=0.66\columnwidth]{figures/reviewer_country_cases.png}
-\caption{Observed vs.\ forecast tourist arrivals and overnight stays with 90\% conformal intervals for Cyprus (lagging recovery), Sweden (moderate), and Denmark (expansion).}
-\Description{Forecast curves and intervals for Cyprus, Sweden, and Denmark.}
-\label{fig:tourism_cases}
-\end{figure}
-
-\textbf{Destination Cases and Uncertainty:} To examine operational decision support across heterogeneous trajectories, we select three destination archetypes based on pre-test recovery ratio terciles ($\text{Arrivals}_{2023} / \text{Arrivals}_{2019}$; Figure~\ref{fig:tourism_cases}): (1) \textbf{Cyprus} (lagging recovery, ratio 0.98): RA-HE-DLinear reduces arrivals/nights WAPE from DLinear's 17.05\%/20.01\% to \textbf{13.31\%/13.93\%}; (2) \textbf{Sweden} (moderate recovery, ratio 1.03): errors decline from 8.00\%/8.19\% to \textbf{6.13\%/5.89\%}; and (3) \textbf{Denmark} (rapid expansion, ratio 1.14): errors decrease from 9.38\%/11.25\% to \textbf{7.63\%/9.13\%}. Conformal calibration achieves \textbf{86.86\%} empirical coverage for arrivals and \textbf{87.20\%} for overnight stays under post-2023 distribution shift (relative to 90\% nominal).
-
-\subsection{Ablation Study and Global Benchmark}
+We evaluate two frozen panels with different statistical populations (Table~\ref{tab:datasets}). Eurostat arrivals count registrations of resident and non-resident guests at accommodation establishments, and nights count their overnight stays; these are not counts of distinct people or same-day visits \cite{eurostat_tourism_release,eurostat_tourism_scope}. The global panel combines UN Tourism inbound arrivals, retrieved through Our World in Data, with historical WDI arrivals \cite{un_tourism_database,owid_tourist_arrivals,worldbank_arrivals_metadata}. The two panels are evaluated separately.
 
 \begin{table}[!t]
 \centering
-\caption{Eurostat component ablation (Panel A) and UN Tourism global annual benchmark across 203 economies (Panel B).}
-\label{tab:compact_ablation}
+\caption{Dataset snapshots and chronological evaluation folds. Train starts in 2010 for monthly data and 1995 for annual data.}
+\label{tab:datasets}
+\label{tab:protocol_folds}
 \scriptsize
 \setlength{\tabcolsep}{2.5pt}
-\renewcommand{\arraystretch}{0.90}
-\begin{tabular}{@{}lcc@{}}
+\renewcommand{\arraystretch}{1.06}
+\begin{tabular}{@{}p{0.22\columnwidth}p{0.35\columnwidth}p{0.35\columnwidth}@{}}
 \toprule
-\textbf{Panel A: Eurostat Ablation Config.} & \textbf{Arr.\ WAPE (MAE)} & \textbf{Nig.\ WAPE (MAE)} \\
+\textbf{Panel A: Data} & \textbf{Eurostat monthly} & \textbf{Global annual} \\
 \midrule
-Vanilla DLinear & 9.36\% (129,751) & 10.47\% (405,781) \\
-DLinear + Exogenous ($E$) & 9.16\% (127,051) & 9.67\% (374,958) \\
-DLinear + Static FiLM (ungated) & 11.51\% (159,624) & 14.15\% (548,445) \\
-DLinear + HMM ($H$) + Soft FiLM & 10.97\% (152,101) & 13.26\% (514,070) \\
-w/o Adaptive Gating (Static Blend + $\Pi_{\mathcal{C}}$) & 11.62\% (161,064) & 13.56\% (525,863) \\
-\textbf{RA-HE-DLinear (Proposed Full)} & \textbf{9.16\% (127,051)} & \textbf{9.64\% (373,738)} \\
+Coverage & 38 destinations, 152 series & 203 economies, 203 series \\
+Reference span & Jan.\ 2010--Jul.\ 2026 & 1995--2024 \\
+Source rows & 30,248 & 5,444 (unbalanced) \\
+Lookback / horizon & 24 / 12 months & 4 / 1 calendar years \\
+Exogenous inputs & 14 calendar, 7 historical & 2 calendar/event, 6 historical \\
+Recent test & 4,522 of 4,712 grid pairs, 37 observed destinations & 786 of 1,218 grid pairs, 186 observed economies \\
+\bottomrule
+\end{tabular}
+\par\vspace{4pt}
+\begin{tabular}{@{}lcccc@{}}
+\toprule
+\textbf{Panel B: Fold} & \textbf{Train end} & \textbf{Val.} & \textbf{Cal.} & \textbf{Test} \\
 \midrule
-\textbf{Panel B: UN Tourism Global (203 Econ., 1995--2024)} & \textbf{Arr.\ WAPE (MAE)} & \textbf{Nig.\ WAPE (\%)} \\
-\midrule
-Persistence (1-Year Naive, Test 2019--2024) & 43.12\% (2,442k) & 45.58\% \\
-RA-HE-DLinear: Pre-COVID (2019) & 10.96\% (845k) & 14.16\% \\
-RA-HE-DLinear: Pandemic Shock (2020--2021) & 184.02\% (4,504k) & 187.59\% \\
-RA-HE-DLinear: Post-COVID Recovery (2022--2024) & 19.82\% (1,648k) & 28.07\% \\
-\textbf{RA-HE-DLinear (Full + $\Pi_{\mathcal{C}}$, Test 2019--2024)} & \textbf{47.30\% (2,679k)} & \textbf{52.25\%} \\
+Monthly pre-pandemic & 2015 & 2016 & 2017 & 2018--2019 \\
+Monthly pandemic & 2017 & 2018 & 2019 & 2020--2021 \\
+Monthly recovery & 2019 & 2020 & 2021 & 2022--2023 \\
+Monthly recent & 2021 & 2022 & 2023 & 2024--Jul.\ 2026 \\
+Annual global & 2016 & 2017 & 2018 & 2019--2024 \\
 \bottomrule
 \end{tabular}
 \end{table}
 
-\textbf{Component Roles and Factorial vs.\ Ablation Analysis:} Exogenous signals ($E$) yield the largest error reduction in Table~\ref{tab:compact_ablation} (cutting nights WAPE from 10.47\% to 9.67\%). Conversely, relative to Vanilla DLinear (9.36\% / 10.47\%), ungated FiLM ($F, g_r=1$) amplifies noise and degrades performance (+2.15 pp arrivals, +3.68 pp nights; 11.51\% / 14.15\%); these results indicate that soft-gated modulation is beneficial under the evaluated configuration. Static spatial blending without adaptive gating causes over-smoothing (11.62\% / 13.56\%), whereas adaptive gating dynamically recovers the temporal baseline. Multi-seed factorial analysis ($-1.75\pm0.74$ pp for $E$, $-0.14\pm0.05$ pp for $H$, $+3.37\pm1.51$ pp for ungated $F$) isolates marginal main effects across all background configurations, whereas Table~\ref{tab:compact_ablation} reports single-seed sequential additions. In Panel A, DLinear + Exogenous and Full RA-HE-DLinear share identical arrivals metrics (9.16\% WAPE, 127,051 MAE) because validation gating selects $w_{\text{time}}^*\to 1.0$ and $\Pi_{\mathcal{C}}$ preserves arrivals, while coupled loss and $\Pi_{\mathcal{C}}$ refine nights WAPE to 9.64\%.
+\textbf{Targets and eligibility.} Monthly series are keyed by destination, category, and reference month. Hotels, short-stay accommodation, and camping overlap their aggregate category \texttt{total}; pooled benchmarks include all four, while destination and LOS diagnostics use only \texttt{total}. The original observation mask retains pairs with both targets reported and nonnegative before any filling. The recent test includes 166 pairs with at least one zero and excludes 190 missing pairs. The monthly train/validation/calibration partitions contain 21,888/1,824/1,824 grid rows and 18,519/1,740/1,735 eligible pairs. Missing historical inputs are forward-filled within series, then filled with series or pooled training medians; zero is the final fallback. All neural and LightGBM output windows must have originally observed labels throughout their horizon. Imputed targets can enter histories but are never promoted to observed evaluation outcomes.
 
-\textbf{UN Tourism Multi-Period Benchmark:} In Panel B, error rates reflect contrasting regimes: RA-HE-DLinear achieves 10.96\% arrivals WAPE in tranquil pre-COVID 2019 and 19.82\% during recovery (2022--2024). Across the entire 2019--2024 test window, pooled volume-weighted error is 47.30\% (vs.\ 43.12\% for 1-Year Persistence); this aggregate figure is heavily dominated by the 2020--2021 shutdown (184.02\% vs.\ 141.75\% for Persistence), where pre-trained linear models suffered while Persistence predicted already-collapsed volumes in 2021. In the recovery period (2022--2024), RA-HE-DLinear achieves 19.82\% arrivals WAPE, achieving a lower WAPE than Persistence (30.67\%) during this recovery period, whereas in tranquil 2019, Persistence benefited from minimal drift (5.60\% vs.\ 10.96\%).
+Annual nights are mixed-source targets: 315 of 5,444 rows use eligible OECD observations and 5,129 are constructed from arrivals and income-adjusted regional LOS assumptions. The test contains 108 OECD and 678 constructed nights targets. Thus nights accuracy and the lower-bound constraint are partly evaluated against a construction rule. Annual training, validation, and calibration have 4,274, 194, and 190 observed source rows. Test counts in 2019--2024 are 186, 177, 159, 132, 67, and 65, so cross-period comparisons also reflect changing country coverage.
 
-\subsection{Surrogate Feature Attribution and Input Sensitivity Analysis}
+Annual histories are reindexed to a complete calendar-year grid, and the five macro lags are reconstructed by calendar-year shifting the unfilled WDI workbook. Missing and non-finite values in target histories and annual covariates are filled within each country by forward-filling in chronological order, followed by country-specific training medians, pooled training medians, and zero if both medians are unavailable. All medians use only training years through 2016; no backward filling is applied. Original targets, the pre-imputation eligibility mask, and nights-source flags are preserved separately. Filled target values can enter histories, while evaluation uses only pairs with both source targets present and nonnegative before filling; constructed nights retain their source labels.
+
+\textbf{Forecast origins and information sets.} At the end of December before each monthly forecast year, models receive 24 historical months and issue a January--December block; the 2026 block is scored through July. Annual models use four preceding calendar-year rows for one-year forecasts. Observations from earlier test years can enter later origins, but parameters remain fixed after training. Statistical states are updated using pre-origin histories without parameter refitting. The spatial component extrapolates from the training endpoint. Future inputs contain only calendar/event features; macro inputs and HMM states use the historical prefix. Target-derived LOS ratios and observation/source masks are excluded from model covariates. HMM parameters and standardization are fitted on training data and states are forward-filtered. SARIMAX holds future macro inputs at their last pre-origin values. The retained monthly calendar defines \texttt{weekend\_days} as Friday--Sunday and \texttt{working\_days} as the remaining days; public holidays are encoded separately.
+
+These are retrospective reference-period experiments. Reference dates are not publication dates, and historical release vintages are unavailable. The monthly source enrichment code uses pre-2022 HICP medians, potentially extending beyond early folds' training boundaries; this upstream uncertainty is not removed by fold-specific filling. Historical event calendars can also reflect later schedule changes. Accordingly, we do not claim a publication-aware real-time backtest. The annual macro reconstruction removes backward filling from the new macro preprocessing but cannot recover unavailable historical vintages or validate the constructed nights targets.
+
+\textbf{Configuration and reproducibility.} Linear correction models use a 13-step decomposition kernel, AdamW with learning rate $10^{-4}$ and weight decay $10^{-4}$, batch size 256, five epochs, seed 42, and coupled-loss weight 0.2 when enabled. Their backbone projections are frozen at their initialization; the \emph{Frozen DLinear} reference therefore differs from a trained Vanilla DLinear. The separate learned DLinear and local Transformer implementations use per-series training-fitted log standardization, AdamW ($10^{-3}$, weight decay $10^{-5}$), batch size 128, at most 30 epochs, and validation early stopping with patience six. The annual correction models use 30 epochs and learning rate 0.005, with rank-four spatial factors and annual lags $\{1,2\}$. HMMs have three Gaussian states and 200 fitting iterations. ETS selects no-trend versus damped-trend seasonal specifications on validation; SARIMA/SARIMAX use $(1,0,0)(1,0,0)_{12}$; LightGBM uses 200 trees, learning rate 0.05, and 31 leaves. Unsupported statistical fits use recorded seasonal-naive fallbacks.
+
+For each target on the common eligible set $\mathcal E$, metrics in original counts are
+\begin{equation}
+\mathrm{WAPE}=100\frac{\sum_{j\in\mathcal E}|Y_j-\hat Y_j|}{\max(1,\sum_{j\in\mathcal E}Y_j)},\qquad
+\mathrm{MAE}=\frac{\sum_{j\in\mathcal E}|Y_j-\hat Y_j|}{|\mathcal E|}.
+\label{eq:evaluation_metrics}
+\end{equation}
+Pooled WAPE is not the mean of country percentage errors. All principal results use seed 42. The reproducibility package retains exact input and source hashes, source snapshots, checkpoints, origin-keyed predictions, masks, timings, and independently recalculated metrics. The monthly snapshot uses LF-normalized SHA-256 prefix \texttt{a2f70a0c9667}. The current annual prefix is \texttt{\ResultAnnualHash}. Byte hashes also record line-ending differences. Computation uses an Intel Core i7-10750H CPU with one PyTorch thread, Python 3.14.8, PyTorch 2.15.0, NumPy 2.5.4, pandas 3.0.6, statsmodels 0.15.0, LightGBM 4.7.0, hmmlearn 0.3.3, and SciPy 1.18.1. No historical result is silently substituted for a new configuration.
+
+\subsection{Forecasting Accuracy and Efficiency}
+\label{sec:accuracy_efficiency}
+Seasonal Naive achieves the lowest pooled errors in Table~\ref{tab:section4_benchmark} (\ResultNaiveArrWAPE\% arrivals and \ResultNaiveNigWAPE\% nights). All models share identical test keys, outcomes, observation masks, and January origins. The full framework obtains \ResultFullArrWAPE\% and \ResultFullNigWAPE\%, compared with \ResultFrozenArrWAPE\% and \ResultFrozenNigWAPE\% for the frozen reference. Exogenous-only correction reaches \ResultExoArrWAPE\% and \ResultExoNigWAPE\%; the full framework therefore does not improve both targets over this simpler configuration. Learned DLinear obtains \ResultLearnedArrWAPE\%/\ResultLearnedNigWAPE\% under the separate trainable-backbone protocol. These comparisons concern the evaluated implementations and tuning budgets, not universal rankings of model families.
+
+\input{tables/section4_benchmark.tex}
+
+The full temporal computation graph has \ResultFullParameters{} active scalar parameters. CPU costs cover instrumented fitting and prediction calls, including feature construction but excluding common panel completion and shared HMM state preparation. Disabled wrapper branches are excluded from active parameter counts. These measurements concern this CPU and implementation; they are not universal latency or model-family rankings.
+
+Unstable statistical fits are retained in the aggregate scores rather than selectively removed; their convergence diagnostics and fallback decisions are archived. In particular, a numerically finite inverse-log SARIMAX forecast can still be extremely large, so its aggregate error does not establish that all econometric forecasting is unreliable. The primary ETS row uses validation-selected seasonal models on scaled counts; fixed log-ETS results are retained only as a sensitivity archive. Across 1,000 paired destination-block bootstrap resamples, full-minus-frozen WAPE differences are \ResultDeltaArr{} percentage points for arrivals (95\% interval [\ResultLowerArr, \ResultUpperArr]) and \ResultDeltaNig{} for nights ([\ResultLowerNig, \ResultUpperNig]). These descriptive intervals preserve within-destination dependence and do not establish robustness to all cross-country dependencies.
+
+\subsection{Regime-Dependent Forecasting Performance}
+\label{sec:regime_performance}
+Forecasting performance varies across market regimes: the fixed static blend improves pandemic arrivals accuracy but increases error in tranquil periods, while validation-selected fusion can deteriorate during recovery (Table~\ref{tab:section4_regimes}). The comparison separates temporal-only references, TRMF-only extrapolation, fixed static blending, and the current adaptive framework. Seasonal Naive and learned DLinear are included in every fold. All configurations within a fold share reference periods and scoring eligibility; no test outcomes select fusion weights.
+
+\input{tables/section4_regimes.tex}
+
+In the pandemic fold, the frozen temporal reference obtains \ResultFrozenShockArr\% arrivals WAPE. The current adaptive framework reduces this to \ResultAdaptiveShockArr\%, while the predeclared static blend ($w_{\rm time}=0.7$) gives \ResultStaticShockArr\%. Both current fusion rows use the same final point projection. The previously reported \textbf{66.69\%} is traced separately to the archived 2020--2021 experiment: training ends in 2017, validation is 2018, calibration is 2019, and the earlier regularized sigmoid gate selects $w_{\rm time}=0.7380328366$. That run uses ungated FiLM and an $L_2$ penalty of 0.005 on the gate logit. It is neither the fixed 0.7 blend nor the current bounded adaptive configuration. Its archived row is included for provenance, not as a replacement for the new full-model result.
+
+Current adaptive temporal weights are \ResultWeightTranquil, \ResultWeightShock, \ResultWeightRecovery, and \ResultWeightRecent{} for the pre-pandemic, pandemic, recovery, and recent folds. A single validation-selected weight is held fixed throughout each fold's test interval; ``adaptive'' here denotes validation-based selection, not online updating at every forecast month. The recovery fold illustrates its limitation: validation during 2020 selects substantial spatial weight, but the resulting 2022--2023 arrivals WAPE is \ResultAdaptiveRecoveryArr\%, compared with \ResultFrozenRecoveryArr\% for the frozen reference. Validation improvements therefore need not survive a change in market regime.
+
+\subsection{Component Contributions and Adaptive Fusion}
+\label{sec:component_contributions}
+Exogenous correction yields lower arrivals and nights errors than the full framework on the recent fold, while ungated FiLM and fixed spatial blending can increase error (Table~\ref{tab:section4_components_global}, Panel A). The component ladder reports single-seed configurations, while Table~\ref{tab:section4_regimes} evaluates temporal robustness across folds. The two tables have different purposes; the component ladder is not interpreted as a multi-seed factorial estimate of causal main effects.
+
+\input{tables/section4_components_global.tex}
+
+Exogenous correction lowers arrivals WAPE from \ResultFrozenArrWAPE\% to \ResultExoArrWAPE\% and nights WAPE from \ResultFrozenNigWAPE\% to \ResultExoNigWAPE\%. HMM-only intercept conditioning has little effect under this setup, and ungated FiLM can degrade both targets. Soft gates and the coupled loss are reported as separate configurations so their effects are not conflated with HMM state conditioning. The full temporal core yields \ResultCoreArrWAPE\%/\ResultCoreNigWAPE\%, compared with \ResultNoConsArrWAPE\%/\ResultNoConsNigWAPE\% without its coupled loss. These modest, target-dependent differences do not support a claim that every added component improves accuracy.
+
+The unprojected static 0.7 blend yields \ResultStaticArrWAPE\%/\ResultStaticNigWAPE\%, whereas validation-selected fusion reduces its spatial contribution and gives \ResultFullArrWAPE\%/\ResultFullNigWAPE\% after projection. However, it still underperforms the temporal core on this test set. The gate objective averages the two targets' WAPE fractions and applies $\epsilon=10^{-5}$ on that scale. The fallback in Equation~\ref{eq:adaptive_fallback} protects validation performance only. The spatial implementation is TRMF-inspired: rank-four factors, clipped ridge AR extrapolation, and damping approximate cross-country pooling; it is not an exact optimizer of the full TRMF objective. Its forecasts demonstrate shared low-rank structure, not identified causal cross-border spillovers.
+
+On the recent fold, exogenous-only correction achieves arrivals WAPE of \ResultExoArrWAPE\% and MAE of \ResultExoArrMAE, compared with \ResultFullArrWAPE\% and \ResultFullArrMAE{} for the full framework. The full framework additionally includes regime-conditioned modulation, the coupled training loss, and spatial fusion with a validation-selected temporal weight of \ResultWeightRecent.
+
+\subsection{Global Benchmark and Generalization}
+\label{sec:global_generalization}
+Persistence achieves lower pooled arrivals and nights WAPE than the re-estimated full model on the annual global panel (Table~\ref{tab:section4_components_global}, Panel B). The annual benchmark uses the calendar-grid completion and missing-data protocol in Section~\ref{sec:experimental_setup}, preserving the pre-imputation scoring mask. The model is retrained with annual histories, calendar/event inputs, forward-filtered annual regimes, and annual spatial lags. This is a cross-dataset benchmark, not zero-shot transfer of monthly parameters. A chronological calibration year remains separate from validation, and the new package includes predictions and source flags for every annual evaluation key.
+
+Across 2019--2024, full-model arrivals WAPE is \ResultAnnualFullAllArr\%, compared with \ResultAnnualNaiveAllArr\% for Persistence; corresponding mixed-source nights errors are \ResultAnnualFullAllNig\% and \ResultAnnualNaiveAllNig\%. Full-model arrivals WAPE is \ResultAnnualFullPreArr\% in 2019, \ResultAnnualFullShockArr\% in 2020--2021, and \ResultAnnualFullRecoveryArr\% in 2022--2024. Persistence yields \ResultAnnualNaivePreArr\%, \ResultAnnualNaiveShockArr\%, and \ResultAnnualNaiveRecoveryArr\% in those periods, respectively. It has lower arrivals error in all three groups under this configuration. These comparisons are interpreted alongside the unequal country counts, rather than attributed solely to regime changes.
+
+Annual nights results require particular caution. Separately evaluating the 108 OECD nights observations gives \ResultAnnualObservedNig\% full-model nights WAPE, versus \ResultAnnualConstructedNig\% on the 678 constructed targets. The pooled figure cannot establish independent validation of global overnight-stay forecasting. Cross-source definitions, constructed LOS assumptions, sparse later-year coverage, and unavailable historical releases limit the strength of generalization claims. The evidence supports testing the framework in a second data setting, with substantial remaining limitations, rather than asserting universal superiority across global tourism markets.
+
+\subsection{Forecast Consistency, Uncertainty and Explainability}
 \label{sec:results_xai}
-Post-hoc feature attributions are computed via TreeSHAP \cite{lundberg2020treeshap} on a gradient-boosted surrogate model approximating RA-HE-DLinear test predictions ($R^2 > 0.95$). Normalized percentage attribution indicates that \textbf{lodging inflation (HICP)} accounts for the largest share in approximating model predictions (\textbf{37.88\%}, mean $|\text{SHAP}|=284.7\text{k}$), followed by \textbf{health stringency} (\textbf{28.07\%}, $210.9\text{k}$), \textbf{weekend days} (\textbf{19.67\%}), and \textbf{working days} (\textbf{14.39\%}). Model-based sensitivity simulations under $\pm 5\%$ and $\pm 10\%$ HICP perturbations (\emph{ceteris paribus}, holding other features constant across France, Spain, Italy, and Germany hotels) indicate negative response: a $+10\%$ simulated price index increase contracts predicted hotel arrivals by \textbf{$-7.20\%$} and overnight stays by \textbf{$-7.56\%$} ($\mp 3.60\%$ and $\mp 3.78\%$ for $\pm 5\%$). Both TreeSHAP attributions and simulated perturbations reflect surrogate feature associations and model input sensitivity rather than established econometric causal mechanisms.
+\textbf{Point consistency and LOS.} Projection intervenes on \ResultProjectionCount{} of the 4,712 recent forecast pairs (\ResultProjectionRate\%) and removes all violations of the specified point constraint $\hat N\geq\hat A$. Arrivals change only through float32 rounding (maximum \ResultProjectionRounding{} arrivals). The source itself contains 14 reported pairs with $N<A$, including two recent test pairs; these remain in the common scoring mask. The constraint is therefore an imposed operational rule, not a statement that every source observation already satisfies it. The operator does not impose an upper LOS bound or a historical economic band.
 
-\enlargethispage{75pt}
+LOS is compared on a shared subset of \ResultLOSSharedCount{} observed aggregate-category pairs with positive observed arrivals and positive forecast arrivals for all three forecasts. LOS MAE/RMSE are \ResultFrozenLOSMAE/\ResultFrozenLOSRMSE{} nights per arrival for Frozen DLinear, \ResultRawLOSMAE/\ResultRawLOSRMSE{} for adaptive fusion before projection, and \ResultFullLOSMAE/\ResultFullLOSRMSE{} after projection. Most of the improvement over the frozen reference is already present before projection; the operator provides a smaller additional reduction in LOS error while enforcing the point constraint. Undefined forecast ratios over the eligible aggregate-category observations are counted separately (full: \ResultFullLOSUndefined; frozen: \ResultFrozenLOSUndefined); projection does not make a zero arrivals denominator positive.
+
+\begin{figure*}[!t]
+\centering
+\includegraphics[width=0.94\textwidth]{figures/section4_country_cases.png}
+\caption{Observed aggregate-category arrivals and nights, frozen DLinear forecasts, and current adaptive full-model forecasts with marginal 90\% nominal intervals. Cyprus, Sweden, and Denmark are the destination cases selected before this rerun using pre-test recovery profiles. Curves and intervals are generated from the same keyed forecasts used for the tables.}
+\Description{Six panels show actual arrivals and nights and two forecasts for Cyprus, Sweden, and Denmark, with shaded conformal intervals.}
+\label{fig:tourism_cases}
+\end{figure*}
+
+\textbf{Uncertainty.} For each fold, separate absolute-residual conformal quantiles are estimated after point projection on its held-out calibration year (Table~\ref{tab:protocol_folds}), using finite-sample rank $\lceil0.9(n+1)\rceil$. At 90\% nominal coverage, empirical arrivals/nights coverage is \ResultCoverageTranquilArr\%/\ResultCoverageTranquilNig\% before the pandemic, \ResultCoverageShockArr\%/\ResultCoverageShockNig\% during the pandemic, \ResultCoverageRecoveryArr\%/\ResultCoverageRecoveryNig\% during recovery, and \ResultCoverageRecentArr\%/\ResultCoverageRecentNig\% in the recent fold. The substantial pandemic undercoverage shows that this fixed calibration rule does not maintain its nominal level across market shifts.
+
+The recent fold uses 1,735 observed 2023 calibration pairs. Its normalized mean interval widths are \ResultWidthArr{} for arrivals and \ResultWidthNig{} for nights, with each mean width divided by that target's mean observed count. Figure~\ref{fig:tourism_cases} illustrates the recent destination forecasts; it does not replace pooled coverage evaluation. Nominal 90\% coverage is an exchangeability-based marginal property, not an unconditional guarantee under temporal distribution shift. Separate marginal intervals also do not guarantee simultaneous 90\% coverage or joint cross-target feasibility.
+
+\textbf{Surrogate fidelity and direct sensitivity.} TreeSHAP \cite{lundberg2020treeshap} is recomputed on CatBoost surrogates fitted to the actual fused, projected model forecasts for 2022--2023, with 2024--2026 reserved for fidelity evaluation. Surrogate $R^2$ is \ResultFidelityCountsArr{} for arrivals and \ResultFidelityCountsNig{} for nights in count space, and \ResultFidelityLogArr/\ResultFidelityLogNig{} in log space. The largest mean absolute attributions concern prior-year seasonal arrivals/nights; accommodation category and recent target levels also contribute. SHAP values explain the log-output surrogate and retain its approximation error, particularly for nights; they are not exact causal contributions of the forecasting network.
+
+Direct sensitivity is measured separately by passing perturbed histories through the stored full model. A uniform $+10\%$ accommodation HICP shift for France, Spain, Italy, and Germany hotels changes pooled forecast arrivals by \ResultPriceArr\% and nights by \ResultPriceNig\%, over 124 eligible test pairs. Percentage price-change inputs, other variables, HMM states, spatial forecasts, and the gate are held fixed. These small responses describe this trained model under the stated intervention; they do not estimate a causal demand elasticity or justify a pricing policy. Operational consistency, interval calibration, surrogate approximation, and input sensitivity thus remain distinct evaluation claims.
+
 \section{Conclusion}
 \label{sec:conclusion}
-The results also highlight the complementary roles of temporal and cross-country information. Static TRMF pooling improved arrivals forecasts during the synchronized pandemic shock, reducing WAPE from 76.98\% to 66.69\%. In contrast, during the post-recovery period, the results show that the model relied primarily on temporal information, while the contribution of cross-country information decreased. Residual conformal prediction achieved empirical coverage of 86.86\% for arrivals and 87.20\% for overnight stays, indicating undercoverage relative to the 90\% nominal level under temporal distribution shifts. 
+The matched experiments show that the contribution of exogenous correction, regime conditioning, and cross-country pooling depends on the target and evaluation period. The full framework obtains \ResultFullArrWAPE\%/\ResultFullNigWAPE\% arrivals/nights WAPE on the recent monthly panel, while Seasonal Naive and the simpler exogenous-only configuration perform better in this evaluation. Adaptive fusion improves the frozen temporal reference during the pandemic fold, but a validation-selected weight can transfer poorly to recovery periods.
 
-This study has several limitations. First, the framework focuses on demand forecasting and does not explicitly model supply-side constraints, such as accommodation capacity or dynamic pricing. Future work could incorporate these operational factors. Second, real-time data vintages and revision histories were unavailable for historical Eurostat series. Incorporating such information could improve the assessment of forecasting performance under realistic data-release conditions. Third, the observed conformal undercoverage suggests the need for online adaptive conformal methods that account for non-exchangeable data and changing market regimes.
+Point projection enforces the specified arrivals--nights lower bound, while conformal intervals achieve empirical coverage of \ResultCoverageArr\%/\ResultCoverageNig\% relative to 90\% nominal. Neither result establishes supply feasibility or distribution-free real-time operational performance. Annual global re-estimation does not outperform Persistence across the complete test window, and its nights results are limited by target construction and cross-source coverage. Future work should recover publication-aware vintages, rebuild monthly source-stage imputation by fold, evaluate broader tuning budgets and multiple seeds, and develop calibration and fusion updates that respond to distribution shift.
 
 \section*{Acknowledgments}
 The authors express their sincere gratitude to Lecturer Le Thi Thu Nga for her valuable guidance, insightful discussions, and continuous support throughout this research.
@@ -399,8 +417,17 @@ N.~Kourentzes and G.~Athanasopoulos. 2019. Cross-temporal coherent forecasts for
 \bibitem{eurostat_tourism_release}
 Eurostat. 2026. Tourism Statistics Database (\texttt{tour\_occ\_arm}, \texttt{tour\_occ\_nim}). \url{https://ec.europa.eu/eurostat/en/web/tourism/information-data}
 
+\bibitem{eurostat_tourism_scope}
+Eurostat. 2024. Occupancy of Tourist Accommodation Establishments (\texttt{tour\_occ}): Reference Metadata. \url{https://ec.europa.eu/eurostat/cache/metadata/en/tour_occ_esms.htm}
+
 \bibitem{un_tourism_database}
 UN Tourism. 2025. UN Tourism Statistics Database (Arrivals of tourists from abroad, 1995--2024). \url{https://www.unwto.org/tourism-statistics}
+
+\bibitem{owid_tourist_arrivals}
+Our World in Data. 2026. Arrivals of Tourists from Abroad. UN Tourism (2025), processed by Our World in Data. \url{https://ourworldindata.org/grapher/international-tourist-trips}
+
+\bibitem{worldbank_arrivals_metadata}
+World Bank. 2026. International Tourism, Number of Arrivals (\texttt{ST.INT.ARVL}): WDI Metadata Glossary. \url{https://databank.worldbank.org/metadataglossary/world-development-indicators/series/ST.INT.ARVL}
 
 \bibitem{worldbank_income_fy24}
 World Bank. 2023. World Bank Group country classifications by income level for FY24. \url{https://blogs.worldbank.org/en/opendata/new-world-bank-group-country-classifications-income-level-fy24}

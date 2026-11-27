@@ -1,0 +1,1317 @@
+{
+  "audit_date": "2026-11-27",
+  "monthly": {
+    "snaive": {
+      "grid_rows": 4712,
+      "scored_pairs": 4522,
+      "arrivals_total": {
+        "n": 4522,
+        "mae": 83753.22379478106,
+        "wape": 6.040925836232224
+      },
+      "nights_total": {
+        "n": 4522,
+        "mae": 220024.07231313578,
+        "wape": 5.67540339592205
+      },
+      "physical_violation_pct": 0.08488964346349745,
+      "cpu_seconds": 2.4203632003627717,
+      "active_parameters": null
+    },
+    "ets": {
+      "grid_rows": 4712,
+      "scored_pairs": 4522,
+      "arrivals_total": {
+        "n": 4522,
+        "mae": 175870.75677244618,
+        "wape": 12.685149899753307
+      },
+      "nights_total": {
+        "n": 4522,
+        "mae": 522786.7296320775,
+        "wape": 13.485004388402729
+      },
+      "physical_violation_pct": 2.504244482173175,
+      "cpu_seconds": 71.03125389991328,
+      "active_parameters": null
+    },
+    "sarima": {
+      "grid_rows": 4712,
+      "scored_pairs": 4522,
+      "arrivals_total": {
+        "n": 4522,
+        "mae": 390812.5504151638,
+        "wape": 28.188403096119202
+      },
+      "nights_total": {
+        "n": 4522,
+        "mae": 1022215.2685741913,
+        "wape": 26.367496727234137
+      },
+      "physical_violation_pct": 0.8913412563667233,
+      "cpu_seconds": 137.13429729966447,
+      "active_parameters": null
+    },
+    "sarimax": {
+      "grid_rows": 4712,
+      "scored_pairs": 4522,
+      "arrivals_total": {
+        "n": 4522,
+        "mae": 2226628.7683233307,
+        "wape": 160.6015702418909
+      },
+      "nights_total": {
+        "n": 4522,
+        "mae": 686058.5162923554,
+        "wape": 17.69651289621376
+      },
+      "physical_violation_pct": 8.786078098471986,
+      "cpu_seconds": 370.1576081998646,
+      "active_parameters": null
+    },
+    "lightgbm": {
+      "grid_rows": 4712,
+      "scored_pairs": 4522,
+      "arrivals_total": {
+        "n": 4522,
+        "mae": 589307.6272588165,
+        "wape": 42.50539274427698
+      },
+      "nights_total": {
+        "n": 4522,
+        "mae": 1779792.540747395,
+        "wape": 45.90879772200021
+      },
+      "physical_violation_pct": 2.4193548387096775,
+      "cpu_seconds": 411.13615329982713,
+      "active_parameters": null
+    },
+    "timesnet": {
+      "grid_rows": 4712,
+      "scored_pairs": 4522,
+      "arrivals_total": {
+        "n": 4522,
+        "mae": 419037.64235860505,
+        "wape": 30.224213533326388
+      },
+      "nights_total": {
+        "n": 4522,
+        "mae": 1147109.7867568065,
+        "wape": 29.58908409798723
+      },
+      "physical_violation_pct": 2.82258064516129,
+      "cpu_seconds": 240.83171060029417,
+      "active_parameters": 144334
+    },
+    "patchtst": {
+      "grid_rows": 4712,
+      "scored_pairs": 4522,
+      "arrivals_total": {
+        "n": 4522,
+        "mae": 370216.04048451426,
+        "wape": 26.70282459133062
+      },
+      "nights_total": {
+        "n": 4522,
+        "mae": 990341.8013460209,
+        "wape": 25.545337668705667
+      },
+      "physical_violation_pct": 0.9550084889643463,
+      "cpu_seconds": 58.502294400241226,
+      "active_parameters": 106380
+    },
+    "itransformer": {
+      "grid_rows": 4712,
+      "scored_pairs": 4522,
+      "arrivals_total": {
+        "n": 4522,
+        "mae": 336580.056220298,
+        "wape": 24.276739037099503
+      },
+      "nights_total": {
+        "n": 4522,
+        "mae": 919088.1379247427,
+        "wape": 23.707387488520467
+      },
+      "physical_violation_pct": 0.4032258064516129,
+      "cpu_seconds": 24.27414740016684,
+      "active_parameters": 102476
+    },
+    "dlinear": {
+      "grid_rows": 4712,
+      "scored_pairs": 4522,
+      "arrivals_total": {
+        "n": 4522,
+        "mae": 129750.9472230897,
+        "wape": 9.358634973575885
+      },
+      "nights_total": {
+        "n": 4522,
+        "mae": 405781.1145689305,
+        "wape": 10.466907058914806
+      },
+      "physical_violation_pct": 1.931239388794567,
+      "cpu_seconds": 11.068979399744421,
+      "active_parameters": 600
+    },
+    "learned_dlinear": {
+      "grid_rows": 4712,
+      "scored_pairs": 4522,
+      "arrivals_total": {
+        "n": 4522,
+        "mae": 376756.5415605912,
+        "wape": 27.174575768684583
+      },
+      "nights_total": {
+        "n": 4522,
+        "mae": 1175143.8202565603,
+        "wape": 30.312207014735446
+      },
+      "physical_violation_pct": 0.530560271646859,
+      "cpu_seconds": 6.450269700028002,
+      "active_parameters": 600
+    },
+    "exo": {
+      "grid_rows": 4712,
+      "scored_pairs": 4522,
+      "arrivals_total": {
+        "n": 4522,
+        "mae": 127051.4738342777,
+        "wape": 9.163928217228772
+      },
+      "nights_total": {
+        "n": 4522,
+        "mae": 374957.6915848063,
+        "wape": 9.671833330668044
+      },
+      "physical_violation_pct": 2.2495755517826828,
+      "cpu_seconds": 12.477648799773306,
+      "active_parameters": 4690
+    },
+    "adaptive": {
+      "grid_rows": 4712,
+      "scored_pairs": 4522,
+      "arrivals_total": {
+        "n": 4522,
+        "mae": 133777.3355698663,
+        "wape": 9.649049029163114
+      },
+      "nights_total": {
+        "n": 4522,
+        "mae": 392847.7546066642,
+        "wape": 10.133297948425914
+      },
+      "physical_violation_pct": 0.0,
+      "cpu_seconds": 17.697196499910206,
+      "active_parameters": 4770
+    }
+  },
+  "annual": {
+    "persistence": {
+      "all": {
+        "grid_rows": 1218,
+        "scored_pairs": 786,
+        "arrivals_total": {
+          "n": 786,
+          "mae": 2442013.962086514,
+          "wape": 43.117782846799116
+        },
+        "nights_total": {
+          "n": 786,
+          "mae": 11328117.598637404,
+          "wape": 45.581031310218144
+        },
+        "physical_violation_pct": 0.0
+      },
+      "pre": {
+        "grid_rows": 203,
+        "scored_pairs": 186,
+        "arrivals_total": {
+          "n": 186,
+          "mae": 431246.8817204301,
+          "wape": 5.5961380385813815
+        },
+        "nights_total": {
+          "n": 186,
+          "mae": 2619269.876344086,
+          "wape": 7.841899606194102
+        },
+        "physical_violation_pct": 0.0
+      },
+      "shock": {
+        "grid_rows": 406,
+        "scored_pairs": 336,
+        "arrivals_total": {
+          "n": 336,
+          "mae": 3469424.2791666663,
+          "wape": 141.75115660644093
+        },
+        "nights_total": {
+          "n": 336,
+          "mae": 15558699.100327382,
+          "wape": 149.23920985632753
+        },
+        "physical_violation_pct": 0.0
+      },
+      "recovery": {
+        "grid_rows": 609,
+        "scored_pairs": 264,
+        "arrivals_total": {
+          "n": 264,
+          "mae": 2551077.6378787877,
+          "wape": 30.670629631968456
+        },
+        "nights_total": {
+          "n": 264,
+          "mae": 12079520.219011365,
+          "wape": 32.47867670632587
+        },
+        "physical_violation_pct": 0.0
+      },
+      "oecd_nights": {
+        "grid_rows": 108,
+        "scored_pairs": 108,
+        "arrivals_total": {
+          "n": 108,
+          "mae": 5623242.7370370375,
+          "wape": 32.46017632263386
+        },
+        "nights_total": {
+          "n": 108,
+          "mae": 18932775.462962963,
+          "wape": 30.149043781771752
+        },
+        "physical_violation_pct": 0.0
+      },
+      "constructed_nights": {
+        "grid_rows": 678,
+        "scored_pairs": 678,
+        "arrivals_total": {
+          "n": 678,
+          "mae": 1935269.555457227,
+          "wape": 50.84444129680525
+        },
+        "nights_total": {
+          "n": 678,
+          "mae": 10116756.16892183,
+          "wape": 53.78840149375108
+        },
+        "physical_violation_pct": 0.0
+      }
+    },
+    "dlinear": {
+      "all": {
+        "grid_rows": 1218,
+        "scored_pairs": 786,
+        "arrivals_total": {
+          "n": 786,
+          "mae": 2648640.729786246,
+          "wape": 46.766119112821414
+        },
+        "nights_total": {
+          "n": 786,
+          "mae": 12502092.249904485,
+          "wape": 50.30476187453041
+        },
+        "physical_violation_pct": 0.0
+      },
+      "pre": {
+        "grid_rows": 203,
+        "scored_pairs": 186,
+        "arrivals_total": {
+          "n": 186,
+          "mae": 820611.6610855595,
+          "wape": 10.648786869330763
+        },
+        "nights_total": {
+          "n": 186,
+          "mae": 4192400.7538642474,
+          "wape": 12.551736694892993
+        },
+        "physical_violation_pct": 0.0
+      },
+      "shock": {
+        "grid_rows": 406,
+        "scored_pairs": 336,
+        "arrivals_total": {
+          "n": 336,
+          "mae": 3805310.311804714,
+          "wape": 155.47453829264626
+        },
+        "nights_total": {
+          "n": 336,
+          "mae": 16631453.398339435,
+          "wape": 159.5290806721935
+        },
+        "physical_violation_pct": 0.0
+      },
+      "recovery": {
+        "grid_rows": 609,
+        "scored_pairs": 264,
+        "arrivals_total": {
+          "n": 264,
+          "mae": 2464445.3783473154,
+          "wape": 29.629083147134818
+        },
+        "nights_total": {
+          "n": 264,
+          "mae": 13101097.069561081,
+          "wape": 35.22543019140646
+        },
+        "physical_violation_pct": 0.0
+      },
+      "oecd_nights": {
+        "grid_rows": 108,
+        "scored_pairs": 108,
+        "arrivals_total": {
+          "n": 108,
+          "mae": 6195079.000347222,
+          "wape": 35.76110192779549
+        },
+        "nights_total": {
+          "n": 108,
+          "mae": 22510230.62962963,
+          "wape": 35.845876380782535
+        },
+        "physical_violation_pct": 0.0
+      },
+      "constructed_nights": {
+        "grid_rows": 678,
+        "scored_pairs": 678,
+        "arrivals_total": {
+          "n": 678,
+          "mae": 2083721.3592544086,
+          "wape": 54.74464682749546
+        },
+        "nights_total": {
+          "n": 678,
+          "mae": 10907875.516850922,
+          "wape": 57.99459608867523
+        },
+        "physical_violation_pct": 0.0
+      }
+    },
+    "exo": {
+      "all": {
+        "grid_rows": 1218,
+        "scored_pairs": 786,
+        "arrivals_total": {
+          "n": 786,
+          "mae": 2842018.355251697,
+          "wape": 50.18051992776385
+        },
+        "nights_total": {
+          "n": 786,
+          "mae": 13487216.166536016,
+          "wape": 54.268612328716
+        },
+        "physical_violation_pct": 0.16420361247947454
+      },
+      "pre": {
+        "grid_rows": 203,
+        "scored_pairs": 186,
+        "arrivals_total": {
+          "n": 186,
+          "mae": 745316.6015113093,
+          "wape": 9.671709550372027
+        },
+        "nights_total": {
+          "n": 186,
+          "mae": 4142386.8890183973,
+          "wape": 12.401998895599723
+        },
+        "physical_violation_pct": 0.0
+      },
+      "shock": {
+        "grid_rows": 406,
+        "scored_pairs": 336,
+        "arrivals_total": {
+          "n": 336,
+          "mae": 4363038.861247914,
+          "wape": 178.26179652184027
+        },
+        "nights_total": {
+          "n": 336,
+          "mae": 19000953.129834738,
+          "wape": 182.25734769521844
+        },
+        "physical_violation_pct": 0.0
+      },
+      "recovery": {
+        "grid_rows": 609,
+        "scored_pairs": 264,
+        "arrivals_total": {
+          "n": 264,
+          "mae": 2383395.76502815,
+          "wape": 28.654654680115147
+        },
+        "nights_total": {
+          "n": 264,
+          "mae": 13053589.749679599,
+          "wape": 35.09769540925954
+        },
+        "physical_violation_pct": 0.3284072249589491
+      },
+      "oecd_nights": {
+        "grid_rows": 108,
+        "scored_pairs": 108,
+        "arrivals_total": {
+          "n": 108,
+          "mae": 6512734.074421297,
+          "wape": 37.594766273513706
+        },
+        "nights_total": {
+          "n": 108,
+          "mae": 23889233.013888888,
+          "wape": 38.04183562297246
+        },
+        "physical_violation_pct": 0.9259259259259258
+      },
+      "constructed_nights": {
+        "grid_rows": 678,
+        "scored_pairs": 678,
+        "arrivals_total": {
+          "n": 678,
+          "mae": 2257302.5769768935,
+          "wape": 59.305065819171126
+        },
+        "nights_total": {
+          "n": 678,
+          "mae": 11830257.730674496,
+          "wape": 62.89868431808689
+        },
+        "physical_violation_pct": 0.0
+      }
+    },
+    "trmf": {
+      "all": {
+        "grid_rows": 1218,
+        "scored_pairs": 786,
+        "arrivals_total": {
+          "n": 786,
+          "mae": 2905213.9901813553,
+          "wape": 51.29634305820754
+        },
+        "nights_total": {
+          "n": 786,
+          "mae": 14594838.3745101,
+          "wape": 58.72536007183905
+        },
+        "physical_violation_pct": 0.0
+      },
+      "pre": {
+        "grid_rows": 203,
+        "scored_pairs": 186,
+        "arrivals_total": {
+          "n": 186,
+          "mae": 2626527.663780977,
+          "wape": 34.08351918982626
+        },
+        "nights_total": {
+          "n": 186,
+          "mae": 11874571.959127039,
+          "wape": 35.55158710868519
+        },
+        "physical_violation_pct": 0.0
+      },
+      "shock": {
+        "grid_rows": 406,
+        "scored_pairs": 336,
+        "arrivals_total": {
+          "n": 336,
+          "mae": 2742157.6067956877,
+          "wape": 112.03703585477963
+        },
+        "nights_total": {
+          "n": 336,
+          "mae": 13471607.331077738,
+          "wape": 129.21980305811343
+        },
+        "physical_violation_pct": 0.0
+      },
+      "recovery": {
+        "grid_rows": 609,
+        "scored_pairs": 264,
+        "arrivals_total": {
+          "n": 264,
+          "mae": 3309087.4808179243,
+          "wape": 39.78389173147241
+        },
+        "nights_total": {
+          "n": 264,
+          "mae": 17940956.495171174,
+          "wape": 48.238548820162684
+        },
+        "physical_violation_pct": 0.0
+      },
+      "oecd_nights": {
+        "grid_rows": 108,
+        "scored_pairs": 108,
+        "arrivals_total": {
+          "n": 108,
+          "mae": 6880838.547377671,
+          "wape": 39.71964984267119
+        },
+        "nights_total": {
+          "n": 108,
+          "mae": 31919903.105397377,
+          "wape": 50.830083424225535
+        },
+        "physical_violation_pct": 0.0
+      },
+      "constructed_nights": {
+        "grid_rows": 678,
+        "scored_pairs": 678,
+        "arrivals_total": {
+          "n": 678,
+          "mae": 2271928.662486366,
+          "wape": 59.68933019412159
+        },
+        "nights_total": {
+          "n": 678,
+          "mae": 11835093.550120976,
+          "wape": 62.9243952271565
+        },
+        "physical_violation_pct": 0.0
+      }
+    },
+    "adaptive": {
+      "all": {
+        "grid_rows": 1218,
+        "scored_pairs": 786,
+        "arrivals_total": {
+          "n": 786,
+          "mae": 2805936.8896715017,
+          "wape": 49.54344216251149
+        },
+        "nights_total": {
+          "n": 786,
+          "mae": 13459051.505161325,
+          "wape": 54.155285970582504
+        },
+        "physical_violation_pct": 0.0
+      },
+      "pre": {
+        "grid_rows": 203,
+        "scored_pairs": 186,
+        "arrivals_total": {
+          "n": 186,
+          "mae": 587025.2917005377,
+          "wape": 7.6176192889537635
+        },
+        "nights_total": {
+          "n": 186,
+          "mae": 3675306.771801075,
+          "wape": 11.00359569158164
+        },
+        "physical_violation_pct": 0.0
+      },
+      "shock": {
+        "grid_rows": 406,
+        "scored_pairs": 336,
+        "arrivals_total": {
+          "n": 336,
+          "mae": 4089943.300077678,
+          "wape": 167.1038612146993
+        },
+        "nights_total": {
+          "n": 336,
+          "mae": 18029462.3516497,
+          "wape": 172.93879765551796
+        },
+        "physical_violation_pct": 0.0
+      },
+      "recovery": {
+        "grid_rows": 609,
+        "scored_pairs": 264,
+        "arrivals_total": {
+          "n": 264,
+          "mae": 2735070.9931795453,
+          "wape": 32.88271129164896
+        },
+        "nights_total": {
+          "n": 264,
+          "mae": 14535257.853589015,
+          "wape": 39.081514175274016
+        },
+        "physical_violation_pct": 0.0
+      },
+      "oecd_nights": {
+        "grid_rows": 108,
+        "scored_pairs": 108,
+        "arrivals_total": {
+          "n": 108,
+          "mae": 6724594.555555556,
+          "wape": 38.81773118806757
+        },
+        "nights_total": {
+          "n": 108,
+          "mae": 25703305.000925925,
+          "wape": 40.93061100973268
+        },
+        "physical_violation_pct": 0.0
+      },
+      "constructed_nights": {
+        "grid_rows": 678,
+        "scored_pairs": 678,
+        "arrivals_total": {
+          "n": 678,
+          "mae": 2181725.9340439527,
+          "wape": 57.31947565981699
+        },
+        "nights_total": {
+          "n": 678,
+          "mae": 11508639.443889085,
+          "wape": 61.18871590049383
+        },
+        "physical_violation_pct": 0.0
+      }
+    }
+  },
+  "legacy": {
+    "tranquil": {
+      "metrics": {
+        "grid_rows": 3648,
+        "scored_pairs": 3590,
+        "arrivals_total": {
+          "n": 3590,
+          "mae": 221279.69096448322,
+          "wape": 16.205396673066083
+        },
+        "nights_total": {
+          "n": 3590,
+          "mae": 691246.6624182803,
+          "wape": 17.705398471900434
+        },
+        "physical_violation_pct": 0.0
+      },
+      "w_temporal": 0.7300851551312745,
+      "fusion": "validation-selected regularized sigmoid (lambda=0.005), ungated FiLM",
+      "source_hashes": {
+        "scripts\\reviewer_experiments.py": "2b8e6c8bc4872ae36b907f2f2514f1c2a6ff4047955106851c499e27545a7c78",
+        "src\\models\\ra_exo_dlinear.py": "29a3256c9e82e4dc846e157755c56d0f9719960703a35022d952d49e80ca3e6f",
+        "src\\models\\trmf_spatial.py": "9aa5225785fa87891eae3f4e1a720a226af73e88bbf98e2839d0bda0b87d52e7"
+      }
+    },
+    "shock": {
+      "metrics": {
+        "grid_rows": 3648,
+        "scored_pairs": 3422,
+        "arrivals_total": {
+          "n": 3422,
+          "mae": 486695.8103424084,
+          "wape": 66.69252807508006
+        },
+        "nights_total": {
+          "n": 3422,
+          "mae": 1367908.2441669337,
+          "wape": 63.05806033296656
+        },
+        "physical_violation_pct": 0.0
+      },
+      "w_temporal": 0.7380328366068772,
+      "fusion": "validation-selected regularized sigmoid (lambda=0.005), ungated FiLM",
+      "source_hashes": {
+        "scripts\\reviewer_experiments.py": "2b8e6c8bc4872ae36b907f2f2514f1c2a6ff4047955106851c499e27545a7c78",
+        "src\\models\\ra_exo_dlinear.py": "29a3256c9e82e4dc846e157755c56d0f9719960703a35022d952d49e80ca3e6f",
+        "src\\models\\trmf_spatial.py": "9aa5225785fa87891eae3f4e1a720a226af73e88bbf98e2839d0bda0b87d52e7"
+      }
+    },
+    "recovery": {
+      "metrics": {
+        "grid_rows": 3648,
+        "scored_pairs": 3475,
+        "arrivals_total": {
+          "n": 3475,
+          "mae": 293421.0312304307,
+          "wape": 22.899324105243515
+        },
+        "nights_total": {
+          "n": 3475,
+          "mae": 996806.1851790715,
+          "wape": 27.15823041289248
+        },
+        "physical_violation_pct": 0.0
+      },
+      "w_temporal": 0.4180710360330446,
+      "fusion": "validation-selected regularized sigmoid (lambda=0.005), ungated FiLM",
+      "source_hashes": {
+        "scripts\\reviewer_experiments.py": "2b8e6c8bc4872ae36b907f2f2514f1c2a6ff4047955106851c499e27545a7c78",
+        "src\\models\\ra_exo_dlinear.py": "29a3256c9e82e4dc846e157755c56d0f9719960703a35022d952d49e80ca3e6f",
+        "src\\models\\trmf_spatial.py": "9aa5225785fa87891eae3f4e1a720a226af73e88bbf98e2839d0bda0b87d52e7"
+      }
+    },
+    "recent": {
+      "metrics": {
+        "grid_rows": 4712,
+        "scored_pairs": 4522,
+        "arrivals_total": {
+          "n": 4522,
+          "mae": 161063.75701037236,
+          "wape": 11.617155339460693
+        },
+        "nights_total": {
+          "n": 4522,
+          "mae": 525862.6480775035,
+          "wape": 13.564346061371609
+        },
+        "physical_violation_pct": 0.0
+      },
+      "w_temporal": 0.8259414000505153,
+      "fusion": "validation-selected regularized sigmoid (lambda=0.005), ungated FiLM",
+      "source_hashes": {
+        "scripts\\reviewer_experiments.py": "2b8e6c8bc4872ae36b907f2f2514f1c2a6ff4047955106851c499e27545a7c78",
+        "src\\models\\ra_exo_dlinear.py": "29a3256c9e82e4dc846e157755c56d0f9719960703a35022d952d49e80ca3e6f",
+        "src\\models\\trmf_spatial.py": "9aa5225785fa87891eae3f4e1a720a226af73e88bbf98e2839d0bda0b87d52e7"
+      }
+    }
+  },
+  "ablation": {
+    "dlinear": {
+      "grid_rows": 4712,
+      "scored_pairs": 4522,
+      "arrivals_total": {
+        "n": 4522,
+        "mae": 129750.9472230897,
+        "wape": 9.358634973575885
+      },
+      "nights_total": {
+        "n": 4522,
+        "mae": 405781.1145689305,
+        "wape": 10.466907058914806
+      },
+      "physical_violation_pct": 1.931239388794567
+    },
+    "exo": {
+      "grid_rows": 4712,
+      "scored_pairs": 4522,
+      "arrivals_total": {
+        "n": 4522,
+        "mae": 127051.4738342777,
+        "wape": 9.163928217228772
+      },
+      "nights_total": {
+        "n": 4522,
+        "mae": 374957.6915848063,
+        "wape": 9.671833330668044
+      },
+      "physical_violation_pct": 2.2495755517826828
+    },
+    "hmm": {
+      "grid_rows": 4712,
+      "scored_pairs": 4522,
+      "arrivals_total": {
+        "n": 4522,
+        "mae": 129750.98536016866,
+        "wape": 9.358637724314965
+      },
+      "nights_total": {
+        "n": 4522,
+        "mae": 405781.1461809092,
+        "wape": 10.466907874328907
+      },
+      "physical_violation_pct": 1.9100169779286926
+    },
+    "film_static": {
+      "grid_rows": 4712,
+      "scored_pairs": 4522,
+      "arrivals_total": {
+        "n": 4522,
+        "mae": 159624.37501524002,
+        "wape": 11.513336053603613
+      },
+      "nights_total": {
+        "n": 4522,
+        "mae": 548445.4179714896,
+        "wape": 14.14685654578465
+      },
+      "physical_violation_pct": 2.7589134125636674
+    },
+    "hmm_film": {
+      "grid_rows": 4712,
+      "scored_pairs": 4522,
+      "arrivals_total": {
+        "n": 4522,
+        "mae": 152101.1482100258,
+        "wape": 10.97070314802362
+      },
+      "nights_total": {
+        "n": 4522,
+        "mae": 514069.811857415,
+        "wape": 13.26015615147943
+      },
+      "physical_violation_pct": 2.67402376910017
+    },
+    "exo_hmm_film": {
+      "grid_rows": 4712,
+      "scored_pairs": 4522,
+      "arrivals_total": {
+        "n": 4522,
+        "mae": 130571.42893100418,
+        "wape": 9.417814416741457
+      },
+      "nights_total": {
+        "n": 4522,
+        "mae": 439517.61420089344,
+        "wape": 11.33712204296105
+      },
+      "physical_violation_pct": 3.777589134125637
+    },
+    "soft_no_consistency": {
+      "grid_rows": 4712,
+      "scored_pairs": 4522,
+      "arrivals_total": {
+        "n": 4522,
+        "mae": 131448.662013276,
+        "wape": 9.481087204951717
+      },
+      "nights_total": {
+        "n": 4522,
+        "mae": 386265.0000724223,
+        "wape": 9.96349931209767
+      },
+      "physical_violation_pct": 2.6528013582342953
+    },
+    "full_core": {
+      "grid_rows": 4712,
+      "scored_pairs": 4522,
+      "arrivals_total": {
+        "n": 4522,
+        "mae": 131577.006330765,
+        "wape": 9.490344382984079
+      },
+      "nights_total": {
+        "n": 4522,
+        "mae": 385936.6636146992,
+        "wape": 9.955030048586746
+      },
+      "physical_violation_pct": 2.6528013582342953
+    },
+    "static": {
+      "grid_rows": 4712,
+      "scored_pairs": 4522,
+      "arrivals_total": {
+        "n": 4522,
+        "mae": 198088.85422169045,
+        "wape": 14.287689752331834
+      },
+      "nights_total": {
+        "n": 4522,
+        "mae": 601887.2921667434,
+        "wape": 15.52536113895718
+      },
+      "physical_violation_pct": 0.7852292020373514
+    },
+    "adaptive_raw": {
+      "grid_rows": 4712,
+      "scored_pairs": 4522,
+      "arrivals_total": {
+        "n": 4522,
+        "mae": 133777.33549802838,
+        "wape": 9.649049023981613
+      },
+      "nights_total": {
+        "n": 4522,
+        "mae": 393185.21829348843,
+        "wape": 10.142002643935218
+      },
+      "physical_violation_pct": 1.4431239388794566
+    },
+    "adaptive": {
+      "grid_rows": 4712,
+      "scored_pairs": 4522,
+      "arrivals_total": {
+        "n": 4522,
+        "mae": 133777.3355698663,
+        "wape": 9.649049029163114
+      },
+      "nights_total": {
+        "n": 4522,
+        "mae": 392847.7546066642,
+        "wape": 10.133297948425914
+      },
+      "physical_violation_pct": 0.0
+    }
+  },
+  "coverage": [
+    {
+      "fold": "tranquil",
+      "target": "arrivals_total",
+      "n": 3590,
+      "coverage_pct": 91.36490250696379,
+      "npiw": 0.4441008370965531
+    },
+    {
+      "fold": "tranquil",
+      "target": "nights_total",
+      "n": 3590,
+      "coverage_pct": 91.14206128133705,
+      "npiw": 0.4786197140433755
+    },
+    {
+      "fold": "shock",
+      "target": "arrivals_total",
+      "n": 3422,
+      "coverage_pct": 74.28404441846872,
+      "npiw": 0.7417979584357569
+    },
+    {
+      "fold": "shock",
+      "target": "nights_total",
+      "n": 3422,
+      "coverage_pct": 75.68673290473407,
+      "npiw": 0.7679504208120524
+    },
+    {
+      "fold": "recovery",
+      "target": "arrivals_total",
+      "n": 3475,
+      "coverage_pct": 90.10071942446044,
+      "npiw": 0.92140472106771
+    },
+    {
+      "fold": "recovery",
+      "target": "nights_total",
+      "n": 3475,
+      "coverage_pct": 90.99280575539568,
+      "npiw": 1.1695715616253635
+    },
+    {
+      "fold": "recent",
+      "target": "arrivals_total",
+      "n": 4522,
+      "coverage_pct": 88.61123396727112,
+      "npiw": 0.3103922345745235
+    },
+    {
+      "fold": "recent",
+      "target": "nights_total",
+      "n": 4522,
+      "coverage_pct": 88.89871738168952,
+      "npiw": 0.3370835493902578
+    }
+  ],
+  "los": [
+    {
+      "fold": "tranquil",
+      "model": "dlinear",
+      "n": 886,
+      "undefined_predictions": 10,
+      "mae": 0.218327807529989,
+      "rmse": 0.521927453730318
+    },
+    {
+      "fold": "tranquil",
+      "model": "adaptive_raw",
+      "n": 896,
+      "undefined_predictions": 0,
+      "mae": 0.216837081824163,
+      "rmse": 0.4716846148649651
+    },
+    {
+      "fold": "tranquil",
+      "model": "adaptive",
+      "n": 896,
+      "undefined_predictions": 0,
+      "mae": 0.2138707604103039,
+      "rmse": 0.4631697081338548
+    },
+    {
+      "fold": "shock",
+      "model": "dlinear",
+      "n": 758,
+      "undefined_predictions": 82,
+      "mae": 0.9993247634731226,
+      "rmse": 9.393689513420748
+    },
+    {
+      "fold": "shock",
+      "model": "adaptive_raw",
+      "n": 840,
+      "undefined_predictions": 0,
+      "mae": 0.6596227812390726,
+      "rmse": 1.31834239478212
+    },
+    {
+      "fold": "shock",
+      "model": "adaptive",
+      "n": 840,
+      "undefined_predictions": 0,
+      "mae": 0.6591579863006516,
+      "rmse": 1.318136971300624
+    },
+    {
+      "fold": "recovery",
+      "model": "dlinear",
+      "n": 858,
+      "undefined_predictions": 2,
+      "mae": 0.2216280270744838,
+      "rmse": 0.43616184260369617
+    },
+    {
+      "fold": "recovery",
+      "model": "adaptive_raw",
+      "n": 860,
+      "undefined_predictions": 0,
+      "mae": 0.38400941211142403,
+      "rmse": 0.7374890077283334
+    },
+    {
+      "fold": "recovery",
+      "model": "adaptive",
+      "n": 860,
+      "undefined_predictions": 0,
+      "mae": 0.3840094238496137,
+      "rmse": 0.7374890135673516
+    },
+    {
+      "fold": "recent",
+      "model": "dlinear",
+      "n": 1122,
+      "undefined_predictions": 7,
+      "mae": 0.18241659070816654,
+      "rmse": 0.43515641020509616
+    },
+    {
+      "fold": "recent",
+      "model": "adaptive_raw",
+      "n": 1129,
+      "undefined_predictions": 0,
+      "mae": 0.16523212586575556,
+      "rmse": 0.3934193546546546
+    },
+    {
+      "fold": "recent",
+      "model": "adaptive",
+      "n": 1129,
+      "undefined_predictions": 0,
+      "mae": 0.16308897983546713,
+      "rmse": 0.3844100037018988
+    }
+  ],
+  "los_paired": [
+    {
+      "fold": "tranquil",
+      "model": "dlinear",
+      "n": 886,
+      "undefined_predictions": 0,
+      "mae": 0.218327807529989,
+      "rmse": 0.521927453730318
+    },
+    {
+      "fold": "tranquil",
+      "model": "adaptive_raw",
+      "n": 886,
+      "undefined_predictions": 0,
+      "mae": 0.19761514230024074,
+      "rmse": 0.42095692677427654
+    },
+    {
+      "fold": "tranquil",
+      "model": "adaptive",
+      "n": 886,
+      "undefined_predictions": 0,
+      "mae": 0.19461534090473165,
+      "rmse": 0.4112842001271471
+    },
+    {
+      "fold": "shock",
+      "model": "dlinear",
+      "n": 758,
+      "undefined_predictions": 0,
+      "mae": 0.9993247634731226,
+      "rmse": 9.393689513420748
+    },
+    {
+      "fold": "shock",
+      "model": "adaptive_raw",
+      "n": 758,
+      "undefined_predictions": 0,
+      "mae": 0.5930485077116431,
+      "rmse": 1.2399878175868966
+    },
+    {
+      "fold": "shock",
+      "model": "adaptive",
+      "n": 758,
+      "undefined_predictions": 0,
+      "mae": 0.5925334293192873,
+      "rmse": 1.2397457753783856
+    },
+    {
+      "fold": "recovery",
+      "model": "dlinear",
+      "n": 858,
+      "undefined_predictions": 0,
+      "mae": 0.2216280270744838,
+      "rmse": 0.43616184260369617
+    },
+    {
+      "fold": "recovery",
+      "model": "adaptive_raw",
+      "n": 858,
+      "undefined_predictions": 0,
+      "mae": 0.3791774901707652,
+      "rmse": 0.7287340495579706
+    },
+    {
+      "fold": "recovery",
+      "model": "adaptive",
+      "n": 858,
+      "undefined_predictions": 0,
+      "mae": 0.3791775019925143,
+      "rmse": 0.7287340557055678
+    },
+    {
+      "fold": "recent",
+      "model": "dlinear",
+      "n": 1122,
+      "undefined_predictions": 0,
+      "mae": 0.18241659070816654,
+      "rmse": 0.43515641020509616
+    },
+    {
+      "fold": "recent",
+      "model": "adaptive_raw",
+      "n": 1122,
+      "undefined_predictions": 0,
+      "mae": 0.14891201137921298,
+      "rmse": 0.32110751948143157
+    },
+    {
+      "fold": "recent",
+      "model": "adaptive",
+      "n": 1122,
+      "undefined_predictions": 0,
+      "mae": 0.14675549529155257,
+      "rmse": 0.30993319422481935
+    }
+  ],
+  "paired_country_bootstrap": [
+    {
+      "target": "arrivals_total",
+      "delta_wape_pp": 0.2904140555872292,
+      "lower_95": 0.060248369171854596,
+      "upper_95": 0.5648300508942439,
+      "clusters": 37,
+      "replicates": 1000
+    },
+    {
+      "target": "nights_total",
+      "delta_wape_pp": -0.33360911048889186,
+      "lower_95": -0.6003998271753382,
+      "upper_95": 0.0437081294416486,
+      "clusters": 37,
+      "replicates": 1000
+    }
+  ],
+  "projection": {
+    "arrivals_max_abs_change": 0.9498853236436844,
+    "raw_violations": 68,
+    "projected_violations": 0,
+    "intervention_pct": 1.4431239388794566
+  },
+  "cases": {
+    "CY": {
+      "full": {
+        "grid_rows": 31,
+        "scored_pairs": 31,
+        "arrivals_total": {
+          "n": 31,
+          "mae": 51856.88416129033,
+          "wape": 16.598582387260063
+        },
+        "nights_total": {
+          "n": 31,
+          "mae": 276247.81777419354,
+          "wape": 18.78848263443429
+        },
+        "physical_violation_pct": 0.0
+      },
+      "dlinear": {
+        "grid_rows": 31,
+        "scored_pairs": 31,
+        "arrivals_total": {
+          "n": 31,
+          "mae": 53263.88911290323,
+          "wape": 17.048942797191188
+        },
+        "nights_total": {
+          "n": 31,
+          "mae": 294220.1532258064,
+          "wape": 20.010837675113276
+        },
+        "physical_violation_pct": 19.35483870967742
+      }
+    },
+    "SE": {
+      "full": {
+        "grid_rows": 31,
+        "scored_pairs": 31,
+        "arrivals_total": {
+          "n": 31,
+          "mae": 225705.92903225805,
+          "wape": 7.808633670979112
+        },
+        "nights_total": {
+          "n": 31,
+          "mae": 418322.07741935493,
+          "wape": 7.575682476313654
+        },
+        "physical_violation_pct": 0.0
+      },
+      "dlinear": {
+        "grid_rows": 31,
+        "scored_pairs": 31,
+        "arrivals_total": {
+          "n": 31,
+          "mae": 231226.25,
+          "wape": 7.999617418584435
+        },
+        "nights_total": {
+          "n": 31,
+          "mae": 452297.3548387097,
+          "wape": 8.190964163958553
+        },
+        "physical_violation_pct": 0.0
+      }
+    },
+    "DK": {
+      "full": {
+        "grid_rows": 31,
+        "scored_pairs": 30,
+        "arrivals_total": {
+          "n": 30,
+          "mae": 77671.21833333331,
+          "wape": 9.704048245867012
+        },
+        "nights_total": {
+          "n": 30,
+          "mae": 351116.4466666666,
+          "wape": 10.76510088541541
+        },
+        "physical_violation_pct": 0.0
+      },
+      "dlinear": {
+        "grid_rows": 31,
+        "scored_pairs": 30,
+        "arrivals_total": {
+          "n": 30,
+          "mae": 75103.14375,
+          "wape": 9.383199414209685
+        },
+        "nights_total": {
+          "n": 30,
+          "mae": 366903.7833333333,
+          "wape": 11.249134810747394
+        },
+        "physical_violation_pct": 0.0
+      }
+    }
+  },
+  "exo_full_equality": {
+    "max_abs_arrivals_difference": 3804568.0,
+    "mean_abs_arrivals_difference": 81178.47971830073,
+    "mean_abs_core_vs_exo": 66702.9929514872
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "fit_seconds": 6.142973100300878,
+  "forecast_seconds_median3": 5.938026700168848,
+  "components": {
+    "use_exo": true,
+    "use_film": true,
+    "use_soft_gating": true,
+    "use_consistency": true,
+    "hmm": true
+  },
+  "registered_parameters": 150,
+  "model": "full_core_all",
+  "test_metrics": {
+    "arrivals_total": {
+      "n": 1170,
+      "mae": 2123193.444126896,
+      "wape": 34.57941120270596
+    },
+    "nights_total": {
+      "n": 1170,
+      "mae": 10440002.526213378,
+      "wape": 38.612387174438986
+    }
+  },
+  "forecast_sha256": "72afc6d31ef779342206014ec439d4d4d2a61ddc691b03f628ca2e4dda949462"
+}

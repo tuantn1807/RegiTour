@@ -1,0 +1,4 @@
+# Generated model state remains available locally.
+**/*.pt
+**/*.pkl
+**/*.cbm

@@ -1,11 +1,12 @@
 Mô hình đối sánh (Model),Lớp mô hình (Family),Arrivals WAPE (%),Arrivals MAE,Nights WAPE (%),Nights MAE,Vi phạm cận vật lý (< 1.0),"Lệch dải kinh tế ([r_min, r_max])",Cải thiện sai số vs S-Naive
-Seasonal Naive (S-Naive),Statistical,27.30%,"397,503",32.73%,"1,287,411",0.05%,28.8%,+0.0%
-Standard LightGBM,Machine Learning,30.37%,"442,199",34.28%,"1,348,103",0.19%,49.2%,-3.07%
-Standard XGBoost,Machine Learning,34.13%,"496,861",42.36%,"1,666,128",0.34%,37.7%,-6.83%
-Vanilla DLinear (AAAI 2023),Linear LTSF (Modern Baseline),45.38%,"660,721",25.61%,"1,007,190",0.05%,28.8%,-18.08%
-Vanilla NLinear (AAAI 2023),Linear LTSF (Modern Baseline),32.10%,"467,388",49.38%,"1,942,248",0.69%,29.2%,-4.8%
-"Standard LSTM (Hochreiter, 1997)",Deep Learning (Classical),108.53%,"1,580,071",113.16%,"4,450,857",0.05%,99.4%,-81.23%
-"Vanilla BiLSTM (Graves, 2013)",Deep Learning (Classical),108.53%,"1,580,071",113.16%,"4,450,857",0.05%,99.4%,-81.23%
-CatBoost-Regime (Ablation),Machine Learning (Ablation),40.27%,"586,231",44.86%,"1,764,508",0.82%,44.9%,-12.97%
-"RA-Exo-DLinear (Proposed Linear ⭐)",Linear LTSF (Proposed ⭐),18.29%,"266,307",25.87%,"1,017,349",0.21%,21.5%,+9.01%
-"RA-HE-DLinear (Proposed Linear Framework ⭐)",Linear Framework (Proposed ⭐),14.59%,"212,341",25.00%,"983,447","0.00% (sau chiếu; 0.15% cần sửa)",16.0%,+12.71%
+Seasonal Naive (S-Naive),Statistical,27.30%,"397,503",32.73%,"1,287,411",0.04%,28.8%,+0.0%
+Standard XGBoost,Machine Learning,34.13%,"496,861",42.36%,"1,666,128",6.22%,41.8%,-6.83%
+Standard LightGBM,Machine Learning,30.37%,"442,199",34.28%,"1,348,103",7.74%,44.4%,-3.07%
+Vanilla DLinear (AAAI 2023),Linear LTSF (Modern Baseline),7.20%,"104,893",7.92%,"311,701",0.38%,20.9%,+20.1%
+RA-Exo-DLinear (Proposed Linear ⭐),Linear LTSF (Proposed ⭐),22.27%,"324,203",48.31%,"1,900,202",8.97%,45.8%,+5.03%
+"Vanilla BiLSTM (Graves, 2013)",Deep Learning (Classical),108.53%,"1,580,071",113.16%,"4,450,857",0.00%,28.9%,-81.23%
+CatBoost-Regime (Ablation),Machine Learning (Ablation),40.27%,"586,231",44.86%,"1,764,508",17.75%,52.4%,-12.97%
+PatchTST,Transformer LTSF,28.01%,"407,748",31.52%,"1,239,640",1.92%,36.8%,-0.71%
+iTransformer,Transformer LTSF,29.21%,"425,314",33.15%,"1,303,752",0.04%,29.9%,-1.91%
+TimesNet,Transformer LTSF,34.93%,"508,596",48.44%,"1,905,043",0.35%,30.7%,-7.63%
+RA-HE-DLinear (Proposed Linear Framework ⭐),Linear Framework (Proposed ⭐),34.58%,"503,474",42.82%,"1,684,291",0.00%,24.7%,-7.28%

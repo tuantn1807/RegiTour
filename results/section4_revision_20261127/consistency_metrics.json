@@ -1,0 +1,206 @@
+[
+  {
+    "fold": "tranquil",
+    "model": "dlinear",
+    "grid_rows": 3648,
+    "scored_pairs": 3590,
+    "arrivals_total": {
+      "n": 3590,
+      "mae": 152671.7769145806,
+      "wape": 11.180902752072901
+    },
+    "nights_total": {
+      "n": 3590,
+      "mae": 468357.6163948463,
+      "wape": 11.996380852834255
+    },
+    "physical_violation_pct": 2.2203947368421053
+  },
+  {
+    "fold": "tranquil",
+    "model": "adaptive_raw",
+    "grid_rows": 3648,
+    "scored_pairs": 3590,
+    "arrivals_total": {
+      "n": 3590,
+      "mae": 153432.7128144221,
+      "wape": 11.236629818781825
+    },
+    "nights_total": {
+      "n": 3590,
+      "mae": 469307.96775863523,
+      "wape": 12.020722886581414
+    },
+    "physical_violation_pct": 1.6721491228070176
+  },
+  {
+    "fold": "tranquil",
+    "model": "adaptive",
+    "grid_rows": 3648,
+    "scored_pairs": 3590,
+    "arrivals_total": {
+      "n": 3590,
+      "mae": 153432.71180138577,
+      "wape": 11.236629744592209
+    },
+    "nights_total": {
+      "n": 3590,
+      "mae": 468885.423122764,
+      "wape": 12.009899946584724
+    },
+    "physical_violation_pct": 0.0
+  },
+  {
+    "fold": "shock",
+    "model": "dlinear",
+    "grid_rows": 3648,
+    "scored_pairs": 3422,
+    "arrivals_total": {
+      "n": 3422,
+      "mae": 561755.7582094982,
+      "wape": 76.97808544800687
+    },
+    "nights_total": {
+      "n": 3422,
+      "mae": 1550034.9525599433,
+      "wape": 71.45376743910012
+    },
+    "physical_violation_pct": 1.9736842105263157
+  },
+  {
+    "fold": "shock",
+    "model": "adaptive_raw",
+    "grid_rows": 3648,
+    "scored_pairs": 3422,
+    "arrivals_total": {
+      "n": 3422,
+      "mae": 543052.5557124477,
+      "wape": 74.41516250697953
+    },
+    "nights_total": {
+      "n": 3422,
+      "mae": 1498538.7117716863,
+      "wape": 69.07988521973789
+    },
+    "physical_violation_pct": 1.2609649122807016
+  },
+  {
+    "fold": "shock",
+    "model": "adaptive",
+    "grid_rows": 3648,
+    "scored_pairs": 3422,
+    "arrivals_total": {
+      "n": 3422,
+      "mae": 543052.5538203386,
+      "wape": 74.41516224770147
+    },
+    "nights_total": {
+      "n": 3422,
+      "mae": 1498459.171839994,
+      "wape": 69.07621857482006
+    },
+    "physical_violation_pct": 0.0
+  },
+  {
+    "fold": "recovery",
+    "model": "dlinear",
+    "grid_rows": 3648,
+    "scored_pairs": 3475,
+    "arrivals_total": {
+      "n": 3475,
+      "mae": 224230.75674974182,
+      "wape": 17.4995389786628
+    },
+    "nights_total": {
+      "n": 3475,
+      "mae": 633715.5183117324,
+      "wape": 17.26573562486855
+    },
+    "physical_violation_pct": 1.343201754385965
+  },
+  {
+    "fold": "recovery",
+    "model": "adaptive_raw",
+    "grid_rows": 3648,
+    "scored_pairs": 3475,
+    "arrivals_total": {
+      "n": 3475,
+      "mae": 307941.2299213225,
+      "wape": 24.03251736852443
+    },
+    "nights_total": {
+      "n": 3475,
+      "mae": 1061469.144762437,
+      "wape": 28.919988698159457
+    },
+    "physical_violation_pct": 0.7949561403508772
+  },
+  {
+    "fold": "recovery",
+    "model": "adaptive",
+    "grid_rows": 3648,
+    "scored_pairs": 3475,
+    "arrivals_total": {
+      "n": 3475,
+      "mae": 307941.2299150354,
+      "wape": 24.032517368033776
+    },
+    "nights_total": {
+      "n": 3475,
+      "mae": 1061469.1485362735,
+      "wape": 28.919988800978565
+    },
+    "physical_violation_pct": 0.0
+  },
+  {
+    "fold": "recent",
+    "model": "dlinear",
+    "grid_rows": 4712,
+    "scored_pairs": 4522,
+    "arrivals_total": {
+      "n": 4522,
+      "mae": 129750.9472230897,
+      "wape": 9.358634973575885
+    },
+    "nights_total": {
+      "n": 4522,
+      "mae": 405781.1145689305,
+      "wape": 10.466907058914806
+    },
+    "physical_violation_pct": 1.931239388794567
+  },
+  {
+    "fold": "recent",
+    "model": "adaptive_raw",
+    "grid_rows": 4712,
+    "scored_pairs": 4522,
+    "arrivals_total": {
+      "n": 4522,
+      "mae": 133777.33549802838,
+      "wape": 9.649049023981613
+    },
+    "nights_total": {
+      "n": 4522,
+      "mae": 393185.21829348843,
+      "wape": 10.142002643935218
+    },
+    "physical_violation_pct": 1.4431239388794566
+  },
+  {
+    "fold": "recent",
+    "model": "adaptive",
+    "grid_rows": 4712,
+    "scored_pairs": 4522,
+    "arrivals_total": {
+      "n": 4522,
+      "mae": 133777.3355698663,
+      "wape": 9.649049029163114
+    },
+    "nights_total": {
+      "n": 4522,
+      "mae": 392847.7546066642,
+      "wape": 10.133297948425914
+    },
+    "physical_violation_pct": 0.0
+  }
+]

@@ -1,0 +1,19 @@
+{
+  "w_temporal": 0.7,
+  "parent_forecast_sha256": "c34507f02472291866027a635a56a986b16e5981d5c5a08ff6d70b42e2d5f46d",
+  "analysis_script_sha256": "8de754698d39e90cefd2f7fc2073c8fd4568e786755fc98d01848361ee176499",
+  "model": "static_projected",
+  "test_metrics": {
+    "arrivals_total": {
+      "n": 4522,
+      "mae": 198088.85470371388,
+      "wape": 14.287689787099067
+    },
+    "nights_total": {
+      "n": 4522,
+      "mae": 601991.0844926739,
+      "wape": 15.528038406552783
+    }
+  },
+  "forecast_sha256": "26ed0bef06a541d679a3ecd1c84b72ffc1cae82e30eee5e148dfabd2564fb909"
+}
